@@ -990,42 +990,39 @@ h5 {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
 .button-wall {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 88px);
   gap: 3px;
-  width: 100%;
   padding: 2px;
   box-sizing: border-box;
-  margin: 0 auto;
-}
-
-.button-wall img {
-  width: 100%;
-  height: 31px;
-  display: block;
-  object-fit: fill;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  vertical-align: middle;
-  transition: filter 0.2s ease, transform 0.2s ease;
-}
-
-.button-wall img:hover {
-  transform: translateY(-2px);
+  justify-content: center;
 }
 
 .button-wall a {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 31px;
+  overflow: hidden;
   line-height: 0;
   margin: 0;
   padding: 0;
 }
 
-/* my button textbox */
+.button-wall img {
+  max-width: 88px !important;
+  max-height: 31px !important;
+  width: auto !important;
+  height: auto !important;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
 .my-button-box {
   display: flex;
   flex-direction: column;
