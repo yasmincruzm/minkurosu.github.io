@@ -7,7 +7,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7PWC6DDRH"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); } s
+        function gtag() { dataLayer.push(arguments); } 
         gtag('js', new Date());
 
         gtag('config', 'G-DT4FG20QMR');
@@ -1115,15 +1115,14 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
                             </div>
                             <br>
 <canvas id="c" style="width:100%;height:300px;display:block;background:#000;border-radius:8px;"></canvas>
-<script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurn-presets.min.js"></script>
+<script src="butterchurn.min.js"></script>
+<script src="butterchurn-presets.min.js"></script>
 <script>
-(function waitForLibs() {
-  if (typeof butterchurn === 'undefined' || typeof butterchurnPresets === 'undefined') {
-    return setTimeout(waitForLibs, 100);
-  }
+function startViz() {
   var c = document.getElementById('c');
-  c.width = c.offsetWidth || 300;
+  if (!c || c.offsetWidth === 0) return setTimeout(startViz, 200);
+  if (typeof butterchurn === 'undefined' || typeof butterchurnPresets === 'undefined') return setTimeout(startViz, 200);
+  c.width = c.offsetWidth;
   c.height = c.offsetHeight || 300;
   var actx = new (window.AudioContext || window.webkitAudioContext)();
   var analyser = actx.createAnalyser();
@@ -1144,7 +1143,8 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
   ['click','touchstart','mousemove','scroll'].forEach(function(e) {
     document.addEventListener(e, function() { if (actx.state === 'suspended') actx.resume(); }, { once: true, passive: true });
   });
-})();
+}
+setTimeout(startViz, 500);
 </script>
                         </div>
               
