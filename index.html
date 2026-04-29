@@ -602,6 +602,98 @@ div#goog-gt- {
 <br>
 <h3 style="font-size: 14px;">if you see your content anywhere without credit or want it removed, please let me know!!</h3>
                 <hr>
+
+
+
+  <div id="viz-wrap" style="position:relative;width:min(100%,500px);height:min(100vw,500px);cursor:pointer;">
+  <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
+  <div id="viz-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+    <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.2em;font-family:monospace;">click me for trippy stuff <br>(epilepsy warning)</span>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
+<script>
+(function() {
+  var wrap    = document.getElementById('viz-wrap');
+  var canvas  = document.getElementById('viz-canvas');
+  var overlay = document.getElementById('viz-overlay');
+  var started = false;
+
+  function resizeCanvas() {
+    var rect = canvas.getBoundingClientRect();
+    var size = Math.round(rect.width) || 480;
+    canvas.width  = size;
+    canvas.height = size;
+    return size;
+  }
+
+  function startViz() {
+    if (started) return;
+    started = true;
+    wrap.style.cursor = 'default';
+
+    overlay.style.transition = 'opacity 0.4s';
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; }, 400);
+
+    var size = resizeCanvas();
+
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.resume();
+
+    var analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+
+    var bufSize = 4096;
+    var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
+    noise.onaudioprocess = function(e) {
+      var out = e.outputBuffer.getChannelData(0);
+      for (var i = 0; i < bufSize; i++) out[i] = (Math.random() * 2 - 1) * 0.15;
+    };
+    noise.connect(analyser);
+
+    var bc = window.butterchurn;
+    if (bc && !bc.createVisualizer) bc = bc.default;
+    var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
+
+    var bcp = window.butterchurnPresets;
+    if (bcp && !bcp.getPresets) bcp = bcp.default;
+    var presets = bcp.getPresets();
+    var keys = Object.keys(presets);
+    var idx = Math.floor(Math.random() * keys.length);
+    visualizer.loadPreset(presets[keys[idx]], 0.0);
+    visualizer.connectAudio(analyser);
+
+    setInterval(function() {
+      idx = (idx + 1) % keys.length;
+      visualizer.loadPreset(presets[keys[idx]], 2.7);
+    }, 15000);
+
+    window.addEventListener('resize', function() {
+      var s = resizeCanvas();
+      visualizer.setRendererSize(s, s);
+    });
+
+    (function render() {
+      visualizer.render();
+      requestAnimationFrame(render);
+    })();
+  }
+
+  function tryStart() {
+    if (window.butterchurn && window.butterchurnPresets) {
+      wrap.addEventListener('click', startViz, { once: true });
+    } else {
+      setTimeout(tryStart, 100);
+    }
+  }
+  tryStart();
+})();
+</script>
+
+<hr>
                 <form method="post" action="https://poll.pollcode.com/76794555">
                     <div
                         style="background-color:#0A0A0A;padding:2px;width:100%;font-family:Arial;font-size:medium;color:#4B4B4B;">
@@ -618,7 +710,7 @@ div#goog-gt- {
                                 polls</a></div>
                     </div>
                 </form>
-
+<hr>
                        <div>
 
 
@@ -630,115 +722,6 @@ div#goog-gt- {
 
                             </div>
             </div>
-
-            <!-- ✦ milkdrop viz ✦ -->
-            <div class="box" style="text-align:center;padding:6px;">
-              <canvas id="viz-canvas" width="240" height="150" style="width:240px;height:150px;background:#000;border:1px solid #2a0000;display:block;margin:0 auto;"></canvas>
-              <div id="viz-label" style="font-size:9px;color:#4b4b4b;font-family:'MinFont',monospace;margin-top:3px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">milkdrop viz</div>
-              <button id="viz-mic-btn" style="background:none;border:1px solid #4b0000;color:#4b4b4b;font-family:'MinFont',monospace;font-size:9px;padding:2px 6px;cursor:pointer;margin-top:3px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">🎙 mic</button>
-            </div>
-
-            <script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
-            <script>
-            (function() {
-              var canvas  = document.getElementById('viz-canvas');
-              var micBtn  = document.getElementById('viz-mic-btn');
-              var label   = document.getElementById('viz-label');
-              var started = false;
-              var audioCtx, analyser, visualizer;
-
-              function dbg(msg) {
-                label.textContent = msg;
-                console.log('[viz]', msg);
-              }
-
-              async function startViz() {
-                if (started) return;
-                started = true;
-
-                try {
-                  dbg('iniciando audio...');
-                  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                  await audioCtx.resume();
-
-                  if (audioCtx.state !== 'running') {
-                    throw new Error('AudioContext bloqueado (state: ' + audioCtx.state + ')');
-                  }
-
-                  dbg('audio ok, criando analyser...');
-                  analyser = audioCtx.createAnalyser();
-                  analyser.fftSize = 2048;
-
-                  var osc  = audioCtx.createOscillator();
-                  var gain = audioCtx.createGain();
-                  gain.gain.value = 0;
-                  osc.connect(gain);
-                  gain.connect(analyser);
-                  analyser.connect(audioCtx.destination);
-                  osc.start();
-
-                  dbg('carregando butterchurn...');
-                  var bc = window.butterchurn;
-                  if (!bc) throw new Error('butterchurn indefinido - CDN nao carregou?');
-                  if (!bc.createVisualizer) bc = bc.default;
-                  if (!bc || !bc.createVisualizer) throw new Error('butterchurn.createVisualizer nao encontrado');
-
-                  dbg('criando visualizador...');
-                  visualizer = bc.createVisualizer(audioCtx, canvas, {
-                    width: canvas.width,
-                    height: canvas.height
-                  });
-
-                  dbg('carregando presets...');
-                  var bcp = window.butterchurnPresets;
-                  if (!bcp) throw new Error('butterchurnPresets indefinido - CDN nao carregou?');
-                  if (!bcp.getPresets) bcp = bcp.default;
-                  if (!bcp || !bcp.getPresets) throw new Error('butterchurnPresets.getPresets nao encontrado');
-
-                  var presets = bcp.getPresets();
-                  var keys = Object.keys(presets);
-                  if (!keys.length) throw new Error('nenhum preset encontrado');
-
-                  var idx = Math.floor(Math.random() * keys.length);
-                  visualizer.loadPreset(presets[keys[idx]], 0.0);
-                  visualizer.connectAudio(analyser);
-
-                  setInterval(function() {
-                    idx = (idx + 1) % keys.length;
-                    visualizer.loadPreset(presets[keys[idx]], 2.7);
-                  }, 15000);
-
-                  (function render() {
-                    visualizer.render();
-                    requestAnimationFrame(render);
-                  })();
-
-                  dbg('milkdrop viz ✓');
-                  document.removeEventListener('click', startViz);
-
-                } catch(e) {
-                  started = false;
-                  dbg('erro: ' + e.message);
-                }
-              }
-
-              micBtn.addEventListener('click', async function() {
-                await startViz();
-                if (!audioCtx) return;
-                try {
-                  var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                  audioCtx.createMediaStreamSource(stream).connect(analyser);
-                  micBtn.textContent = '🎙 ativo!';
-                  micBtn.disabled = true;
-                } catch(e) { micBtn.textContent = '🎙 bloqueado'; }
-              });
-
-              // inicia no primeiro clique em qualquer lugar da página
-              dbg('clique em qualquer lugar ▶');
-              document.addEventListener('click', startViz, { once: true });
-            })();
-            </script>
 
         </aside>
 
