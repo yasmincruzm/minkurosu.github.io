@@ -1,15 +1,10 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  #viz-canvas {
-    width: 320px;
-    height: 200px;
-    display: block;
-    background: #000;
-  }
+  #viz-canvas { width: 320px; height: 200px; display: block; background: #000; }
 </style>
-
+ 
 <canvas id="viz-canvas" width="320" height="200"></canvas>
-
+ 
 <script src="butterchurn_min.js"></script>
 <script src="butterchurn-presets_min.js"></script>
 <script>
@@ -17,7 +12,7 @@
   const canvas = document.getElementById('viz-canvas');
   let audioCtx, analyser, visualizer;
   let started = false;
-
+ 
   function makeNoise(ctx, dest) {
     const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const d = buf.getChannelData(0);
@@ -33,55 +28,33 @@
     f.connect(dest);
     src.start();
   }
-
+ 
   async function startViz() {
     if (started) return;
     started = true;
     try {
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') await audioCtx.resume();
-
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 2048;
       analyser.smoothingTimeConstant = 0.8;
-
       const gain = audioCtx.createGain();
       makeNoise(audioCtx, gain);
       gain.connect(analyser);
-
       const bc = butterchurn.default || butterchurn;
       visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
-
       const presets = butterchurnPresets.getPresets ? butterchurnPresets.getPresets() : butterchurnPresets;
       const keys = Object.keys(presets);
       let idx = Math.floor(Math.random() * keys.length);
-
       visualizer.loadPreset(presets[keys[idx]], 0.0);
       visualizer.connectAudio(analyser);
-
-      setInterval(() => {
-        idx = (idx + 1) % keys.length;
-        visualizer.loadPreset(presets[keys[idx]], 2.7);
-      }, 15000);
-
-      (function render() {
-        visualizer.render();
-        requestAnimationFrame(render);
-      })();
-
-    } catch(e) {
-      started = false;
-    }
+      setInterval(() => { idx = (idx + 1) % keys.length; visualizer.loadPreset(presets[keys[idx]], 2.7); }, 15000);
+      (function render() { visualizer.render(); requestAnimationFrame(render); })();
+    } catch(e) { started = false; }
   }
-
+ 
   startViz();
-
   document.addEventListener('click', startViz, { once: true });
-  try {
-    if (window.parent && window.parent !== window) {
-      window.parent.document.addEventListener('click', startViz, { once: true });
-    }
-  } catch(e) {}
-
+  try { if (window.parent !== window) window.parent.document.addEventListener('click', startViz, { once: true }); } catch(e) {}
 })();
 </script>
