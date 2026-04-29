@@ -17,7 +17,9 @@
     <script src="lastfm-widget.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-
+<script src="butterchurn_min.js"></script>
+<script src="butterchurn-presets_min.js"></script>
+<script src="winamp-visualizer.js"></script>
     <script src="theme-switcher.js"></script>
     <script>NekoType = "black"</script>
 
@@ -1118,6 +1120,14 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
 <script src="butterchurn.min.js"></script>
 <script src="butterchurn-presets.min.js"></script>
 <script>
+console.log('BUTTERCHURN SCRIPT CHEGOU AQUI');
+console.log('butterchurn:', typeof butterchurn);
+console.log('butterchurnPresets:', typeof butterchurnPresets);
+var c = document.getElementById('c');
+console.log('canvas:', c);
+console.log('canvas width:', c ? c.offsetWidth : 'null');
+</script>
+<script>
 function startViz() {
   var c = document.getElementById('c');
   if (!c || c.offsetWidth === 0) return setTimeout(startViz, 200);
@@ -1204,6 +1214,7 @@ setTimeout(startViz, 500);
     }, 'google_translate_element');
   }
 </script>
+<script src="winamp-visualizer.js"></script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
