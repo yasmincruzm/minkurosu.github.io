@@ -7,7 +7,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7PWC6DDRH"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); } 
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'G-DT4FG20QMR');
@@ -37,7 +37,14 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <script>
-        $.fancybox.getInstance().$refs.container.toggleClass('fancybox-show-caption');
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Fancybox !== 'undefined') {
+                var inst = Fancybox.getInstance();
+                if (inst && inst.$refs && inst.$refs.container) {
+                    inst.$refs.container.classList.toggle('fancybox-show-caption');
+                }
+            }
+        });
     </script>
 
 
@@ -311,8 +318,8 @@ div#goog-gt- {
         .scrollthin {
             margin: 5px;
             height: 330px;
+            overflow-y: scroll;
             overflow: auto;
-            !important overflow-y: scroll overflow: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -335,10 +342,9 @@ div#goog-gt- {
         table,
         tr,
         td {
-            ;
             border: none;
             border-collapse: collapse;
-            !important border-style: hidden !important;
+            border-style: hidden !important;
         }
 
 
@@ -479,6 +485,8 @@ div#goog-gt- {
                 <br>
                 <h3>translate:</h3>
 <div id="google_translate_element"></div>
+<br>
+              
 <br>
                 <a href="https://arab.org/click-to-help/palestine/">🍉 if you cant donate, click to help! 🇵🇸</a></p>
                 <script src="https://webneko.net/n20171213.js"></script><a href="https://webneko.net"></a>
@@ -622,6 +630,115 @@ div#goog-gt- {
 
                             </div>
             </div>
+
+            <!-- ✦ milkdrop viz ✦ -->
+            <div class="box" style="text-align:center;padding:6px;">
+              <canvas id="viz-canvas" width="240" height="150" style="width:240px;height:150px;background:#000;border:1px solid #2a0000;display:block;margin:0 auto;"></canvas>
+              <div id="viz-label" style="font-size:9px;color:#4b4b4b;font-family:'MinFont',monospace;margin-top:3px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">milkdrop viz</div>
+              <button id="viz-mic-btn" style="background:none;border:1px solid #4b0000;color:#4b4b4b;font-family:'MinFont',monospace;font-size:9px;padding:2px 6px;cursor:pointer;margin-top:3px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">🎙 mic</button>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
+            <script>
+            (function() {
+              var canvas  = document.getElementById('viz-canvas');
+              var micBtn  = document.getElementById('viz-mic-btn');
+              var label   = document.getElementById('viz-label');
+              var started = false;
+              var audioCtx, analyser, visualizer;
+
+              function dbg(msg) {
+                label.textContent = msg;
+                console.log('[viz]', msg);
+              }
+
+              async function startViz() {
+                if (started) return;
+                started = true;
+
+                try {
+                  dbg('iniciando audio...');
+                  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                  await audioCtx.resume();
+
+                  if (audioCtx.state !== 'running') {
+                    throw new Error('AudioContext bloqueado (state: ' + audioCtx.state + ')');
+                  }
+
+                  dbg('audio ok, criando analyser...');
+                  analyser = audioCtx.createAnalyser();
+                  analyser.fftSize = 2048;
+
+                  var osc  = audioCtx.createOscillator();
+                  var gain = audioCtx.createGain();
+                  gain.gain.value = 0;
+                  osc.connect(gain);
+                  gain.connect(analyser);
+                  analyser.connect(audioCtx.destination);
+                  osc.start();
+
+                  dbg('carregando butterchurn...');
+                  var bc = window.butterchurn;
+                  if (!bc) throw new Error('butterchurn indefinido - CDN nao carregou?');
+                  if (!bc.createVisualizer) bc = bc.default;
+                  if (!bc || !bc.createVisualizer) throw new Error('butterchurn.createVisualizer nao encontrado');
+
+                  dbg('criando visualizador...');
+                  visualizer = bc.createVisualizer(audioCtx, canvas, {
+                    width: canvas.width,
+                    height: canvas.height
+                  });
+
+                  dbg('carregando presets...');
+                  var bcp = window.butterchurnPresets;
+                  if (!bcp) throw new Error('butterchurnPresets indefinido - CDN nao carregou?');
+                  if (!bcp.getPresets) bcp = bcp.default;
+                  if (!bcp || !bcp.getPresets) throw new Error('butterchurnPresets.getPresets nao encontrado');
+
+                  var presets = bcp.getPresets();
+                  var keys = Object.keys(presets);
+                  if (!keys.length) throw new Error('nenhum preset encontrado');
+
+                  var idx = Math.floor(Math.random() * keys.length);
+                  visualizer.loadPreset(presets[keys[idx]], 0.0);
+                  visualizer.connectAudio(analyser);
+
+                  setInterval(function() {
+                    idx = (idx + 1) % keys.length;
+                    visualizer.loadPreset(presets[keys[idx]], 2.7);
+                  }, 15000);
+
+                  (function render() {
+                    visualizer.render();
+                    requestAnimationFrame(render);
+                  })();
+
+                  dbg('milkdrop viz ✓');
+                  document.removeEventListener('click', startViz);
+
+                } catch(e) {
+                  started = false;
+                  dbg('erro: ' + e.message);
+                }
+              }
+
+              micBtn.addEventListener('click', async function() {
+                await startViz();
+                if (!audioCtx) return;
+                try {
+                  var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                  audioCtx.createMediaStreamSource(stream).connect(analyser);
+                  micBtn.textContent = '🎙 ativo!';
+                  micBtn.disabled = true;
+                } catch(e) { micBtn.textContent = '🎙 bloqueado'; }
+              });
+
+              // inicia no primeiro clique em qualquer lugar da página
+              dbg('clique em qualquer lugar ▶');
+              document.addEventListener('click', startViz, { once: true });
+            })();
+            </script>
 
         </aside>
 
@@ -1096,6 +1213,7 @@ div#goog-gt- {
 button.png" class="desaturate"  alt="RFGuy website button"></a>
     
         <a href="https://kimberlygb.neocities.org" target="_blank" class="desaturate"><img loading="lazy" src="https://kimberlygb.nekoweb.org/pics/the.png" title="Kim's Blog"></a>
+        <a href="https://howsoonisnow.org/" target="_blank"><img src="imgs/webgraphics/buttons/howsoonisnow.gif" class="desaturate" alt="how soon is now"></a>
 
 </div>
 <H3>secret section ooo</H3>
@@ -1114,38 +1232,7 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
               
                             </div>
                             <br>
-<canvas id="milkdrop" style="width:100%;height:300px;display:block;background:#000;border-radius:8px;"></canvas>
-<script>
-(function() {
-  function load(url, cb) {
-    var s = document.createElement('script');
-    s.src = url; s.onload = cb;
-    document.head.appendChild(s);
-  }
-  load('https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js', function() {
-    load('https://unpkg.com/butterchurn-presets@2.4.7/lib/presets/megapack/index.js', function() {
-      var c = document.getElementById('milkdrop');
-      c.width = c.offsetWidth || 268;
-      c.height = 300;
-      var BC = window.butterchurn.default || window.butterchurn;
-      var actx = new (window.AudioContext || window.webkitAudioContext)();
-      var an = actx.createAnalyser();
-      an.connect(actx.destination);
-      var viz = BC.createVisualizer(actx, c, { width: c.width, height: c.height, pixelRatio: 1 });
-      viz.connectAudio(an);
-      var presets = window.butterchurnPresets.getPresets
-        ? window.butterchurnPresets.getPresets()
-        : window.butterchurnPresets;
-      var keys = Object.keys(presets);
-      console.log('presets carregados:', keys.length);
-      function next() { viz.loadPreset(presets[keys[Math.floor(Math.random()*keys.length)]], 2.5); }
-      next();
-      setInterval(next, 12000);
-      (function loop(){ viz.render(); requestAnimationFrame(loop); })();
-    });
-  });
-})();
-</script>
+
                         </div>
               
                     </div>
@@ -1204,10 +1291,11 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
     }, 'google_translate_element');
   }
 </script>
-
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
+<script src='https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.4/dist/browser/snd.js?kit=01'></script>
+<footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:#4b0000; text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
+  minkurosu © 2024 - forever
+</footer>
 </body>
 
 </html>
