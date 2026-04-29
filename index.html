@@ -1110,57 +1110,82 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
 
                            
                            </div>
-                           <br>
-                           <canvas id="c" style="width:100%;height:500px;display:block;background:#000;"></canvas>
-
-<script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurn-presets.min.js"></script>
-<script>
-window.addEventListener('load', function(){
-  const c = document.getElementById('c');
-  const W = c.clientWidth  || 300;
-  const H = c.clientHeight || 300;
-  c.width  = W;
-  c.height = H;
-
-  const actx = new (window.AudioContext || window.webkitAudioContext)();
-  const analyser = actx.createAnalyser();
-  analyser.connect(actx.destination);
-  const osc = actx.createOscillator();
-  osc.frequency.value = 0;
-  osc.connect(analyser);
-  osc.start();
-
-  const viz = butterchurn.default.createVisualizer(actx, c, {
-    width: W, height: H,
-    pixelRatio: window.devicePixelRatio || 1
-  });
-  viz.connectAudio(analyser);
-
-  const presets = butterchurnPresets.getPresets();
-  const keys = Object.keys(presets);
-  function next(){ viz.loadPreset(presets[keys[Math.floor(Math.random()*keys.length)]], 2.5); }
-  next();
-  setInterval(next, 12000);
-  (function loop(){ viz.render(); requestAnimationFrame(loop); })();
-
-  function unlock(){
-    if(actx.state === 'suspended') actx.resume();
-  }
-  ['click','touchstart','mousemove','scroll'].forEach(e =>
-    document.addEventListener(e, unlock, {once:true, passive:true})
-  );
-});
-</script>
                                 </div>
               
                             </div>
                             <br>
+<script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+
+<script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurn-presets.min.js"></script>
+
+<script>
+
+(function waitForLibs() {
+
+  if (typeof butterchurn === 'undefined' || typeof butterchurnPresets === 'undefined') {
+
+    return setTimeout(waitForLibs, 100);
+
+  }
+
+  const c = document.getElementById('c');
+
+  const W = c.offsetWidth || 300;
+
+  const H = c.offsetHeight || 300;
+
+  c.width = W;
+
+  c.height = H;
+
+  const actx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const analyser = actx.createAnalyser();
+
+  analyser.connect(actx.destination);
+
+  const osc = actx.createOscillator();
+
+  osc.frequency.value = 0;
+
+  osc.connect(analyser);
+
+  osc.start();
+
+  const BC = butterchurn.default || butterchurn;
+
+  const viz = BC.createVisualizer(actx, c, { width: W, height: H, pixelRatio: window.devicePixelRatio || 1 });
+
+  viz.connectAudio(analyser);
+
+  const presets = butterchurnPresets.getPresets();
+
+  const keys = Object.keys(presets);
+
+  function next() { viz.loadPreset(presets[keys[Math.floor(Math.random() * keys.length)]], 2.5); }
+
+  next();
+
+  setInterval(next, 12000);
+
+  (function loop() { viz.render(); requestAnimationFrame(loop); })();
+
+  ['click','touchstart','mousemove','scroll'].forEach(e =>
+
+    document.addEventListener(e, function() { if (actx.state === 'suspended') actx.resume(); }, { once: true, passive: true })
+
+  );
+
+})();
+
+</script>
+
+<br>
 
                         </div>
               
                     </div>
-              <iframe src="https://radio.kwsx.online/" style="width:100%;height:500px;border:none;"></iframe>
+              
               
               <script>
                         chattable.initialize({
