@@ -17,9 +17,7 @@
     <script src="lastfm-widget.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-<script src="butterchurn_min.js"></script>
-<script src="butterchurn-presets_min.js"></script>
-<script src="winamp-visualizer.js"></script>
+
     <script src="theme-switcher.js"></script>
     <script>NekoType = "black"</script>
 
@@ -1116,45 +1114,37 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
               
                             </div>
                             <br>
-<canvas id="c" style="width:100%;height:300px;display:block;background:#000;border-radius:8px;"></canvas>
-<script src="butterchurn.min.js"></script>
-<script src="butterchurn-presets.min.js"></script>
+<canvas id="milkdrop" style="width:100%;height:300px;display:block;background:#000;border-radius:8px;"></canvas>
 <script>
-console.log('BUTTERCHURN SCRIPT CHEGOU AQUI');
-console.log('butterchurn:', typeof butterchurn);
-console.log('butterchurnPresets:', typeof butterchurnPresets);
-var c = document.getElementById('c');
-console.log('canvas:', c);
-console.log('canvas width:', c ? c.offsetWidth : 'null');
-</script>
-<script>
-function startViz() {
-  var c = document.getElementById('c');
-  if (!c || c.offsetWidth === 0) return setTimeout(startViz, 200);
-  if (typeof butterchurn === 'undefined' || typeof butterchurnPresets === 'undefined') return setTimeout(startViz, 200);
-  c.width = c.offsetWidth;
-  c.height = c.offsetHeight || 300;
-  var actx = new (window.AudioContext || window.webkitAudioContext)();
-  var analyser = actx.createAnalyser();
-  analyser.connect(actx.destination);
-  var osc = actx.createOscillator();
-  osc.frequency.value = 0;
-  osc.connect(analyser);
-  osc.start();
-  var BC = butterchurn.default || butterchurn;
-  var viz = BC.createVisualizer(actx, c, { width: c.width, height: c.height, pixelRatio: window.devicePixelRatio || 1 });
-  viz.connectAudio(analyser);
-  var presets = butterchurnPresets.getPresets();
-  var keys = Object.keys(presets);
-  function next() { viz.loadPreset(presets[keys[Math.floor(Math.random() * keys.length)]], 2.5); }
-  next();
-  setInterval(next, 12000);
-  (function loop() { viz.render(); requestAnimationFrame(loop); })();
-  ['click','touchstart','mousemove','scroll'].forEach(function(e) {
-    document.addEventListener(e, function() { if (actx.state === 'suspended') actx.resume(); }, { once: true, passive: true });
+(function() {
+  function load(url, cb) {
+    var s = document.createElement('script');
+    s.src = url; s.onload = cb;
+    document.head.appendChild(s);
+  }
+  load('https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js', function() {
+    load('https://unpkg.com/butterchurn-presets@2.4.7/lib/presets/megapack/index.js', function() {
+      var c = document.getElementById('milkdrop');
+      c.width = c.offsetWidth || 268;
+      c.height = 300;
+      var BC = window.butterchurn.default || window.butterchurn;
+      var actx = new (window.AudioContext || window.webkitAudioContext)();
+      var an = actx.createAnalyser();
+      an.connect(actx.destination);
+      var viz = BC.createVisualizer(actx, c, { width: c.width, height: c.height, pixelRatio: 1 });
+      viz.connectAudio(an);
+      var presets = window.butterchurnPresets.getPresets
+        ? window.butterchurnPresets.getPresets()
+        : window.butterchurnPresets;
+      var keys = Object.keys(presets);
+      console.log('presets carregados:', keys.length);
+      function next() { viz.loadPreset(presets[keys[Math.floor(Math.random()*keys.length)]], 2.5); }
+      next();
+      setInterval(next, 12000);
+      (function loop(){ viz.render(); requestAnimationFrame(loop); })();
+    });
   });
-}
-setTimeout(startViz, 500);
+})();
 </script>
                         </div>
               
@@ -1214,8 +1204,10 @@ setTimeout(startViz, 500);
     }, 'google_translate_element');
   }
 </script>
-<script src="winamp-visualizer.js"></script>
+
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 </body>
 
 </html>
