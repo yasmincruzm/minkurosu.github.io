@@ -130,6 +130,7 @@
                 <div class="caixamaisclaraColumnSimple">
                     <div class="table-container">
                         <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
+                        
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">feeling</td>
                                 <td style="border: 1px solid black; padding: 8px;"><a
@@ -138,10 +139,14 @@
                                             alt="The current mood of minkurosu at www.imood.com" border="0"></a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td style="border: 1px solid black; padding: 8px;">last song</td>
-                                <td id="lastfm-song-cell">loading...</td>
-                            </tr>
+                         <tr>
+  <td style="border: 1px solid black; padding: 8px;">playing</td>
+  <td style="border: 1px solid black; padding: 8px;" id="discord-game">--</td>
+</tr>
+<tr>
+  <td style="border: 1px solid black; padding: 8px;">listening</td>
+  <td style="border: 1px solid black; padding: 8px;" id="lastfm-song-cell">loading...</td>
+</tr>
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">last movie</td>
                                 <td style="border: 1px solid black; padding: 8px;">solar opposites</td>
@@ -152,7 +157,7 @@
                             </tr>
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">current obsession:</td>
-                                <td style="border: 1px solid black; padding: 8px;">BALDURS GATE 3 and jams AND MCR</td>
+                                <td style="border: 1px solid black; padding: 8px;">trying to learn rollerskates & how to make grillz</td>
                             </tr>
                         </table>
                     </div>
@@ -284,4 +289,27 @@ even though i didn't really catch the tumblr era (i was more of an instagram and
     current = (current + 1) % slides.length;
     slides[current].classList.add('active');
   }, 3000);
+</script>
+
+<script>
+  const DISCORD_ID = '425408284711714826';
+
+  async function fetchDiscordActivity() {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+      const { data } = await res.json();
+      const cell = document.getElementById('discord-game');
+      
+      if (data.activities && data.activities.length > 0) {
+        cell.textContent = data.activities.map(a => a.name.toLowerCase()).join(', ');
+      } else {
+        cell.textContent = 'nothing';
+      }
+    } catch (e) {
+      document.getElementById('discord-game').textContent = 'error';
+    }
+  }
+
+  fetchDiscordActivity();
+  setInterval(fetchDiscordActivity, 30000);
 </script>

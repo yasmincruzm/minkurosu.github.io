@@ -266,7 +266,6 @@ header {
   background-color: #0a0a0a;
   background-attachment: fixed;
   margin-bottom: 0;
-  border-radius: 0 0 1.25rem 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -311,7 +310,7 @@ header {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   background-color: #0a0a0a;
   padding: 3px 10px;
-  border-radius: 0.625rem;
+  border-radius: 2px;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   border: 0.3125rem solid #1a1919;
@@ -402,7 +401,7 @@ header {
   color: #4b4b4b;
   background-color: #0a0a0a;
   padding: 3px 10px;
-  border-radius: 0.625rem;
+  border-radius: 2px;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   border: 0.3125rem solid #1a1919;
@@ -415,7 +414,7 @@ header {
   color: #4b4b4b;
   background-color: #0a0a0a;
   padding: 3px 10px;
-  border-radius: 0.625rem;
+  border-radius: 2px;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   border: 0.3125rem solid #310000;
@@ -448,7 +447,7 @@ header {
 
 
 #containerprincipal {
-  border-radius: 1.25rem;
+  border-radius: 2px !important;
   text-align: center;
   margin: 0 auto;
   width: 100%;
@@ -460,7 +459,7 @@ header {
 #container {
   background-color: #0a0a0a;
   padding: 1.25rem;
-  border-radius: 1.25rem;
+  border-radius: 2px !important;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   text-align: center;
   margin: 0 auto;
@@ -535,7 +534,7 @@ header {
 
 .caixalogo {
   background-color: rgba(68, 64, 60, 0.16);
-  border-radius: 0.625rem;
+  border-radius: 2px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
 }
 
@@ -543,7 +542,7 @@ header {
 .caixamaisclara {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -558,7 +557,7 @@ header {
 .caixamaisclaraCenterSimple {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
 
   display: flex;
   align-items: center;
@@ -573,7 +572,7 @@ header {
 .caixamaisclaraColumn {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -586,7 +585,7 @@ header {
 .caixamaisclaraColumnSimple {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -597,7 +596,7 @@ header {
 .caixamaisclaraRowSimple {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -610,7 +609,7 @@ header {
 .caixamaisclaraCenterSimple text {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -643,7 +642,7 @@ header {
 .caixamaisclaraCenter {
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -699,7 +698,7 @@ hr {
 
 .about-content img {
   margin: 0 0.625rem;
-  border-radius: 1rem;
+  border-radius: 3px;
 }
 
 .about-content .about-text {
@@ -712,7 +711,7 @@ hr {
   width: calc(25% - 2px);
   display: flex;
   gap: 2rem;
-  border-radius: 1rem;
+  border-radius: 3px;
 }
 
 h1 {
@@ -809,7 +808,7 @@ h5 {
 }
 
 .caixamaisclara img {
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 .fancybox__caption {
@@ -913,12 +912,12 @@ h5 {
 
 #sidepic {
   max-height: 340px;
-  border-radius: 3%
+  border-radius: 2px
 }
 
 .sidebar .box {
   background: #0a0a0a;
-  border-radius: 0.75rem;
+  border-radius: 3px;
   padding: 0.5rem;
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
@@ -936,7 +935,7 @@ h5 {
 
 .box .nav- {
   background: #24211e;
-  border-radius: 0.75rem;
+  border-radius: 3px;
   padding: 0.5rem;
   margin: 0.5rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1031,7 +1030,7 @@ h5 {
   padding: 8px;
   border: 1px solid #4b0000;
   background: #0d0d0d;
-  border-radius: 4px;
+  border-radius: 2px;
   margin-bottom: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -1184,7 +1183,7 @@ h5 {
   align-items: center;
   background-color: #141414;
   padding: 0.3125rem;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   margin: 2px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -1203,7 +1202,7 @@ table {
   max-height: 80%;
   border-collapse: collapse;
   border-spacing: 0;
-  border-radius: 10px;
+  border-radius: 3px;
   overflow: hidden;
   color: #53504b;
   border: none;
@@ -1232,7 +1231,7 @@ th {
   box-sizing: border-box;
 
   padding: 10px 0;
-  border-radius: 8px;
+  border-radius: 3px;
 }
 
 .track-inner {
@@ -1269,7 +1268,7 @@ th {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  border-radius: 8px;
+  border-radius: 3px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
@@ -1298,7 +1297,7 @@ th {
 .skin-item {
   background-color: #0a0a0a;
   border: 4px solid #310000;
-  border-radius: 8px;
+  border-radius: 3px;
   padding: 15px;
   text-align: center;
   display: flex;
@@ -1319,7 +1318,7 @@ th {
   height: auto;
   display: block;
   margin-bottom: 10px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .skin-title {
@@ -1384,7 +1383,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: hsl(0deg 0% 0% / 0.25);
   will-change: transform;
   transform: translateY(2px);
@@ -1397,7 +1396,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: linear-gradient(to left,
       hsl(43, 9%, 15%) 92%,
       hsl(30, 4%, 18%) 8%,
@@ -1409,7 +1408,7 @@ th {
   display: block;
   position: relative;
   padding: 12px 42px;
-  border-radius: 12px;
+  border-radius: 3px;
   font-size: 1.25rem;
   color: rgb(36, 36, 36);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -1467,7 +1466,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: hsl(0deg 0% 0% / 0.25);
   will-change: transform;
   transform: translateY(2px);
@@ -1480,7 +1479,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: linear-gradient(to left,
       hsl(43, 9%, 15%) 92%,
       hsl(30, 4%, 18%) 8%,
@@ -1492,7 +1491,7 @@ th {
   display: block;
   position: relative;
   padding: 12px 42px;
-  border-radius: 12px;
+  border-radius: 3px;
   font-size: 1.25rem;
   color: #1d1d1d;
   background: hsl(30, 4%, 20%);
@@ -1548,7 +1547,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: hsl(0deg 0% 0% / 0.25);
   will-change: transform;
   transform: translateY(2px);
@@ -1561,7 +1560,7 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  border-radius: 3px;
   background: linear-gradient(to left,
       #292828 92%,
       #292828 8%,
@@ -1579,7 +1578,7 @@ th {
   min-width: 150px;
   text-align: center;
 
-  border-radius: 12px;
+  border-radius: 3px;
   color: #505050;
   background: #1b1b1b;
   will-change: transform;
@@ -1635,7 +1634,7 @@ th {
 .games-section {
   background-color: #0a0a0a;
   padding: 20px;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   max-width: 50rem;
   margin: 20px auto;
@@ -1683,7 +1682,7 @@ th {
   width: 100%;
   overflow: hidden;
   background-color: transparent;
-  border-radius: 0.9375rem;
+  border-radius: 3px;
   box-shadow: none;
   padding: 0;
   box-sizing: border-box;
@@ -1842,7 +1841,7 @@ th {
     flex-direction: row;
     align-items: center;
     padding: 0.3125rem;
-    border-radius: 0.9375rem;
+    border-radius: 3px;
     box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
     margin: 2px;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -1975,7 +1974,7 @@ th {
     height: auto;
     display: block;
     margin: 10px auto;
-    border-radius: 4px;
+    border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
@@ -2044,7 +2043,7 @@ th {
     background-color: #505050 !important;
     text-decoration: none;
     padding: 5px !important;
-    border-radius: 8px !important;
+    border-radius: 3px !important;
     border: 1px solid #505050 !important;
     display: block !important;
   }
@@ -2126,7 +2125,7 @@ th {
     max-width: 1200px;
     background-color: #1e1e1e;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    border-radius: 15px;
+    border-radius: 3px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -2268,3 +2267,118 @@ th {
     cursor: pointer;
     outline: none;
   }
+/* ============================================
+   NINTENDO DS / PIXEL STYLE - borders & sound
+   ============================================ */
+
+/* thin pixel border on all main boxes */
+.caixamaisclara,
+.caixamaisclaraColumn,
+.caixamaisclaraColumnSimple,
+.caixamaisclaraCenterSimple,
+.caixamaisclaraRowSimple,
+.caixamaisclaraCenter,
+.caixamaisclaraInterests,
+.caixamaisclaraCenterSimple,
+#container,
+#containerprincipal,
+.sidebar .box,
+.conjuntoblocos,
+header,
+.skin-item,
+.scrollSmaller,
+.scrollMedium {
+  border: 1px solid #4a0000 !important;
+  outline: 1px solid #1a1a1a;
+  image-rendering: pixelated;
+}
+
+/* pushable buttons - sharp pixel style */
+.pushable .front,
+.pushable .edge,
+.pushable .shadow {
+  border-radius: 2px !important;
+}
+
+.front {
+  border-radius: 2px !important;
+}
+
+.edge {
+  border-radius: 2px !important;
+}
+
+.shadow {
+  border-radius: 2px !important;
+}
+
+/* navbar links - sharp pixel */
+.navbar a {
+  border-radius: 2px !important;
+}
+
+.side-item a {
+  border-radius: 2px !important;
+}
+
+/* DS-style tooltip */
+.ds-tooltip {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.ds-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0a0a0a;
+  color: #8f0000;
+  border: 1px solid #4a0000;
+  outline: 1px solid #1a1a1a;
+  font-family: "MinFont", monospace;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  white-space: nowrap;
+  border-radius: 1px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 999;
+  text-shadow: none;
+}
+
+.ds-tooltip:hover::after {
+  opacity: 1;
+}
+
+/* === DS OVERLAY BORDER === */
+header,
+#container,
+#containerprincipal,
+.caixamaisclara,
+.caixamaisclaraColumn,
+.caixamaisclaraColumnSimple,
+.caixamaisclaraCenterSimple,
+.caixamaisclaraRowSimple,
+.caixamaisclaraCenter,
+.caixamaisclaraInterests,
+.sidebar .box,
+.conjuntoblocos,
+.navbar a,
+.side-item a,
+.skin-item,
+.scrollSmaller,
+.scrollMedium,
+.caixalogo,
+.about-me-container,
+.table-container,
+.caixa-iframe-onlnbrd,
+.caixa-iframe-minkurosu {
+  border: 2px solid #4a0000 !important;
+  outline: 2px solid #c8c8c8;
+  outline-offset: 0px;
+  border-radius: 2px !important;
+}
