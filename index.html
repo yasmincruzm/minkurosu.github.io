@@ -605,93 +605,14 @@ div#goog-gt- {
 
 
 
-  <div id="viz-wrap" style="position:relative;width:min(100%,500px);height:min(100vw,500px);cursor:pointer;">
-  <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
-  <div id="viz-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-    <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.2em;font-family:monospace;">click me for trippy stuff <br>(epilepsy warning)</span>
-  </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
-<script>
-(function() {
-  var wrap    = document.getElementById('viz-wrap');
-  var canvas  = document.getElementById('viz-canvas');
-  var overlay = document.getElementById('viz-overlay');
-  var started = false;
 
-  function resizeCanvas() {
-    var rect = canvas.getBoundingClientRect();
-    var size = Math.round(rect.width) || 480;
-    canvas.width  = size;
-    canvas.height = size;
-    return size;
-  }
+                       <div>
 
-  function startViz() {
-    if (started) return;
-    started = true;
-    wrap.style.cursor = 'default';
 
-    overlay.style.transition = 'opacity 0.4s';
-    overlay.style.opacity = '0';
-    setTimeout(function() { overlay.style.display = 'none'; }, 400);
-
-    var size = resizeCanvas();
-
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    audioCtx.resume();
-
-    var analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-
-    var bufSize = 4096;
-    var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
-    noise.onaudioprocess = function(e) {
-      var out = e.outputBuffer.getChannelData(0);
-      for (var i = 0; i < bufSize; i++) out[i] = (Math.random() * 2 - 1) * 0.15;
-    };
-    noise.connect(analyser);
-
-    var bc = window.butterchurn;
-    if (bc && !bc.createVisualizer) bc = bc.default;
-    var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
-
-    var bcp = window.butterchurnPresets;
-    if (bcp && !bcp.getPresets) bcp = bcp.default;
-    var presets = bcp.getPresets();
-    var keys = Object.keys(presets);
-    var idx = Math.floor(Math.random() * keys.length);
-    visualizer.loadPreset(presets[keys[idx]], 0.0);
-    visualizer.connectAudio(analyser);
-
-    setInterval(function() {
-      idx = (idx + 1) % keys.length;
-      visualizer.loadPreset(presets[keys[idx]], 2.7);
-    }, 15000);
-
-    window.addEventListener('resize', function() {
-      var s = resizeCanvas();
-      visualizer.setRendererSize(s, s);
-    });
-
-    (function render() {
-      visualizer.render();
-      requestAnimationFrame(render);
-    })();
-  }
-
-  function tryStart() {
-    if (window.butterchurn && window.butterchurnPresets) {
-      wrap.addEventListener('click', startViz, { once: true });
-    } else {
-      setTimeout(tryStart, 100);
-    }
-  }
-  tryStart();
-})();
-</script>
+<a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" id="playlist-link" style="display:inline-block;">
+  <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="playlist"class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" />
+</a>
 
 <hr>
                 <form method="post" action="https://poll.pollcode.com/76794555">
@@ -711,14 +632,6 @@ div#goog-gt- {
                     </div>
                 </form>
 <hr>
-                       <div>
-
-
-<a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" id="playlist-link" style="display:inline-block;">
-  <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="playlist"class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" />
-</a>
-
-
 
                             </div>
             </div>
@@ -767,7 +680,7 @@ div#goog-gt- {
     <a href="" target="_blank" title="" style="position:absolute; top:60%; right:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-molar-1.gif" style=";height:65px;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:50%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/katomojiw.gif" style="width:100px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:10%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/skull_cat_mudflower.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="https://www.deviantart.com/asralore" target="_blank" title="www.deviantart.com/asralore" style="position:absolute; top:30%; right:-60px; display:block; z-index:999;"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/366e96d4-fe7d-453d-855d-03aa7a5ddc9b/dbgnfht-2dbfeb4a-8ebd-40ab-848b-a23d765df08e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8zNjZlOTZkNC1mZTdkLTQ1M2QtODU1ZC0wM2FhN2E1ZGRjOWIvZGJnbmZodC0yZGJmZWI0YS04ZWJkLTQwYWItODQ4Yi1hMjNkNzY1ZGYwOGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HW7CV8gGMbLiAJaCkpj9ZpX-EozG5qwy4Y-YKhZdeyk" style="height:70px;image-rendering:pixelated;display:block;"></a>
+    <a href="https://www.deviantart.com/asralore" target="_blank" title="www.deviantart.com/asralore" style="position:absolute; top:35%; right:-60px; display:block; z-index:999;"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/366e96d4-fe7d-453d-855d-03aa7a5ddc9b/dbgnfht-2dbfeb4a-8ebd-40ab-848b-a23d765df08e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8zNjZlOTZkNC1mZTdkLTQ1M2QtODU1ZC0wM2FhN2E1ZGRjOWIvZGJnbmZodC0yZGJmZWI0YS04ZWJkLTQwYWItODQ4Yi1hMjNkNzY1ZGYwOGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HW7CV8gGMbLiAJaCkpj9ZpX-EozG5qwy4Y-YKhZdeyk" style="height:70px;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:50%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/eyeball.webp" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:18%; left:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-canine.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:65%; left:-8px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/stretch.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
@@ -941,7 +854,7 @@ div#goog-gt- {
                                 </div>
 
                             </div>
-
+                
 
                             <div class="scroll">
                                 <img loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" id="blinkies" class="desaturate">
@@ -1040,62 +953,111 @@ div#goog-gt- {
                                 <img loading="lazy" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" id="blinkies"
                                     class="desaturate">
                             </div>
-                            <h3>(scrollable!!)</h3>
+                            <h3 style="font-size: 10px;">(scrollable!!)</h3>
 
+<hr>
 
                             <a href="https://www.deviantart.com/king-lulu-deer/art/Hunter-s-Moon-743650357"
                                 data-caption="" target="_blank">
                                 <img
                                     src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cf2836cb-5893-4a6c-b156-5a89d94fc721/dcar0ad-49bc59a6-3143-4093-af7a-3164ce60ca27.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZjI4MzZjYi01ODkzLTRhNmMtYjE1Ni01YTg5ZDk0ZmM3MjEvZGNhcjBhZC00OWJjNTlhNi0zMTQzLTQwOTMtYWY3YS0zMTY0Y2U2MGNhMjcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.lLjyjO4iWunZMVVFc-ef4VIAyiTeQ7YmZD6EDGe6vG4">
                             </a>
-                            <br>
-                            <br>
-                            <div class="caixamaisclaraColumn">
-                                <div class="scrollSmaller">
-                                    <H3>UPDATES</H3>
-                                    <hr>
-                                    <h4>25/02/2026 -  added more decoration, added my stuff page, other tweaks</h4>
-                                     <h4>28/12/2025 - more minecraft screenshots, added a new article to cool `links`, fixed page loader bug</h4>
-                                      <h4>22/11/2025 - updated game section and fixed page loader bug</h4>
-                                    <h4>14/10/2025 - interesting link list</h4>
-                                    <h4>08/09/2025 - new poll!</h4>
-                                    <h4>07/09/2025 - pages are now dynamic</h4>
-                                    <h4>24/08/2025 - added new drawbox (by drawbox.nekoweb.org)</h4>
-                                    <h4>23/08/2025 - added crt effect</h4>
-                                    <h4>15/08/2025 - added a new section @ main!</h4>
-                                    <h4>14/08/2025 - added a whole new font, made by me with bitfontmaker2</h4>
-                                    <h4>07/08/2025 - added site update list!</h4>
-                                    <h4>05/08/2025 - added new site theme!! (damn i really like the new one)</h4>
-                                    <h4>04/08/2025 - made the sides the same for every page with JS</h4>
-                                    <h4>28/07/2025 - added yaoi fridge page</h4>
-                                    <h4>25/07/2025 - added webweaving page</h4>
-                                    <h4>20/07/2025 - added toybox</h4>
-                                    <h4>09/07/2025 - added translation to blogs</h4>
-                                    <h4>05/08/2025 - added games page!</h4>
+                        
 
-                                </div>
-                            </div>
-                            <br>
-                            <div class="caixamaisclaraColumn">
-                                <div class="scrollSmaller">
-                                    <H3>TO DO LIST</H3>
-                                    <hr>
-                                     <h4>- caption all my pics</h4>
-                                    <h4>- whats in my bag</h4>
-                                    <h4>- dreams & bucket list</h4>
-                                    <h4>- shrine to my cats, my bf & mcr</h4>
-                                    <h4>- memories page</h4>
-                                </div>
-                            </div>
+                   
 
 
+<hr>
+  <div id="viz-wrap" style="position:relative;width:min(100%,500px);height:min(100vw,300px);cursor:pointer;">
+  <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
+  <div id="viz-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+    <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.2em;font-family:monospace;">click me for trippy stuff <br>(epilepsy warning)</span>
+  </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
+<script>
+(function() {
+  var wrap    = document.getElementById('viz-wrap');
+  var canvas  = document.getElementById('viz-canvas');
+  var overlay = document.getElementById('viz-overlay');
+  var started = false;
 
+  function resizeCanvas() {
+    var rect = canvas.getBoundingClientRect();
+    var size = Math.round(rect.width) || 480;
+    canvas.width  = size;
+    canvas.height = size;
+    return size;
+  }
+
+  function startViz() {
+    if (started) return;
+    started = true;
+    wrap.style.cursor = 'default';
+
+    overlay.style.transition = 'opacity 0.4s';
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; }, 400);
+
+    var size = resizeCanvas();
+
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.resume();
+
+    var analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+
+    var bufSize = 4096;
+    var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
+    noise.onaudioprocess = function(e) {
+      var out = e.outputBuffer.getChannelData(0);
+      for (var i = 0; i < bufSize; i++) out[i] = (Math.random() * 2 - 1) * 0.15;
+    };
+    noise.connect(analyser);
+
+    var bc = window.butterchurn;
+    if (bc && !bc.createVisualizer) bc = bc.default;
+    var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
+
+    var bcp = window.butterchurnPresets;
+    if (bcp && !bcp.getPresets) bcp = bcp.default;
+    var presets = bcp.getPresets();
+    var keys = Object.keys(presets);
+    var idx = Math.floor(Math.random() * keys.length);
+    visualizer.loadPreset(presets[keys[idx]], 0.0);
+    visualizer.connectAudio(analyser);
+
+    setInterval(function() {
+      idx = (idx + 1) % keys.length;
+      visualizer.loadPreset(presets[keys[idx]], 2.7);
+    }, 15000);
+
+    window.addEventListener('resize', function() {
+      var s = resizeCanvas();
+      visualizer.setRendererSize(s, s);
+    });
+
+    (function render() {
+      visualizer.render();
+      requestAnimationFrame(render);
+    })();
+  }
+
+  function tryStart() {
+    if (window.butterchurn && window.butterchurnPresets) {
+      wrap.addEventListener('click', startViz, { once: true });
+    } else {
+      setTimeout(tryStart, 100);
+    }
+  }
+  tryStart();
+})();
+</script>
 
                      
-
- <br>
-
+<hr>
                             <div class="caixamaisclaraColumn">
                                 <H3>my button! feel free to link :3
                                     <h3 style="font-size: smaller;">(also tell me at the chat box on the left if you
@@ -1215,7 +1177,44 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
               
                             </div>
                             <br>
+        
+                            <div class="caixamaisclaraColumn">
+                                <div class="scrollSmaller">
+                                    <H3>UPDATES</H3>
+                                    <hr>
+                                    <h4>25/02/2026 -  added more decoration, added my stuff page, other tweaks</h4>
+                                     <h4>28/12/2025 - more minecraft screenshots, added a new article to cool `links`, fixed page loader bug</h4>
+                                      <h4>22/11/2025 - updated game section and fixed page loader bug</h4>
+                                    <h4>14/10/2025 - interesting link list</h4>
+                                    <h4>08/09/2025 - new poll!</h4>
+                                    <h4>07/09/2025 - pages are now dynamic</h4>
+                                    <h4>24/08/2025 - added new drawbox (by drawbox.nekoweb.org)</h4>
+                                    <h4>23/08/2025 - added crt effect</h4>
+                                    <h4>15/08/2025 - added a new section @ main!</h4>
+                                    <h4>14/08/2025 - added a whole new font, made by me with bitfontmaker2</h4>
+                                    <h4>07/08/2025 - added site update list!</h4>
+                                    <h4>05/08/2025 - added new site theme!! (damn i really like the new one)</h4>
+                                    <h4>04/08/2025 - made the sides the same for every page with JS</h4>
+                                    <h4>28/07/2025 - added yaoi fridge page</h4>
+                                    <h4>25/07/2025 - added webweaving page</h4>
+                                    <h4>20/07/2025 - added toybox</h4>
+                                    <h4>09/07/2025 - added translation to blogs</h4>
+                                    <h4>05/08/2025 - added games page!</h4>
 
+                                </div>
+                            </div>
+                            <br>
+                            <div class="caixamaisclaraColumn">
+                                <div class="scrollSmaller">
+                                    <H3>TO DO LIST</H3>
+                                    <hr>
+                                     <h4>- caption all my pics</h4>
+                                    <h4>- whats in my bag</h4>
+                                    <h4>- dreams & bucket list</h4>
+                                    <h4>- shrine to my cats, my bf & mcr</h4>
+                                    <h4>- memories page</h4>
+                                </div>
+                            </div>
                         </div>
               
                     </div>
