@@ -1045,11 +1045,22 @@ div#goog-gt- {
     })();
   }
 
-  function tryStart() {
-    if (window.butterchurn && window.butterchurnPresets) {
-      wrap.addEventListener('click', startViz, { once: true });
+function tryStart() {
+    if (!window.butterchurn || !window.butterchurnPresets) {
+      return setTimeout(tryStart, 100);
+    }
+    var testCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (testCtx.state === 'running') {
+      testCtx.close();
+      startViz();
     } else {
-      setTimeout(tryStart, 100);
+      testCtx.close();
+      ['mousemove','scroll','touchstart','click','keydown'].forEach(function(e) {
+        document.addEventListener(e, function h() {
+          document.removeEventListener(e, h);
+          startViz();
+        }, { once: true });
+      });
     }
   }
   tryStart();
