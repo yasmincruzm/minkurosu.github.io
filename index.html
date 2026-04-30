@@ -2,79 +2,63 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920px, initial-scale=0.4, maximum-scale=1.0, user-scalable=yes">
     <meta name='LTF_verify' content='4414502b3e1c201f0023688de06f390b' />
-<meta name="description" content="personal site of @minkurosu/yasmin cruz">
+    <meta name="description" content="personal site of @minkurosu/yasmin cruz">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+
+    <!-- Analytics (única instância, ambos os IDs) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M7PWC6DDRH"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-DT4FG20QMR');
+        gtag('config', 'G-4K5KDKEJ2E');
     </script>
 
+    <!-- CSS crítico -->
+    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
+    <!-- Firebase (type="module" é defer por padrão) -->
     <script type="module" src="firebase-config.js"></script>
-    <script src="lastfm-widget.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-
-    <script src="theme-switcher.js"></script>
-    <script>NekoType = "black"</script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
 
-<script src="https://iframe.chat/scripts/main.min.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+    <!-- NekoType antes do script do neko -->
+    <script>NekoType = "black"</script>
 
+    <!-- jQuery: sem defer pois scripts inline no body dependem dele -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <!-- Scripts locais -->
+    <script src="lastfm-widget.js"></script>
+    <script src="theme-switcher.js"></script>
+    <script src="load-pages.js"></script>
+    <script src="script.js"></script>
 
+    <!-- Interact.js -->
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js" defer></script>
 
+    <!-- iframe.chat -->
+    <script src="https://iframe.chat/scripts/main.min.js" defer></script>
 
-   
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <!-- FancyBox JS (defer, e bind só após DOM pronto) -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js" defer></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             if (typeof Fancybox !== 'undefined') {
-                var inst = Fancybox.getInstance();
-                if (inst && inst.$refs && inst.$refs.container) {
-                    inst.$refs.container.classList.toggle('fancybox-show-caption');
-                }
+                Fancybox.bind('[data-fancybox="gallery"]', {});
             }
         });
     </script>
 
-
-    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
-    <script src="load-pages.js"></script>
-    <script src="script.js"></script>
-    <script src="theme-switcher.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <script>
-        Fancybox.bind('[data-fancybox="gallery"]', {
-            
-        });    
-    </script>
-
-
-
-
-    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1920px, initial-scale=0.4, maximum-scale=1.0, user-scalable=yes">
-    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-
-
-    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
     <title>min kurosu</title>
-
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <div class="crt"></div>
-    <style>
+<style>
 #google_translate_element .goog-te-gadget-simple {
   background-color: #1a1a1a !important;
   border: 1px solid #444 !important;
@@ -318,8 +302,8 @@ div#goog-gt- {
         .scrollthin {
             margin: 5px;
             height: 330px;
-            overflow-y: scroll;
             overflow: auto;
+            overflow-y: scroll !important;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -342,6 +326,7 @@ div#goog-gt- {
         table,
         tr,
         td {
+            ;
             border: none;
             border-collapse: collapse;
             border-style: hidden !important;
@@ -435,14 +420,15 @@ div#goog-gt- {
 }
 
     </style>
-</head>
+</head></head>
 
 <body>
+    <div class="crt"></div>
 
     <div class="layout-with-sidebars">
         <aside id="sidebar-esquerda-container" class="sidebar">
             <div class="box">
-                <img id="sidepic" class="desaturate" src="imgs/feed/mcrshow1.jpg" alt="eu irl" height="1700px">
+                <img id="sidepic" class="desaturate" src="imgs/feed/mcrshow1.jpg" alt="eu irl" height="1700px" loading="lazy">
             </div>
             <div class="box">
                 <h2 id="nomeSide">min</h2>
@@ -486,9 +472,46 @@ div#goog-gt- {
                 <h3>translate:</h3>
 <div id="google_translate_element"></div>
 <br>
-              
+                <!-- timezone clocks -->
+                <div class="caixamaisclaraColumn" style="gap:4px; padding: 6px;">
+                  <h3 style="margin:4px 0; font-size:1rem;">🕐 clocks</h3>
+                  <div style="font-size:0.85rem; text-align:center; line-height:1.8;">
+                    <div>
+                      <span style="color:#8f0000;">meu horário</span> (br / brt)<br>
+                      <span id="clock-br" style="font-family:'MinFont',monospace; font-size:1rem; color:#4b4b4b;">--:--:--</span>
+                    </div>
+                    <hr style="margin:4px 0;">
+                    <div>
+                      <span style="color:#8f0000;">seu horário</span><br>
+                      <span id="clock-local" style="font-family:'MinFont',monospace; font-size:1rem; color:#4b4b4b;">--:--:--</span><br>
+                      <span id="clock-tz" style="font-size:0.7rem; color:#4b4b4b; opacity:0.7;"></span>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                  function updateClocks() {
+                    var now = new Date();
+                    var brStr = now.toLocaleString('en-US', {timeZone: 'America/Sao_Paulo', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
+                    document.getElementById('clock-br').textContent = brStr;
+                    var pad = n => String(n).padStart(2,'0');
+                    document.getElementById('clock-local').textContent =
+                      pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+                    try {
+                      var tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                      document.getElementById('clock-tz').textContent = '(' + tzName.replace(/_/g,' ') + ')';
+                    } catch(e) {}
+                  }
+                  updateClocks();
+                  setInterval(updateClocks, 1000);
+                </script>
 <br>
-                <a href="https://arab.org/click-to-help/palestine/">🍉 if you cant donate, click to help! 🇵🇸</a></p>
+               <div style="display:grid;place-items:center">
+<a href="https://nanacore.net/cliques/brs">
+<img src="https://nanacore.net/imgs/brs/bandeira.png" title="Esse site faz parte do WebCírculo BR!">
+</a>
+<a href="https://nanacore.net/cliques/brs?action=random">random</a>
+</div>
+
                 <script src="https://webneko.net/n20171213.js"></script><a href="https://webneko.net"></a>
    <br>
                 <div class="caixamaisclaraColumn">
@@ -504,7 +527,7 @@ div#goog-gt- {
 
                     <script language="javascript" type="text/javascript"
                         src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
-                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
+                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" loading="lazy"/></noscript>
 
                     <br>
 
@@ -588,7 +611,7 @@ div#goog-gt- {
 </div>
 <hr>
 
-                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="max-width: 90%; height: 300px;" id="chattable"></iframe>
+                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="max-width: 90%; height: 300px;" id="chattable" loading="lazy"></iframe>
 
                 <hr>
                 <a href="https://tamanotchi.world/24409c"><img loading="lazy" src="https://tamanotchi.world/i2/24409"></a>
@@ -602,19 +625,6 @@ div#goog-gt- {
 <br>
 <h3 style="font-size: 14px;">if you see your content anywhere without credit or want it removed, please let me know!!</h3>
                 <hr>
-
-
-
-
-
-                       <div>
-
-
-<a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" id="playlist-link" style="display:inline-block;">
-  <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="playlist"class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" />
-</a>
-
-<hr>
                 <form method="post" action="https://poll.pollcode.com/76794555">
                     <div
                         style="background-color:#0A0A0A;padding:2px;width:100%;font-family:Arial;font-size:medium;color:#4B4B4B;">
@@ -631,7 +641,15 @@ div#goog-gt- {
                                 polls</a></div>
                     </div>
                 </form>
-<hr>
+
+                       <div>
+
+
+<a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" id="playlist-link" style="display:inline-block;">
+  <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="playlist"class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" loading="lazy"/>
+</a>
+
+
 
                             </div>
             </div>
@@ -671,26 +689,26 @@ div#goog-gt- {
                 </nav>
                 <h1 id=nl>
                 </h1>
-                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-25px; left:6%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif/v1/fit/w_750,h_750,q_90,enc_avif,quality_auto/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif" style="height:80px;image-rendering:pixelated;display:block;"></a>
-                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-40px; right:14%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif/v1/fit/w_468,h_468,q_90,enc_avif,quality_auto/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif" style="height:70px;image-rendering:pixelated;display:block;"></a>
+                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-25px; left:6%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif/v1/fit/w_750,h_750,q_90,enc_avif,quality_auto/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif" style="height:80px;image-rendering:pixelated;display:block;" loading="lazy"></a>
+                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-40px; right:14%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif/v1/fit/w_468,h_468,q_90,enc_avif,quality_auto/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif" style="height:70px;image-rendering:pixelated;display:block;" loading="lazy"></a>
             </header>
 <br>
  
 
-    <a href="" target="_blank" title="" style="position:absolute; top:60%; right:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-molar-1.gif" style=";height:65px;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:50%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/katomojiw.gif" style="width:100px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:10%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/skull_cat_mudflower.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="https://www.deviantart.com/asralore" target="_blank" title="www.deviantart.com/asralore" style="position:absolute; top:35%; right:-60px; display:block; z-index:999;"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/366e96d4-fe7d-453d-855d-03aa7a5ddc9b/dbgnfht-2dbfeb4a-8ebd-40ab-848b-a23d765df08e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8zNjZlOTZkNC1mZTdkLTQ1M2QtODU1ZC0wM2FhN2E1ZGRjOWIvZGJnbmZodC0yZGJmZWI0YS04ZWJkLTQwYWItODQ4Yi1hMjNkNzY1ZGYwOGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HW7CV8gGMbLiAJaCkpj9ZpX-EozG5qwy4Y-YKhZdeyk" style="height:70px;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:50%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/eyeball.webp" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:18%; left:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-canine.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:65%; left:-8px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/stretch.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:30%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/blackrose.gif" style="width:30px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:85%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/bat.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:95%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/Cat.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:65%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:75%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:85%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-    <a href="" target="_blank" title="" style="position:absolute; top:95%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:60%; right:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-molar-1.gif" style=";height:65px;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:50%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/katomojiw.gif" style="width:100px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:10%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/skull_cat_mudflower.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="https://www.deviantart.com/asralore" target="_blank" title="www.deviantart.com/asralore" style="position:absolute; top:30%; right:-60px; display:block; z-index:999;"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/366e96d4-fe7d-453d-855d-03aa7a5ddc9b/dbgnfht-2dbfeb4a-8ebd-40ab-848b-a23d765df08e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8zNjZlOTZkNC1mZTdkLTQ1M2QtODU1ZC0wM2FhN2E1ZGRjOWIvZGJnbmZodC0yZGJmZWI0YS04ZWJkLTQwYWItODQ4Yi1hMjNkNzY1ZGYwOGUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HW7CV8gGMbLiAJaCkpj9ZpX-EozG5qwy4Y-YKhZdeyk" style="height:70px;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:50%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/eyeball.webp" style="width:20px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:18%; left:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-canine.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:65%; left:-8px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/stretch.gif" style="width:20px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:30%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/blackrose.gif" style="width:30px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:85%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/bat.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:95%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/Cat.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:65%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:75%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:85%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
+    <a href="" target="_blank" title="" style="position:absolute; top:95%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;" loading="lazy"></a>
       
     
     
@@ -854,7 +872,7 @@ div#goog-gt- {
                                 </div>
 
                             </div>
-                
+
 
                             <div class="scroll">
                                 <img loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" id="blinkies" class="desaturate">
@@ -953,242 +971,16 @@ div#goog-gt- {
                                 <img loading="lazy" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" id="blinkies"
                                     class="desaturate">
                             </div>
-                            <h3 style="font-size: 10px;">(scrollable!!)</h3>
+                            <h3>(scrollable!!)</h3>
 
-<hr>
 
                             <a href="https://www.deviantart.com/king-lulu-deer/art/Hunter-s-Moon-743650357"
                                 data-caption="" target="_blank">
                                 <img
-                                    src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cf2836cb-5893-4a6c-b156-5a89d94fc721/dcar0ad-49bc59a6-3143-4093-af7a-3164ce60ca27.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZjI4MzZjYi01ODkzLTRhNmMtYjE1Ni01YTg5ZDk0ZmM3MjEvZGNhcjBhZC00OWJjNTlhNi0zMTQzLTQwOTMtYWY3YS0zMTY0Y2U2MGNhMjcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.lLjyjO4iWunZMVVFc-ef4VIAyiTeQ7YmZD6EDGe6vG4">
+                                    src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cf2836cb-5893-4a6c-b156-5a89d94fc721/dcar0ad-49bc59a6-3143-4093-af7a-3164ce60ca27.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9jZjI4MzZjYi01ODkzLTRhNmMtYjE1Ni01YTg5ZDk0ZmM3MjEvZGNhcjBhZC00OWJjNTlhNi0zMTQzLTQwOTMtYWY3YS0zMTY0Y2U2MGNhMjcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.lLjyjO4iWunZMVVFc-ef4VIAyiTeQ7YmZD6EDGe6vG4" loading="lazy">
                             </a>
-                        
-
-                   
-
-
-<hr>
-  <div id="viz-wrap" style="position:relative;width:min(100%,500px);height:min(100vw,300px);cursor:pointer;">
-  <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
-  <div id="viz-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-    <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.2em;font-family:monospace;">click me for trippy stuff <br>(epilepsy warning)</span>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
-<script>
-(function() {
-  var wrap    = document.getElementById('viz-wrap');
-  var canvas  = document.getElementById('viz-canvas');
-  var overlay = document.getElementById('viz-overlay');
-  var started = false;
-
-  function resizeCanvas() {
-    var rect = canvas.getBoundingClientRect();
-    var size = Math.round(rect.width) || 480;
-    canvas.width  = size;
-    canvas.height = size;
-    return size;
-  }
-
-  function startViz() {
-    if (started) return;
-    started = true;
-    wrap.style.cursor = 'default';
-
-    overlay.style.transition = 'opacity 0.4s';
-    overlay.style.opacity = '0';
-    setTimeout(function() { overlay.style.display = 'none'; }, 400);
-
-    var size = resizeCanvas();
-
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    audioCtx.resume();
-
-    var analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-
-    var bufSize = 4096;
-    var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
-    noise.onaudioprocess = function(e) {
-      var out = e.outputBuffer.getChannelData(0);
-      for (var i = 0; i < bufSize; i++) out[i] = (Math.random() * 2 - 1) * 0.15;
-    };
-    noise.connect(analyser);
-
-    var bc = window.butterchurn;
-    if (bc && !bc.createVisualizer) bc = bc.default;
-    var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
-
-    var bcp = window.butterchurnPresets;
-    if (bcp && !bcp.getPresets) bcp = bcp.default;
-    var presets = bcp.getPresets();
-    var keys = Object.keys(presets);
-    var idx = Math.floor(Math.random() * keys.length);
-    visualizer.loadPreset(presets[keys[idx]], 0.0);
-    visualizer.connectAudio(analyser);
-
-    setInterval(function() {
-      idx = (idx + 1) % keys.length;
-      visualizer.loadPreset(presets[keys[idx]], 2.7);
-    }, 15000);
-
-    window.addEventListener('resize', function() {
-      var s = resizeCanvas();
-      visualizer.setRendererSize(s, s);
-    });
-
-    (function render() {
-      visualizer.render();
-      requestAnimationFrame(render);
-    })();
-  }
-
-function tryStart() {
-    if (!window.butterchurn || !window.butterchurnPresets) {
-      return setTimeout(tryStart, 100);
-    }
-    var testCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (testCtx.state === 'running') {
-      testCtx.close();
-      startViz();
-    } else {
-      testCtx.close();
-      ['mousemove','scroll','touchstart','click','keydown'].forEach(function(e) {
-        document.addEventListener(e, function h() {
-          document.removeEventListener(e, h);
-          startViz();
-        }, { once: true });
-      });
-    }
-  }
-  tryStart();
-})();
-</script>
-
-                     
-<hr>
-                            <div class="caixamaisclaraColumn">
-                                <H3>my button! feel free to link :3
-                                    <h3 style="font-size: smaller;">(also tell me at the chat box on the left if you
-                                        link me , ill link you back!!)</h3>
-                                </H3>
-                                
-                                    <img loading="lazy" src="imgs/minkurosu-button.png" style="height: 31px;" alt="minkurosu button">
-                                    <br>
-                                    <textarea>&lt;a href="https://minkurosu.site/"&gt;&lt;img src="https://minkurosu.site./imgs/minkurosu-button.png" alt="minkurosu" width="88px" height="31px"&gt;&lt;/a&gt;</textarea>
-                               
-                                <br>
-
-                           <div class="scrollMedium">
-
-                           <H3 class="desaturate">🇧🇷 vizinhos</H3>
-    <div class="button-wall">
-        <a href="https://edhmr.neocities.org" target="_blank"><img src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate"></a>
-        <a href="https://morangocorner.neocities.org/"><img src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate"></a>
-        <a href="https://miqito.com.br/" target="_blank"><img src="https://miqito.com.br/images/icons/buttons/miqitolink.gif" class="desaturate" alt="miqito.com.br"></a>
-        <a href="https://sherwind.neocities.org/" target="_blank" class="desaturate"><img src="https://sherwind.neocities.org/button.gif" alt="sherwind"></a>
-        <a href="https://blissprism.nekoweb.org/"><img src="https://blissprism.nekoweb.org/images/buttons/blissprism_button.gif" class="desaturate"></a>
-        <a href="https://sunshine.nekoweb.org/" target="_blank" title="Sol's Sunflower Field"><img src="https://sunshine.nekoweb.org/assets/sitebutton.gif" class="desaturate"></a>
-        <a href="https://aubreyonline.neocities.org/" target="_blank"><img src="https://aubreyonline.neocities.org/assets/buttons/aubrey_button.gif" class="desaturate" alt=""></a>
-        <a href="https://dudalog.neocities.org/links/" target="_blank"><img src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate" alt=""></a>
-        <a href='https://disinformation.neocities.org'><img  src='https://disinformation.neocities.org/images/button.gif' class="desaturate"></a>
-<a href="https://mozartsempiano.com" target="_blank"><img src="https://mozartsempiano.com/assets/img/mozartsempiano-btn-1.gif" class="desaturate"></a>        <a href="https://aaeri.neocities.org/" target="_blank"><img src="imgs/webgraphics/buttons/button_aaeri.gif" class="desaturate" alt=""></a>
-        <a href="https://sargx.net"><img src="https://sargx.net/assets/links/banners/sargx.gif" class="desaturate" alt="sargx.net"></a>
-        <a href="https://phantasmagorya.neocities.org/"><img src="https://phantasmagorya.neocities.org/button.png" class="desaturate"></a>
-        <a href="https://malune.net/"><img src="https://malune.net/assets/buttons/malune-1.gif" class="desaturate"></a>
-        <a href="https://blueazul.neocities.org/"><img src="https://blueazul.neocities.org/assets/buttons/blueazul.png" class="desaturate" alt="Blueberry Website"></a>
-        <a href="https://voxnoturna.neocities.org/" target="_blank"><img src="https://voxnoturna.neocities.org/voxnoturna%20button.gif" class="desaturate" alt="mari"></a>
-        <a href="https://hnrikaster.neocities.org/" target="_blank"><img src="https://hnrikaster.neocities.org/button_rike.gif" class="desaturate" alt="mari"></a>
-       <a href="https://melankorin.net/"><img src="https://melankorin.net/assets/img/buttons/button-1.gif" class="desaturate" alt=""></a>
-         <a href="https://magilovescats.neocities.org" target="_blank"><img src="https://magilovescats.neocities.org/button%20(4).png" class="desaturate" alt="mari"></a>
-
-    </div>
-
-                           <H3 style="">other sites i like:</H3>
-    <div class="button-wall">
-        <a href="https://crushcapitalism.neocities.org/"><img src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate"></a>
-        <a href="https://lilithdev.neocities.org/"><img src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate"></a>
-        <a href="https://miserabledolly.neocities.org/"><img src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate"></a>
-        <a href="https://grossgirl94.neocities.org" target="_blank"><img src="https://grossgirl94.neocities.org/photos/grossgirl94%20button%20transparent.gif" class="desaturate"></a>
-        <a href="https://monroevilleangel.neocities.org"><img id="blinkiemonroevilleangel" src="https://files.catbox.moe/htzd9r.png" class="desaturate"></a>
-        <a href="https://bearsjunkjournal.neocities.org/" target="_blank"><img src="https://bearsjunkjournal.neocities.org/web%20button%20v5.gif" class="desaturate"></a>
-        <a href="https://mudflower.earth/"><img id="mudflower" src="https://mudflower.earth/buttons/mudflower_200x40-patch.gif" class="desaturate"></a>
-        <a href="https://slushiecafe.neocities.org/" target="_blank"><img src="https://slushiecafe.neocities.org/images/slushiecafebutton.gif" class="desaturate"></a>
-              <a href="https://v0idspace.nekoweb.org/"><img src="https://v0idspace.nekoweb.org/stamps/v0idbutton.gif" class="desaturate"></a>
-        <a href="https://nyscyra.net/" target="_blank"><img loading="lazy" src="https://nyscyra.net/img/button.png"></a>
-<a href="https://pinkbasement.nekoweb.org/" target="_blank"><img src="https://pinkbasement.nekoweb.org/pages/img/link/buttongray.gif" alt="Pink basement" title="Pink basement"></a>
-        <a href="https://moonpr1sm.com/" target="_blank"><img src="https://moonpr1sm.com/pixelart/june25/newbuttoncorrect.png" class="desaturate"></a>
-        <a href="https://miserabledolly.neocities.org/"><img src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate"></a>
-      <a href="https://ghostk.id/"><img src="https://ghostk.id/i/88x31.gif" alt="https://ghostk.id button"></a>
-      <a href="https://maddycha.com/"><img style="image-rendering: pixelated;" src="https://maddycha.com/maddycha.gif" alt="maddycha"></a>
-      <a href="https://olliveen.neocities.org/" target="_blank"><img src="https://olliveen.neocities.org/img/button.gif" class="desaturate"></a>
-        <a href="https://doqmeat.com/" target="_blank"><img src="https://doqmeat.com/!g/web/doqmeat-2.png" class="desaturate"></a>
-        <a href="https://mcr5isreal.neocities.org/"><img src="https://mcr5isreal.neocities.org/button.png" title="MCR 5 IS REAL" class="desaturate"></a>
-        <a href="https://yogomagpie.neocities.org/about"><img src="imgs/webgraphics/buttons/YMbutton.gif" class="desaturate"></a>
-        <a href="https://hellomei.dev/"><img src="imgs/webgraphics/buttons/hellomei.gif" style="image-rendering: pixelated;" class="desaturate"></a>
-        <a href="https://petrapixel.neocities.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/petracoding/petrapixel.neocities.org@latest/public/assets/img/linkback.gif" alt="petrapixel" class="desaturate"></a>
-   
-      <a href="https://mildlypepper.net/"><img src="https://mildlypepper.net/media/buttons/pepperbutton.png"></a>
-                        <a href="https://hal.nekoweb.org/" target="_blank"><img src="https://hal.nekoweb.org/sitebutton.png" class="desaturate" alt="HAL"></a>
-
-        <a href="https://cinni.net" target="_blank"><img src="https://cinni.net/images/button/cinni-88x31-hamham.gif" class="desaturate"></a>
-        <a href="https://catboo.neocities.org/" target="_blank"><img src="https://catboo.neocities.org/images/sitebuttons/catboo.png" class="desaturate"></a>
-        <a href="https://goblincat.neocities.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://goblincat.neocities.org/images/banner.png" alt="goblincat button" class="desaturate"></a>
-        <a href="https://ridvenge.com"><img src="https://files.catbox.moe/oawzpf.gif" alt="bandaid91" class="desaturate"></a>
-        <a href="https://coffeeplant.neocities.org"><img src="https://coffeeplant.neocities.org/images/coffeeplant.png" class="desaturate"></a>
-        <a href="https://cyberstheb.neocities.org/" style=";" target="_blank"><img loading="lazy" src="https://cyberstheb.neocities.org/imgs/buttongif1.gif" style="" alt="cyberstheb button" class="desaturate"></a>
-        <a href="https://garpejio.neocities.org/" style="" target="_blank"><img loading="lazy" src="https://garpejio.neocities.org/88x31/garpejio_88x31.gif" alt="garpejio button" style="" class="desaturate"></a>
-        <a href="https://usprisoner.neocities.org/"><img src="https://usprisoner.neocities.org/momoa_button.png" class="desaturate"></a>
-        <a href="https://qtbeans.neocities.org" target="_blank"><img src="https://files.catbox.moe/2u4cq3.png" class="desaturate"></a>
-        <a href="https://ghostz.neocities.org/" target="_blank"><img src="https://ghostz.neocities.org/buttons/0.png" class="desaturate"></a>
-        <a href='https://mewardgay.neocities.org/'><img src="https://i.ibb.co/cS1H1wCL/Untitled-design-1.gif"  class="desaturate"></a>
-        <a href="https://vulpecula.neocities.org" target="_blank"><img src="https://vulpecula.neocities.org/images/vulpbutton2.gif" class="desaturate"></a>
-        <a href="https://vilevampire.neocities.org/"><img src="https://vilevampire.neocities.org/pictures/buttons/vilevampire.gif" alt="vilevampire on neocities" class="desaturate"></a>
-        <a href="https://bandaid91.neocities.org"><img src="https://files.catbox.moe/u2t9c6.gif" alt="bandaid91" class="desaturate"></a>
-        <a href="https://sugarbunny.neocities.org"><img src="https://files.catbox.moe/0vx0m6.png" class="desaturate"></a>
-        <a title="bulltown.neo" href="https://bulltown.neocities.org/"><img title="bulltown.neo" src="imgs/webgraphics/buttons/bulltown.png" alt="bulltown.neo" class="desaturate"></a>
-        <a href="https://nomnomnami.com/" target="_blank"><img src="https://nomnomnami.com/images/site_button.gif" alt="nomnomnami" class="desaturate"></a>
-        <a href="https://nanacore.neocities.org/" target="_blank"><img src="https://nanacore.neocities.org/imgs/buttons/nanacore.png" class="desaturate" alt=""></a>
-        <a href="https://altalenae.neocities.org/"><img src="https://altalenae.neocities.org/images/site/altalenae.png" style="image-rendering: pixelated;" class="desaturate"></a>
-        <a href="https://jeith.com/"><img src="https://neocities.jeith.com/jeith.gif" class="desaturate" alt="jeith"></a>
-        <a target="_blank" href="https://wasongo.art"><img loading="lazy" src="https://wasongo.art/assets/images/Button01.gif" class="desaturate" alt="Button for wasongo.art"></a>
-        <a href="https://sakuradreams.neocities.org/" target="_blank"><img src="https://sakuradreams.neocities.org/SakuraDreams01.gif" alt="sakura dreams" class="desaturate"></a>
-        <a href="https://puppygrass.neocities.org/home" target="_blank"><img src="https://file.garden/Z7mBIMQW3hJOeelT/pgbutton2.gif" class="desaturate"></a>
-        <a href="https://ianuarii.neocities.org/" target="_blank"><img src="https://ianuarii.neocities.org/ianuarii-button.png" alt="ianuarii" class="desaturate"></a>
-        <a href="https://iloush.neocities.org/" target="_blank"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/iloush-web/iloush-garden@latest/public/images/button_iloush_garden.gif" class="desaturate" style="image-rendering: pixelated;" alt="iloush garden"></a>
-        <a href='https://starboystation.neocities.org/'><img loading="lazy" src="https://starboystation.neocities.org/imgs/starboystationbutton.png" class="desaturate" alt="Starboy Station"></a>
-<a href="https://sewerwolfx.neocities.org"><img src="https://files.catbox.moe/j12s3p.gif" class="desaturate"></a> 
-        <a href="https://roboticoperatingbuddy.neocities.org/"><img loading="lazy" src="https://roboticoperatingbuddy.neocities.org/images/mybutton.png" class="desaturate" alt="robotic operating buddys site button"></a>
-  <a href="https://thematildenet.nekoweb.org/index.html"><img src="https://i.ibb.co/Q70j8Hg5/the-matildenet.png" class="desaturate" alt="the matildenet" border="0"></a>
- 
-  <a href="https://rice.place/" target="_blank"><img src="https://rice.nekoweb.org/button/riceus.gif" class="desaturate"></a>
-<a href="https://estranged.nekoweb.org"><img src="https://i.imgur.com/emTTyTK.gif" class="desaturate" alt="Estranged button"></a>  <a href="https://rfguy.nekoweb.org/">
-<img src="https://rfguy.nekoweb.org/assets/
-button.png" class="desaturate"  alt="RFGuy website button"></a>
-    
-        <a href="https://kimberlygb.neocities.org" target="_blank" class="desaturate"><img loading="lazy" src="https://kimberlygb.nekoweb.org/pics/the.png" title="Kim's Blog"></a>
-        <a href="https://howsoonisnow.org/" target="_blank"><img src="imgs/webgraphics/buttons/howsoonisnow.gif" class="desaturate" alt="how soon is now"></a>
-
-</div>
-<H3>secret section ooo</H3>
-                           <br>
-                           <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FNew_York&res=1"></script>
-                           <noscript id="LTF_live_website_visitor"><a href="http://livetrafficfeed.com"></a></noscript>
-
-     </div>
-
-<br>
-
-
-                           
-                           </div>
-                                </div>
-              
-                            </div>
                             <br>
-        
+                            <br>
                             <div class="caixamaisclaraColumn">
                                 <div class="scrollSmaller">
                                     <H3>UPDATES</H3>
@@ -1226,6 +1018,134 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
                                     <h4>- memories page</h4>
                                 </div>
                             </div>
+
+
+
+
+
+                     
+
+ <br>
+
+                            <div class="caixamaisclaraColumn">
+                                <H3>my button! feel free to link :3
+                                    <h3 style="font-size: smaller;">(also tell me at the chat box on the left if you
+                                        link me , ill link you back!!)</h3>
+                                </H3>
+                                
+                                    <img loading="lazy" src="imgs/minkurosu-button.png" style="height: 31px;" alt="minkurosu button">
+                                    <br>
+                                    <textarea>&lt;a href="https://minkurosu.site/"&gt;&lt;img src="https://minkurosu.site./imgs/minkurosu-button.png" alt="minkurosu" width="88px" height="31px"&gt;&lt;/a&gt;</textarea>
+                               
+                                <br>
+
+                           <div class="scrollMedium">
+
+                           <H3 class="desaturate">🇧🇷 vizinhos</H3>
+    <div class="button-wall">
+        <a href="https://edhmr.neocities.org" target="_blank"><img src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://morangocorner.neocities.org/"><img src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://miqito.com.br/" target="_blank"><img src="https://miqito.com.br/images/icons/buttons/miqitolink.gif" class="desaturate" alt="miqito.com.br" loading="lazy"></a>
+        <a href="https://sherwind.neocities.org/" target="_blank" class="desaturate"><img src="https://sherwind.neocities.org/button.gif" alt="sherwind" loading="lazy"></a>
+        <a href="https://blissprism.nekoweb.org/"><img src="https://blissprism.nekoweb.org/images/buttons/blissprism_button.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://sunshine.nekoweb.org/" target="_blank" title="Sol's Sunflower Field"><img src="https://sunshine.nekoweb.org/assets/sitebutton.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://aubreyonline.neocities.org/" target="_blank"><img src="https://aubreyonline.neocities.org/assets/buttons/aubrey_button.gif" class="desaturate" alt="" loading="lazy"></a>
+        <a href="https://dudalog.neocities.org/links/" target="_blank"><img src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate" alt="" loading="lazy"></a>
+        <a href='https://disinformation.neocities.org'><img  src='https://disinformation.neocities.org/images/button.gif' class="desaturate" loading="lazy"></a>
+<a href="https://mozartsempiano.com" target="_blank"><img src="https://mozartsempiano.com/assets/img/mozartsempiano-btn-1.gif" class="desaturate" loading="lazy"></a>        <a href="https://aaeri.neocities.org/" target="_blank"><img src="imgs/webgraphics/buttons/button_aaeri.gif" class="desaturate" alt="" loading="lazy"></a>
+        <a href="https://sargx.net"><img src="https://sargx.net/assets/links/banners/sargx.gif" class="desaturate" alt="sargx.net" loading="lazy"></a>
+        <a href="https://phantasmagorya.neocities.org/"><img src="https://phantasmagorya.neocities.org/button.png" class="desaturate" loading="lazy"></a>
+        <a href="https://malune.net/"><img src="imgs/webgraphics/buttons/malune-1.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://blueazul.neocities.org/"><img src="https://blueazul.neocities.org/assets/buttons/blueazul.png" class="desaturate" alt="Blueberry Website" loading="lazy"></a>
+        <a href="https://voxnoturna.neocities.org/" target="_blank"><img src="https://voxnoturna.neocities.org/voxnoturna%20button.gif" class="desaturate" alt="mari" loading="lazy"></a>
+        <a href="https://hnrikaster.neocities.org/" target="_blank"><img src="https://hnrikaster.neocities.org/button_rike.gif" class="desaturate" alt="mari" loading="lazy"></a>
+       <a href="https://melankorin.net/"><img src="https://melankorin.net/assets/img/buttons/button-1.gif" class="desaturate" alt="" loading="lazy"></a>
+         <a href="https://magilovescats.neocities.org" target="_blank"><img src="https://magilovescats.neocities.org/button%20(4).png" class="desaturate" alt="mari" loading="lazy"></a>
+<a href="https://nanacore.net/"><img src="host image on your own site!" style="image-rendering: pixelated;"></a>
+    </div>
+
+                           <H3 style="">other sites i like:</H3>
+    <div class="button-wall">
+        <a href="https://crushcapitalism.neocities.org/"><img src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate" loading="lazy"></a>
+        <a href="https://lilithdev.neocities.org/"><img src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://miserabledolly.neocities.org/"><img src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://grossgirl94.neocities.org" target="_blank"><img src="https://grossgirl94.neocities.org/photos/grossgirl94%20button%20transparent.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://monroevilleangel.neocities.org"><img id="blinkiemonroevilleangel" src="https://files.catbox.moe/htzd9r.png" class="desaturate" loading="lazy"></a>
+        <a href="https://bearsjunkjournal.neocities.org/" target="_blank"><img src="https://bearsjunkjournal.neocities.org/web%20button%20v5.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://mudflower.earth/"><img id="mudflower" src="https://mudflower.earth/buttons/mudflower_200x40-patch.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://slushiecafe.neocities.org/" target="_blank"><img src="https://slushiecafe.neocities.org/images/slushiecafebutton.gif" class="desaturate" loading="lazy"></a>
+              <a href="https://v0idspace.nekoweb.org/"><img src="https://v0idspace.nekoweb.org/stamps/v0idbutton.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://nyscyra.net/" target="_blank"><img loading="lazy" src="https://nyscyra.net/img/button.png"></a>
+<a href="https://pinkbasement.nekoweb.org/" target="_blank"><img src="https://pinkbasement.nekoweb.org/pages/img/link/buttongray.gif" alt="Pink basement" title="Pink basement" loading="lazy"></a>
+        <a href="https://moonpr1sm.com/" target="_blank"><img src="https://moonpr1sm.com/pixelart/june25/newbuttoncorrect.png" class="desaturate" loading="lazy"></a>
+        <a href="https://miserabledolly.neocities.org/"><img src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate" loading="lazy"></a>
+      <a href="https://ghostk.id/"><img src="https://ghostk.id/i/88x31.gif" alt="https://ghostk.id button" loading="lazy"></a>
+      <a href="https://maddycha.com/"><img style="image-rendering: pixelated;" src="https://maddycha.com/maddycha.gif" alt="maddycha" loading="lazy"></a>
+      <a href="https://olliveen.neocities.org/" target="_blank"><img src="https://olliveen.neocities.org/img/button.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://doqmeat.com/" target="_blank"><img src="https://doqmeat.com/!g/web/doqmeat-2.png" class="desaturate" loading="lazy"></a>
+        <a href="https://mcr5isreal.neocities.org/"><img src="https://mcr5isreal.neocities.org/button.png" title="MCR 5 IS REAL" class="desaturate" loading="lazy"></a>
+        <a href="https://yogomagpie.neocities.org/about"><img src="imgs/webgraphics/buttons/YMbutton.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://hellomei.dev/"><img src="imgs/webgraphics/buttons/hellomei.gif" style="image-rendering: pixelated;" class="desaturate" loading="lazy"></a>
+        <a href="https://petrapixel.neocities.org/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/petracoding/petrapixel.neocities.org@latest/public/assets/img/linkback.gif" alt="petrapixel" class="desaturate" loading="lazy"></a>
+   
+      <a href="https://mildlypepper.net/"><img src="https://mildlypepper.net/media/buttons/pepperbutton.png" loading="lazy"></a>
+                        <a href="https://hal.nekoweb.org/" target="_blank"><img src="https://hal.nekoweb.org/sitebutton.png" class="desaturate" alt="HAL" loading="lazy"></a>
+
+        <a href="https://cinni.net" target="_blank"><img src="https://cinni.net/images/button/cinni-88x31-hamham.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://catboo.neocities.org/" target="_blank"><img src="https://catboo.neocities.org/images/sitebuttons/catboo.png" class="desaturate" loading="lazy"></a>
+        <a href="https://goblincat.neocities.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://goblincat.neocities.org/images/banner.png" alt="goblincat button" class="desaturate"></a>
+        <a href="https://ridvenge.com"><img src="https://files.catbox.moe/oawzpf.gif" alt="bandaid91" class="desaturate" loading="lazy"></a>
+        <a href="https://coffeeplant.neocities.org"><img src="https://coffeeplant.neocities.org/images/coffeeplant.png" class="desaturate" loading="lazy"></a>
+        <a href="https://cyberstheb.neocities.org/" style=";" target="_blank"><img loading="lazy" src="https://cyberstheb.neocities.org/imgs/buttongif1.gif" style="" alt="cyberstheb button" class="desaturate"></a>
+        <a href="https://garpejio.neocities.org/" style="" target="_blank"><img loading="lazy" src="https://garpejio.neocities.org/88x31/garpejio_88x31.gif" alt="garpejio button" style="" class="desaturate"></a>
+        <a href="https://usprisoner.neocities.org/"><img src="https://usprisoner.neocities.org/momoa_button.png" class="desaturate" loading="lazy"></a>
+        <a href="https://qtbeans.neocities.org" target="_blank"><img src="https://files.catbox.moe/2u4cq3.png" class="desaturate" loading="lazy"></a>
+        <a href="https://ghostz.neocities.org/" target="_blank"><img src="https://ghostz.neocities.org/buttons/0.png" class="desaturate" loading="lazy"></a>
+        <a href='https://mewardgay.neocities.org/'><img src="https://i.ibb.co/cS1H1wCL/Untitled-design-1.gif"  class="desaturate" loading="lazy"></a>
+        <a href="https://vulpecula.neocities.org" target="_blank"><img src="https://vulpecula.neocities.org/images/vulpbutton2.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://vilevampire.neocities.org/"><img src="https://vilevampire.neocities.org/pictures/buttons/vilevampire.gif" alt="vilevampire on neocities" class="desaturate" loading="lazy"></a>
+        <a href="https://bandaid91.neocities.org"><img src="https://files.catbox.moe/u2t9c6.gif" alt="bandaid91" class="desaturate" loading="lazy"></a>
+        <a href="https://sugarbunny.neocities.org"><img src="https://files.catbox.moe/0vx0m6.png" class="desaturate" loading="lazy"></a>
+        <a title="bulltown.neo" href="https://bulltown.neocities.org/"><img title="bulltown.neo" src="imgs/webgraphics/buttons/bulltown.png" alt="bulltown.neo" class="desaturate" loading="lazy"></a>
+        <a href="https://nomnomnami.com/" target="_blank"><img src="https://nomnomnami.com/images/site_button.gif" alt="nomnomnami" class="desaturate" loading="lazy"></a>
+        <a href="https://altalenae.neocities.org/"><img src="https://altalenae.neocities.org/images/site/altalenae.png" style="image-rendering: pixelated;" class="desaturate" loading="lazy"></a>
+        <a href="https://jeith.com/"><img src="https://neocities.jeith.com/jeith.gif" class="desaturate" alt="jeith" loading="lazy"></a>
+        <a target="_blank" href="https://wasongo.art"><img loading="lazy" src="https://wasongo.art/assets/images/Button01.gif" class="desaturate" alt="Button for wasongo.art"></a>
+        <a href="https://sakuradreams.neocities.org/" target="_blank"><img src="https://sakuradreams.neocities.org/SakuraDreams01.gif" alt="sakura dreams" class="desaturate" loading="lazy"></a>
+        <a href="https://puppygrass.neocities.org/home" target="_blank"><img src="https://file.garden/Z7mBIMQW3hJOeelT/pgbutton2.gif" class="desaturate" loading="lazy"></a>
+        <a href="https://ianuarii.neocities.org/" target="_blank"><img src="https://ianuarii.neocities.org/ianuarii-button.png" alt="ianuarii" class="desaturate" loading="lazy"></a>
+        <a href="https://iloush.neocities.org/" target="_blank"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/iloush-web/iloush-garden@latest/public/images/button_iloush_garden.gif" class="desaturate" style="image-rendering: pixelated;" alt="iloush garden"></a>
+        <a href='https://starboystation.neocities.org/'><img loading="lazy" src="https://starboystation.neocities.org/imgs/starboystationbutton.png" class="desaturate" alt="Starboy Station"></a>
+<a href="https://sewerwolfx.neocities.org"><img src="https://files.catbox.moe/j12s3p.gif" class="desaturate" loading="lazy"></a> 
+        <a href="https://roboticoperatingbuddy.neocities.org/"><img loading="lazy" src="https://roboticoperatingbuddy.neocities.org/images/mybutton.png" class="desaturate" alt="robotic operating buddys site button"></a>
+  <a href="https://thematildenet.nekoweb.org/index.html"><img src="https://i.ibb.co/Q70j8Hg5/the-matildenet.png" class="desaturate" alt="the matildenet" border="0" loading="lazy"></a>
+ 
+  <a href="https://rice.place/" target="_blank"><img src="https://rice.nekoweb.org/button/riceus.gif" class="desaturate" loading="lazy"></a>
+<a href="https://estranged.nekoweb.org"><img src="https://i.imgur.com/emTTyTK.gif" class="desaturate" alt="Estranged button" loading="lazy"></a>  <a href="https://rfguy.nekoweb.org/">
+<img src="https://rfguy.nekoweb.org/assets/
+button.png" class="desaturate"  alt="RFGuy website button" loading="lazy"></a>
+    
+        <a href="https://kimberlygb.neocities.org" target="_blank" class="desaturate"><img loading="lazy" src="https://kimberlygb.nekoweb.org/pics/the.png" title="Kim's Blog"></a>
+        <a href="https://howsoonisnow.org/" target="_blank"><img src="imgs/webgraphics/buttons/howsoonisnow.gif" class="desaturate" alt="how soon is now" loading="lazy"></a>
+
+</div>
+<H3>secret section ooo</H3>
+                           <br>
+                           <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FNew_York&res=1"></script>
+                           <noscript id="LTF_live_website_visitor"><a href="http://livetrafficfeed.com"></a></noscript>
+
+     </div>
+
+<br>
+
+
+                           
+                           </div>
+                                </div>
+              
+                            </div>
+                            <br>
+
                         </div>
               
                     </div>
@@ -1256,7 +1176,6 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
     </aside>
 
     </div>
-    <script src="theme-switcher.js"></script>
     <script type="module" src="dream-journal.js"></script>
 
     <script>
