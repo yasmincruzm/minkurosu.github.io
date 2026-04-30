@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>viz</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+  }
+  #hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.25em;
+    text-align: center;
+    line-height: 2;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+  }
+  #hint.hidden { opacity: 0; }
+</style>
+</head>
+<body>
+<canvas id="viz-canvas"></canvas>
+<div id="hint">click anywhere to start<br>(epilepsy warning)</div>
+
+<script src="butterchurn_min.js"></script>
+<script src="butterchurn-presets_min.js"></script>
+<script>
+(function () {
+  const canvas = document.getElementById('viz-canvas');
+  const hint = document.getElementById('hint');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => {
+    resize();
+    if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
+  });
+
+  let audioCtx, analyser, visualizer;
+  let started = false;
+
+  function makeNoise(ctx, dest) {
+    const buf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.015;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const f = ctx.createBiquadFilter();
+    f.type = 'bandpass';
+    f.frequency.value = 200;
+    f.Q.value = 0.5;
+    src.connect(f);
+    f.connect(dest);
+    src.start();
+  }
+
+  async function startViz() {
+    if (started) return;
+    started = true;
+    hint.classList.add('hidden');
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.8;
+
+      const gain = audioCtx.createGain();
+      makeNoise(audioCtx, gain);
+      gain.connect(analyser);
+
+      const bc = butterchurn.default || butterchurn;
+      visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
+
+      const presets = butterchurnPresets.getPresets ? butterchurnPresets.getPresets() : butterchurnPresets;
+      const keys = Object.keys(presets);
+      let idx = Math.floor(Math.random() * keys.length);
+
+      visualizer.loadPreset(presets[keys[idx]], 0.0);
+      visualizer.connectAudio(analyser);
+
+      setInterval(() => {
+        idx = (idx + 1) % keys.length;
+        visualizer.loadPreset(presets[keys[idx]], 2.7);
+      }, 15000);
+
+      (function render() {
+        visualizer.render();
+        requestAnimationFrame(render);
+      })();
+
+    } catch(e) {
+      started = false;
+      hint.classList.remove('hidden');
+    }
+  }
+
+  startViz();
+  document.addEventListener('click', startViz, { once: true });
+})();
+</script>
+</body>
+</html>
