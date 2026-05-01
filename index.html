@@ -974,11 +974,8 @@ div#goog-gt- {
 
 
 
-<div id="viz-wrap" style="position:relative;width:min(100%,500px);height:min(100vw,300px);cursor:pointer;" onclick="window.open('visualizer.html','_blank')">
+<div id="viz-wrap" style="position:relative;width:100%;aspect-ratio:1/1;cursor:pointer;" onclick="window.open('visualizer.html','_blank')">
   <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
-  <div id="viz-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-    <span style="font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.2em;font-family:monospace;">click me for trippy stuff <br>(epilepsy warning)</span>
-  </div>
 </div>
 
 
@@ -994,36 +991,30 @@ div#goog-gt- {
 <script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
 <script>
 (function() {
-  var wrap    = document.getElementById('viz-wrap');
-  var canvas  = document.getElementById('viz-canvas');
-  var overlay = document.getElementById('viz-overlay');
-  var started = false;
+  var wrap   = document.getElementById('viz-wrap');
+  var canvas = document.getElementById('viz-canvas');
 
   function resizeCanvas() {
-    var rect = canvas.getBoundingClientRect();
-    var size = Math.round(rect.width) || 480;
+    var rect = wrap.getBoundingClientRect();
+    var size = Math.round(rect.width) || 250;
     canvas.width  = size;
     canvas.height = size;
     return size;
   }
 
-  function startViz() {
-    if (started) return;
-    started = true;
-    wrap.style.cursor = 'default';
-
-    overlay.style.transition = 'opacity 0.4s';
-    overlay.style.opacity = '0';
-    setTimeout(function() { overlay.style.display = 'none'; }, 400);
+  function init() {
+    if (!window.butterchurn || !window.butterchurnPresets) {
+      return setTimeout(init, 100);
+    }
 
     var size = resizeCanvas();
-
-    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    audioCtx.resume();
+    var AudioCtx = window.AudioContext || window.webkitAudioContext;
+    var audioCtx = new AudioCtx();
 
     var analyser = audioCtx.createAnalyser();
     analyser.fftSize = 2048;
 
+    /* ruído sintético — sem microfone */
     var bufSize = 4096;
     var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
     noise.onaudioprocess = function(e) {
@@ -1033,14 +1024,14 @@ div#goog-gt- {
     noise.connect(analyser);
 
     var bc = window.butterchurn;
-    if (bc && !bc.createVisualizer) bc = bc.default;
+    if (!bc.createVisualizer) bc = bc.default;
     var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
 
     var bcp = window.butterchurnPresets;
-    if (bcp && !bcp.getPresets) bcp = bcp.default;
+    if (!bcp.getPresets) bcp = bcp.default;
     var presets = bcp.getPresets();
-    var keys = Object.keys(presets);
-    var idx = Math.floor(Math.random() * keys.length);
+    var keys    = Object.keys(presets);
+    var idx     = Math.floor(Math.random() * keys.length);
     visualizer.loadPreset(presets[keys[idx]], 0.0);
     visualizer.connectAudio(analyser);
 
@@ -1054,31 +1045,21 @@ div#goog-gt- {
       visualizer.setRendererSize(s, s);
     });
 
+    /* inicia render imediatamente — WebGL funciona mesmo com ctx suspenso */
     (function render() {
       visualizer.render();
       requestAnimationFrame(render);
     })();
+
+    /* tenta resume() agora; se bloqueado, tenta na primeira interação */
+    audioCtx.resume().catch(function() {});
+    function tryResume() { if (audioCtx.state === 'suspended') audioCtx.resume(); }
+    ['click','touchstart','keydown','scroll','mousemove'].forEach(function(ev) {
+      document.addEventListener(ev, tryResume, { once: true, passive: true });
+    });
   }
 
-function tryStart() {
-    if (!window.butterchurn || !window.butterchurnPresets) {
-      return setTimeout(tryStart, 100);
-    }
-    var testCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (testCtx.state === 'running') {
-      testCtx.close();
-      startViz();
-    } else {
-      testCtx.close();
-      ['mousemove','scroll','touchstart','click','keydown'].forEach(function(e) {
-        document.addEventListener(e, function h() {
-          document.removeEventListener(e, h);
-          startViz();
-        }, { once: true });
-      });
-    }
-  }
-  tryStart();
+  init();
 })();
 </script>
 
