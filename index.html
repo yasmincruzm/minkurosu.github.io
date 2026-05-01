@@ -971,142 +971,138 @@ div#goog-gt- {
 
 
 
-<div id="viz-wrap" style="position:relative;width:100%;aspect-ratio:1/1;cursor:pointer;" onclick="window.open('visualizer.html','_blank')">
-  <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
+<div  class="desaturate" id="butterchurn-container" style="position: relative; width: 100%; height: 480px; background: #000; border-radius: 12px; overflow: hidden; cursor: pointer;">
+  <canvas id="viz-canvas"></canvas>
+  <div id="fade-overlay" style="position: absolute; inset: 0; background: #000; opacity: 1; transition: opacity 1.5s ease; pointer-events: none;"></div>
 </div>
+
+<script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+<script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
+<script>
+(function () {
+  const canvas = document.getElementById('viz-canvas');
+  const overlay = document.getElementById('fade-overlay');
+  const container = document.getElementById('butterchurn-container');
+  let visualizer;
+
+  // Redireciona ao clicar
+  container.addEventListener('click', () => {
+    window.location.href = 'visualizer.html';
+  });
+
+  function resize() {
+    const w = container.clientWidth, h = container.clientHeight;
+    canvas.width = w; canvas.height = h;
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+  }
+  resize();
+  window.addEventListener('resize', () => {
+    resize();
+    if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
+  });
+
+  function startViz() {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+
+      const analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.85;
+
+      const scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
+      scriptNode.onaudioprocess = function(e) {
+        const out = e.outputBuffer.getChannelData(0);
+        for (let i = 0; i < out.length; i++) {
+          const t = (audioCtx.currentTime * 44100 + i) / 44100;
+          out[i] =
+            Math.sin(2 * Math.PI * 60 * t) * 0.3 +
+            Math.sin(2 * Math.PI * 120 * t) * 0.15 +
+            Math.sin(2 * Math.PI * 240 * t) * 0.1 +
+            Math.sin(2 * Math.PI * 480 * t + Math.sin(t * 0.5) * 2) * 0.08 +
+            Math.sin(2 * Math.PI * 1200 * t) * 0.04 +
+            (Math.random() * 2 - 1) * 0.02;
+        }
+      };
+
+      scriptNode.connect(analyser);
+
+      const bc = window.butterchurn.default || window.butterchurn;
+      visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
+      const presets = window.butterchurnPresets.getPresets
+        ? window.butterchurnPresets.getPresets()
+        : window.butterchurnPresets;
+      const keys = Object.keys(presets);
+      let idx = Math.floor(Math.random() * keys.length);
+      visualizer.loadPreset(presets[keys[idx]], 0.0);
+      visualizer.connectAudio(analyser);
+      setInterval(() => {
+        idx = (idx + 1) % keys.length;
+        visualizer.loadPreset(presets[keys[idx]], 2.7);
+      }, 15000);
+      (function render() { visualizer.render(); requestAnimationFrame(render); })();
+
+      setTimeout(() => { overlay.style.opacity = '0'; }, 5000);
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  startViz();
+})();
+</script>
+
+
 <hr>
 <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
   <div class="scrollSmaller" style="padding: 4px 6px;">
     <h3 style="margin: 2px 0 3px;">statuscafe</h3>
     <hr style="margin: 2px 0 4px;">
-    <div id="statuscafe-history" style="line-height:1.2;"></div>
+    <div id="status-feed"><h4>carregando...</h4></div>
   </div>
 </div>
 
 <script>
 (function() {
-  var atomUrl  = 'https://status.cafe/users/minkurosu.atom';
-  var proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(atomUrl);
-  var container = document.getElementById('statuscafe-history');
+  const USERNAME = 'minkurosu';
+  const FEED_URL = `https://status.cafe/users/${USERNAME}.atom`;
+  const PROXY = `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`;
 
-  fetch(proxyUrl)
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var xml      = new DOMParser().parseFromString(data.contents, 'text/xml');
-      var entries  = xml.querySelectorAll('entry');
+  fetch(PROXY)
+    .then(r => r.text())
+    .then(str => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(str, 'text/xml');
+      const entries = [...xml.querySelectorAll('entry')];
 
       if (!entries.length) {
-        container.innerHTML = '<h4 style="margin:2px 0;">error</h4>';
+        document.getElementById('status-feed').innerHTML = '<h4>nenhum status encontrado</h4>';
         return;
       }
 
-      var html = '';
-      entries.forEach(function(e) {
-        var title = (e.querySelector('title') || {}).textContent || '';
-        var updated = (e.querySelector('updated') || {}).textContent || '';
-        var d = updated ? new Date(updated) : null;
-        var pad = function(n) { return n < 10 ? '0'+n : n; };
-        var dateStr = d
-          ? pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear()
-          : '';
-        html += '<h4 style="margin:1px 0; font-size:0.85em;">'
-             + (dateStr ? dateStr + ' — ' : '')
-             + title
-             + '</h4>';
-      });
-      container.innerHTML = html;
+      const html = entries.map(entry => {
+        const content = entry.querySelector('content')?.textContent || '';
+        const date = new Date(entry.querySelector('updated')?.textContent);
+        const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+        return `<h4>${timeStr} - ${content}</h4>`;
+      }).join('');
+
+      document.getElementById('status-feed').innerHTML = html;
     })
-    .catch(function() {
-      container.innerHTML = '<h4 style="margin:2px 0;">erro ao carregar :(</h4>';
+    .catch(() => {
+      document.getElementById('status-feed').innerHTML = '<h4>erro ao carregar</h4>';
     });
 })();
 </script>
 
-<hr>
+
 
 
 
 
 </div>
-
+<hr>
 <img style="height: 265px;"" src="imgs/art portfolio/pixelicon.jpeg">
 
-
-<script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
-<script>
-(function() {
-  var wrap   = document.getElementById('viz-wrap');
-  var canvas = document.getElementById('viz-canvas');
-
-  function resizeCanvas() {
-    var rect = wrap.getBoundingClientRect();
-    var size = Math.round(rect.width) || 250;
-    canvas.width  = size;
-    canvas.height = size;
-    return size;
-  }
-
-  function init() {
-    if (!window.butterchurn || !window.butterchurnPresets) {
-      return setTimeout(init, 100);
-    }
-
-    var size = resizeCanvas();
-    var AudioCtx = window.AudioContext || window.webkitAudioContext;
-    var audioCtx = new AudioCtx();
-
-    var analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-
-    /* ruído sintético — sem microfone */
-    var bufSize = 4096;
-    var noise = audioCtx.createScriptProcessor(bufSize, 0, 1);
-    noise.onaudioprocess = function(e) {
-      var out = e.outputBuffer.getChannelData(0);
-      for (var i = 0; i < bufSize; i++) out[i] = (Math.random() * 2 - 1) * 0.15;
-    };
-    noise.connect(analyser);
-
-    var bc = window.butterchurn;
-    if (!bc.createVisualizer) bc = bc.default;
-    var visualizer = bc.createVisualizer(audioCtx, canvas, { width: size, height: size });
-
-    var bcp = window.butterchurnPresets;
-    if (!bcp.getPresets) bcp = bcp.default;
-    var presets = bcp.getPresets();
-    var keys    = Object.keys(presets);
-    var idx     = Math.floor(Math.random() * keys.length);
-    visualizer.loadPreset(presets[keys[idx]], 0.0);
-    visualizer.connectAudio(analyser);
-
-    setInterval(function() {
-      idx = (idx + 1) % keys.length;
-      visualizer.loadPreset(presets[keys[idx]], 2.7);
-    }, 15000);
-
-    window.addEventListener('resize', function() {
-      var s = resizeCanvas();
-      visualizer.setRendererSize(s, s);
-    });
-
-    /* inicia render imediatamente — WebGL funciona mesmo com ctx suspenso */
-    (function render() {
-      visualizer.render();
-      requestAnimationFrame(render);
-    })();
-
-    /* tenta resume() agora; se bloqueado, tenta na primeira interação */
-    audioCtx.resume().catch(function() {});
-    function tryResume() { if (audioCtx.state === 'suspended') audioCtx.resume(); }
-    ['click','touchstart','keydown','scroll','mousemove'].forEach(function(ev) {
-      document.addEventListener(ev, tryResume, { once: true, passive: true });
-    });
-  }
-
-  init();
-})();
-</script>
 
                      
 <hr>
