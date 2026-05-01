@@ -969,23 +969,68 @@ div#goog-gt- {
 
 <hr>
 
-<img style="height: 265px;"" src="imgs/art portfolio/pixelicon.jpeg">
-<hr>
-
 
 
 <div id="viz-wrap" style="position:relative;width:100%;aspect-ratio:1/1;cursor:pointer;" onclick="window.open('visualizer.html','_blank')">
   <canvas id="viz-canvas" class="desaturate" style="width:100%;height:100%;background:#000;display:block;"></canvas>
 </div>
+<hr>
+<div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
+  <div class="scrollSmaller" style="padding: 4px 6px;">
+    <h3 style="margin: 2px 0 3px;">statuscafe</h3>
+    <hr style="margin: 2px 0 4px;">
+    <div id="statuscafe-history" style="line-height:1.2;"></div>
+  </div>
+</div>
 
+<script>
+(function() {
+  var atomUrl  = 'https://status.cafe/users/minkurosu.atom';
+  var proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(atomUrl);
+  var container = document.getElementById('statuscafe-history');
 
+  fetch(proxyUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var xml      = new DOMParser().parseFromString(data.contents, 'text/xml');
+      var entries  = xml.querySelectorAll('entry');
 
+      if (!entries.length) {
+        container.innerHTML = '<h4 style="margin:2px 0;">nenhum status.</h4>';
+        return;
+      }
 
+      var html = '';
+      entries.forEach(function(e) {
+        var title = (e.querySelector('title') || {}).textContent || '';
+        var updated = (e.querySelector('updated') || {}).textContent || '';
+        var d = updated ? new Date(updated) : null;
+        var pad = function(n) { return n < 10 ? '0'+n : n; };
+        var dateStr = d
+          ? pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear()
+          : '';
+        html += '<h4 style="margin:1px 0; font-size:0.85em;">'
+             + (dateStr ? dateStr + ' — ' : '')
+             + title
+             + '</h4>';
+      });
+      container.innerHTML = html;
+    })
+    .catch(function() {
+      container.innerHTML = '<h4 style="margin:2px 0;">erro ao carregar :(</h4>';
+    });
+})();
+</script>
+
+<hr>
 
 
 
 
 </div>
+
+<img style="height: 265px;"" src="imgs/art portfolio/pixelicon.jpeg">
+
 
 <script src="https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
