@@ -169,8 +169,6 @@ select {
 
 html,
 body {
-
-  scrollbar-width: thin;
   margin: 0;
   padding: 0;
   background-attachment: fixed;
@@ -211,21 +209,41 @@ html {
 }
 
 
-.scroller {
-  --scroller-color: 0, 0%;
-  --scroller-color-lightness: 80%;
-  --scroller-hover-factor: 0.8;
-  --scroller-thumb: hsl(var(--scroller-color), var(--scroller-color-lightness));
-  /* Replicate hover for webkit */
-  --scroller-thumb-hover: hsl(var(--scroller-color),
-      calc(var(--scroller-color-lightness) * var(--scroller-hover-factor)));
-  --scroller-background: transparent;
-  scrollbar-color: var(--scroller-thumb) var(--scroller-background);
+/* ── scrollbar global (html/body) ── */
+html, body {
   scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 99px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ── scrollbar para elementos com .scroller ── */
+.scroller {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
 }
 
 .scroller::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 .scroller::-webkit-scrollbar-track {
@@ -233,11 +251,12 @@ html {
 }
 
 .scroller::-webkit-scrollbar-thumb {
-  background: var(--scroller-thumb);
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 99px;
 }
 
 .scroller::-webkit-scrollbar-thumb:hover {
-  background: var(--scroller-thumb-hover);
+  background: rgba(0, 0, 0, 0.7);
 }
 
 
@@ -266,6 +285,7 @@ header {
   background-color: #0a0a0a;
   background-attachment: fixed;
   margin-bottom: 0;
+  border-radius: 0 0 1.25rem 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -447,7 +467,7 @@ header {
 
 
 #containerprincipal {
-  border-radius: 2px !important;
+  border-radius: 3px;
   text-align: center;
   margin: 0 auto;
   width: 100%;
@@ -459,7 +479,7 @@ header {
 #container {
   background-color: #0a0a0a;
   padding: 1.25rem;
-  border-radius: 2px !important;
+  border-radius: 3px;
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   text-align: center;
   margin: 0 auto;
@@ -962,15 +982,17 @@ h5 {
   !important overflow-y: scroll overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
 }
 
 .scrollSmaller {
-
+  padding: 2px 2px; 
   height: 200px;
   overflow: auto;
   overflow-y: scroll overflow: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+
 }
 
 
@@ -2352,33 +2374,4 @@ header,
 
 .ds-tooltip:hover::after {
   opacity: 1;
-}
-
-/* === DS OVERLAY BORDER === */
-header,
-#container,
-#containerprincipal,
-.caixamaisclara,
-.caixamaisclaraColumn,
-.caixamaisclaraColumnSimple,
-.caixamaisclaraCenterSimple,
-.caixamaisclaraRowSimple,
-.caixamaisclaraCenter,
-.caixamaisclaraInterests,
-.sidebar .box,
-.conjuntoblocos,
-.navbar a,
-.side-item a,
-.skin-item,
-.scrollSmaller,
-.scrollMedium,
-.caixalogo,
-.about-me-container,
-.table-container,
-.caixa-iframe-onlnbrd,
-.caixa-iframe-minkurosu {
-  border: 2px solid #4a0000 !important;
-  outline: 2px solid #c8c8c8;
-  outline-offset: 0px;
-  border-radius: 2px !important;
 }
