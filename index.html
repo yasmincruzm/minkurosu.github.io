@@ -1065,35 +1065,36 @@ div#goog-gt- {
 (function() {
   const USERNAME = 'minkurosu';
   const FEED_URL = `https://status.cafe/users/${USERNAME}.atom`;
-  const PROXY = `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`;
+  const PROXIES = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(FEED_URL)}`,
+    `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(FEED_URL)}`
+  ];
 
-  fetch(PROXY)
-    .then(r => r.text())
-    .then(str => {
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(str, 'text/xml');
-      const entries = [...xml.querySelectorAll('entry')];
-
-      if (!entries.length) {
-        document.getElementById('status-feed').innerHTML = '<h4>nenhum status encontrado</h4>';
-        return;
-      }
-
-      const html = entries.map(entry => {
-        const content = entry.querySelector('content')?.textContent || '';
-        const date = new Date(entry.querySelector('updated')?.textContent);
-        const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-        return `<h4>${timeStr} - ${content}</h4>`;
-      }).join('');
-
-      document.getElementById('status-feed').innerHTML = html;
-    })
-    .catch(() => {
+  function tryProxy(index) {
+    if (index >= PROXIES.length) {
       document.getElementById('status-feed').innerHTML = '<h4>erro ao carregar</h4>';
-    });
+      return;
+    }
+    fetch(PROXIES[index])
+      .then(r => r.text())
+      .then(str => {
+        const xml = new DOMParser().parseFromString(str, 'text/xml');
+        const entries = [...xml.querySelectorAll('entry')];
+        if (!entries.length) { tryProxy(index + 1); return; }
+        document.getElementById('status-feed').innerHTML = entries.map(entry => {
+          const content = entry.querySelector('content')?.textContent || '';
+          const date = new Date(entry.querySelector('updated')?.textContent);
+          const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+          return `<h4>${timeStr} - ${content}</h4>`;
+        }).join('');
+      })
+      .catch(() => tryProxy(index + 1));
+  }
+
+  tryProxy(0);
 })();
 </script>
-
 
 
 
