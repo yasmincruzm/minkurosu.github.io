@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function fixViewport() {
     let vp = document.querySelector('meta[name="viewport"]');
     if (vp) {
-      vp.setAttribute('content', 'width=1200px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
+      vp.setAttribute('content', 'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
     }
   }
 
