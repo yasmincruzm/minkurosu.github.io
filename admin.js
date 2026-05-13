@@ -13,9 +13,9 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const app     = initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
 const storage = getStorage(app);
 
 function msg(el, text, type) {
@@ -27,18 +27,26 @@ function msg(el, text, type) {
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── auth ──────────────────────────────────
-    const loginForm       = document.getElementById('login-form');
-    const loginEmail      = document.getElementById('login-email');
-    const loginPassword   = document.getElementById('login-password');
-    const loginMessage    = document.getElementById('login-message');
-    const adminPanel      = document.getElementById('admin-panel-section');
-    const logoutBtn       = document.getElementById('logout-btn');
+    const loginForm     = document.getElementById('login-form');
+    const loginEmail    = document.getElementById('login-email');
+    const loginPassword = document.getElementById('login-password');
+    const loginMessage  = document.getElementById('login-message');
+    const adminPanel    = document.getElementById('admin-panel-section');
+    const logoutBtn     = document.getElementById('logout-btn');
 
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
         if (user) {
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
+
+            // carrega o live traffic feed só após o painel estar visível
+            if (!document.getElementById('ltf-script')) {
+                const s = document.createElement('script');
+                s.id  = 'ltf-script';
+                s.src = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FNew_York&res=1';
+                document.getElementById('ltf-container').appendChild(s);
+            }
         } else {
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
@@ -69,11 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //   - paste any text + links directly into the textarea
     //   - optionally attach/url an image — it gets appended to content automatically
     //   - the loader detects all urls and renders them as embeds
-    const postContent  = document.getElementById('post-content');
-    const postImageUrl = document.getElementById('post-image-url');
+    const postContent   = document.getElementById('post-content');
+    const postImageUrl  = document.getElementById('post-image-url');
     const postImageFile = document.getElementById('post-image-file');
-    const publishBtn   = document.getElementById('publish-post-btn');
-    const postMsg      = document.getElementById('post-message');
+    const publishBtn    = document.getElementById('publish-post-btn');
+    const postMsg       = document.getElementById('post-message');
 
     publishBtn?.addEventListener('click', async () => {
         let content = (postContent?.value || '').trim();
@@ -88,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             msg(postMsg, 'publishing...', 'info');
 
-         
             if (file) {
                 msg(postMsg, 'uploading image...', 'info');
                 const storageRef = ref(storage, `blog_images/${Date.now()}_${file.name}`);
@@ -97,14 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 content = content ? `${content}\n${fileUrl}` : fileUrl;
             }
 
-            
             if (enteredUrl) {
                 content = content ? `${content}\n${enteredUrl}` : enteredUrl;
             }
 
             await addDoc(collection(db, 'posts'), {
                 content,
-                imageUrl: '', 
+                imageUrl: '',
                 timestamp: serverTimestamp()
             });
 
@@ -162,11 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogMsg     = document.getElementById('blog-message');
 
     publishBlog?.addEventListener('click', async () => {
-        const title   = (blogTitle?.value || '').trim();
-        const content = (blogContent?.value || '').trim();
+        const title    = (blogTitle?.value || '').trim();
+        const content  = (blogContent?.value || '').trim();
         const imageUrl = (blogImgUrl?.value || '').trim();
         if (!title || !content) { msg(blogMsg, 'fill in title and content.', 'error'); return; }
-        try {w
+        try {
             await addDoc(collection(db, 'blog_posts'), { title, content, imageUrl, timestamp: serverTimestamp() });
             msg(blogMsg, 'published!', 'success');
             if (blogTitle)   blogTitle.value   = '';
