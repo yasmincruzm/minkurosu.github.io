@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
     window.slideshowInterval = setInterval(nextSlide, 4000);
   }
 
+  function fixViewport() {
+    let vp = document.querySelector('meta[name="viewport"]');
+    if (vp) {
+      vp.setAttribute('content', 'width=1200px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
+    }
+  }
+
   function loadContent(pageName) {
     const url = `${pageName}.html`;
     fetch(url)
@@ -44,10 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (contentToLoad) {
           mainContainer.innerHTML = contentToLoad.innerHTML;
 
+          // garante que o viewport não reseta ao trocar de página
+          fixViewport();
+
           setTimeout(() => {
             initializeSlideshow();
 
-       
             if (typeof Fancybox !== 'undefined') {
               Fancybox.bind('[data-fancybox="gallery"]', {});
               console.log('✅ fancybox initialized in index.js');
@@ -76,19 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
       history.back();
       return;
     }
-    
+
     const page = this.getAttribute('data-page');
     if (page) {
       history.pushState({ page: page }, '', `${page}.html`);
       loadContent(page);
     }
-    
 
     const allLinks = document.querySelectorAll('.nav-link');
     allLinks.forEach(link => link.classList.remove('active'));
     this.classList.add('active');
   }
-
 
   dynamicLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
 
@@ -100,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
       loadContent('aboutme');
     }
   });
-
 
   loadContent('aboutme');
 });
