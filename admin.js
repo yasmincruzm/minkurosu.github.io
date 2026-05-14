@@ -41,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
             loginForm.style.display  = 'none';
 
             // carrega o live traffic feed só após o painel estar visível
-            if (!document.getElementById('ltf-script')) {
+            // e só uma vez (verifica se o script já foi adicionado)
+            const ltfContainer = document.getElementById('ltf-container');
+            if (ltfContainer && !document.getElementById('ltf-script')) {
                 const s = document.createElement('script');
                 s.id  = 'ltf-script';
                 s.src = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FNew_York&res=1';
-                document.getElementById('ltf-container').appendChild(s);
+                ltfContainer.appendChild(s);
             }
         } else {
             adminPanel.style.display = 'none';
