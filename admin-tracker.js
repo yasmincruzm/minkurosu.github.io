@@ -1,9 +1,25 @@
 // admin-tracker.js — lógica do widget de visitantes no admin
-// importa e chama loadVisitorTracker() após o login
 
 import { getFirestore, collection, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-export function loadVisitorTracker(app) {
+const OWNER_IP = 'mincruzm@gmail.com'; // não usado diretamente — IP detectado via ipapi
+
+let myIp = null;
+
+// detecta o IP do admin atual para destacar no tracker
+async function getMyIp() {
+    try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        myIp = data.ip || null;
+    } catch {
+        myIp = null;
+    }
+}
+
+export async function loadVisitorTracker(app) {
+    await getMyIp();
+
     const db        = getFirestore(app);
     const container = document.getElementById('visitor-tracker');
     if (!container) return;
@@ -13,7 +29,8 @@ export function loadVisitorTracker(app) {
         Chrome: '🟡', Firefox: '🟠', Safari: '🔵', Edge: '🟢', Opera: '🔴'
     })[b] || '🌐';
 
-    const q = query(collection(db, 'visitors'), orderBy('timestamp', 'desc'), limit(30));
+    // aumentado para 60
+    const q = query(collection(db, 'visitors'), orderBy('timestamp', 'desc'), limit(60));
 
     onSnapshot(q, snapshot => {
         if (snapshot.empty) {
@@ -29,11 +46,15 @@ export function loadVisitorTracker(app) {
                 hour: '2-digit', minute: '2-digit'
             }) : '—';
 
+            const isMe = myIp && d.ip === myIp;
+            const meClass = isMe ? ' tracker-row-me' : '';
+            const meBadge = isMe ? ' <span class="tracker-me-badge">👑 eu</span>' : '';
+
             return `
-            <div class="tracker-row">
+            <div class="tracker-row${meClass}">
                 <span class="tracker-flag">${deviceIcon(d.device)}</span>
                 <div class="tracker-info">
-                    <span class="tracker-location">📍 ${d.city}, ${d.country}</span>
+                    <span class="tracker-location">📍 ${d.city}, ${d.country}${meBadge}</span>
                     <span class="tracker-meta">
                         ${browserIcon(d.browser)} ${d.browser} · ${d.os} · ${d.device}
                     </span>
