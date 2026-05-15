@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── auth ──────────────────────────────────
     const loginForm      = document.getElementById('login-form');
+    const loginEmailForm = document.getElementById('login-email-form');
     const loginEmail     = document.getElementById('login-email');
     const loginPassword  = document.getElementById('login-password');
     const loginMessage   = document.getElementById('login-message');
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // login com email/senha
-    loginForm?.addEventListener('submit', async e => {
+    loginEmailForm?.addEventListener('submit', async e => {
         e.preventDefault();
         try {
             const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
