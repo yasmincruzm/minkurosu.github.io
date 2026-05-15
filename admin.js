@@ -24,6 +24,17 @@ function msg(el, text, type) {
     el.className = `message ${type}`;
 }
 
+function injectLTFScript(container) {
+    if (document.getElementById('ltf-script')) return;
+    const s = document.createElement('script');
+    s.id   = 'ltf-script';
+    s.type = 'text/javascript';
+    const pageUrl = encodeURIComponent('https://minkurosu.site/admin.html');
+    s.src  = `https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=${pageUrl}`;
+    container.innerHTML = '';
+    container.appendChild(s);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── auth ──────────────────────────────────
@@ -40,14 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
 
-            // carrega o live traffic feed só após o painel estar visível
-            // e só uma vez (verifica se o script já foi adicionado)
             const ltfContainer = document.getElementById('ltf-container');
             if (ltfContainer && !document.getElementById('ltf-script')) {
-                const s = document.createElement('script');
-                s.id  = 'ltf-script';
-                s.src = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FNew_York&res=1';
-                ltfContainer.appendChild(s);
+                injectLTFScript(ltfContainer);
             }
         } else {
             adminPanel.style.display = 'none';
@@ -75,10 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── thoughts post ──────────────────────────
-    // how it works:
-    //   - paste any text + links directly into the textarea
-    //   - optionally attach/url an image — it gets appended to content automatically
-    //   - the loader detects all urls and renders them as embeds
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
     const postImageFile = document.getElementById('post-image-file');
