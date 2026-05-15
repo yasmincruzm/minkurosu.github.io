@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>memories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --paper: #c4aa82;
+      --line:  rgba(65,45,25,0.13);
+      --mg:    rgba(145,55,40,0.28);
+      --tape:  rgba(220,203,162,0.82);
+      --tapeb: rgba(158,135,92,0.5);
+      --sh:    rgba(28,12,2,0.26);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: #a08860;
+      font-family: 'Caveat', cursive;
+      overflow-x: hidden;
+    }
+
+    .notebook {
+      min-height: 100vh;
+      background-color: var(--paper);
+      background-image:
+        repeating-linear-gradient(transparent,transparent 28px,var(--line) 28px,var(--line) 29px),
+        linear-gradient(to right,transparent 60px,var(--mg) 60px,var(--mg) 62px,transparent 62px);
+      padding: 0 0 180px;
+      position: relative;
+    }
+    .notebook::after {
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.065'/%3E%3C/svg%3E");
+      opacity:.55;
+    }
+
+    /* CLUSTER */
+    .cluster {
+      position: relative;
+      max-width: 860px;
+      margin: 70px auto;
+    }
+
+    /* ITEM */
+    .item { position:absolute; z-index:2; }
+    .item:hover { z-index:999; }
+
+    /* FITA — lisa, sem listra */
+    .tape {
+      position:absolute;
+      width:40px; height:14px;
+      background: var(--tape);
+      border: 1px solid var(--tapeb);
+      z-index:10;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+      pointer-events:none;
+    }
+    .tape.tl { top:-8px;    left:-7px;   transform:rotate(-35deg); }
+    .tape.br { bottom:-8px; right:-7px;  transform:rotate(-35deg); }
+    .tape.tr { top:-8px;    right:-7px;  transform:rotate(35deg);  }
+    .tape.bl { bottom:-8px; left:-7px;   transform:rotate(35deg);  }
+    .tape.tc { top:-8px;    left:50%;    transform:translateX(-50%) rotate(-3deg); width:52px; }
+    .tape.bc { bottom:-8px; left:50%;    transform:translateX(-50%) rotate(3deg);  width:52px; }
+
+    /* POLAROID */
+    .polaroid {
+      background:#f4ede0;
+      padding:6px 6px 28px;
+      box-shadow:2px 4px 12px var(--sh), 0 1px 2px rgba(0,0,0,0.09);
+      cursor:pointer;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .polaroid:hover { box-shadow:6px 10px 24px rgba(28,12,2,.38); transform:scale(1.06) rotate(0deg) !important; }
+    .polaroid img { display:block; width:100%; height:100%; object-fit:cover; filter:sepia(9%) contrast(1.04) brightness(0.96); }
+
+    /* FOTO SOLTA */
+    .raw { overflow:hidden; box-shadow:2px 3px 10px var(--sh); cursor:pointer; transition:transform .2s ease; }
+    .raw:hover { transform:scale(1.06) rotate(0deg) !important; }
+    .raw img { display:block; width:100%; height:100%; object-fit:cover; }
+
+    /* OUTRA COISA */
+    .thing { cursor:pointer; transition:transform .2s ease; }
+    .thing:hover { transform:scale(1.06) rotate(0deg) !important; }
+    .thing img { display:block; width:100%; height:100%; object-fit:contain; }
+
+    /* ══════════════════════════════════════════════════════
+       CLUSTERS com múltiplas linhas e qtd variada
+    ══════════════════════════════════════════════════════ */
+
+    /* C1 — 2 linhas: 3 em cima + 2 embaixo */
+    .c1 { min-height: 295px; }
+    .c1 .item:nth-child(1) { left: 30px;  top:  8px; }
+    .c1 .item:nth-child(1) .polaroid { width:140px; height:112px; transform:rotate(-4.2deg); }
+    .c1 .item:nth-child(2) { left:175px;  top: 22px; }
+    .c1 .item:nth-child(2) .raw      { width:125px; height:100px; transform:rotate(3.1deg);  }
+    .c1 .item:nth-child(3) { left:302px;  top:  4px; }
+    .c1 .item:nth-child(3) .thing    { width: 92px; height: 92px; transform:rotate(-2.5deg); }
+    /* linha 2 */
+    .c1 .item:nth-child(4) { left: 95px;  top:152px; }
+    .c1 .item:nth-child(4) .polaroid { width:145px; height:114px; transform:rotate(2.8deg);  }
+    .c1 .item:nth-child(5) { left:252px;  top:165px; }
+    .c1 .item:nth-child(5) .raw      { width:128px; height:102px; transform:rotate(-3.7deg); }
+
+    /* C2 — 3 linhas: 2 + 3 + 2 */
+    .c2 { min-height: 430px; }
+    .c2 .item:nth-child(1) { left:175px;  top:  5px; }
+    .c2 .item:nth-child(1) .thing    { width: 88px; height:108px; transform:rotate(-3.0deg); }
+    .c2 .item:nth-child(2) { left:278px;  top:  8px; }
+    .c2 .item:nth-child(2) .polaroid { width:152px; height:120px; transform:rotate(4.1deg);  }
+    /* linha 2 */
+    .c2 .item:nth-child(3) { left: 38px;  top:148px; }
+    .c2 .item:nth-child(3) .polaroid { width:138px; height:108px; transform:rotate(-5.2deg); }
+    .c2 .item:nth-child(4) { left:190px;  top:162px; }
+    .c2 .item:nth-child(4) .raw      { width:128px; height:102px; transform:rotate(2.3deg);  }
+    .c2 .item:nth-child(5) { left:335px;  top:146px; }
+    .c2 .item:nth-child(5) .thing    { width: 90px; height: 90px; transform:rotate(-1.8deg); }
+    /* linha 3 */
+    .c2 .item:nth-child(6) { left:128px;  top:298px; }
+    .c2 .item:nth-child(6) .polaroid { width:145px; height:116px; transform:rotate(3.5deg);  }
+    .c2 .item:nth-child(7) { left:290px;  top:308px; }
+    .c2 .item:nth-child(7) .raw      { width:120px; height: 96px; transform:rotate(-4.0deg); }
+
+    /* C3 — 1 linha, só 2 itens grandes, respiro */
+    .c3 { min-height: 195px; }
+    .c3 .item:nth-child(1) { left:215px;  top: 10px; }
+    .c3 .item:nth-child(1) .polaroid { width:165px; height:130px; transform:rotate(-3.3deg); }
+    .c3 .item:nth-child(2) { left:395px;  top: 18px; }
+    .c3 .item:nth-child(2) .raw      { width:148px; height:116px; transform:rotate(4.7deg);  }
+
+    /* C4 — 2 linhas: 4 em cima + 3 embaixo */
+    .c4 { min-height: 350px; }
+    .c4 .item:nth-child(1) { left: 12px;  top:  8px; }
+    .c4 .item:nth-child(1) .raw      { width:116px; height: 94px; transform:rotate(-4.8deg); }
+    .c4 .item:nth-child(2) { left:132px;  top:  0px; }
+    .c4 .item:nth-child(2) .polaroid { width:145px; height:116px; transform:rotate(2.3deg);  }
+    .c4 .item:nth-child(3) { left:282px;  top: 16px; }
+    .c4 .item:nth-child(3) .thing    { width: 80px; height:106px; transform:rotate(-1.5deg); }
+    .c4 .item:nth-child(4) { left:368px;  top:  4px; }
+    .c4 .item:nth-child(4) .polaroid { width:152px; height:120px; transform:rotate(5.0deg);  }
+    /* linha 2 */
+    .c4 .item:nth-child(5) { left: 55px;  top:162px; }
+    .c4 .item:nth-child(5) .thing    { width: 86px; height: 86px; transform:rotate(3.2deg);  }
+    .c4 .item:nth-child(6) { left:152px;  top:152px; }
+    .c4 .item:nth-child(6) .raw      { width:128px; height:100px; transform:rotate(-3.1deg); }
+    .c4 .item:nth-child(7) { left:295px;  top:158px; }
+    .c4 .item:nth-child(7) .polaroid { width:140px; height:110px; transform:rotate(1.9deg);  }
+
+    /* C5 — pirâmide: 1 + 2 + 1 */
+    .c5 { min-height: 400px; }
+    .c5 .item:nth-child(1) { left:295px;  top:  6px; }
+    .c5 .item:nth-child(1) .thing    { width:102px; height:102px; transform:rotate(-5.2deg); }
+    .c5 .item:nth-child(2) { left:140px;  top:140px; }
+    .c5 .item:nth-child(2) .polaroid { width:145px; height:114px; transform:rotate(1.9deg);  }
+    .c5 .item:nth-child(3) { left:300px;  top:152px; }
+    .c5 .item:nth-child(3) .raw      { width:135px; height:106px; transform:rotate(-3.7deg); }
+    .c5 .item:nth-child(4) { left:220px;  top:292px; }
+    .c5 .item:nth-child(4) .polaroid { width:142px; height:112px; transform:rotate(4.1deg);  }
+
+    /* C6 — 2 linhas: 3 + 3 espalhados */
+    .c6 { min-height: 340px; }
+    .c6 .item:nth-child(1) { left: 22px;  top: 12px; }
+    .c6 .item:nth-child(1) .polaroid { width:140px; height:110px; transform:rotate(-2.6deg); }
+    .c6 .item:nth-child(2) { left:195px;  top:  4px; }
+    .c6 .item:nth-child(2) .thing    { width: 86px; height:106px; transform:rotate(4.2deg);  }
+    .c6 .item:nth-child(3) { left:295px;  top: 15px; }
+    .c6 .item:nth-child(3) .raw      { width:148px; height:116px; transform:rotate(-4.4deg); }
+    /* linha 2 */
+    .c6 .item:nth-child(4) { left: 75px;  top:168px; }
+    .c6 .item:nth-child(4) .raw      { width:125px; height: 98px; transform:rotate(2.2deg);  }
+    .c6 .item:nth-child(5) { left:218px;  top:178px; }
+    .c6 .item:nth-child(5) .polaroid { width:145px; height:114px; transform:rotate(-1.3deg); }
+    .c6 .item:nth-child(6) { left:378px;  top:162px; }
+    .c6 .item:nth-child(6) .thing    { width: 88px; height: 88px; transform:rotate(3.8deg);  }
+
+    /* C7 — 3 linhas: 2 + 2 + 2 */
+    .c7 { min-height: 400px; }
+    .c7 .item:nth-child(1) { left: 95px;  top:  8px; }
+    .c7 .item:nth-child(1) .thing    { width: 96px; height: 96px; transform:rotate(5.5deg);  }
+    .c7 .item:nth-child(2) { left:215px;  top:  4px; }
+    .c7 .item:nth-child(2) .polaroid { width:152px; height:120px; transform:rotate(-3.0deg); }
+    /* linha 2 */
+    .c7 .item:nth-child(3) { left: 48px;  top:152px; }
+    .c7 .item:nth-child(3) .raw      { width:132px; height:104px; transform:rotate(1.6deg);  }
+    .c7 .item:nth-child(4) { left:205px;  top:162px; }
+    .c7 .item:nth-child(4) .thing    { width: 90px; height:110px; transform:rotate(-4.5deg); }
+    /* linha 3 */
+    .c7 .item:nth-child(5) { left:115px;  top:302px; }
+    .c7 .item:nth-child(5) .polaroid { width:145px; height:114px; transform:rotate(2.9deg);  }
+    .c7 .item:nth-child(6) { left:278px;  top:292px; }
+    .c7 .item:nth-child(6) .raw      { width:125px; height: 98px; transform:rotate(-2.1deg); }
+
+    /* fade-in */
+    .cluster { opacity:0; animation:rise .65s cubic-bezier(.22,.68,0,1.15) forwards; }
+    .c1{animation-delay:.04s} .c2{animation-delay:.14s} .c3{animation-delay:.24s}
+    .c4{animation-delay:.34s} .c5{animation-delay:.44s} .c6{animation-delay:.54s}
+    .c7{animation-delay:.64s}
+
+    @keyframes rise {
+      from { opacity:0; transform:translateY(16px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    ::-webkit-scrollbar { width:7px; }
+    ::-webkit-scrollbar-track { background:#a08860; }
+    ::-webkit-scrollbar-thumb { background:rgba(45,25,8,.4); border-radius:4px; }
+  </style>
+</head>
+<body>
+<div class="notebook">
+
+<!--
+╔══════════════════════════════════════════════════╗
+║  .polaroid → foto com moldura branca             ║
+║  .raw      → foto sem moldura                    ║
+║  .thing    → sticker / bilhete / outra coisa     ║
+║  Troque src="" pelo caminho do arquivo real      ║
+╚══════════════════════════════════════════════════╝
+-->
+
+<!-- C1 · 2 linhas: 3 + 2 -->
+<div class="cluster c1">
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!-- C2 · 3 linhas: 2 + 3 + 2 -->
+<div class="cluster c2">
+  <div class="item"><div class="tape bc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!-- C3 · 1 linha só: 2 itens grandes com respiro -->
+<div class="cluster c3">
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!-- C4 · 2 linhas: 4 + 3 -->
+<div class="cluster c4">
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape bc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!-- C5 · pirâmide: 1 + 2 + 1 -->
+<div class="cluster c5">
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!-- C6 · 2 linhas: 3 + 3 -->
+<div class="cluster c6">
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape bc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+</div>
+
+<!-- C7 · 3 linhas: 2 + 2 + 2 -->
+<div class="cluster c7">
+  <div class="item"><div class="tape tc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape bc"></div>
+    <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
+  <div class="item"><div class="tape tl"></div><div class="tape br"></div>
+    <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+  <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
+    <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
+</div>
+
+<!--
+  NOVO CLUSTER — copie e ajuste:
+
+  <div class="cluster c8">
+    <div class="item">...</div>
+  </div>
+
+  CSS:
+  .c8 { min-height: 300px; }
+  .c8 .item:nth-child(1) { left:50px; top:10px; }
+  .c8 .item:nth-child(1) .polaroid { width:140px; height:110px; transform:rotate(-3deg); }
+  ...
+  .c8 { animation-delay:.74s }
+-->
+
+</div>
+</body>
+</html>
