@@ -2,6 +2,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+import { loadVisitorTracker } from './admin-tracker.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -24,17 +25,6 @@ function msg(el, text, type) {
     el.className = `message ${type}`;
 }
 
-function injectLTFScript(container) {
-    if (document.getElementById('ltf-script')) return;
-    const s = document.createElement('script');
-    s.id   = 'ltf-script';
-    s.type = 'text/javascript';
-    const pageUrl = encodeURIComponent('https://minkurosu.site/admin.html');
-    s.src  = `https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=${pageUrl}`;
-    container.innerHTML = '';
-    container.appendChild(s);
-}
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── auth ──────────────────────────────────
@@ -50,11 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (user) {
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
-
-            const ltfContainer = document.getElementById('ltf-container');
-            if (ltfContainer && !document.getElementById('ltf-script')) {
-                injectLTFScript(ltfContainer);
-            }
+            loadVisitorTracker(app);
         } else {
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';

@@ -35,12 +35,10 @@
     .admin-form-box {
         background-color: #24211e;
         margin: 30px auto;
-
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-
         padding: 25px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -122,14 +120,12 @@
         transform: translateY(0);
     }
 
-
     hr {
         border: none;
         border-top: 1px solid #eee;
         margin: 20px 0;
         width: 80%;
     }
-
 
     .message {
         margin-top: 18px;
@@ -141,20 +137,9 @@
         font-size: 0.9em;
     }
 
-    .message.info {
-        background-color:
-            color: #007bff;
-    }
-
-    .message.success {
-        background-color: #534F4A;
-        color: #28a745;
-    }
-
-    .message.error {
-        background-color: #534F4A;
-        color: #dc3545;
-    }
+    .message.info    { color: #007bff; }
+    .message.success { background-color: #534F4A; color: #28a745; }
+    .message.error   { background-color: #534F4A; color: #dc3545; }
 
     .admin-form-box hr {
         border: none;
@@ -163,13 +148,75 @@
         width: 90%;
     }
 
+    #logout-btn { background-color: #dc3545; }
+    #logout-btn:hover { background-color: #c82333; }
 
-    #logout-btn {
-        background-color: #dc3545;
+    /* ── visitor tracker ── */
+    #visitor-tracker {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #534F4A #24211e;
     }
 
-    #logout-btn:hover {
-        background-color: #c82333;
+    .tracker-row {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        background: #1a1815;
+        border: 1px solid #3a3632;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-family: "MinFont", monospace;
+        font-size: 0.82em;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tracker-flag { font-size: 1.4em; line-height: 1; padding-top: 2px; }
+
+    .tracker-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+    }
+
+    .tracker-location {
+        color: #d5d5d5;
+        font-weight: bold;
+        font-size: 0.95em;
+    }
+
+    .tracker-meta {
+        color: #888;
+        font-size: 0.88em;
+    }
+
+    .tracker-empty {
+        color: #555;
+        font-family: "MinFont", sans-serif;
+        font-size: 0.9em;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .tracker-section {
+        width: 100%;
+    }
+
+    .tracker-section h2 {
+        font-family: "MinFont", sans-serif;
+        color: #d5d5d5;
+        margin-bottom: 12px;
     }
 </style>
 
@@ -194,18 +241,16 @@
         <div id="admin-panel-section" class="caixamaisclara admin-form-box" style="display: none;">
 
             <h2>new post</h2>
-
             <div>
                 <label for="post-content">post text:</label>
                 <textarea id="post-content" required></textarea>
             </div>
             <div>
-                <label for="post-image-url">URL da Imagem (opcional - para imagens já hospedadas ou externas):</label>
-                <input type="url" id="post-image-url" placeholder="Ex: https://seusite.com/caminho/para/imagem.jpg">
+                <label for="post-image-url">URL da Imagem (opcional):</label>
+                <input type="url" id="post-image-url" placeholder="Ex: https://seusite.com/imagem.jpg">
             </div>
-
             <div>
-                <label for="post-image-file">Ou, Upload de Imagem (opcional - via Firebase Storage):</label>
+                <label for="post-image-file">Ou, Upload de Imagem (opcional):</label>
                 <input type="file" id="post-image-file" accept="image/*">
             </div>
             <button type="button" id="publish-post-btn">publicar</button>
@@ -219,7 +264,6 @@
                 <button type="button" id="publish-private-entry-btn">Publicar Entrada Privada</button>
                 <div id="private-entry-message" class="message"></div>
             </form>
-
 
             <form id="dream-journal-form">
                 <h2>register new dream</h2>
@@ -249,22 +293,17 @@
             </form>
             <hr>
 
-            <div style="margin: 20px 0;">
-                <h2>live traffic</h2>
-                <div id="ltf-container"></div>
-                <noscript><a href="http://livetrafficfeed.com"></a></noscript>
+            <!-- visitor tracker -->
+            <div class="tracker-section">
+                <h2>👁 visitantes recentes</h2>
+                <div id="visitor-tracker">
+                    <p class="tracker-empty">carregando...</p>
+                </div>
             </div>
-
-<script type="text/javascript" src="//cdn.livetrafficfeed.com/static/v6/live.js?bc=3b3b3b&amp;tc=b8b1b1&amp;brd1=2853a8&amp;lnk=b02626&amp;hc=ffffff&amp;hfc=383636&amp;nc=e53535&amp;vv=240&amp;tft=10&amp;ro=1&amp;res=0"></script><noscript><a href="https://livetrafficfeed.com">Live Traffic Stats</a></noscript>
-
+            <hr>
 
             <button type="button" id="logout-btn">sair</button>
         </div>
-         
-
-        <hr>
-
-        
     </div>
 </body>
 
