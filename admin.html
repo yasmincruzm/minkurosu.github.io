@@ -6,9 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - @minkurosu</title>
-    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
 </head>
+
 <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+        color: #d5d5d5;
+        font-family: "MinFont", monospace;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: #1a1815;
+        background-image: url('imgs/site_imgs/bg.png');
+        background-repeat: repeat;
+        background-attachment: fixed;
+    }
+
     #container {
         display: flex;
         flex-direction: column;
@@ -16,152 +30,223 @@
         max-width: 900px;
         margin: 0 auto;
         padding: 20px;
-        box-sizing: border-box;
     }
 
-    .caixamaisclara {
-        background-color: #24211e;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 25px;
-        margin-bottom: 25px;
-        width: 100%;
-        max-width: 800px;
-        box-sizing: border-box;
-        text-align: left;
-    }
-
+    /* ── card base ── */
     .admin-form-box {
         background-color: #24211e;
         margin: 30px auto;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 450px;
+        align-items: flex-start;
+        padding: 30px 28px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        max-width: 460px;
+        width: 100%;
         border: 1px solid #534F4A;
+        gap: 14px;
     }
 
+    /* ── headings ── */
     .admin-form-box h1 {
-        margin-top: 0;
-        margin-bottom: 25px;
-        color: #24211e;
-        font-family: "MinFont", sans-serif;
+        margin: 0 0 10px 0;
+        color: #d5d5d5;
+        font-family: "MinFont", monospace;
         text-align: center;
         font-size: 2.2em;
         letter-spacing: 1px;
-    }
-
-    .admin-form-box form {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
-
-    .admin-form-box form div {
-        display: flex;
-        flex-direction: column;
         width: 100%;
     }
 
-    .admin-form-box label {
-        margin-bottom: 8px;
+    .admin-form-box h2 {
+        font-family: "MinFont", monospace;
+        color: #d5d5d5;
+        font-size: 1.2em;
+        margin: 0;
+        width: 100%;
+    }
+
+    /* ── form fields ── */
+    .field {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 6px;
+    }
+
+    label {
         font-weight: bold;
-        color: #555;
-        font-family: "MinFont";
-        font-size: 0.95em;
+        color: #888;
+        font-family: "MinFont", monospace;
+        font-size: 0.9em;
     }
 
-    .admin-form-box input[type="text"],
-    .admin-form-box input[type="email"],
-    .admin-form-box input[type="password"],
-    .admin-form-box textarea {
-        padding: 12px;
-        border: 1px solid #333;
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="url"],
+    textarea {
+        padding: 11px 13px;
+        border: 1px solid #3a3632;
         border-radius: 6px;
-        font-size: 1em;
-        font-family: "MinFont";
-        width: -webkit-fill-available;
-        width: fill-available;
-        box-sizing: border-box;
+        font-size: 0.95em;
+        font-family: "MinFont", monospace;
+        background-color: #1a1815;
+        color: #d5d5d5;
+        width: 100%;
+        outline: none;
+        transition: border-color 0.2s;
+        -webkit-text-fill-color: #d5d5d5;
+        caret-color: #d5d5d5;
     }
 
-    .admin-form-box textarea {
+    /* fix autofill yellow */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 999px #1a1815 inset !important;
+        -webkit-text-fill-color: #d5d5d5 !important;
+        caret-color: #d5d5d5;
+        border-color: #3a3632;
+        transition: background-color 9999s ease-in-out 0s;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: #6C6661;
+    }
+
+    textarea {
         min-height: 120px;
         resize: vertical;
+        line-height: 1.5;
     }
 
-    .admin-form-box button {
-        padding: 12px 20px;
+    /* ── buttons ── */
+    button {
+        padding: 11px 20px;
         background-color: #333;
-        color: #24211e;
+        color: #d5d5d5;
         border: none;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 1.05em;
-        margin-top: 15px;
-        transition: background-color 0.3s ease, transform 0.1s ease;
-        font-family: "MinFont";
+        font-size: 1em;
+        transition: background-color 0.25s, transform 0.1s;
+        font-family: "MinFont", monospace;
         font-weight: bold;
+        width: 100%;
     }
 
-    .admin-form-box button:hover {
+    button:hover {
         background-color: #6C6661;
         transform: translateY(-1px);
     }
 
-    .admin-form-box button:active {
+    button:active {
         background-color: #4A4641;
         transform: translateY(0);
     }
 
+    /* ── divider ── */
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 2px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-top: 1px solid #3a3632;
+    }
+
+    .divider span {
+        color: #4a4642;
+        font-family: "MinFont", monospace;
+        font-size: 0.8em;
+        letter-spacing: 1px;
+    }
+
+    /* ── google btn ── */
+    #google-login-btn {
+        background-color: #1e1b18;
+        border: 1px solid #534F4A;
+        color: #d5d5d5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #google-login-btn:hover {
+        background-color: #2a2520;
+        border-color: #6C6661;
+    }
+
+    #google-login-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    /* ── hr ── */
     hr {
         border: none;
-        border-top: 1px solid #eee;
-        margin: 20px 0;
-        width: 80%;
+        border-top: 1px solid #534F4A;
+        margin: 8px 0;
+        width: 100%;
     }
 
+    /* ── messages ── */
     .message {
-        margin-top: 18px;
-        padding: 12px;
         border-radius: 6px;
         text-align: center;
-        font-weight: bold;
-        font-family: "MinFont";
-        font-size: 0.9em;
+        font-family: "MinFont", monospace;
+        font-size: 0.88em;
+        width: 100%;
     }
 
-    .message.info    { color: #007bff; }
-    .message.success { background-color: #534F4A; color: #28a745; }
-    .message.error   { background-color: #534F4A; color: #dc3545; }
+    #login-message { width: 100%; text-align: center; font-family: "MinFont", monospace; font-size: 0.88em; border-radius: 6px; }
 
-    .admin-form-box hr {
-        border: none;
-        border-top: 1px solid #534F4A;
-        margin: 25px 0;
-        width: 90%;
+    #login-message:empty,
+    .message:empty { display: none; }
+
+    .success, #login-message.success { background-color: #1e2a1e; border: 1px solid #2e4a2e; color: #6abf6a; padding: 10px 12px; }
+    .error,   #login-message.error   { background-color: #2a1e1e; border: 1px solid #4a2e2e; color: #bf6a6a; padding: 10px 12px; }
+    .info,    #login-message.info    { color: #7a9abf; padding: 10px 0; }
+
+    /* ── logout ── */
+    #logout-btn {
+        background-color: #2a1e1e;
+        border: 1px solid #4a2e2e;
+        color: #bf6a6a;
     }
 
-    #logout-btn { background-color: #dc3545; }
-    #logout-btn:hover { background-color: #c82333; }
+    #logout-btn:hover { background-color: #3a2020; border-color: #6a3a3a; }
 
     /* ── visitor tracker ── */
     #visitor-tracker {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         max-height: 400px;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #534F4A #24211e;
     }
+
+    #visitor-tracker::-webkit-scrollbar { width: 5px; }
+    #visitor-tracker::-webkit-scrollbar-track { background: #1a1815; }
+    #visitor-tracker::-webkit-scrollbar-thumb { background: #534F4A; border-radius: 4px; }
 
     .tracker-row {
         display: flex;
@@ -182,136 +267,122 @@
     }
 
     .tracker-flag { font-size: 1.4em; line-height: 1; padding-top: 2px; }
-
-    .tracker-info {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        flex: 1;
-    }
-
-    .tracker-location {
-        color: #d5d5d5;
-        font-weight: bold;
-        font-size: 0.95em;
-    }
-
-    .tracker-meta {
-        color: #888;
-        font-size: 0.88em;
-    }
-
-    .tracker-empty {
-        color: #555;
-        font-family: "MinFont", sans-serif;
-        font-size: 0.9em;
-        text-align: center;
-        padding: 20px 0;
-    }
-
-    .tracker-section {
-        width: 100%;
-    }
-
-    .tracker-section h2 {
-        font-family: "MinFont", sans-serif;
-        color: #d5d5d5;
-        margin-bottom: 12px;
-    }
+    .tracker-info { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+    .tracker-location { color: #d5d5d5; font-weight: bold; font-size: 0.95em; }
+    .tracker-meta { color: #888; font-size: 0.88em; }
+    .tracker-empty { color: #555; font-family: "MinFont", monospace; font-size: 0.9em; text-align: center; padding: 20px 0; }
+    .tracker-section { width: 100%; }
+    .tracker-section h2 { font-family: "MinFont", monospace; color: #d5d5d5; margin-bottom: 12px; }
 </style>
 
 <body>
     <div id="container">
-        <div id="admin-login-section" class="caixamaisclara admin-form-box">
+
+        <!-- LOGIN -->
+        <div id="admin-login-section" class="admin-form-box">
             <h1>login do admin</h1>
-            <form id="login-form">
-                <div>
+
+            <form id="login-form" style="width:100%; display:flex; flex-direction:column; gap:14px;">
+                <div class="field">
                     <label for="login-email">email:</label>
                     <input type="email" id="login-email" required>
                 </div>
-                <div>
+                <div class="field">
                     <label for="login-password">senha:</label>
                     <input type="password" id="login-password" required>
                 </div>
                 <button type="submit" id="login-btn">entrar</button>
-                <div id="login-message" class="message"></div>
             </form>
+
+            <div class="divider"><span>ou</span></div>
+
+            <button type="button" id="google-login-btn">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+                entrar com google
+            </button>
+
+            <div id="login-message"></div>
         </div>
 
-        <div id="admin-panel-section" class="caixamaisclara admin-form-box" style="display: none;">
+        <!-- ADMIN PANEL -->
+        <div id="admin-panel-section" class="admin-form-box" style="display: none;">
 
             <h2>new post</h2>
-            <div>
+            <div class="field">
                 <label for="post-content">post text:</label>
-                <textarea id="post-content" required></textarea>
+                <textarea id="post-content"></textarea>
             </div>
-            <div>
-                <label for="post-image-url">URL da Imagem (opcional):</label>
+            <div class="field">
+                <label for="post-image-url">URL da imagem (opcional):</label>
                 <input type="url" id="post-image-url" placeholder="Ex: https://seusite.com/imagem.jpg">
             </div>
-            <div>
-                <label for="post-image-file">Ou, Upload de Imagem (opcional):</label>
+            <div class="field">
+                <label for="post-image-file">Ou, upload de imagem (opcional):</label>
                 <input type="file" id="post-image-file" accept="image/*">
             </div>
             <button type="button" id="publish-post-btn">publicar</button>
             <div id="post-message" class="message"></div>
+
             <hr>
 
-            <form id="private-entry-form">
-                <h2>close friends</h2>
-                <label for="private-entry-content">Conteúdo da Entrada:</label>
-                <textarea id="private-entry-content" required></textarea>
-                <button type="button" id="publish-private-entry-btn">Publicar Entrada Privada</button>
-                <div id="private-entry-message" class="message"></div>
-            </form>
+            <h2>close friends</h2>
+            <div class="field">
+                <label for="private-entry-content">conteúdo da entrada:</label>
+                <textarea id="private-entry-content"></textarea>
+            </div>
+            <button type="button" id="publish-private-entry-btn">publicar entrada privada</button>
+            <div id="private-entry-message" class="message"></div>
 
-            <form id="dream-journal-form">
-                <h2>register new dream</h2>
+            <hr>
+
+            <h2>register new dream</h2>
+            <div class="field">
                 <label for="dream-content">dream content:</label>
                 <textarea id="dream-content"></textarea>
-                <button type="button" id="publish-dream-btn">register dream</button>
-                <div id="dream-message" class="message"></div>
-            </form>
+            </div>
+            <button type="button" id="publish-dream-btn">register dream</button>
+            <div id="dream-message" class="message"></div>
+
             <hr>
 
-            <form id="blog-post-form">
-                <h2>novo post do blog</h2>
-                <div>
-                    <label for="blog-title">título do post:</label>
-                    <input type="text" id="blog-title" required>
-                </div>
-                <div>
-                    <label for="blog-content">conteúdo do post:</label>
-                    <textarea id="blog-content" rows="6" required></textarea>
-                </div>
-                <div>
-                    <label for="blog-image-url">URL da imagem (opcional):</label>
-                    <input type="url" id="blog-image-url" placeholder="https://exemplo.com/imagem.jpg">
-                </div>
-                <button type="button" id="publish-blog-btn">publicar no blog</button>
-                <div id="blog-message" class="message"></div>
-            </form>
+            <h2>novo post do blog</h2>
+            <div class="field">
+                <label for="blog-title">título do post:</label>
+                <input type="text" id="blog-title">
+            </div>
+            <div class="field">
+                <label for="blog-content">conteúdo do post:</label>
+                <textarea id="blog-content"></textarea>
+            </div>
+            <div class="field">
+                <label for="blog-image-url">URL da imagem (opcional):</label>
+                <input type="url" id="blog-image-url" placeholder="https://exemplo.com/imagem.jpg">
+            </div>
+            <button type="button" id="publish-blog-btn">publicar no blog</button>
+            <div id="blog-message" class="message"></div>
+
             <hr>
 
-            <!-- visitor tracker -->
             <div class="tracker-section">
                 <h2>👁 visitantes recentes</h2>
                 <div id="visitor-tracker">
                     <p class="tracker-empty">carregando...</p>
                 </div>
             </div>
+
             <hr>
 
             <button type="button" id="logout-btn">sair</button>
         </div>
+
     </div>
 </body>
 
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
 <script type="module" src="admin.js"></script>
-</body>
 
 </html>

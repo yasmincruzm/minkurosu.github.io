@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 import { loadVisitorTracker } from './admin-tracker.js';
@@ -14,10 +14,13 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-const app     = initializeApp(firebaseConfig);
-const auth    = getAuth(app);
-const db      = getFirestore(app);
-const storage = getStorage(app);
+const ALLOWED_EMAIL = 'mincruzm@gmail.com';
+
+const app      = initializeApp(firebaseConfig);
+const auth     = getAuth(app);
+const db       = getFirestore(app);
+const storage  = getStorage(app);
+const provider = new GoogleAuthProvider();
 
 function msg(el, text, type) {
     if (!el) return;
@@ -28,16 +31,23 @@ function msg(el, text, type) {
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── auth ──────────────────────────────────
-    const loginForm     = document.getElementById('login-form');
-    const loginEmail    = document.getElementById('login-email');
-    const loginPassword = document.getElementById('login-password');
-    const loginMessage  = document.getElementById('login-message');
-    const adminPanel    = document.getElementById('admin-panel-section');
-    const logoutBtn     = document.getElementById('logout-btn');
+    const loginForm      = document.getElementById('login-form');
+    const loginEmail     = document.getElementById('login-email');
+    const loginPassword  = document.getElementById('login-password');
+    const loginMessage   = document.getElementById('login-message');
+    const adminPanel     = document.getElementById('admin-panel-section');
+    const logoutBtn      = document.getElementById('logout-btn');
+    const googleLoginBtn = document.getElementById('google-login-btn');
 
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
         if (user) {
+            // bloqueia qualquer e-mail que não seja o autorizado
+            if (user.email !== ALLOWED_EMAIL) {
+                signOut(auth);
+                msg(loginMessage, 'acesso negado.', 'error');
+                return;
+            }
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
             loadVisitorTracker(app);
@@ -47,13 +57,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // login com email/senha
     loginForm?.addEventListener('submit', async e => {
         e.preventDefault();
         try {
-            await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+            const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+            if (cred.user.email !== ALLOWED_EMAIL) {
+                await signOut(auth);
+                msg(loginMessage, 'acesso negado.', 'error');
+                return;
+            }
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
-            msg(loginMessage, `login error: ${err.message}`, 'error');
+            msg(loginMessage, `erro: ${err.message}`, 'error');
+        }
+    });
+
+    // login com Google
+    googleLoginBtn?.addEventListener('click', async () => {
+        try {
+            const cred = await signInWithPopup(auth, provider);
+            if (cred.user.email !== ALLOWED_EMAIL) {
+                await signOut(auth);
+                msg(loginMessage, 'acesso negado. use sua conta autorizada.', 'error');
+                return;
+            }
+            msg(loginMessage, 'logged in!', 'success');
+        } catch (err) {
+            msg(loginMessage, `erro: ${err.message}`, 'error');
         }
     });
 
