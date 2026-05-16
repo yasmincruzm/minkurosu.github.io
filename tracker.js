@@ -1,6 +1,5 @@
 // tracker.js — importado no index.html
 // coleta ip, cidade, navegador, dispositivo e salva no Firebase
-// usa múltiplas APIs de geo como fallback
 
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -16,6 +15,20 @@ const firebaseConfig = {
 
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db  = getFirestore(app);
+
+// fetch com timeout para não travar em API lenta/morta
+async function fetchWithTimeout(url, ms = 4000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), ms);
+    try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
+        return res;
+    } catch (e) {
+        clearTimeout(id);
+        throw e;
+    }
+}
 
 function parseUA(ua) {
     let browser = 'Unknown', os = 'Unknown', device = 'Desktop';
@@ -38,45 +51,82 @@ function parseUA(ua) {
     return { browser, os, device };
 }
 
-// tenta cada API em ordem até uma funcionar
 async function getGeo() {
     const apis = [
+        // 1. ip-api.com — sem CORS, sem precisar de key, muito confiável
         async () => {
-            const r = await fetch('https://ipapi.co/json/');
-            const d = await r.json();
-            if (!d.ip || d.error) throw new Error('ipapi failed');
-            return { ip: d.ip, city: d.city, region: d.region, country: d.country_name };
-        },
-        async () => {
-            const r = await fetch('https://ip-api.com/json/?fields=status,message,country,regionName,city,query');
+            const r = await fetchWithTimeout('https://ip-api.com/json/?fields=status,message,country,regionName,city,query,countryCode');
             const d = await r.json();
             if (d.status !== 'success') throw new Error('ip-api failed');
-            return { ip: d.query, city: d.city, region: d.regionName, country: d.country };
+            return {
+                ip:      d.query,
+                city:    d.city,
+                region:  d.regionName,
+                country: d.country,
+                cc:      d.countryCode  // código de 2 letras para flag
+            };
         },
+        // 2. freeipapi.com — bom fallback
         async () => {
-            const r = await fetch('https://freeipapi.com/api/json');
+            const r = await fetchWithTimeout('https://freeipapi.com/api/json');
             const d = await r.json();
             if (!d.ipAddress) throw new Error('freeipapi failed');
-            return { ip: d.ipAddress, city: d.cityName, region: d.regionName, country: d.countryName };
+            return {
+                ip:      d.ipAddress,
+                city:    d.cityName,
+                region:  d.regionName,
+                country: d.countryName,
+                cc:      d.countryCode
+            };
         },
+        // 3. ipwho.is — leve e sem autenticação
         async () => {
-            // último fallback — só pega o IP, sem geo
-            const r = await fetch('https://api64.ipify.org?format=json');
+            const r = await fetchWithTimeout('https://ipwho.is/');
             const d = await r.json();
-            return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown' };
+            if (!d.success) throw new Error('ipwho failed');
+            return {
+                ip:      d.ip,
+                city:    d.city,
+                region:  d.region,
+                country: d.country,
+                cc:      d.country_code
+            };
+        },
+        // 4. ipapi.co — pode ter rate limit, por isso vai por último
+        async () => {
+            const r = await fetchWithTimeout('https://ipapi.co/json/');
+            const d = await r.json();
+            if (!d.ip || d.error) throw new Error('ipapi.co failed');
+            return {
+                ip:      d.ip,
+                city:    d.city,
+                region:  d.region,
+                country: d.country_name,
+                cc:      d.country_code
+            };
+        },
+        // 5. último fallback — só pega o IP, sem geo
+        async () => {
+            const r = await fetchWithTimeout('https://api64.ipify.org?format=json');
+            const d = await r.json();
+            return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
         }
     ];
 
     for (const api of apis) {
         try {
-            return await api();
+            const result = await api();
+            // só aceita se vier cidade real
+            if (result.city && result.city !== 'unknown' && result.city !== '') {
+                return result;
+            }
+            // se veio só IP sem geo, guarda mas tenta próxima
         } catch {
             continue;
         }
     }
 
-    // se tudo falhar, ainda salva a visita sem IP
-    return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown' };
+    return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
 }
 
 async function track() {
@@ -89,6 +139,7 @@ async function track() {
             city:      geo.city      || 'unknown',
             region:    geo.region    || 'unknown',
             country:   geo.country   || 'unknown',
+            cc:        geo.cc        || '',          // código do país para emoji flag
             browser:   parsed.browser,
             os:        parsed.os,
             device:    parsed.device,
