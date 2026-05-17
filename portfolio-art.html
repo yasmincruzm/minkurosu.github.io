@@ -3,8 +3,6 @@
 
 <head>
 
-
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -20,6 +18,9 @@
   <title>@minkurosu</title>
 
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+
   <div class="crt"></div>
   <style>
     html,
@@ -27,7 +28,6 @@
     iframe {
       cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
     }
-
 
     a,
     button,
@@ -37,7 +37,6 @@
       cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
     }
 
-
     #containerprincipal {
       border-radius: 1.25rem;
       text-align: center;
@@ -45,12 +44,10 @@
       width: 100%;
       max-width: 50rem;
       box-sizing: border-box;
-
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 
     #container {
-
       padding: 1.25rem;
       border-radius: 1.25rem;
       box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
@@ -59,53 +56,8 @@
       width: 100%;
       max-width: 50rem;
       box-sizing: border-box;
-
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
-
-    .galeria-container {
-      width: 700px;
-      height: 300px;
-
-      border-radius: 8px;
-      overflow: auto;
-      padding: 10px;
-      box-sizing: border-box;
-
-      margin-left: auto;
-      margin-right: auto;
-
-    }
-
-    .galeria-grid {
-      display: grid;
-
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 15px;
-      padding: 5px;
-      justify-items: center;
-      align-items: center;
-    }
-
-    .galeria-grid img {
-      max-width: 100%;
-      height: 120px;
-
-
-      object-fit: contain;
-
-      display: block;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
-    }
-
-    .galeria-grid img:hover {
-      transform: scale(1.05);
-    }
-
-
 
     #theme-toggle-button {
       background: none !important;
@@ -119,6 +71,38 @@
       cursor: pointer;
       outline: none;
     }
+
+    .grid-feed {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .grid-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 1 / 1;
+    }
+
+    .grid-feed a {
+      display: block;
+      position: relative;
+    }
+
+    .section-label {
+      text-align: center;
+      padding: 16px 0 8px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .fancybox__caption {
+      font-size: 25px;
+      color: #534f4a;
+      border-color: #24211e;
+    }
   </style>
 
 </head>
@@ -127,67 +111,99 @@
 
   <div class="layout-with-sidebars">
 
-
     <main id="containerprincipal">
-
       <div id="container">
-
-
         <div class="portfolioContent">
-          <div class="conjuntoblocos">
-            <div class="divportfolio">
-              <img src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" class="portfolioArts" height="600px">
-              <br>
-              <img src="imgs/art portfolio/jupitercat.png" class="portfolioArts" height="600px">
-              <br>
-              <img src="imgs/art portfolio/7.png" class="portfolioArts" height="600px">
-              <br>
-              <img src="imgs/art portfolio/lispng.jpg" class="portfolioArts" height="600px">
-              <br>
-              <img src="imgs/art portfolio/icon1.jpg" class="portfolioArts" height="600px">
-              <br>
-              <img src="imgs/art portfolio/APOLLO.png" class="portfolioArts" height="600px">
-              <br>
-              <h2> live2d model art</h2>
-              <br>
-              <img src="imgs/art portfolio/minfullbodypng.png" class="portfolioArts" height="600px">
-              <br>
 
-              <img src="imgs/art portfolio/eueapollo.png" class="portfolioArts" height="600px">
-              <br>
+         
+          <div class="grid-feed">
 
-              <h2> twitch emotes</h2>
-              <img src="imgs/art portfolio/AYAYAMinPNG.png" class="portfolioArts" height="300px">
-            </div>
+             <a href="imgs/art portfolio/pixelicon.jpeg" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/pixelicon.jpeg" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/jupitercat.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/jupitercat.png" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/7.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/7.png" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/lispng.jpg" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/lispng.jpg" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/icon1.jpg" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/icon1.jpg" alt="" />
+            </a>
+
+            <a href="imgs/art portfolio/APOLLO.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/APOLLO.png" alt="" />
+            </a>
+
+            
+            <a href="imgs/art portfolio/eueapollo.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/eueapollo.png" alt="" />
+            </a>
+
+          </div>
+
+<br>
+ <div class="section-label"><h2>tradicional sketches</h2></div>
+
+          <div class="grid-feed">
+
+            <a href="imgs/art portfolio/minfullbodypng.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/minfullbodypng.png" alt="" />
+            </a>
+
+
           </div>
           <br>
+
+
+         <div class="section-label"><h2>live2d model art</h2></div>
+
+          <div class="grid-feed">
+
+            <a href="imgs/art portfolio/minfullbodypng.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/minfullbodypng.png" alt="" />
+            </a>
+
+
+          </div>
+
+<br>
+          <div class="section-label"><h2>twitch emotes</h2></div>
+
+          <div class="grid-feed">
+
+            <a href="imgs/art portfolio/AYAYAMinPNG.png" data-fancybox="gallery-art" data-caption="">
+              <img src="imgs/art portfolio/AYAYAMinPNG.png" alt="" />
+            </a>
+
+          </div>
+
         </div>
         <hr>
       </div>
     </main>
 
-
-
-
-
-
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
   </div>
 
-  </div>
-
-  </aside>
-
-  </div>
   <script src="lastfm-widget.js"></script>
   <script src="script.js"></script>
   <script src="theme-switcher.js"></script>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+  <script>
+    Fancybox.bind('[data-fancybox="gallery-art"]', {});
+  </script>
 
 </body>
 
