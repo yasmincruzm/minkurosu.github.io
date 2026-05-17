@@ -1069,54 +1069,7 @@ div#goog-gt- {
 
 
 <hr>
-<div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
-  <div class="scrollSmaller" style="padding: 4px 6px;">
-    <h3 style="margin: 2px 0 3px;">statuscafe</h3>
-    <hr style="margin: 2px 0 4px;">
-    <div id="status-feed"><h4>carregando...</h4></div>
-  </div>
-</div>
 
-<script>
-(function() {
-  const USERNAME = 'minkurosu';
-  const FEED_URL = `https://status.cafe/users/${USERNAME}.atom`;
-  const PROXIES = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(FEED_URL)}`,
-    `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`,
-    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(FEED_URL)}`
-  ];
-
-  function tryProxy(index) {
-    if (index >= PROXIES.length) {
-      document.getElementById('status-feed').innerHTML = '<h4>erro ao carregar</h4>';
-      return;
-    }
-    fetch(PROXIES[index])
-      .then(r => r.text())
-      .then(str => {
-        const xml = new DOMParser().parseFromString(str, 'text/xml');
-        const entries = [...xml.querySelectorAll('entry')];
-        if (!entries.length) { tryProxy(index + 1); return; }
-        document.getElementById('status-feed').innerHTML = entries.map(entry => {
-          const content = entry.querySelector('content')?.textContent || '';
-          const date = new Date(entry.querySelector('updated')?.textContent);
-          const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-          return `<h4>${timeStr} - ${content}</h4>`;
-        }).join('');
-      })
-      .catch(() => tryProxy(index + 1));
-  }
-
-  tryProxy(0);
-})();
-</script>
-
-
-
-
-
-</div>
 <hr>
 <img style="height: 265px;"" src="imgs/art portfolio/pixelicon.jpeg">
 
@@ -1306,17 +1259,58 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
         <h4>- memories page</h4>
     </div>
 </div>
-  
+  <br>
+  <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
+  <div class="scrollSmaller" style="padding: 4px 6px;">
+    <h3 style="margin: 2px 0 3px;">statuscafe</h3>
+    <hr style="margin: 2px 0 4px;">
+    <div id="status-feed"><h4>carregando...</h4></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const USERNAME = 'minkurosu';
+  const FEED_URL = `https://status.cafe/users/${USERNAME}.atom`;
+  const PROXIES = [
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(FEED_URL)}`,
+    `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(FEED_URL)}`
+  ];
+
+  function tryProxy(index) {
+    if (index >= PROXIES.length) {
+      document.getElementById('status-feed').innerHTML = '<h4>erro ao carregar</h4>';
+      return;
+    }
+    fetch(PROXIES[index])
+      .then(r => r.text())
+      .then(str => {
+        const xml = new DOMParser().parseFromString(str, 'text/xml');
+        const entries = [...xml.querySelectorAll('entry')];
+        if (!entries.length) { tryProxy(index + 1); return; }
+        document.getElementById('status-feed').innerHTML = entries.map(entry => {
+          const content = entry.querySelector('content')?.textContent || '';
+          const date = new Date(entry.querySelector('updated')?.textContent);
+          const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+          return `<h4>${timeStr} - ${content}</h4>`;
+        }).join('');
+      })
+      .catch(() => tryProxy(index + 1));
+  }
+
+  tryProxy(0);
+})();
+</script>
+
+
+
+
+
+</div>
                             </div>
                             <br>
-          <div id="statuscafe">
-                        <div id="statuscafe-username"></div>
-                        <div id="statuscafe-content"></div>
-                    </div>
-                    <script src="https://status.cafe/current-status.js?name=minkurosu" defer></script>
-   
-
-                        </div>
+          
                </div>
                     </div>
               
