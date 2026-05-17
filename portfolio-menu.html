@@ -54,7 +54,7 @@
       border-radius: 2px;
       background: linear-gradient(to bottom, #2a0808 0%, #160404 60%, #0a0000 100%);
       border: 2px solid #7a1515;
-      border-top-color: #9a2020;
+      border-top-color: #7a1515;
     }
 
     .front {
@@ -424,7 +424,6 @@
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlText, 'text/html');
 
-            /* priority: specific content wrappers first */
             let contentNode =
               doc.querySelector('.portfolioContent') ||
               doc.querySelector('.rig-page') ||
@@ -438,7 +437,6 @@
 
             contentArea.classList.remove('loading');
 
-            /* re-init fancybox for photo/art grids */
             setTimeout(() => {
               if (typeof Fancybox !== 'undefined') {
                 Fancybox.destroy();
