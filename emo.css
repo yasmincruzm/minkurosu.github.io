@@ -845,9 +845,121 @@ h5 {
 }
 
 .fancybox__caption {
-  font-size: 25px;
+  font-size: 14px;
   color: #8b0000;
   border-color: #310000;
+  font-family: "MinFont", monospace;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+/* ── fancybox mobile improvements ── */
+
+/* overlay escuro mais consistente */
+.fancybox__backdrop {
+  background: rgba(0, 0, 0, 0.92);
+}
+
+/* container centralizado e sem overflow no mobile */
+.fancybox__container {
+  touch-action: pan-y pinch-zoom;
+}
+
+/* imagem cabe na tela sem cortar */
+.fancybox__image {
+  max-width: 100vw;
+  max-height: 100dvh;
+  object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* toolbar (botão fechar etc) — área de toque maior */
+.fancybox__toolbar {
+  padding: 8px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+}
+
+.fancybox__button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b0000 !important;
+  opacity: 0.9;
+}
+
+.fancybox__button:hover,
+.fancybox__button:active {
+  opacity: 1;
+  color: #cc0000 !important;
+}
+
+/* setas prev/next — área de toque grande no mobile */
+.fancybox__nav {
+  padding: 0 4px;
+}
+
+.fancybox__nav .f-button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 2px;
+  background: rgba(10, 10, 10, 0.6);
+  border: 1px solid #4a0000;
+  color: #8b0000 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fancybox__nav .f-button:hover,
+.fancybox__nav .f-button:active {
+  background: rgba(20, 0, 0, 0.85);
+  color: #cc0000 !important;
+}
+
+/* caption no mobile — menor, legível */
+@media (max-width: 768px) {
+  .fancybox__caption {
+    font-size: 11px;
+    padding: 6px 12px;
+    text-align: center;
+  }
+
+  /* setas maiores e mais afastadas das bordas no mobile */
+  .fancybox__nav .f-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* toolbar no topo visível */
+  .fancybox__toolbar {
+    padding: 4px 8px;
+  }
+
+  .fancybox__button {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* slide ocupa toda a tela disponível */
+  .fancybox__slide {
+    padding: 44px 8px 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fancybox__slide {
+    padding: 48px 4px 52px;
+  }
+
+  /* esconde setas no celular pequeno — usa só swipe */
+  .fancybox__nav {
+    display: none;
+  }
 }
 
 
