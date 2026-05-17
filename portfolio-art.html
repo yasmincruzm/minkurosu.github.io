@@ -14,7 +14,61 @@
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
   <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-  <div class="crt"></div>
+  <style>
+    /* standalone fallback — só aplica se emo.css não carregar ou não definir essas regras */
+
+    .grid-feed {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .grid-feed a {
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .grid-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease;
+    }
+
+    .grid-feed a:hover img {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .grid-feed { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .section-label {
+      text-align: center;
+      padding: 16px 0 8px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .section-label h2 {
+      color: #534F4A;
+      margin: 0;
+    }
+
+    .portfolioContent {
+      width: 100%;
+    }
+
+    .fancybox__caption {
+      font-size: 14px;
+      color: #534f4a;
+      border-color: #24211e;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,56 +77,43 @@
       <div id="container">
 
         <div class="portfolioContent">
- <div class="section-label"><h2>digital <br></h2></div>
+          <div class="section-label"><h2>digital</h2></div>
           <br>
           <div class="grid-feed">
-
-         
             <a href="imgs/art portfolio/pixelicon.jpeg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/pixelicon.jpeg" alt="" /></a>
             <a href="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt="" /></a>
             <a href="imgs/art portfolio/jupitercat.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/jupitercat.png" alt="" /></a>
             <a href="imgs/art portfolio/7.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/7.png" alt="" /></a>
-                     <a href="imgs/art portfolio/5.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/5.png" alt="" /></a>
-
+            <a href="imgs/art portfolio/5.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/5.png" alt="" /></a>
             <a href="imgs/art portfolio/lispng.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/lispng.jpg" alt="" /></a>
             <a href="imgs/art portfolio/icon1.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/icon1.jpg" alt="" /></a>
             <a href="imgs/art portfolio/APOLLO.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/APOLLO.png" alt="" /></a>
             <a href="imgs/art portfolio/eueapollo.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/eueapollo.png" alt="" /></a>
-         
           </div>
 
           <br>
           <div class="section-label"><h2>tradicional</h2></div>
-            <br>
+          <br>
           <div class="grid-feed">
+            <a href="imgs/art portfolio/2026.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2026-tradicional.jpg" alt="" /></a>
+            <a href="imgs/art portfolio/2025.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2025.jpg" alt="" /></a>
+            <a href="imgs/art portfolio/2023.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2023.jpg" alt="" /></a>
+            <a href="imgs/art portfolio/2023(2).jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2023(2).jpg" alt="" /></a>
+            <a href="imgs/art portfolio/carl-and-rick-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/carl-and-rick-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/jinx-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/jinx-traditional.jpg" alt="" /></a>
-                   <a href="imgs/art portfolio/mtg-mouse-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/mtg-mouse-traditional.jpg" alt="" /></a>
+            <a href="imgs/art portfolio/mtg-mouse-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/mtg-mouse-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/ponysona-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/ponysona-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/ninestones-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/ninestones-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/mymuse-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/mymuse-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/konan-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/konan-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/carl-griles-2020.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/carl-griles-2020.jpg" alt="" /></a>
-
             <a href="imgs/art portfolio/2017-1-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2017-1-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/armin-2017-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/armin-2017-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/watercolor-2017-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/watercolor-2017-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/worms-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/worms-traditional.jpg" alt="" /></a>
             <a href="imgs/art portfolio/gma-house-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/gma-house-traditional.jpg" alt="" /></a>
-                       <a href="imgs/art portfolio/haru_needlefelting.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/haru_needlefelting.jpg" alt="" /></a>
-
+            <a href="imgs/art portfolio/haru_needlefelting.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/haru_needlefelting.jpg" alt="" /></a>
             <a href="imgs/art portfolio/2013(2).jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2013(2).jpg" alt="" /></a>
-
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
           </div>
 
           <br>
