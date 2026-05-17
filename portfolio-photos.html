@@ -1,330 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
   <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-
-
-
-  <title>@minkurosu</title>
-
+  <title>@minkurosu — photography</title>
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-
+  <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
   <div class="crt"></div>
   <style>
-    html,
-    body,
-    iframe {
-      cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
-    }
-
-
-    a,
-    button,
-    input[type="submit"],
-    input[type="button"],
-    select {
-      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-    }
-
-    #theme-toggle-button {
-      background: none !important;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      outline: none;
-    }
-
-
-
-
-    body,
-    html {
-      height: 100%;
-      margin: 0 auto;
-      padding: 0;
-      background-attachment: fixed;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-family: "MinFont";
-      font-size: 16px;
-      z-index: 1;
-    }
-
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      flex-wrap: nowrap;
-    }
-
-
-
-
-
-
-
-    /* Logo */
-
-    #logobig {
-      max-width: 100%;
-      max-height: 200px;
-      object-fit: contain;
-      animation: breathing 2.5s infinite ease-in-out;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    #logobig:hover {
-      transform: scale(1.15) translateY(10px);
-      transition: 0.2s;
-    }
-
-    @keyframes breathing {
-      0% {
-        transform: translateY(0) scale(1);
-      }
-
-      50% {
-        transform: translateY(-2px) scale(1);
-      }
-
-      100% {
-        transform: translateY(0) scale(1);
-      }
-    }
-
-
-
-    .caixamaisclara {
-      padding: 0.9375rem;
-      border-radius: 0.9375rem;
-      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-
-    }
-
-    .about-text {
-      max-width: 60%;
-    }
-
-
-
-
-
+    /* grid-feed is defined in emo.css / portfolio-menu shared styles,
+       but since this page is also standalone we repeat only what's needed */
     .grid-feed {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       max-width: 800px;
+      margin: 0 auto;
     }
 
-    /* Adicione estas regras para deixar as imagens quadradas */
     .grid-feed img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       aspect-ratio: 1 / 1;
+      display: block;
+      transition: transform 0.2s ease;
     }
-
 
     .grid-feed a {
       display: block;
       position: relative;
-      max-width: 800px;
-      max-height: 800px;
-      display: block;
-
+      overflow: hidden;
+      border-radius: 2px;
     }
 
+    .grid-feed a:hover img { transform: scale(1.05); }
 
+    .fancybox__caption { font-size: 14px; color: #534f4a; border-color: #24211e; }
 
-    #container img {
-      max-width: 100%;
-      display: block;
-
-    }
-
-    .fancybox__caption {
-      font-size: 25px;
-      color: #534f4a;
-      border-color: #24211e
+    @media (max-width: 768px) {
+      .grid-feed { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
-
 </head>
 
 <body>
-
   <div class="layout-with-sidebars">
-
-
-
     <main id="containerprincipal">
 
-
       <div class="grid-feed">
+        <a href="imgs/photography-portfolio/DSCN4875 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4875 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/garden1.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/garden1.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4796 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4796 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4712.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4712.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4784.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4784.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4813 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4813 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4684-1 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4684-1 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4685 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4685 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4671 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4671 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4017-1.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4017-1.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4018-1.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4018-1.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4015.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4015.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4552 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4552 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4520-1 (2) (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4520-1 (2) (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4513 (2).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4513 (2).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3527 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3527 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3461 (2).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3461 (2).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3546 (3).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3546 (3).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4065.jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4065.jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4071 (2).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4071 (2).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN4057 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN4057 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3822 (4).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3822 (4).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3858-1 (1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3858-1 (1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3815 (5)(1).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3815 (5)(1).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3805 (2).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3805 (2).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3804 (4).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3804 (4).jpg" alt="" /></a>
+        <a href="imgs/photography-portfolio/DSCN3806-1 (2).jpg" data-fancybox="gallery" data-caption=""><img src="imgs/photography-portfolio/DSCN3806-1 (2).jpg" alt="" /></a>
+      </div>
 
-
-
-
-          <a href="imgs/photography-portfolio/DSCN4875 (1).jpg" data-fancybox="gallery" data-caption="
-          ">
-            <img src="imgs/photography-portfolio/DSCN4875 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/garden1.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/garden1.jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4796 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4796 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4712.jpg" data-fancybox="gallery" data-caption="
-          ">
-            <img src="imgs/photography-portfolio/DSCN4712.jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4784.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4784.jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4813 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4813 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4684-1 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4684-1 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4685 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4685 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4671 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4671 (1).jpg" alt="" />
-          </a>
-
-
-
-          <a href="imgs/photography-portfolio/DSCN4017-1.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4017-1.jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4018-1.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4018-1.jpg" alt="" />
-          </a>
-
-
-          <a href="imgs/photography-portfolio/DSCN4015.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4015.jpg" alt="" />
-          </a>
-
-
-
-
-          <a href="imgs/photography-portfolio/DSCN4552 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4552 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4520-1 (2) (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4520-1 (2) (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4513 (2).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4513 (2).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3527 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3527 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3461 (2).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3461 (2).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3546 (3).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3546 (3).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4065.jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4065.jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN4071 (2).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4071 (2).jpg" alt="" />
-          </a>
-
-
-          <a href="imgs/photography-portfolio/DSCN4057 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN4057 (1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3822 (4).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3822 (4).jpg" alt="" />
-          </a>
-
-
-          <a href="imgs/photography-portfolio/DSCN3858-1 (1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3858-1 (1).jpg" alt="" />
-          </a>
-
-
-          <a href="imgs/photography-portfolio/DSCN3815 (5)(1).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3815 (5)(1).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3805 (2).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3805 (2).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3804 (4).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3804 (4).jpg" alt="" />
-          </a>
-
-          <a href="imgs/photography-portfolio/DSCN3806-1 (2).jpg" data-fancybox="gallery" data-caption="">
-            <img src="imgs/photography-portfolio/DSCN3806-1 (2).jpg" alt="" />
-          </a>
-
-
-
-
-
-
-
-
-
-        </div>
     </main>
-
-
-
   </div>
 
-
-
-
-
-
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+  <script>Fancybox.bind('[data-fancybox="gallery"]', {});</script>
 </body>
-
-
-
-
-
 </html>

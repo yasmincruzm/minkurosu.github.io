@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -11,486 +8,126 @@
     gtag('js', new Date());
     gtag('config', 'G-4K5KDKEJ2E');
   </script>
-  <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
   <meta charset="UTF-8">
   <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-  <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-
-  <title>@minkurosu</title>
-
+  <title>@minkurosu — live2d rigs</title>
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+  <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
   <div class="crt"></div>
-  <style>
-    html,
-    body,
-    iframe {
-      cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
-    }
-
-
-    a,
-    button,
-    input[type="submit"],
-    input[type="button"],
-    select {
-      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-    }
-
-
-    #containerprincipal {
-      border-radius: 1.25rem;
-      text-align: center;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 50rem;
-      box-sizing: border-box;
-
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    #container {
-
-      padding: 1.25rem;
-      border-radius: 1.25rem;
-      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-      text-align: center;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 50rem;
-      box-sizing: border-box;
-
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .galeria-container {
-      width: 700px;
-      height: 300px;
-
-      border-radius: 8px;
-      overflow: auto;
-      padding: 10px;
-      box-sizing: border-box;
-
-      margin-left: auto;
-      margin-right: auto;
-
-    }
-
-    .galeria-grid {
-      display: grid;
-
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 15px;
-      padding: 5px;
-      justify-items: center;
-      align-items: center;
-    }
-
-    .galeria-grid img {
-      max-width: 100%;
-      height: 120px;
-
-
-      object-fit: contain;
-
-      display: block;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease;
-    }
-
-    .galeria-grid img:hover {
-      transform: scale(1.05);
-    }
-
-
-    .divportfolio {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .divportfolio img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-    }
-
-    .divportfolio img:hover {
-      transform: scale(1.05) translateY(5px);
-      transition: transform 0.1s ease-in-out;
-
-    }
-
-    .button-link {
-      text-decoration: none;
-      color: #534F4A;
-      background-color: #24211e;
-      padding: 10px 10px;
-      border-radius: 0.625rem;
-      transition: background-color 0.3s;
-      display: inline-block;
-      border: 0.3125rem solid #272525;
-      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
-      margin: 5px;
-      text-align: center;
-    }
-
-    .button-link:hover {
-      background-color: #534f4a;
-      color: #1B1917;
-    }
-
-    .button-container {
-      display: flex-box;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-      width: 100%;
-      max-width: 50rem;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      max-width: 75%;
-    }
-
-    .button-container .contact-links {
-      flex: 0 0 calc(25% - 10px);
-    }
-
-    .button-container .contact-links .button-link {
-      width: 80%;
-      padding: 10px;
-      margin: 30px;
-
-
-
-    }
-
-    .contact-links {
-      margin-bottom: 15px;
-    }
-
-
-    .imagem-circular {
-      overflow: ;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-    }
-
-    .imagem-circular img {
-      max-width: 15rem;
-      max-height: 15rem;
-      border-radius: 50%;
-    }
-
-    .imagem-circular:hover {
-      transform: scale(1.05);
-      transition: 0.3s ease-in-out, transform 0.3s ease-in-out;
-    }
-
-    @media (max-width: 768px) {}
-
-    .pushable {
-      position: relative;
-      border: none;
-      background: transparent;
-      padding: 0;
-      cursor: pointer;
-      outline-offset: 4px;
-      transition: filter 250ms;
-      display: inline-block;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-    }
-
-    .shadow {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      background: hsl(0deg 0% 0% / 0.25);
-      will-change: transform;
-      transform: translateY(2px);
-      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    }
-
-    .edge {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      background: linear-gradient(to left,
-          hsl(43, 9%, 15%) 92%,
-          hsl(30, 4%, 18%) 8%,
-          hsl(43, 9%, 15%) 92%,
-          hsl(60, 2%, 11%) 100%);
-    }
-
-    .front {
-      display: block;
-      position: relative;
-      padding: 12px 42px;
-      border-radius: 12px;
-      font-size: 1.25rem;
-      color: #7c756d;
-      background: hsl(30, 4%, 20%);
-      will-change: transform;
-      transform: translateY(-4px);
-      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-    }
-
-    .pushable:hover {
-      filter: brightness(110%);
-    }
-
-    .pushable:hover .front {
-      transform: translateY(-6px);
-      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-    }
-
-    .pushable:active .front {
-      transform: translateY(-2px);
-      transition: transform 34ms;
-    }
-
-    .pushable:hover .shadow {
-      transform: translateY(4px);
-      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
-    }
-
-    .pushable:active .shadow {
-      transform: translateY(1px);
-      transition: transform 34ms;
-    }
-
-    .pushable:focus:not(:focus-visible) {
-      outline: none;
-    }
-
-
-    #theme-toggle-button {
-      background: none !important;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: none;
-      border: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      outline: none;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-    }
-
-    h2 {
-      font-size: 1.3rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    h3 {
-      font-size: 1rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    h4 {
-      font-size: 1rem;
-      margin: 5px;
-      padding: 8px;
-    }
-
-    .h2text {
-      margin: 0;
-    }
-  </style>
-
 </head>
 
 <body>
-
   <div class="layout-with-sidebars">
-
-
     <main id="containerprincipal">
-
-
-
       <div id="container">
 
+        <div class="rig-page">
 
-        <div class="portfolioContent">
-          <div class="conjuntoblocos">
-            <div class="divportfolio">
-
-              <div id="whychooseme">
-                <h1>why choose me as your live2d rigger?</h1>
-                <br>
-                <h1> - i've been working as a live2d rigger since december 2020!</h1>
-                <h1> - most of my clients are found throught recommendation of old clients!</h1>
-                <h1> - i've been commissioned by 45+ vtubers! (and counting) </h1>
-                <br>
-                <h3>*note: my tracking camera isn't the best, so please ignore the </h3>
-                <h3> tracking problems and focus on the rig and physics!! *</h3>
-
-              </div>
-              <br>
-
-              <div class="button-container">
-                <div class="contact-links">
-                  <a href="rigclients.html" class="pushable" target="_blank">
-                    <span class="shadow"></span>
-                    <span class="edge"></span>
-                    <span class="front">click for a list of some of my clients!</span>
-                  </a>
-                </div>
-              </div>
-              <br>
-            <iframe
-  width="560"
-  height="315"
-  src="https://youtu.be/A17-WoCIdEU?si=5F6khyGk9ZLc-f-o"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
-              <h4>halfbody detailed</h4>
-
-              <br>
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4">
-              </video>
-              <h4>fullbody detailed</h4>
-              <br>
-
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4">
-              </video>
-              <h4>fullbody detailed</h4>
-              <br>
-
-
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4">
-              </video>
-              <h4>pet detailed</h4>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/shirotakami.mp4" type="video/mp4">
-              </video>
-              <h4>halfbody detailed</h4>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-43-11.mp4" type="video/mp4">
-              </video>
-
-              <h4>fullbody detailed</h4>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/dentes.mp4" type="video/mp4">
-              </video>
-
-              <br>
-
-
-
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4">
-              </video>
-              <br>
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4">
-              </video>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4">
-              </video>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4">
-              </video>
-
-              <h4>lite rig ("pngtuber")</h4>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4">
-              </video>
-              <h4>chibi detailed</h4>
-              <br>
-
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4">
-              </video>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4">
-              </video>
-              <br>
-
-              <video width="" height="400px" controls>
-                <source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4">
-              </video>
-              <br>
-
-
-            </div>
+          <div class="rig-intro">
+            <p class="rig-intro-title">why choose me as your live2d rigger?</p>
+            <ul>
+              <li>i've been working as a live2d rigger since december 2020!</li>
+              <li>most of my clients are found through recommendation of old clients!</li>
+              <li>i've been commissioned by 45+ vtubers! (and counting)</li>
+            </ul>
+            <p class="note">*my tracking camera isn't the best — please ignore tracking issues and focus on the rig and physics!*</p>
           </div>
-          <br>
+
+          <div class="btn-wrap">
+            <a href="rigclients.html" class="pushable" target="_blank">
+              <span class="shadow"></span>
+              <span class="edge"></span>
+              <span class="front">click for a list of some of my clients!</span>
+            </a>
+          </div>
+
+          <div class="video-grid">
+
+            <div class="video-cell">
+              <iframe src="https://www.youtube.com/embed/A17-WoCIdEU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <span class="caption">halfbody detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4"></video>
+              <span class="caption">fullbody detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4"></video>
+              <span class="caption">fullbody detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4"></video>
+              <span class="caption">pet detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/shirotakami.mp4" type="video/mp4"></video>
+              <span class="caption">halfbody detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-43-11.mp4" type="video/mp4"></video>
+              <span class="caption">fullbody detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/dentes.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4"></video>
+              <span class="caption">lite rig ("pngtuber")</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4"></video>
+              <span class="caption">chibi detailed</span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+            <div class="video-cell">
+              <video controls><source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4"></video>
+              <span class="caption"></span>
+            </div>
+
+          </div>
+
         </div>
         <hr>
       </div>
     </main>
-
-
-
-
-
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
   </div>
 
-  </div>
-
-  </aside>
-
-  </div>
   <script src="lastfm-widget.js"></script>
   <script src="script.js"></script>
   <script src="theme-switcher.js"></script>
-
-
-
 </body>
-
 </html>
