@@ -437,6 +437,41 @@ div#goog-gt- {
     content: url('imgs/feed/mcrshow2.jpg');
 }
 
+
+
+
+/* CSS */
+.avatar-ring {
+  padding: 4px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avatar-ring.live {
+  border-color: #E24B4A;
+  animation: pulse-border 1.5s ease-in-out infinite;
+}
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 0 0px rgba(226,75,74,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(226,75,74,0.15); }
+}
+.avatar-ring img {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.live-badge {
+  margin-top: 8px;
+  background: #E24B4A; color: #fff;
+  font-size: 12px; font-weight: 500;
+  padding: 3px 10px; border-radius: 4px;
+  display: none;
+}
+
+
+
     </style>
 </head>
  
@@ -984,9 +1019,47 @@ div#goog-gt- {
 
 
 <hr>
+<a href="https://twitch.tv/minkurosu" target="_blank">
+  <div class="avatar-ring" id="avatarRing" style="height: 230px;">
+    <img src="imgs/art portfolio/pixelicon.jpeg" style="width: 100%; height: 100%; object-fit: cover;" />
+  </div>
+</a>
+</a>
+<span class="live-badge" id="liveBadge">live</span>
+<script>
+async function checkLive() {
+  const tokenRes = await fetch('https://id.twitch.tv/oauth2/token', {
+    method: 'POST',
+    body: new URLSearchParams({
+      client_id: 'd8c28gocdgh8zpasmhd01h9oi1p81e',
+      client_secret: 'dvxnvxrovv8fvnk75wqixleq3z3jng',
+      grant_type: 'client_credentials'
+    })
+  });
+  const tokenData = await tokenRes.json();
+  const token = tokenData.access_token;
+
+  const res = await fetch('https://api.twitch.tv/helix/streams?user_login=minkurosu', {
+    headers: {
+      'Client-ID': 'd8c28gocdgh8zpasmhd01h9oi1p81e',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const data = await res.json();
+  const isLive = data.data && data.data.length > 0;
+
+  document.getElementById('avatarRing').classList.toggle('live', isLive);
+  document.getElementById('liveBadge').style.display = isLive ? 'inline-block' : 'none';
+}
+
+checkLive();
+setInterval(checkLive, 300000); // a cada 5 minutos
+</script>
 
 
+<hr>
 
+       
 <div  class="desaturate" id="butterchurn-container" style="position: relative; width: 100%; height: 480px; background: #000; border-radius: 12px; overflow: hidden; cursor: pointer;">
   <canvas id="viz-canvas"></canvas>
   <div id="fade-overlay" style="position: absolute; inset: 0; background: #000; opacity: 1; transition: opacity 1.5s ease; pointer-events: none;"></div>
@@ -1067,14 +1140,7 @@ div#goog-gt- {
 })();
 </script>
 
-
-<hr>
-
-<hr>
-<img style="height: 265px;"" src="imgs/art portfolio/pixelicon.jpeg">
-
-
-                     
+              
 <hr>
                             <div class="caixamaisclaraColumn">
                                 <H3>my button! feel free to link :3
@@ -1217,11 +1283,12 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
                            
                          
                                 </div>
-                                   <br>  
+                                <hr>
 <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
     <div class="scrollSmaller">
         <h3>UPDATES</h3>
         <hr>
+        <h4>17/05/2026 - added lots of old drawings, some never posted before!!</h4>
         <h4>25/02/2026 - added more decoration, added my stuff page, other tweaks</h4>
         <h4>28/12/2025 - more minecraft screenshots, added a new article to cool links, fixed page loader bug</h4>
         <h4>22/11/2025 - updated game section and fixed page loader bug</h4>
@@ -1242,7 +1309,11 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
         <h4>05/08/2025 - added games page!</h4>
     </div>
 </div>
-<br>
+
+<hr>
+<img src="imgs\webgraphics\pixels\hunter-s-moon-king-lulu-deer.gif">
+
+<hr>
 <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
     <div class="scrollSmaller">
         <h3>TO DO LIST</h3>
