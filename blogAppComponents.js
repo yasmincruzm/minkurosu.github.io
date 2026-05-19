@@ -49,10 +49,10 @@ const App = () => {
                     
                     try {
                         await signInAnonymously(authentication);
-                        console.log('Logado anonimamente.');
+                        console.log('logado anonimamente.');
                     } catch (error) {
-                        console.error("Erro durante a autenticação:", error);
-                        setMessage("Falha na autenticação. Por favor, tente novamente.");
+                        console.error("erro durante a autenticação:", error);
+                        setMessage("falha na autenticação. por favor, tente novamente.");
                     }
                 }
             });
@@ -60,8 +60,8 @@ const App = () => {
      
             return () => unsubscribeAuth();
         } catch (error) {
-            console.error("Falha ao inicializar o Firebase:", error);
-            setMessage("Falha ao inicializar o aplicativo. Verifique o console para detalhes.");
+            console.error("falha ao inicializar o firebase:", error);
+            setMessage("falha ao inicializar o aplicativo.");
         }
     }, []); 
 
@@ -83,8 +83,8 @@ const App = () => {
                 }));
                 setBlogPosts(posts); 
             }, (error) => {
-                console.error("Erro ao buscar posts do blog:", error);
-                setMessage("Falha ao carregar os posts do blog. Por favor, tente novamente.");
+                console.error("erro ao buscar posts do blog:", error);
+                setMessage("falha ao carregar os posts do blog.");
             });
 
            
@@ -110,7 +110,7 @@ const App = () => {
                 {}
                 {userId && (
                     <div className="bg-gray-200 dark:bg-gray-800 p-3 rounded-md shadow-md mb-6 w-full max-w-2xl text-center text-sm">
-                        Seu ID de Usuário: <span className="font-mono text-blue-600 dark:text-blue-400 break-all">{userId}</span>
+                        ID de usuário: <span className="font-mono text-blue-600 dark:text-blue-400 break-all">{userId}</span>
                     </div>
                 )}
 
@@ -146,16 +146,16 @@ const App = () => {
         const handleSubmit = async (e) => {
             e.preventDefault(); /
             if (!db || !userId) {
-                setMessage("Banco de dados não pronto. Por favor, aguarde um momento e tente novamente.");
+                setMessage("banco de dados não pronto. por favor, aguarde um momento e tente novamente.");
                 return;
             }
             if (!title.trim() || !content.trim()) {
-                setMessage("Por favor, preencha o título e o conteúdo.");
+                setMessage("por favor, preencha o título e o conteúdo.");
                 return;
             }
 
             if (userId !== OWNER_USER_ID) {
-                setMessage("Você não tem permissão para adicionar posts. Apenas o proprietário do blog pode postar.");
+                setMessage("você não tem permissão para adicionar posts. Apenas o proprietário do blog pode postar.");
                 return;
             }
 
@@ -171,13 +171,13 @@ const App = () => {
                     author: userId, 
                     timestamp: new Date(), 
                 });
-                setMessage("Post do blog adicionado com sucesso!");
+                setMessage("post do blog adicionado com sucesso!");
                 setTitle(''); 
                 setContent(''); 
                 setCurrentView('list'); 
             } catch (error) {
-                console.error("Erro ao adicionar documento: ", error);
-                setMessage("Falha ao adicionar post do blog: " + error.message);
+                console.error("erro ao adicionar documento: ", error);
+                setMessage("falha ao adicionar post do blog: " + error.message);
             } finally {
                 setSubmitting(false); 
             }

@@ -9,7 +9,7 @@
         const lastfmSongCell = document.getElementById('lastfm-song-cell');
 
         if (!lastfmSongCell) {
-            console.error("[last.fm] error: element 'lastfm-song-cell' not found. script cannot continue.");
+            console.error("[last.fm] error");
             return;
         }
         console.log("[last.fm] element 'lastfm-song-cell' found successfully.");
@@ -31,7 +31,7 @@
 
                 const newContent = `<a href="${trackUrl}" target="_blank">${songName.toLowerCase()} - ${artistName.toLowerCase()}</a>`;
                 lastfmSongCell.innerHTML = newContent;
-                console.log(`[last.fm] success! track updated to: ${songName} - ${artistName}`);
+                console.log(`[last.fm] success!: ${songName} - ${artistName}`);
 
             } else {
                 lastfmSongCell.textContent = 'no recent tracks.';
@@ -39,7 +39,7 @@
             }
         } catch (error) {
             console.error("[last.fm] failed to fetch api data:", error);
-            lastfmSongCell.textContent = 'error loading.';
+            lastfmSongCell.textContent = 'error.';
         }
     }
 
@@ -50,6 +50,6 @@
         }, 100);
     };
 
-    console.log("[last.fm] widget script loaded and ready!");
+    console.log("[last.fm] widget script loaded!");
 
 })();

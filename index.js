@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (contentToLoad) {
           mainContainer.innerHTML = contentToLoad.innerHTML;
 
-          // garante que o viewport não reseta ao trocar de página
           fixViewport();
 
           setTimeout(() => {

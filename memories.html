@@ -10,8 +10,7 @@
       --paper: #c4aa82;
       --line:  rgba(65,45,25,0.13);
       --mg:    rgba(145,55,40,0.28);
-      --tape:  rgba(220,203,162,0.82);
-      --tapeb: rgba(158,135,92,0.5);
+      --tape:  rgba(235,222,195,0.38);
       --sh:    rgba(28,12,2,0.26);
     }
 
@@ -38,25 +37,29 @@
       opacity:.55;
     }
 
-    /* CLUSTER */
     .cluster {
       position: relative;
       max-width: 860px;
       margin: 70px auto;
     }
 
-    /* ITEM */
     .item { position:absolute; z-index:2; }
     .item:hover { z-index:999; }
 
-    /* FITA — lisa, sem listra */
     .tape {
       position:absolute;
       width:40px; height:14px;
-      background: var(--tape);
-      border: 1px solid var(--tapeb);
+      background: linear-gradient(
+        180deg,
+        rgba(240,228,205,0.28) 0%,
+        rgba(235,222,195,0.42) 40%,
+        rgba(230,216,188,0.36) 60%,
+        rgba(240,228,205,0.24) 100%
+      );
+      border: none;
       z-index:10;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+      box-shadow: inset 0 1px 0 rgba(255,250,240,0.18), inset 0 -1px 0 rgba(160,130,80,0.10);
+      backdrop-filter: blur(0.5px);
       pointer-events:none;
     }
     .tape.tl { top:-8px;    left:-7px;   transform:rotate(-35deg); }
@@ -68,130 +71,144 @@
 
     /* POLAROID */
     .polaroid {
-      background:#f4ede0;
-      padding:6px 6px 28px;
+      background:#f0ebe2;
+      padding:3px 3px 18px;
       box-shadow:2px 4px 12px var(--sh), 0 1px 2px rgba(0,0,0,0.09);
       cursor:pointer;
       transition:transform .2s ease, box-shadow .2s ease;
     }
     .polaroid:hover { box-shadow:6px 10px 24px rgba(28,12,2,.38); transform:scale(1.06) rotate(0deg) !important; }
-    .polaroid img { display:block; width:100%; height:100%; object-fit:cover; filter:sepia(9%) contrast(1.04) brightness(0.96); }
+    .polaroid img { display:block; width:100%; height:auto; filter:sepia(9%) contrast(1.04) brightness(0.96); }
 
-    /* FOTO SOLTA */
+    /* FOTO */
     .raw { overflow:hidden; box-shadow:2px 3px 10px var(--sh); cursor:pointer; transition:transform .2s ease; }
     .raw:hover { transform:scale(1.06) rotate(0deg) !important; }
-    .raw img { display:block; width:100%; height:100%; object-fit:cover; }
+    .raw img { display:block; width:100%; height:auto; }
 
-    /* OUTRA COISA */
+    /* etc  */
     .thing { cursor:pointer; transition:transform .2s ease; }
     .thing:hover { transform:scale(1.06) rotate(0deg) !important; }
-    .thing img { display:block; width:100%; height:100%; object-fit:contain; }
+    .thing img { display:block; width:100%; height:auto; object-fit:contain; }
 
-    /* ══════════════════════════════════════════════════════
-       CLUSTERS com múltiplas linhas e qtd variada
-    ══════════════════════════════════════════════════════ */
+    
 
-    /* C1 — 2 linhas: 3 em cima + 2 embaixo */
+
+
+
+
+
+
+
+
+
+
+
+
+
     .c1 { min-height: 295px; }
     .c1 .item:nth-child(1) { left: 30px;  top:  8px; }
-    .c1 .item:nth-child(1) .polaroid { width:140px; height:112px; transform:rotate(-4.2deg); }
+    .c1 .item:nth-child(1) .polaroid { width:140px; transform:rotate(-4.2deg); }
     .c1 .item:nth-child(2) { left:175px;  top: 22px; }
-    .c1 .item:nth-child(2) .raw      { width:125px; height:100px; transform:rotate(3.1deg);  }
+    .c1 .item:nth-child(2) .raw      { width:125px; transform:rotate(3.1deg);  }
     .c1 .item:nth-child(3) { left:302px;  top:  4px; }
-    .c1 .item:nth-child(3) .thing    { width: 92px; height: 92px; transform:rotate(-2.5deg); }
-    /* linha 2 */
-    .c1 .item:nth-child(4) { left: 95px;  top:152px; }
-    .c1 .item:nth-child(4) .polaroid { width:145px; height:114px; transform:rotate(2.8deg);  }
-    .c1 .item:nth-child(5) { left:252px;  top:165px; }
-    .c1 .item:nth-child(5) .raw      { width:128px; height:102px; transform:rotate(-3.7deg); }
+    .c1 .item:nth-child(3) .thing    { width: 92px; transform:rotate(-2.5deg); }
 
-    /* C2 — 3 linhas: 2 + 3 + 2 */
+    .c1 .item:nth-child(4) { left: 95px;  top:152px; }
+    .c1 .item:nth-child(4) .polaroid { width:145px; transform:rotate(2.8deg);  }
+    .c1 .item:nth-child(5) { left:252px;  top:165px; }
+    .c1 .item:nth-child(5) .raw      { width:128px; transform:rotate(-3.7deg); }
+
+
     .c2 { min-height: 430px; }
     .c2 .item:nth-child(1) { left:175px;  top:  5px; }
-    .c2 .item:nth-child(1) .thing    { width: 88px; height:108px; transform:rotate(-3.0deg); }
+    .c2 .item:nth-child(1) .thing    { width: 88px; transform:rotate(-3.0deg); }
     .c2 .item:nth-child(2) { left:278px;  top:  8px; }
-    .c2 .item:nth-child(2) .polaroid { width:152px; height:120px; transform:rotate(4.1deg);  }
-    /* linha 2 */
-    .c2 .item:nth-child(3) { left: 38px;  top:148px; }
-    .c2 .item:nth-child(3) .polaroid { width:138px; height:108px; transform:rotate(-5.2deg); }
-    .c2 .item:nth-child(4) { left:190px;  top:162px; }
-    .c2 .item:nth-child(4) .raw      { width:128px; height:102px; transform:rotate(2.3deg);  }
-    .c2 .item:nth-child(5) { left:335px;  top:146px; }
-    .c2 .item:nth-child(5) .thing    { width: 90px; height: 90px; transform:rotate(-1.8deg); }
-    /* linha 3 */
-    .c2 .item:nth-child(6) { left:128px;  top:298px; }
-    .c2 .item:nth-child(6) .polaroid { width:145px; height:116px; transform:rotate(3.5deg);  }
-    .c2 .item:nth-child(7) { left:290px;  top:308px; }
-    .c2 .item:nth-child(7) .raw      { width:120px; height: 96px; transform:rotate(-4.0deg); }
+    .c2 .item:nth-child(2) .polaroid { width:152px; transform:rotate(4.1deg);  }
 
-    /* C3 — 1 linha, só 2 itens grandes, respiro */
+    .c2 .item:nth-child(3) { left: 38px;  top:148px; }
+    .c2 .item:nth-child(3) .polaroid { width:138px; transform:rotate(-5.2deg); }
+    .c2 .item:nth-child(4) { left:190px;  top:162px; }
+    .c2 .item:nth-child(4) .raw      { width:128px; transform:rotate(2.3deg);  }
+    .c2 .item:nth-child(5) { left:335px;  top:146px; }
+    .c2 .item:nth-child(5) .thing    { width: 90px; transform:rotate(-1.8deg); }
+
+    .c2 .item:nth-child(6) { left:128px;  top:298px; }
+    .c2 .item:nth-child(6) .polaroid { width:145px; transform:rotate(3.5deg);  }
+    .c2 .item:nth-child(7) { left:290px;  top:308px; }
+    .c2 .item:nth-child(7) .raw      { width:120px; transform:rotate(-4.0deg); }
+
+
     .c3 { min-height: 195px; }
     .c3 .item:nth-child(1) { left:215px;  top: 10px; }
-    .c3 .item:nth-child(1) .polaroid { width:165px; height:130px; transform:rotate(-3.3deg); }
+    .c3 .item:nth-child(1) .polaroid { width:165px; transform:rotate(-3.3deg); }
     .c3 .item:nth-child(2) { left:395px;  top: 18px; }
-    .c3 .item:nth-child(2) .raw      { width:148px; height:116px; transform:rotate(4.7deg);  }
+    .c3 .item:nth-child(2) .raw      { width:148px; transform:rotate(4.7deg);  }
 
-    /* C4 — 2 linhas: 4 em cima + 3 embaixo */
+
     .c4 { min-height: 350px; }
     .c4 .item:nth-child(1) { left: 12px;  top:  8px; }
-    .c4 .item:nth-child(1) .raw      { width:116px; height: 94px; transform:rotate(-4.8deg); }
+    .c4 .item:nth-child(1) .raw      { width:116px; transform:rotate(-4.8deg); }
     .c4 .item:nth-child(2) { left:132px;  top:  0px; }
-    .c4 .item:nth-child(2) .polaroid { width:145px; height:116px; transform:rotate(2.3deg);  }
+    .c4 .item:nth-child(2) .polaroid { width:145px; transform:rotate(2.3deg);  }
     .c4 .item:nth-child(3) { left:282px;  top: 16px; }
-    .c4 .item:nth-child(3) .thing    { width: 80px; height:106px; transform:rotate(-1.5deg); }
+    .c4 .item:nth-child(3) .thing    { width: 80px; transform:rotate(-1.5deg); }
     .c4 .item:nth-child(4) { left:368px;  top:  4px; }
-    .c4 .item:nth-child(4) .polaroid { width:152px; height:120px; transform:rotate(5.0deg);  }
-    /* linha 2 */
-    .c4 .item:nth-child(5) { left: 55px;  top:162px; }
-    .c4 .item:nth-child(5) .thing    { width: 86px; height: 86px; transform:rotate(3.2deg);  }
-    .c4 .item:nth-child(6) { left:152px;  top:152px; }
-    .c4 .item:nth-child(6) .raw      { width:128px; height:100px; transform:rotate(-3.1deg); }
-    .c4 .item:nth-child(7) { left:295px;  top:158px; }
-    .c4 .item:nth-child(7) .polaroid { width:140px; height:110px; transform:rotate(1.9deg);  }
+    .c4 .item:nth-child(4) .polaroid { width:152px; transform:rotate(5.0deg);  }
 
-    /* C5 — pirâmide: 1 + 2 + 1 */
+
+    .c4 .item:nth-child(5) { left: 55px;  top:162px; }
+    .c4 .item:nth-child(5) .thing    { width: 86px; transform:rotate(3.2deg);  }
+    .c4 .item:nth-child(6) { left:152px;  top:152px; }
+    .c4 .item:nth-child(6) .raw      { width:128px; transform:rotate(-3.1deg); }
+    .c4 .item:nth-child(7) { left:295px;  top:158px; }
+    .c4 .item:nth-child(7) .polaroid { width:140px; transform:rotate(1.9deg);  }
+
+
     .c5 { min-height: 400px; }
     .c5 .item:nth-child(1) { left:295px;  top:  6px; }
-    .c5 .item:nth-child(1) .thing    { width:102px; height:102px; transform:rotate(-5.2deg); }
+    .c5 .item:nth-child(1) .thing    { width:102px; transform:rotate(-5.2deg); }
     .c5 .item:nth-child(2) { left:140px;  top:140px; }
-    .c5 .item:nth-child(2) .polaroid { width:145px; height:114px; transform:rotate(1.9deg);  }
+    .c5 .item:nth-child(2) .polaroid { width:145px; transform:rotate(1.9deg);  }
     .c5 .item:nth-child(3) { left:300px;  top:152px; }
-    .c5 .item:nth-child(3) .raw      { width:135px; height:106px; transform:rotate(-3.7deg); }
+    .c5 .item:nth-child(3) .raw      { width:135px; transform:rotate(-3.7deg); }
     .c5 .item:nth-child(4) { left:220px;  top:292px; }
-    .c5 .item:nth-child(4) .polaroid { width:142px; height:112px; transform:rotate(4.1deg);  }
+    .c5 .item:nth-child(4) .polaroid { width:142px; transform:rotate(4.1deg);  }
 
-    /* C6 — 2 linhas: 3 + 3 espalhados */
+ 
+ 
+ 
     .c6 { min-height: 340px; }
     .c6 .item:nth-child(1) { left: 22px;  top: 12px; }
-    .c6 .item:nth-child(1) .polaroid { width:140px; height:110px; transform:rotate(-2.6deg); }
+    .c6 .item:nth-child(1) .polaroid { width:140px; transform:rotate(-2.6deg); }
     .c6 .item:nth-child(2) { left:195px;  top:  4px; }
-    .c6 .item:nth-child(2) .thing    { width: 86px; height:106px; transform:rotate(4.2deg);  }
+    .c6 .item:nth-child(2) .thing    { width: 86px; transform:rotate(4.2deg);  }
     .c6 .item:nth-child(3) { left:295px;  top: 15px; }
-    .c6 .item:nth-child(3) .raw      { width:148px; height:116px; transform:rotate(-4.4deg); }
-    /* linha 2 */
-    .c6 .item:nth-child(4) { left: 75px;  top:168px; }
-    .c6 .item:nth-child(4) .raw      { width:125px; height: 98px; transform:rotate(2.2deg);  }
-    .c6 .item:nth-child(5) { left:218px;  top:178px; }
-    .c6 .item:nth-child(5) .polaroid { width:145px; height:114px; transform:rotate(-1.3deg); }
-    .c6 .item:nth-child(6) { left:378px;  top:162px; }
-    .c6 .item:nth-child(6) .thing    { width: 88px; height: 88px; transform:rotate(3.8deg);  }
+    .c6 .item:nth-child(3) .raw      { width:148px; transform:rotate(-4.4deg); }
 
-    /* C7 — 3 linhas: 2 + 2 + 2 */
+
+
+    .c6 .item:nth-child(4) { left: 75px;  top:168px; }
+    .c6 .item:nth-child(4) .raw      { width:125px; transform:rotate(2.2deg);  }
+    .c6 .item:nth-child(5) { left:218px;  top:178px; }
+    .c6 .item:nth-child(5) .polaroid { width:145px; transform:rotate(-1.3deg); }
+    .c6 .item:nth-child(6) { left:378px;  top:162px; }
+    .c6 .item:nth-child(6) .thing    { width: 88px; transform:rotate(3.8deg);  }
+
     .c7 { min-height: 400px; }
     .c7 .item:nth-child(1) { left: 95px;  top:  8px; }
-    .c7 .item:nth-child(1) .thing    { width: 96px; height: 96px; transform:rotate(5.5deg);  }
+    .c7 .item:nth-child(1) .thing    { width: 96px; transform:rotate(5.5deg);  }
     .c7 .item:nth-child(2) { left:215px;  top:  4px; }
-    .c7 .item:nth-child(2) .polaroid { width:152px; height:120px; transform:rotate(-3.0deg); }
-    /* linha 2 */
+    .c7 .item:nth-child(2) .polaroid { width:152px; transform:rotate(-3.0deg); }
     .c7 .item:nth-child(3) { left: 48px;  top:152px; }
-    .c7 .item:nth-child(3) .raw      { width:132px; height:104px; transform:rotate(1.6deg);  }
+    .c7 .item:nth-child(3) .raw      { width:132px; transform:rotate(1.6deg);  }
     .c7 .item:nth-child(4) { left:205px;  top:162px; }
-    .c7 .item:nth-child(4) .thing    { width: 90px; height:110px; transform:rotate(-4.5deg); }
-    /* linha 3 */
+    .c7 .item:nth-child(4) .thing    { width: 90px; transform:rotate(-4.5deg); }
+
+
     .c7 .item:nth-child(5) { left:115px;  top:302px; }
-    .c7 .item:nth-child(5) .polaroid { width:145px; height:114px; transform:rotate(2.9deg);  }
+    .c7 .item:nth-child(5) .polaroid { width:145px; transform:rotate(2.9deg);  }
     .c7 .item:nth-child(6) { left:278px;  top:292px; }
-    .c7 .item:nth-child(6) .raw      { width:125px; height: 98px; transform:rotate(-2.1deg); }
+    .c7 .item:nth-child(6) .raw      { width:125px; transform:rotate(-2.1deg); }
 
     /* fade-in */
     .cluster { opacity:0; animation:rise .65s cubic-bezier(.22,.68,0,1.15) forwards; }
@@ -214,14 +231,13 @@
 
 <!--
 ╔══════════════════════════════════════════════════╗
-║  .polaroid → foto com moldura branca             ║
-║  .raw      → foto sem moldura                    ║
-║  .thing    → sticker / bilhete / outra coisa     ║
-║  Troque src="" pelo caminho do arquivo real      ║
+║  .polaroid → foto com moldura branca      ║
+║  .raw      → foto sem moldura           ║
+║  .thing    → etc        outra coisa     ║
+║                                         ║
 ╚══════════════════════════════════════════════════╝
 -->
 
-<!-- C1 · 2 linhas: 3 + 2 -->
 <div class="cluster c1">
   <div class="item"><div class="tape tl"></div><div class="tape br"></div>
     <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
@@ -235,7 +251,6 @@
     <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
 </div>
 
-<!-- C2 · 3 linhas: 2 + 3 + 2 -->
 <div class="cluster c2">
   <div class="item"><div class="tape bc"></div>
     <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
@@ -253,7 +268,6 @@
     <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
 </div>
 
-<!-- C3 · 1 linha só: 2 itens grandes com respiro -->
 <div class="cluster c3">
   <div class="item"><div class="tape tl"></div><div class="tape br"></div>
     <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
@@ -261,7 +275,6 @@
     <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
 </div>
 
-<!-- C4 · 2 linhas: 4 + 3 -->
 <div class="cluster c4">
   <div class="item"><div class="tape tr"></div><div class="tape bl"></div>
     <div class="raw"><img src="SUA_FOTO.jpg" alt=""/></div></div>
@@ -279,7 +292,6 @@
     <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
 </div>
 
-<!-- C5 · pirâmide: 1 + 2 + 1 -->
 <div class="cluster c5">
   <div class="item"><div class="tape tc"></div>
     <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
@@ -291,7 +303,6 @@
     <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
 </div>
 
-<!-- C6 · 2 linhas: 3 + 3 -->
 <div class="cluster c6">
   <div class="item"><div class="tape tl"></div><div class="tape br"></div>
     <div class="polaroid"><img src="SUA_FOTO.jpg" alt=""/></div></div>
@@ -307,7 +318,6 @@
     <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
 </div>
 
-<!-- C7 · 3 linhas: 2 + 2 + 2 -->
 <div class="cluster c7">
   <div class="item"><div class="tape tc"></div>
     <div class="thing"><img src="SUA_COISA.png" alt=""/></div></div>
@@ -324,7 +334,7 @@
 </div>
 
 <!--
-  NOVO CLUSTER — copie e ajuste:
+
 
   <div class="cluster c8">
     <div class="item">...</div>
@@ -333,11 +343,29 @@
   CSS:
   .c8 { min-height: 300px; }
   .c8 .item:nth-child(1) { left:50px; top:10px; }
-  .c8 .item:nth-child(1) .polaroid { width:140px; height:110px; transform:rotate(-3deg); }
+  .c8 .item:nth-child(1) .polaroid { width:140px; transform:rotate(-3deg); }
   ...
   .c8 { animation-delay:.74s }
 -->
 
 </div>
+
+<script>
+  function fitContainer(img) {
+    const wrapper = img.closest('.polaroid, .raw, .thing');
+    if (!wrapper) return;
+    wrapper.style.height = 'auto';
+    img.style.width  = '100%';
+    img.style.height = 'auto';
+  }
+
+  document.querySelectorAll('.polaroid img, .raw img, .thing img').forEach(img => {
+    if (img.complete && img.naturalWidth > 0) {
+      fitContainer(img);
+    } else {
+      img.addEventListener('load', () => fitContainer(img));
+    }
+  });
+</script>
 </body>
 </html>

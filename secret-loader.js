@@ -102,6 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     } else {
-        console.error("elementos do priv não encontrados. Verifique os ids no HTML.");
+        console.error("");
     }
 });

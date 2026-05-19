@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
         if (user) {
-            // bloqueia qualquer e-mail que não seja o autorizado
+
             if (user.email !== ALLOWED_EMAIL) {
                 signOut(auth);
                 msg(loginMessage, 'acesso negado.', 'error');
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // login com email/senha
+
     loginEmailForm?.addEventListener('submit', async e => {
         e.preventDefault();
         try {
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // login com Google
+
     googleLoginBtn?.addEventListener('click', async () => {
         try {
             const cred = await signInWithPopup(auth, provider);
@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── thoughts post ──────────────────────────
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
     const postImageFile = document.getElementById('post-image-file');
@@ -146,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── close friends (private entries) ───────
     const privateContent = document.getElementById('private-entry-content');
     const publishPrivate = document.getElementById('publish-private-entry-btn');
     const privateMsg     = document.getElementById('private-entry-message');

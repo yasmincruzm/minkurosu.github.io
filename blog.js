@@ -35,7 +35,6 @@ async function loadBlogPosts() {
 
     try {
 
-        // CORRIGIDO: Mudei o caminho da coleção para o caminho correto
         const q = query(collection(db, "blog_posts"), orderBy("timestamp", "desc")); const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
@@ -63,8 +62,8 @@ async function loadBlogPosts() {
             blogPostsContainer.appendChild(postElement);
         });
     } catch (e) {
-        console.error("Erro ao carregar posts do blog: ", e);
-        blogPostsContainer.innerHTML = '<p>Erro ao carregar os posts do blog.</p>';
+        console.error("error: ", e);
+        blogPostsContainer.innerHTML = '<p>error.</p>';
     }
 }
 

@@ -1,10 +1,8 @@
-// admin-tracker.js — lógica do widget de visitantes no admin
 
 import { getFirestore, collection, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 let myIp = null;
 
-// detecta o IP do admin para destacar no tracker
 async function getMyIp() {
     try {
         const res  = await fetch('https://ip-api.com/json/?fields=query');
@@ -15,7 +13,6 @@ async function getMyIp() {
     }
 }
 
-// converte código de país ISO 3166-1 alpha-2 → emoji flag (ex: "BR" → 🇧🇷)
 function countryFlag(cc) {
     if (!cc || cc.length !== 2) return '🌐';
     return [...cc.toUpperCase()]
@@ -54,7 +51,6 @@ export async function loadVisitorTracker(app) {
             const meClass = isMe ? ' tracker-row-me' : '';
             const meBadge = isMe ? ' <span class="tracker-me-badge">👑 eu</span>' : '';
 
-            // cidade + região + país — mostra o que existir
             const location = [d.city, d.region, d.country]
                 .filter(v => v && v !== 'unknown' && v !== '')
                 .join(', ') || 'localização desconhecida';

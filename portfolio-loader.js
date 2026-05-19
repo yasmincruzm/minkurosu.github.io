@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadPortfolioContent = async (pageUrl) => {
         if (!contentArea) {
-            console.error('Erro: A área de conteúdo "portfolio-conteudo" não foi encontrada.');
+            console.error('error');
             return;
         }
 
-        contentArea.innerHTML = '<p>Carregando...</p>';
+        contentArea.innerHTML = '<p>loading...</p>';
 
         try {
             const response = await fetch(pageUrl);
@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contentNode) {
                 contentArea.innerHTML = contentNode.innerHTML;
             } else {
-                console.warn(`Nenhum seletor de conteúdo específico encontrado em ${pageUrl}.`);
+                console.warn(`${pageUrl}.`);
                 contentArea.innerHTML = doc.body.innerHTML;
             }
         } catch (error) {
-            console.error('Erro ao carregar conteúdo do portfólio:', error);
-            contentArea.innerHTML = '<p style="color: red;">Não foi possível carregar o conteúdo. Tente novamente mais tarde.</p>';
+            console.error('error:', error);
+            contentArea.innerHTML = '<p style="color: red;">error</p>';
         }
     };
 

@@ -1,4 +1,3 @@
-// private.js
 
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
@@ -28,7 +27,7 @@ const privateEntriesDisplay = document.getElementById('private-entries-display')
 const CORRECT_PASSWORD = "hopelessnightmare";
 
 function formatTimestampForTitle(timestamp) {
-    if (!timestamp || !timestamp.toDate) return 'Data Indisponível';
+    if (!timestamp || !timestamp.toDate) return '';
     const date = timestamp.toDate();
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -48,7 +47,7 @@ async function loadPrivateEntries() {
     }
 
     try {
-        privateEntriesDisplay.innerHTML = '<h2>Carregando entradas privadas...</h2>';
+        privateEntriesDisplay.innerHTML = '<h2></h2>';
 
         const entriesQuery = query(collection(db, 'private_entries'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(entriesQuery);
@@ -56,7 +55,7 @@ async function loadPrivateEntries() {
         privateEntriesDisplay.innerHTML = '';
 
         if (querySnapshot.empty) {
-            privateEntriesDisplay.innerHTML = '<h2>Nenhuma entrada privada encontrada ainda.</h2>';
+            privateEntriesDisplay.innerHTML = '<h2></h2>';
             return;
         }
 
@@ -80,7 +79,7 @@ async function loadPrivateEntries() {
         });
     } catch (error) {
         console.error("Erro ao carregar entradas privadas:", error);
-        privateEntriesDisplay.innerHTML = '<p style="color: red;">Ocorreu um erro ao carregar as entradas privadas.</p>';
+        privateEntriesDisplay.innerHTML = '<p style="color: red;">.</p>';
     }
 }
 
@@ -94,17 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const enteredPassword = passwordInput.value.trim();
 
             if (enteredPassword === CORRECT_PASSWORD) {
-                showPasswordMessage(passwordMessage, 'Senha correta! Carregando entradas...', 'success');
+                showPasswordMessage(passwordMessage, 'loading', 'success');
                 passwordForm.style.display = 'none';
                 privateEntriesDisplay.style.display = 'block';
                 loadPrivateEntries();
             } else {
-                showPasswordMessage(passwordMessage, 'Senha incorreta. Tente novamente.', 'error');
+                showPasswordMessage(passwordMessage, 'wrong pass', 'error');
                 passwordInput.value = '';
             }
         });
     } else {
-        console.error("Elementos 'password-form' ou 'private-entries-display' não encontrados. Verifique seu HTML e JS.");
+        console.error("");
 
     }
 });

@@ -157,7 +157,6 @@ function buildEmbeds(urls) {
     return { html: html, plain: plain };
 }
 
-// ── timestamp ──────────────────────────────────
 function fmt(ts) {
     if (!ts) return '';
     const d = ts.toDate();
@@ -165,7 +164,6 @@ function fmt(ts) {
     return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + String(d.getFullYear()).slice(2) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
 }
 
-// ── render post ────────────────────────────────
 function renderPost(post, postId) {
     const raw    = post.content || '';
     const urls   = extractUrls(raw);
@@ -203,7 +201,6 @@ function renderPost(post, postId) {
     };
 }
 
-// ── posts listener ─────────────────────────────
 function listenForPosts() {
     const container = document.getElementById('tweets-container');
     if (!container) return;
@@ -226,7 +223,6 @@ function listenForPosts() {
     });
 }
 
-// ── replies listener ───────────────────────────
 function listenForReplies(postId) {
     const postEl = document.querySelector('li[data-post-id="' + postId + '"]');
     if (!postEl) return;
@@ -262,7 +258,6 @@ function listenForReplies(postId) {
     });
 }
 
-// ── secret / close friends ─────────────────────
 async function loadSecretPosts() {
     const container = document.getElementById('secret-posts-container');
     if (!container) return;
@@ -307,7 +302,6 @@ function initSecret() {
     });
 }
 
-// ── event handlers ─────────────────────────────
 async function handleActionClick(e) {
     const replyBtn = e.target.closest('.reply-button');
     if (replyBtn) {

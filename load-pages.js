@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (pageName === 'aboutme') {
                     setTimeout(() => {
                         if (typeof inicializarLastFmWidget === 'function') {
-                            console.log('🎵 calling lastfm widget initialization...');
+                            console.log('calling lastfm widget initialization...');
                             inicializarLastFmWidget();
                         } else {
                             console.log('⚠️ lastfm widget function not found');
@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     setTimeout(() => {
                         if (typeof window.initGamesPage === 'function') {
-                            console.log('🎮 initializing...');
+                            console.log('initializing...');
                             window.initGamesPage();
                         } else {
-                            console.log('🎮 initializing...');
+                            console.log('initializing...');
                             const gameButtons = document.querySelectorAll('.game-button-link');
                             if (gameButtons.length > 0 && gameButtons[0].onclick === null) {
                                 const gameScripts = document.querySelectorAll('script');

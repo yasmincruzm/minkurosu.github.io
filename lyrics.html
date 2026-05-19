@@ -31,7 +31,6 @@
         header {
             background-color: #1B1917;
             padding: 5px;
-            /* background-attachment: fixed; <-- This property is for background-image, not for fixing the element */
             margin-bottom: 2%;
             border-radius: 0 0 1.25rem 1.25rem;
             display: flex;
@@ -39,28 +38,17 @@
             align-items: center;
             box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
             width: 100%;
-            /* Take full width within its context before max-width applies */
             max-width: 50rem;
-            /* Limit its maximum width */
             box-sizing: border-box;
             max-height: 5rem;
-            /* Centralize the header itself within the viewport */
             margin-left: auto;
             margin-right: auto;
-            /* If you want it fixed at the top and centered, combine these: */
             position: fixed;
-            /* Make it fixed */
             top: 0;
-            /* Align to the top */
             left: 0;
-            /* Align to the left (then margin auto takes effect) */
             right: 0;
-            /* Align to the right (then margin auto takes effect) */
             z-index: 1000;
-            /* Ensure it stays on top of other content */
         }
-
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: center;
@@ -431,27 +419,27 @@
                 <div class="scattered-blocks-wrapper">
                     <div class="scattered-block" style="width: 450px; top: 5%; left: 2%; transform: rotate(5deg);">
                         <img src="imgs/site_imgs/note.png" alt="Note">
-                        <div class="note-text">Seu texto aqui.</div>
+                        <div class="note-text"></div>
                     </div>
 
                     <div class="scattered-block" style="width: 400px; top: 20%; left: 75%; transform: rotate(-10deg);">
                         <img src="imgs/site_imgs/note.png" alt="Note">
-                        <div class="note-text">Outro texto.</div>
+                        <div class="note-text"></div>
                     </div>
 
                     <div class="scattered-block" style="width: 500px; top: 40%; left: 15%; transform: rotate(2deg);">
                         <img src="imgs/site_imgs/note.png" alt="Note">
-                        <div class="note-text">Mais um recado.</div>
+                        <div class="note-text"></div>
                     </div>
 
                     <div class="scattered-block" style="width: 420px; top: 60%; left: 85%; transform: rotate(15deg);">
                         <img src="imgs/site_imgs/note.png" alt="Note">
-                        <div class="note-text">Lembrete importante.</div>
+                        <div class="note-text"></div>
                     </div>
 
                     <div class="scattered-block" style="width: 480px; top: 75%; left: 45%; transform: rotate(-7deg);">
                         <img src="imgs/site_imgs/note.png" alt="Note">
-                        <div class="note-text">Anotação rápida.</div>
+                        <div class="note-text"></div>
                     </div>
                 </div>
             </main>

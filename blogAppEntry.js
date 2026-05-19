@@ -45,15 +45,15 @@ const App = () => {
                 if (user) {
                     
                     setUserId(user.uid);
-                    console.log('Usuário logado (do console.log de depuração):', user.uid); 
+                    console.log('usuário logado (do console.log de depuração):', user.uid); 
                 } else {
                     
                     try {
                         await signInAnonymously(authentication);
-                        console.log('Logado anonimamente.');
+                        console.log('logado anonimamente.');
                     } catch (error) {
-                        console.error("Erro durante a autenticação:", error);
-                        setMessage("Falha na autenticação. Por favor, tente novamente.");
+                        console.error("erro durante a autenticação:", error);
+                        setMessage("falha na autenticação. Por favor, tente novamente.");
                     }
                 }
             });
@@ -61,8 +61,8 @@ const App = () => {
           
             return () => unsubscribeAuth();
         } catch (error) {
-            console.error("Falha ao inicializar o Firebase:", error);
-            setMessage("Falha ao inicializar o aplicativo. Verifique o console para detalhes.");
+            console.error("falha ao inicializar o firebase:", error);
+            setMessage("falha ao inicializar o aplicativo. verifique o console");
         }
     }, []); 
 
@@ -84,8 +84,8 @@ const App = () => {
                 }));
                 setBlogPosts(posts); 
             }, (error) => {
-                console.error("Erro ao buscar posts:", error);
-                setMessage("Erro ao carregar posts. Por favor, tente novamente.");
+                console.error("erro ao buscar posts:", error);
+                setMessage("erro ao carregar posts. ");
             });
 
            
@@ -97,12 +97,12 @@ const App = () => {
 
     return (
         <div>
-            <h1>Meu Blog Simples</h1>
+            <h1>meu blog</h1>
             {message && <p style={{ color: 'red' }}>{message}</p>}
             {}
             {currentView === 'list' && (
                 <div>
-                    <h2>Lista de Posts</h2>
+                    <h2>posts</h2>
                     {blogPosts.length > 0 ? (
                         <ul>
                             {blogPosts.map(post => (
@@ -127,7 +127,7 @@ const App = () => {
                     ownerUserId={OWNER_USER_ID}
                     appId={FIREBASE_CONFIG.appId}
                     onPostAdded={() => {
-                        setMessage("Post adicionado com sucesso!");
+                        setMessage("post adicionado!");
                         setCurrentView('list');
                     }}
                     onCancel={() => setCurrentView('list')}
@@ -146,12 +146,12 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!db || !userId) {
-            onError("Banco de dados ou ID de usuário não disponíveis.");
+            onError("banco de dados ou ID de usuário não disponíveis.");
             return;
         }
 
         if (userId !== ownerUserId) {
-            onError("Você não tem permissão para adicionar posts.");
+            onError("você não tem permissão para adicionar posts.");
             return;
         }
 
@@ -166,8 +166,8 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
             setTitle('');
             setContent('');
         } catch (error) {
-            console.error("Erro ao adicionar post:", error);
-            onError("Erro ao adicionar post. Por favor, tente novamente.");
+            console.error("erro ao adicionar post:", error);
+            onError("erro ao adicionar post. ");
         }
     };
 
@@ -176,7 +176,7 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
             <h2>Novo Post</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Título:</label>
+                    <label>título:</label>
                     <input
                         type="text"
                         value={title}
@@ -185,15 +185,15 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
                     />
                 </div>
                 <div>
-                    <label>Conteúdo:</label>
+                    <label>conteúdo:</label>
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         required
                     ></textarea>
                 </div>
-                <button type="submit">Adicionar Post</button>
-                <button type="button" onClick={onCancel}>Cancelar</button>
+                <button type="submit">adicionar post</button>
+                <button type="button" onClick={onCancel}>cancelar</button>
             </form>
         </div>
     );

@@ -209,7 +209,6 @@ html {
 }
 
 
-/* ── scrollbar global (html/body) ── */
 html, body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
@@ -236,7 +235,6 @@ body::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.7);
 }
 
-/* ── scrollbar para elementos com .scroller ── */
 .scroller {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
@@ -852,19 +850,14 @@ h5 {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-/* ── fancybox mobile improvements ── */
-
-/* overlay escuro mais consistente */
 .fancybox__backdrop {
   background: rgba(0, 0, 0, 0.92);
 }
 
-/* container centralizado e sem overflow no mobile */
 .fancybox__container {
   touch-action: pan-y pinch-zoom;
 }
 
-/* imagem cabe na tela sem cortar */
 .fancybox__image {
   max-width: 100vw;
   max-height: 100dvh;
@@ -873,7 +866,6 @@ h5 {
   user-select: none;
 }
 
-/* toolbar (botão fechar etc) — área de toque maior */
 .fancybox__toolbar {
   padding: 8px;
   background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
@@ -897,7 +889,6 @@ h5 {
   color: #cc0000 !important;
 }
 
-/* setas prev/next — área de toque grande no mobile */
 .fancybox__nav {
   padding: 0 4px;
 }
@@ -921,7 +912,6 @@ h5 {
   color: #cc0000 !important;
 }
 
-/* caption no mobile — menor, legível */
 @media (max-width: 768px) {
   .fancybox__caption {
     font-size: 11px;
@@ -929,13 +919,11 @@ h5 {
     text-align: center;
   }
 
-  /* setas maiores e mais afastadas das bordas no mobile */
   .fancybox__nav .f-button {
     width: 40px;
     height: 40px;
   }
 
-  /* toolbar no topo visível */
   .fancybox__toolbar {
     padding: 4px 8px;
   }
@@ -945,7 +933,6 @@ h5 {
     height: 40px;
   }
 
-  /* slide ocupa toda a tela disponível */
   .fancybox__slide {
     padding: 44px 8px 48px;
   }
@@ -956,7 +943,6 @@ h5 {
     padding: 48px 4px 52px;
   }
 
-  /* esconde setas no celular pequeno — usa só swipe */
   .fancybox__nav {
     display: none;
   }
@@ -1918,7 +1904,6 @@ th {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   }
 
-  /* ////////// LINKS ////////////// */
 
   .imagem-circular {
     overflow: ;
@@ -2413,12 +2398,10 @@ th {
     cursor: pointer;
     outline: none;
   }
-/* ============================================
-   NINTENDO DS / PIXEL STYLE - borders & sound
-   ============================================ */
 
-/* thin pixel border on all main boxes */
-.caixamaisclara,
+
+
+  .caixamaisclara,
 .caixamaisclaraColumn,
 .caixamaisclaraColumnSimple,
 .caixamaisclaraCenterSimple,
@@ -2439,7 +2422,6 @@ header,
   image-rendering: pixelated;
 }
 
-/* pushable buttons - sharp pixel style */
 .pushable .front,
 .pushable .edge,
 .pushable .shadow {
@@ -2458,7 +2440,6 @@ header,
   border-radius: 2px !important;
 }
 
-/* navbar links - sharp pixel */
 .navbar a {
   border-radius: 2px !important;
 }
@@ -2467,7 +2448,6 @@ header,
   border-radius: 2px !important;
 }
 
-/* DS-style tooltip */
 .ds-tooltip {
   position: relative;
   display: inline-block;

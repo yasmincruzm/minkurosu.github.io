@@ -1,16 +1,13 @@
-// This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-// Creates an element for the second iframe (used to get the title of the next track)
 var infotag = document.createElement('div')
 infotag.id = "playerinfo"
 infotag.style.display = "none"
 document.getElementById('player').parentNode.appendChild(infotag)
 document.getElementById('player').style.display = "none"
-//    This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
+
 var playlist = document.getElementById("player").getAttribute("playlist")
 var shuffle = document.getElementById("player").getAttribute("shuffle")
 var autoplay = document.getElementById("player").getAttribute("autoplay")
@@ -33,7 +30,6 @@ var autoplay = document.getElementById("player").getAttribute("autoplay")
       }
 
 var playerinfoframe
-// The API will call this function when the video player is ready.
 function onPlayerReady(event) {
     if (shuffle) {
         player.setShuffle(true)
@@ -58,7 +54,6 @@ function onPlayerReady(event) {
     document.getElementById("player4").innerHTML = "Now playing:"+document.getElementById("playerinfo").title
 }
 
-//   The API calls this function when the player's state changes.
 var done = false;
 var url
 function onPlayerStateChange(event) {

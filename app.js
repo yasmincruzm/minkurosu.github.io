@@ -22,7 +22,7 @@ const App = () => {
     useEffect(() => {
        
         if (!auth) {
-            setMessage("Erro: Serviço de autenticação do Firebase não disponível.");
+            setMessage("error.");
             console.error("Auth instance is null or undefined.");
             return;
         }
@@ -30,14 +30,14 @@ const App = () => {
         const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setUserId(user.uid);
-                console.log('Usuário logado (do console.log de depuração):', user.uid);
+                console.log('error):', user.uid);
             } else {
                 try {
                     await signInAnonymously(auth);
-                    console.log('Logado anonimamente.');
+                    console.log('logged');
                 } catch (error) {
-                    console.error("Erro durante a autenticação anônima:", error);
-                    setMessage("Falha na autenticação. Por favor, tente novamente.");
+                    console.error("error:", error);
+                    setMessage("error.");
                 }
             }
         });
@@ -49,8 +49,8 @@ const App = () => {
     useEffect(() => {
        
         if (!db) {
-            setMessage("Erro: Serviço de banco de dados do Firebase não disponível.");
-            console.error("Firestore instance is null or undefined.");
+            setMessage("error");
+            console.error("error");
             return;
         }
 
@@ -132,12 +132,12 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!db || !userId) {
-            onError("Banco de dados ou ID de usuário não disponíveis.");
+            onError("error");
             return;
         }
 
         if (userId !== ownerUserId) {
-            onError("Você não tem permissão para adicionar posts. Verifique seu OWNER_USER_ID.");
+            onError("error");
             return;
         }
 
@@ -152,8 +152,8 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
             setTitle('');
             setContent('');
         } catch (error) {
-            console.error("Erro ao adicionar post:", error);
-            onError("Erro ao adicionar post. Por favor, tente novamente.");
+            console.error("error:", error);
+            onError("error");
         }
     };
 
@@ -162,7 +162,7 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
             <h2>Novo Post</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Título:</label>
+                    <label>titulo:</label>
                     <input
                         type="text"
                         value={title}
@@ -171,15 +171,15 @@ const NewPostForm = ({ db, userId, ownerUserId, appId, onPostAdded, onCancel, on
                     />
                 </div>
                 <div>
-                    <label>Conteúdo:</label>
+                    <label>conteúdo:</label>
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         required
                     ></textarea>
                 </div>
-                <button type="submit">Adicionar Post</button>
-                <button type="button" onClick={onCancel}>Cancelar</button>
+                <button type="submit">post</button>
+                <button type="button" onClick={onCancel}>cancel</button>
             </form>
         </div>
     );
