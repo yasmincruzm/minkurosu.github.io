@@ -1372,6 +1372,13 @@ th {
   animation: scroll-right 100s linear infinite;
 }
 
+.track-inner2 {
+  display: inline-block;
+  animation: scroll-right 10s linear infinite;
+}
+
+
+
 .track:hover .track-inner {
   animation-play-state: paused;
 }
