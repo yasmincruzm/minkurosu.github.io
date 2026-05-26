@@ -43,6 +43,21 @@
     .styled-table td:nth-child(3) {
         text-align: center;
     }
+
+    @keyframes slidefade {
+        0%   { opacity: 0; }
+        5%   { opacity: 1; }
+        45%  { opacity: 1; }
+        50%  { opacity: 0; }
+        100% { opacity: 0; }
+    }
+
+    .slideshow-area img {
+        animation: slidefade 8s infinite;
+    }
+
+    .slideshow-area img:nth-child(1) { animation-delay: 0s; }
+    .slideshow-area img:nth-child(2) { animation-delay: -4s; }
 </style>
 <div id="container">
     <div class="caixamaisclara">
@@ -184,7 +199,7 @@
     <hr>
     <div class="caixamaisclaraInterests">
         <div class="column">
-            <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
+            <table style="border-collapse: collapse; width: 100%; background-color: transparent; font-size: 14px">
                 <tr>
                     <th style="border: 1px solid black; padding: 8px;">interests</th>
                     <th style="border: 1px solid black; padding: 8px;">items</th>
@@ -214,8 +229,7 @@
                 <tr>
                     <td style="border: 1px solid black; padding: 8px;">movies and shows</td>
                     <td style="border: 1px solid black; padding: 8px;">attack on titan, the x files, studio ghibli's,matrix,
-                        twilight, steven universe, poor things, arcane, the haunting series, black mirror, yuri on ice
-                , my little pony, orphan, edward scissorhands, hellraiser, gone girl,
+                        twilight, steven universe, poor things, arcane, the haunting series, black mirror, yuri on ice, my little pony, orphan, edward scissorhands, hellraiser, gone girl,
                         e.t, hannibal, fleabag, nope, pluribus, severence, rick n morty, solar opposites, interstellar, mickey 17</td>
                 </tr>
                 <tr>
@@ -223,7 +237,7 @@
                     <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds
                         candy!!!!, avocado vitamin, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE,
                         carrots, cinnamon candy and gum, carbonara w/ no bacon, milk with coffee and
-                        chocolate powder, strawberry jam</td>
+                        chocolate powder, strawberry jam, strawberries with chocolate, hommus</td>
                 </tr>
                 <tr>
                     <td style="border: 1px solid black; padding: 8px;">kins</td>
@@ -268,7 +282,7 @@ even though i didn't really catch the tumblr era (i was more of an instagram and
     <div class="caixamaisclaraInterests">
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
             <div class="caixa-iframe-onlnbrd" style="flex: 1; min-width: 280px;">
-                <h2>leave your mark on my blog!! <br> (be nice)</h2>
+                <h2>leave your <br>mark on <br>my blog!! <br> (be nice)</h2>
                 <iframe src="https://onlnbrd.com/b/JLeicUoP" style="border:0px #ffffff none;" name="myiFrame" scrolling="no"
                     frameborder="1" marginheight="0px" marginwidth="0px" height="400px" width="100%"
                     allowfullscreen></iframe>
@@ -286,15 +300,6 @@ even though i didn't really catch the tumblr era (i was more of an instagram and
         <iframe style="width:100%; height:100%; border:none;" src="drawbox.html" title="Drawbox"></iframe>
     </div>
 </div>
-<script>
-  const slides = document.querySelectorAll('.slideshow-area img');
-  let current = 0;
-  setInterval(() => {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 3000);
-</script>
 
 <script>
   const DISCORD_ID = '425408284711714826';

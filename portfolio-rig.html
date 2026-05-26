@@ -14,6 +14,50 @@
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
   <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
   <div class="crt"></div>
+  <style>
+    .rig-page { padding: 1rem 0; }
+
+    .rig-intro { margin-bottom: 1.5rem; text-align: center; }
+    .rig-intro-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .rig-intro ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+    .rig-intro li { margin: 0.25rem 0; }
+    .note { font-size: 0.85rem; opacity: 0.75; margin-top: 0.75rem; }
+
+    .btn-wrap { display: flex; justify-content: center; margin: 1rem 0 1.5rem; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .video-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .video-cell iframe,
+    .video-cell video {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .caption {
+      font-size: 0.78rem;
+      opacity: 0.7;
+      text-align: center;
+      min-height: 1em;
+    }
+
+    @media (max-width: 500px) {
+      .video-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
@@ -33,13 +77,7 @@
             <p class="note">*my tracking camera isn't the best — please ignore tracking issues and focus on the rig and physics!*</p>
           </div>
 
-          <div class="btn-wrap">
-            <a href="rigclients.html" class="pushable" target="_blank">
-              <span class="shadow"></span>
-              <span class="edge"></span>
-              <span class="front">click for a list of some of my clients!</span>
-            </a>
-          </div>
+     
 
           <div class="video-grid">
 

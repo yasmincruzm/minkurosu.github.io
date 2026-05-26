@@ -34,8 +34,6 @@
     
 
 
-
-
    
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -421,6 +419,28 @@ div#goog-gt- {
     position: relative;
 }
 
+#crt-toggle {
+    display: block;
+    margin: 6px auto 0;
+    background: none;
+    border: 1px solid #555;
+    color: #888;
+    font-family: "MinFont", sans-serif;
+    font-size: 10px;
+    padding: 2px 6px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    transition: opacity 0.2s, color 0.2s;
+}
+#crt-toggle:hover {
+    opacity: 1;
+    color: #ccc;
+}
+.crt-off .crt {
+    display: none;
+}
+
 .borda-img {
     position: absolute;
     width: 60px;
@@ -516,6 +536,28 @@ div#goog-gt- {
                 <h3>translate:</h3>
 <div id="google_translate_element"></div>
 
+<button id="crt-toggle" type="button" title="toggle crt effect"> crt: on </button>
+<script>
+(function() {
+  var btn = document.getElementById('crt-toggle');
+  var on = localStorage.getItem('crt') !== 'off';
+
+  function apply() {
+    document.documentElement.classList.toggle('crt-off', !on);
+    btn.textContent = on ? ' crt: on ' : ' crt: off ';
+    localStorage.setItem('crt', on ? 'on' : 'off');
+  }
+
+  apply();
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    on = !on;
+    apply();
+  });
+})();
+</script>
+
               
 
 <div style="display:grid;place-items:center">
@@ -572,6 +614,7 @@ div#goog-gt- {
   <div class="side-item"><a href="#" data-page="quizzes" class="nav-link">quiz/tests</a></div>
   <div class="side-item"><a href="#" data-page="linklist" class="nav-link">cool links</a></div>
   <div class="side-item"><a href="#" data-page="credits" class="nav-link">credits</a></div>
+  <div class="side-item"><a href="#" data-page="pricings" class="nav-link">commissions</a></div>
 </div>
 <hr>
 <div style="
@@ -761,7 +804,26 @@ div#goog-gt- {
 
 
 
-        <aside id="sidebar-direita-container" class="sidebar sidebar-right">
+        <aside id="sidebar-direita-container" class="sidebar sidebar-right" style="overflow:visible !important; position:relative !important;">
+<a href="#" id="mc-sign-link"
+  onclick="window.navigateTo ? window.navigateTo('pricings') : null; return false;"
+  onmouseover="this.style.transform='perspective(500px) rotateX(5deg)'"
+  onmouseout="this.style.transform='perspective(500px) rotateX(0deg)'"
+  style="display:block; width:210px; cursor:pointer; transform-origin:top center; transform:perspective(500px) rotateX(0deg); transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94); text-decoration:none; float:right; clear:right; margin-right:-208px; margin-bottom:-230px;">
+  <div style="position:relative; width:210px; line-height:0;">
+    <img src="imgs/webgraphics/pixels/sign_hanging.png" style="width:210px; image-rendering:pixelated; display:block;"/>
+    <div style="position:absolute; top:43%; left:48%; transform:translateX(-50%); width:78%; height:55%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; font-size:18px; color:#0a0a0a; text-shadow:none; line-height:1.5; pointer-events:none;">
+      <span>click here</span><span>to skip to</span><span style="font-size:16px;">LIVE2D COMMISSIONS</span><span>info !</span>
+    </div>
+  </div>
+</a>
+
+
+
+
+<div style="height:0; overflow:visible; position:sticky; top:80px; z-index:10;">
+  </div>
+
             <aside class="sidebar sidebar-right">
 
 
@@ -1017,7 +1079,7 @@ div#goog-gt- {
 
 <div class="track track-1">
                                 <div class="track-inner2">
-                                    <img src="imgs/webgraphics/buttons/antifa.gif"
+                                    <img src="imgs/webgraphics/buttons/antifa.gif">
 
 
 <img src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
@@ -1379,7 +1441,7 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
   <div class="scrollSmaller" style="padding: 4px 6px;">
     <h3 style="margin: 2px 0 3px;">statuscafe</h3>
     <hr style="margin: 2px 0 4px;">
-    <div id="status-feed"><h4>carregando...</h4></div>
+    <div id="status-feed"><h4>loading...</h4></div>
   </div>
 </div>
 
@@ -1456,7 +1518,9 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
 
     </div>
 
-    <script type="module" src="dream-journal.js"></script>
+    
+<script type="module" src="dream-journal.js"></script>
+
 
     <script>
         document.querySelectorAll('.item-slot img[data-desc]').forEach(img => {
