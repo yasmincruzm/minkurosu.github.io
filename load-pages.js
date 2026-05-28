@@ -9,7 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(html => {
-                mainContainer.innerHTML = html;
+                // Se o HTML carregado tem seu próprio layout-with-sidebars,
+                // extrai só o conteúdo do #containerprincipal interno
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const innerContainer = doc.querySelector('#containerprincipal');
+                mainContainer.innerHTML = innerContainer ? innerContainer.innerHTML : html;
 
                 mainContainer.querySelectorAll('script').forEach(oldScript => {
                     const newScript = document.createElement('script');

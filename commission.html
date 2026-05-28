@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>@minkurosu — commissions</title>
+  <style>
+    .caixaprices {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px;
+      text-align: center;
+    }
+
+    .caixaprices h2 {
+      font-family: "MinFont", monospace;
+      font-size: 1.4rem;
+      color: #534f4a;
+      text-align: center;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 0 0 16px;
+    }
+
+    .prices-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .prices-section h3 {
+      font-family: "MinFont", monospace;
+      font-size: 0.95rem;
+      color: #534f4a;
+      text-align: center;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin-bottom: 0.6rem;
+    }
+
+    .prices-section .note {
+      font-family: "MinFont", monospace;
+      font-size: 0.75rem;
+      color: #3a3836;
+      text-align: center;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin-top: 6px;
+    }
+
+    .caixaprices table {
+      border-collapse: collapse;
+      width: 90%;
+      margin: 0 auto 0.5rem;
+      background-color: transparent;
+      font-family: "MinFont", monospace;
+      font-size: 0.85rem;
+    }
+
+    .caixaprices table th {
+      border: 1px solid #222;
+      padding: 7px 10px;
+      color: #534f4a;
+      background: #111;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .caixaprices table td {
+      border: 1px solid #1e1e1e;
+      padding: 7px 10px;
+      color: #534f4a;
+      text-align: left;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .caixaprices table tr:nth-child(even) td {
+      background: #1b1b1b;
+    }
+
+    .caixaprices hr {
+      border: none;
+      border-top: 1px solid #1e1e1e;
+      margin: 1.2rem 0;
+    }
+
+    #rig-portfolio {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1.5rem;
+    }
+
+    .rig-page {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .rig-intro {
+      background: #0d0d0d;
+      border: 1px solid #1e1e1e;
+      border-radius: 2px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .rig-intro-title {
+      font-family: "MinFont", monospace;
+      font-size: 1rem;
+      color: #534f4a;
+      margin: 0 0 8px;
+      text-align: center;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-intro ul {
+      list-style: none;
+      margin: 0 0 8px;
+      padding: 0;
+    }
+
+    .rig-intro ul li {
+      font-family: "MinFont", monospace;
+      font-size: 0.88rem;
+      color: #534f4a;
+      padding: 2px 0;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-intro ul li::before { content: "— "; color: #3a3836; }
+
+    .rig-intro .note {
+      font-family: "MinFont", monospace;
+      font-size: 0.78rem;
+      color: #3a3836;
+      text-align: center;
+      margin: 0;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .video-cell {
+      display: flex;
+      flex-direction: column;
+      background: #0a0a0a;
+      border: 1px solid #1a1919;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .video-cell video,
+    .video-cell iframe {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: block;
+      border: none;
+      background: #000;
+    }
+
+    .video-cell .caption {
+      font-family: "MinFont", monospace;
+      font-size: 0.75rem;
+      color: #3a3836;
+      text-align: center;
+      padding: 4px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      min-height: 18px;
+    }
+
+    .translate-wrap {
+      text-align: center;
+      margin: 0.5rem 0 1rem;
+      font-family: "MinFont", monospace;
+      font-size: 0.8rem;
+      color: #3a3836;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="caixamaisclara">
+    <div class="caixaprices">
+
+      <h2 style="font-size: 30px;">commissions</h2>
+
+      <div class="translate-wrap">
+        translate:<br>
+        <div id="google_translate_element" style="display:inline-block;vertical-align:middle;"></div>
+      </div>
+
+      <div class="prices-section">
+        <div id="rig-portfolio"><p style="color:#3a3836;font-family:'MinFont',monospace;">loading...</p></div>
+      </div>
+
+      <hr>
+
+      <div class="prices-section">
+        <table class="tos-table">
+          <tr><th>termos de serviço</th></tr>
+          <tr><td>pagamento em BRL (R$) por pix ou transferência</td></tr>
+          <tr><td>50% do pagamento no início, 50% no final</td></tr>
+          <tr><td>revisões ilimitadas, mas mudanças serão cobradas de acordo</td></tr>
+          <tr><td>uso comercial: +60% do valor</td></tr>
+          <tr><td>reembolso: 100% antes do início, 40% durante ou proporcional ao progresso</td></tr>
+          <tr><td>por favor, me dê os creditos nas redes sociais ou na apresentação do modelo:)</td></tr>
+          <tr><td>a duração do processo depende da complexidade e da minha disponibilidade, pois também faço outras coisas da vida, mas sempre irei avisando e atualizando!</td></tr>
+          <tr><td>proibido uso como NFT, a menos que acordado previamente e eu receba porcentagens</td></tr>
+          <tr><td>eu não faço a arte do modelo, apenas o rig (animação), pois acho muito trabalhoso pra mim por ora</td></tr>
+          <tr><td>os valores estão sujeitos a variações dependendo do nível de complexidade do rig, a tabela é uma estimativa</td></tr>
+          <tr><td>podemos negociar caso queira adicionar conteúdos do rig complexo no simples</td></tr>
+        </table>
+      </div>
+
+      <hr>
+
+      <div class="prices-section">
+        <table>
+          <tr><th>descrição</th><th>valor</th></tr>
+          <tr><td>rig lite (quase um pngtuber)</td><td>R$ 95</td></tr>
+          <tr><td>rig halfbody simples</td><td>R$ 280</td></tr>
+          <tr><td>rig fullbody simples</td><td>R$ 350</td></tr>
+          <tr><td>rig halfbody detalhado</td><td>R$ 460</td></tr>
+          <tr><td>rig fullbody detalhado</td><td>R$ 480</td></tr>
+          <tr><td>rig fullbody + vbridger + extra physics</td><td>R$ 550</td></tr>
+          <tr><td>rig vtuber pet/chibi complexo</td><td>R$ 200 +- (depende das camadas)</td></tr>
+          <tr><td>adicional toggle (on/off)</td><td>R$ 5 +-</td></tr>
+          <tr><td>adicional com expressão/movimento / física</td><td>R$ 10</td></tr>
+          <tr><td>adicional com motion/animação (.can3)</td><td>R$ 15–20</td></tr>
+          <tr><td>adicional partes do corpo extra (rabo, orelhas, olho...)</td><td>R$ 15</td></tr>
+          <tr><td>adicional ângulos da cabeça wide-range</td><td>R$ 50</td></tr>
+          <tr><td>adicional boca vbridger</td><td>R$ 50</td></tr>
+          <tr><td>physics augmentation @ vtube studio</td><td>R$ 20</td></tr>
+          <tr><td>rework em qualquer parte</td><td>valor a combinar</td></tr>
+          <tr><td>animação de objetos/props</td><td>valor a combinar</td></tr>
+        </table>
+        <p class="note">* preços podem mudar dependendo da complexidade e número de camadas.</p>
+      </div>
+
+      <hr>
+
+      <div class="prices-section">
+        <h3>o que cada rig inclui</h3>
+
+        <table><tr><th>todos os rigs incluem</th></tr>
+          <tr><td>movimento da íris</td></tr>
+          <tr><td>movimento de piscar</td></tr>
+          <tr><td>movimento da sobrancelha cima-baixo (ângulo y)</td></tr>
+          <tr><td>física do cabelo</td></tr>
+          <tr><td>ângulo x da cabeça simples</td></tr>
+          <tr><td>movimento de abrir, fechar e sorrir da boca</td></tr>
+        </table><br>
+
+        <table><tr><th>rig lite</th></tr>
+          <tr><td>os itens básicos citados acima</td></tr>
+        </table><br>
+
+        <table><tr><th>rig simples</th></tr>
+          <tr><td>tudo do rig lite +</td></tr>
+          <tr><td>ângulos x e y da cabeça</td></tr>
+          <tr><td>ângulos x e y do corpo</td></tr>
+          <tr><td>movimento olho abrindo, fechando e sorrindo</td></tr>
+          <tr><td>movimento da íris</td></tr>
+          <tr><td>física básica do cabelo e busto (apenas ângulo x)</td></tr>
+          <tr><td>sobrancelha y + forma</td></tr>
+          <tr><td>movimento simples da boca</td></tr>
+          <tr><td>1 toggle</td></tr>
+        </table><br>
+
+        <table><tr><th>rig detalhado</th></tr>
+          <tr><td>tudo do rig simples +</td></tr>
+          <tr><td>ângulos x, y e z da cabeça</td></tr>
+          <tr><td>ângulos x, y e z do corpo</td></tr>
+          <tr><td>física da perna e braços</td></tr>
+          <tr><td>ângulo de inclinação da sobrancelha e mudança da forma</td></tr>
+          <tr><td>movimento detalhado da boca</td></tr>
+          <tr><td>físicas em ângulos x e y mais complexas no cabelo, corpo, roupas, olhos, etc.</td></tr>
+        </table><br>
+
+        <table><tr><th>adicional vbridger</th></tr>
+          <tr><td>tudo do rig detalhado +</td></tr>
+          <tr><td>modelo da boca detalhada</td></tr>
+          <tr><td>boca x</td></tr>
+          <tr><td>encher bochechas</td></tr>
+          <tr><td>língua para fora</td></tr>
+          <tr><td>eye squint</td></tr>
+          <tr><td>mais variação de movimento dos lábios</td></tr>
+          <tr><td>breathing</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (async function loadRigPortfolio() {
+      const area = document.getElementById('rig-portfolio');
+      try {
+        const res = await fetch('portfolio-rig.html');
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const node = doc.querySelector('.rig-page');
+        if (node) area.innerHTML = node.outerHTML;
+      } catch(e) {
+        area.innerHTML = '<p style="color:#3a3836;font-family:MinFont,monospace;">erro ao carregar portfolio</p>';
+      }
+    })();
+  </script>
+
+  <script>
+    (function() {
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'pt-br',
+          includedLanguages: 'pt-br,es,fr,ko,ja,it,de,ru,zh-CN,en',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'google_translate_element');
+      }
+      window.googleTranslateElementInit = googleTranslateElementInit;
+    })();
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

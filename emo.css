@@ -275,7 +275,7 @@ a:hover {
 body>.layout-with-sidebars {
 
   display: grid !important;
-grid-template-columns: auto minmax(500px, 1fr) auto;}
+grid-template-columns: minmax(0, 300px) minmax(0, 1fr) minmax(0, 300px);}
 
 
 header {
