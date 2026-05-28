@@ -53,7 +53,6 @@
       margin-top: 6px;
     }
 
-    /* tables */
     .caixaprices table {
       border-collapse: collapse;
       width: 90%;
@@ -80,7 +79,7 @@
     }
 
     .caixaprices table tr:nth-child(even) td {
-      background: #0e0e0e;
+      background: #1b1b1b;
     }
 
     .caixaprices hr {
@@ -89,14 +88,12 @@
       margin: 1.2rem 0;
     }
 
-    /* portfolio fetch area */
     #rig-portfolio {
       width: 100%;
       box-sizing: border-box;
       margin-bottom: 1.5rem;
     }
 
-    /* rig-page styles for fetched content */
     .rig-page {
       width: 100%;
       box-sizing: border-box;
@@ -185,7 +182,6 @@
       .video-grid { grid-template-columns: 1fr; }
     }
 
-    /* translate */
     #google_translate_element .goog-te-gadget-simple {
       background-color: #1a1a1a !important;
       border: 1px solid #444 !important;
@@ -216,6 +212,51 @@
       color: #3a3836;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
+
+    
+    .ds-tooltip {
+      position: relative;
+      display: inline-block;
+      overflow: visible;
+    }
+    .ds-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0a;
+      color: #4b4b4b;
+      outline: 1px solid #1a1a1a;
+      font-family: "MinFont", monospace;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      white-space: nowrap;
+      border-radius: 1px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 999;
+      text-shadow: none;
+    }
+    .ds-tooltip::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% - 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #0a0a0a;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 1000;
+    }
+    .ds-tooltip:hover::after,
+    .ds-tooltip:hover::before { opacity: 1; }
+
+
+
   </style>
 </head>
 
@@ -331,8 +372,17 @@
                 <tr><td>breathing</td></tr>
               </table>
             </div>
-
+            <br>
+            <h2 style="margin: 3px; font-size: 18px;">enter the portal to go to my site</h2>
+     <a href="/" class="site-banner-link ds-tooltip" data-tooltip="minkurosu.site">
+        <img
+          src="/imgs/site_imgs/portal.gif"
+          alt="minkurosu.site"
+          class="site-banner"
+          style="height: 80px;">
+      </a>
           </div>
+          
     </div>
   </div>
 
