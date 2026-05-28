@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="oneko.js"></script>
+  <script>NekoType = "black"</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-4K5KDKEJ2E');
+  </script>
+  <meta charset="UTF-8">
+  <title>@minkurosu</title>
+  <style>
+    @font-face { font-family: "MinFont"; src: url(fonts/minFont.ttf) format('truetype'); }
+
+    #container > .caixamaisclara {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      background-color: #0a0a0a;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #container > .caixamaisclara > .conjuntoblocos {
+      background-color: #141414;
+      border: none !important;
+      outline: none !important;
+      border-radius: 3px;
+      padding: 24px 20px;
+      width: 320px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .imagem-circular {
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.2rem;
+    }
+    .imagem-circular img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      box-shadow: 0 0 0.625rem rgba(0,0,0,0.5);
+    }
+    .imagem-circular:hover {
+      transform: scale(1.05);
+      transition: transform 0.3s ease-in-out;
+    }
+    .contact-links { width: 260px; margin: 0 auto 1.1rem; }
+
+    .pushable {
+      position: relative;
+      border: none;
+      background: #2e2e2e;
+      border-radius: 4px;
+      padding: 0;
+      cursor: pointer;
+      outline-offset: 4px;
+      transition: filter 250ms;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+    }
+
+    .shadow {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.45);
+      will-change: transform;
+      transform: translateY(3px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .edge { display: none; }
+
+    .front {
+      display: block;
+      position: relative;
+      padding: 8px 28px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      color: #5a5a5a;
+      font-family: "MinFont", monospace;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      background: #1f1f1f;
+      will-change: transform;
+      transform: translateY(-4px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .pushable:hover { filter: brightness(115%); }
+
+    .pushable:hover .front {
+      transform: translateY(-6px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .front {
+      transform: translateY(-2px);
+      transition: transform 34ms;
+    }
+
+    .pushable:hover .shadow {
+      transform: translateY(5px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .shadow {
+      transform: translateY(1px);
+      transition: transform 34ms;
+    }
+
+    .pushable:focus:not(:focus-visible) { outline: none; }
+  </style>
+</head>
+<body>
+
+  <div class="caixamaisclara">
+    <div class="conjuntoblocos">
+
+      <div class="imagem-circular">
+        <img src="imgs/site_imgs/iconredondo.jpg" alt="Imagem Circular">
+      </div>
+
+      <div class="contact-links">
+        <a href="https://x.com/MinKurosu" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">twitter</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://bsky.app/profile/minkurosu.bsky.social" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">bluesky</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://twitch.tv/minkurosu" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">twitch</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://vgen.co/MinKurosu" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">vgen</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://discord.gg/AjND37mu2h" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">discord</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://open.spotify.com/user/mimincruzm" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">spotify</span>
+        </a>
+      </div>
+      <div class="contact-links">
+        <a href="https://neocities.org/site/minkurosu" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">neocities</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="lastfm-widget.js"></script>
+  <script src="script.js"></script>
+  <script src="theme-switcher.js"></script>
+</body>
+</html>

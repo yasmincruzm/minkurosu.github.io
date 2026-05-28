@@ -1,283 +1,425 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-  <script src="oneko.js"></script>
-  <script>NekoType = "black"</script>
-
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-4K5KDKEJ2E');
-  </script>
-  <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>links</title>
+  <link rel="icon" type="image/ico" href="/imgs/site_imgs/favicon.ico" />
+  <meta property="og:title" content="@minkurosu" />
   <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
 
+  <script>
+    try { if (window.self !== window.top) document.documentElement.classList.add('embedded'); } catch(e) {}
+  </script>
 
-  <title>@minkurosu</title>
-
-  <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-  <div class="crt"></div>
   <style>
-    html,
-    body,
-    iframe {
-      cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
+    @font-face {
+      font-family: "OldEnglishGothicPixelRegular";
+      src: url(/fonts/OldEnglishGothicPixelRegular.ttf) format('truetype');
     }
-
-
-    a,
-    button,
-    input[type="submit"],
-    input[type="button"],
-    select {
-      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-    }
-
-
-
-    @media (min-width: 400px) and (max-width: 1200px) {
-      body {
-        transform: scale(1.2);
-        transform-origin: top;
-      }
-
-      .caixamaisclara {
-        max-width: 100%;
-      }
-
-      .button-link {
-        width: 20rem;
-        padding: 10px;
-        margin: 10px;
-        padding: 10px;
-      }
-
-      .button-link {
-        font-size: 3rem;
-      }
-
-      #h2 {
-        font-size: 2rem;
-      }
-    }
-
-
-
-    .nav-item {
-      font-size: 1.3rem;
-    }
-
-    .button-container .contact-links {
-      flex: 0 0 100%;
-
-      font-size: 1.4rem;
-
-
-
-    }
-
     @font-face {
       font-family: "MinFont";
-      src: url(fonts/minFont.ttf) format('truetype');
+      src: url(/fonts/minFont.ttf) format('truetype');
+    }
+  </style>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      background-image: url(/imgs/site_imgs/petcemetery.gif);
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: "MinFont", monospace;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,0.45) transparent;
     }
 
+    html::-webkit-scrollbar        { width: 5px; }
+    html::-webkit-scrollbar-track  { background: transparent; }
+    html::-webkit-scrollbar-thumb  { background: rgba(0,0,0,0.45); border-radius: 99px; }
+    html::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.7); }
 
-
-
-    a:hover {
-      text-decoration: none;
+    body {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: "MinFont", monospace;
+      font-size: 16px;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
     }
 
-
-
-
-
-
-    .button-container .contact-links {
-      flex: 0 0 calc(25% - 10px);
+    html, body { cursor: url(/imgs/cursor/ROCKcursornormal.cur), auto; }
+    a, button, input[type="submit"], input[type="button"], select {
+      cursor: url(/imgs/cursor/ROCKcursorselect.cur), pointer;
     }
 
-    .button-container .contact-links .button-link {
-      width: 80%;
-      padding: 10px;
-      margin: 30px;
-
-
-
+    .crt::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background:
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%),
+        linear-gradient(90deg, rgba(255,0,0,0.06), rgba(0,255,0,0.02), rgba(0,0,255,0.06));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
     }
 
-    .contact-links {
-      margin-bottom: 15px;
+    @keyframes flicker {
+      0%   { opacity: 0.27861; } 5%  { opacity: 0.34769; }
+      10%  { opacity: 0.23604; } 15% { opacity: 0.90626; }
+      20%  { opacity: 0.18128; } 25% { opacity: 0.83891; }
+      30%  { opacity: 0.65583; } 35% { opacity: 0.67807; }
+      40%  { opacity: 0.26559; } 45% { opacity: 0.84693; }
+      50%  { opacity: 0.96019; } 55% { opacity: 0.08594; }
+      60%  { opacity: 0.20313; } 65% { opacity: 0.71988; }
+      70%  { opacity: 0.53455; } 75% { opacity: 0.37288; }
+      80%  { opacity: 0.71428; } 85% { opacity: 0.70419; }
+      90%  { opacity: 0.7003;  } 95% { opacity: 0.36108; }
+      100% { opacity: 0.24387; }
     }
 
+    .crt::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: rgba(18,16,16,0.1);
+      opacity: 0;
+      z-index: 2;
+      pointer-events: none;
+      animation: flicker 0.15s infinite;
+    }
 
+    #container {
+      background-color: #0a0a0a;
+      padding: 1.25rem;
+      border-radius: 3px;
+      box-shadow: 0 0 1.25rem rgba(0,0,0,0.5);
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 420px;
+      box-sizing: border-box;
+      color: #4b4b4b;
+      border: 1px solid #4a0000;
+      outline: 1px solid #1a1a1a;
+      image-rendering: pixelated;
+    }
+
+    html.embedded,
+    html.embedded body {
+      padding: 0 !important;
+      margin: 0 !important;
+      min-height: auto !important;
+      background: transparent !important;
+    }
+    html.embedded .crt { display: none !important; }
+    html.embedded #container {
+      max-width: 100% !important;
+      width: 100% !important;
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
+      padding: 0.5rem !important;
+      margin: 0 !important;
+    }
+    html.embedded .caixamaisclara {
+      margin: 0 !important;
+    }
+
+    .caixamaisclara {
+      background-color: #141414;
+      padding: 0.3125rem;
+      border-radius: 3px;
+      box-shadow: 0 0 1.25rem rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 2px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      image-rendering: pixelated;
+    }
 
     .imagem-circular {
-      overflow: ;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
-    }
+      margin: 0.5rem auto;
+      border: 3px solid #000;
+      transition: transform 0.3s ease-in-out;
 
+    }
     .imagem-circular img {
-      max-width: 15rem;
-      max-height: 15rem;
+      max-width: 180px;
+      max-height: 180px;
       border-radius: 50%;
-      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 0.625rem rgba(0,0,0,0.5);
+    }
+    .imagem-circular:hover { transform: scale(1.05); }
+
+    h2.h2text {
+      font-family: "OldEnglishGothicPixelRegular", serif;
+      font-size: 3rem;
+      color: #4b4b4b;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 0.5rem 0 0.2rem;
     }
 
-    .imagem-circular:hover {
-      transform: scale(1.05);
-      transition: 0.3s ease-in-out, transform 0.3s ease-in-out;
+    .sub {
+      font-family: "MinFont", monospace;
+      font-size: 0.9rem;
+      color: #4b4b4b;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin-bottom: 1rem;
     }
 
-    #theme-toggle-button {
-      background: none !important;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: none;
+    hr {
       border: none;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      outline: none;
+      border-top: 3px solid #310101;
+      margin: 0.8rem 0 1rem;
+      width: 100%;
     }
-  </style>
 
+    .contact-links { width: 260px; margin: 0 auto 1.1rem; }
+
+    .pushable {
+      position: relative;
+      border: none;
+      background: #2e2e2e;
+      border-radius: 4px;
+      padding: 0;
+      cursor: url(/imgs/cursor/ROCKcursorselect.cur), pointer;
+      outline-offset: 4px;
+      transition: filter 250ms;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+    }
+
+    .shadow {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.45);
+      will-change: transform;
+      transform: translateY(3px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .edge { display: none; }
+
+    .front {
+      display: block;
+      position: relative;
+      padding: 8px 28px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      color: #5a5a5a;
+      font-family: "MinFont", monospace;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      background: #1f1f1f;
+      will-change: transform;
+      transform: translateY(-4px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .pushable:hover { filter: brightness(115%); }
+
+    .pushable:hover .front {
+      transform: translateY(-6px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .front {
+      transform: translateY(-2px);
+      transition: transform 34ms;
+    }
+
+    .pushable:hover .shadow {
+      transform: translateY(5px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .shadow {
+      transform: translateY(1px);
+      transition: transform 34ms;
+    }
+
+    .pushable:focus:not(:focus-visible) { outline: none; }
+
+    .site-banner-link {
+      display: inline-block;
+      margin-top: 0.6rem;
+      transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+      overflow: visible;
+    }
+    .site-banner-link:hover {
+      transform: scale(1.05);
+      filter: brightness(1.15);
+    }
+    .site-banner {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      image-rendering: pixelated;
+    }
+
+    .bio {
+      font-family: "MinFont", monospace;
+      font-size: 0.88rem;
+      color: #4b4b4b;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+    }
+
+    .ds-tooltip {
+      position: relative;
+      display: inline-block;
+      overflow: visible;
+    }
+    .ds-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0a;
+      color: #4b4b4b;
+      outline: 1px solid #1a1a1a;
+      font-family: "MinFont", monospace;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      white-space: nowrap;
+      border-radius: 1px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 999;
+      text-shadow: none;
+    }
+    .ds-tooltip::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% - 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #0a0a0a;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 1000;
+    }
+    .ds-tooltip:hover::after,
+    .ds-tooltip:hover::before { opacity: 1; }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #container { animation: fadein 0.5s ease both; }
+    .contact-links { opacity: 0; animation: fadein 0.4s ease forwards; }
+  </style>
 </head>
 
 <body>
+  <div class="crt"></div>
 
-  <div class="layout-with-sidebars">
+  <div id="container">
+    <div class="caixamaisclara">
 
+      <div class="imagem-circular">
+        <img src="/imgs/feed/icon.jpeg" alt="minkurosu">
+      </div>
 
-    <main id="containerprincipal">
+      <h2 class="h2text">min</h2>
 
-      <div id="container">
-        <div class="caixamaisclara">
+      <p class="bio">
+        digital artist &amp; live2d animator &amp; psychology grad<br>
+        they/she &nbsp;·&nbsp; 23 &nbsp;·&nbsp; BR/EN
+      </p>
 
+      <div class="contact-links" style="animation-delay: 0.25s">
+        <a href="https://x.com/MinKurosu" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">twitter</span>
+        </a>
+      </div>
 
-          <div class="conjuntoblocos">
-            <br>
-            <h2 class="h2text"></h2>
-
-
-            <div class="imagem-circular">
-              <img src="imgs/site_imgs/iconredondo.jpg" alt="Imagem Circular">
-            </div>
-
-            <br>
-            <br>
-  
-
-
-            <div class="contact-links">
-              <a href="https://x.com/MinKurosu" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">art twitter</span>
-              </a>
-            </div>
-
-
-            <div class="contact-links">
-              <a href="https://bsky.app/profile/minkurosu.bsky.social" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">art bluesky</span>
-              </a>
-            </div>
-
-            <div class="contact-links">
-              <a href="https://twitch.tv/minkurosu" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">twitch</span>
-              </a>
-            </div>
-
-            <div class="contact-links">
-              <a href="https://vgen.co/MinKurosu" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">vgen</span>
-              </a>
-            </div>
-            <div class="contact-links">
-              <a href="https://discord.gg/AjND37mu2h" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">discord</span>
-              </a>
-            </div>
-            <div class="contact-links">
-              <a href="https://steamcommunity.com/id/minkurosu/" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">steam</span>
-              </a>
-            </div>
-       
-
-            <div class="contact-links">
-              <a href="https://open.spotify.com/user/mimincruzm" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">spotify</span>
-              </a>
-            </div>
-            <div class="contact-links">
-              <a href="https://neocities.org/site/minkurosu" class="pushable" target="_blank">
-                <span class="shadow"></span>
-                <span class="edge"></span>
-                <span class="front">neocities</span>
-              </a>
-            </div>
-       
-        
-
-          </div>
-
-
-
-        </div>
+      <div class="contact-links" style="animation-delay: 0.31s">
+        <a href="https://bsky.app/profile/minkurosu.bsky.social" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">bluesky</span>
+        </a>
       </div>
 
 
-    </main>
+      <div class="contact-links" style="animation-delay: 0.43s">
+        <a href="https://vgen.co/MinKurosu" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">vgen</span>
+        </a>
+      </div>
 
+      <div class="contact-links" style="animation-delay: 0.55s">
+        <a href="https://steamcommunity.com/id/minkurosu/" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">steam</span>
+        </a>
+      </div>
 
+      <div class="contact-links" style="animation-delay: 0.61s">
+        <a href="https://open.spotify.com/user/mimincruzm" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">spotify</span>
+        </a>
+      </div>
 
+      <div class="contact-links" style="animation-delay: 0.37s">
+        <a href="https://twitch.tv/minkurosu" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">twitch</span>
+        </a>
+      </div>
+      
+      <div class="contact-links" style="animation-delay: 0.67s">
+        <a href="https://neocities.org/site/minkurosu" class="pushable" target="_blank" rel="noopener">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">neocities</span>
+        </a>
+      </div>
 
+      <a href="/" class="site-banner-link ds-tooltip" data-tooltip="personal site">
+        <img
+          src="/imgs/site_imgs/portal.gif"
+          alt="minkurosu.site"
+          class="site-banner"
+          style="height: 80px;">
+      </a>
 
-
+    </div>
   </div>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-
-  </div>
-
-  </aside>
-
-  </div>
-  <script src="lastfm-widget.js"></script>
-  <script src="script.js"></script>
-  <script src="theme-switcher.js"></script>
-
-
 
 </body>
-
 </html>
