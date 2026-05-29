@@ -17,95 +17,71 @@
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
     <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
 
-
-
     <title>@minkurosu</title>
 
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <div class="crt"></div>
     <style>
-        html,
-        body,
-        iframe {
+        /* cursor — igual em todos os pages, pode mover pro emo.css global */
+        html, body, iframe {
             cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
         }
-
-
-        a,
-        button,
-        input[type="submit"],
-        input[type="button"],
-        select {
+        a, button, input[type="submit"], input[type="button"], select {
             cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
         }
 
-
-        #containerprincipal {
-            border-radius: 1.25rem;
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 50rem;
-            box-sizing: border-box;
-
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-
-
-
-
-
-
-
+        /* layout das playlists */
         .all-playlists-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             width: 100%;
-
-            max-width: 1200px;
+            max-width: 860px;
             margin: 0 auto;
             box-sizing: border-box;
+            padding: 10px 0;
         }
 
         .playlist-section-item {
-            border-radius: 10px;
-            padding: 20px;
+            border: 1px solid #4a0000;
+            border-radius: 4px;
+            padding: 12px 16px;
             display: flex;
             flex-direction: row;
-            flex-wrap: nowrap;
-            justify-content: center;
             align-items: center;
             width: 100%;
             box-sizing: border-box;
-            gap: 16px;
+            gap: 20px;
         }
 
+        /* lado esquerdo: nome + descrição */
         .playlist-text {
-            flex: 0 0 35%;
-            max-width: 35%;
-            min-width: 0;
-            text-align: center;
+            flex: 0 0 28%;
+            max-width: 28%;
+            min-width: 120px;
+            text-align: left;
             box-sizing: border-box;
         }
 
         .playlist-text h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px #000;
+            font-size: 1.3em;
+            margin: 0 0 6px 0;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
         .playlist-text p {
-            font-size: 1em;
-            line-height: 1.6;
+            font-size: 0.85em;
+            line-height: 1.5;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0;
         }
 
+        /* lado direito: embed */
         .playlist-iframe-placeholder {
             flex: 1 1 0;
             min-width: 0;
             height: 152px;
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
             box-sizing: border-box;
         }
@@ -113,32 +89,24 @@
         .playlist-iframe-placeholder iframe {
             width: 100%;
             height: 100%;
-            border-radius: 12px;
+            border: none;
+            display: block;
         }
 
-        @media (max-width: 768px) {
+        /* mobile: empilha */
+        @media (max-width: 600px) {
             .playlist-section-item {
                 flex-direction: column;
-                align-items: center;
-                min-width: unset;
+                align-items: flex-start;
             }
-
-            .playlist-text,
+            .playlist-text {
+                flex: none;
+                max-width: 100%;
+                width: 100%;
+            }
             .playlist-iframe-placeholder {
                 width: 100%;
-                max-width: 100%;
-                min-width: unset;
-                flex-basis: auto;
-                flex-shrink: 1;
-                flex-grow: 1;
-            }
-
-            .playlist-text {
-                text-align: center;
-            }
-
-            .all-playlists-wrapper {
-                padding: 0 10px;
+                height: 152px;
             }
         }
 
@@ -147,7 +115,6 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background: none;
             border: none;
             padding: 0;
             margin: 0;
@@ -162,13 +129,9 @@
 
     <div class="layout-with-sidebars">
 
-
-
-
         <main id="containerprincipal">
 
             <div id="container">
-
 
                 <div class="caixamaisclara">
                     <div class="all-playlists-wrapper">
@@ -184,22 +147,20 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/6B8MXoqO8DFZ0nWEHrM4cG?utm_source=generator&theme=0"
-                                    width="100%" height="300" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
 
-
                         <div class="playlist-section-item">
                             <div class="playlist-text">
                                 <h1>emo</h1>
-                                <p>i know theres a lot of songs missing, but this is just my favorites of the gender!!
-                                </p>
+                                <p>i know theres a lot of songs missing, but this is just my favorites of the gender!!</p>
                             </div>
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/5NntEb3Dpl8hLXDKGhZHJk?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -212,7 +173,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/6EZKTyzJ7cc2M5hGjvpE09?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -225,7 +186,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/14pB8uxMXcNkr6LZVTAeuY?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -233,12 +194,11 @@
                         <div class="playlist-section-item">
                             <div class="playlist-text">
                                 <h1>anger</h1>
-
                             </div>
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/2jooU4U9khOimVc8xWqx2I?utm_source=generator&theme=0"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -251,12 +211,11 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/441kRzFCYUoisu6Xh9uONK?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                                     loading="lazy"></iframe>
                             </div>
                         </div>
-
 
                         <div class="playlist-section-item">
                             <div class="playlist-text">
@@ -266,7 +225,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/02vL8iCqFmoNaumcXpxY5Y?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -279,7 +238,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/6m9htKbW0TAJfJqTsVa5EQ?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -287,12 +246,11 @@
                         <div class="playlist-section-item">
                             <div class="playlist-text">
                                 <h1>literally me!!</h1>
-
                             </div>
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/6a0dsTdx2EevOCedXy77Br?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -305,7 +263,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/4BU2LOOK8EcRJxwD8B2MmN?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -318,11 +276,10 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/59LKFSIPaLYJyndyCkVuOU?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
-
 
                         <div class="playlist-section-item">
                             <div class="playlist-text">
@@ -332,11 +289,10 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/2jSZjgiY9n0cOsRLTuQYPP?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
-
 
                         <div class="playlist-section-item">
                             <div class="playlist-text">
@@ -346,14 +302,10 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/1Q9TxvHJP8As8Z069l42UK?utm_source=generator"
-                                    width="100%" height="352" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
-
-
-
-
 
                         <div class="playlist-section-item">
                             <div class="playlist-text">
@@ -363,7 +315,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/4uJLsRZrLdoQrhCDOtA3BE?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -377,7 +329,7 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/1rHhOO9IDu6CTU2fbShWKW?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
@@ -390,21 +342,20 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/2qwWJlO7UjbVvc311tAiqr?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
 
-  <div class="playlist-section-item">
+                        <div class="playlist-section-item">
                             <div class="playlist-text">
                                 <h1>frerard</h1>
                                 <p>songs that, in my head, they reference eachother</p>
                             </div>
                             <div class="playlist-iframe-placeholder">
-                               <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7A3GTyguCGs8ef8C01Z02i?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7A3GTyguCGs8ef8C01Z02i?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                             </div>
                         </div>
-
 
                         <div class="playlist-section-item">
                             <div class="playlist-text">
@@ -414,33 +365,24 @@
                             <div class="playlist-iframe-placeholder">
                                 <iframe data-testid="embed-iframe" style="border-radius:12px"
                                     src="https://open.spotify.com/embed/playlist/1DXJV7xcCHi3bgcD6ektfX?utm_source=generator"
-                                    width="100%" height="152" frameBorder="0" allowfullscreen=""
+                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
                                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>
-
-
 
         </main>
 
         <aside id="sidebar-direita-container" class="sidebar">
         </aside>
 
-
-
     </div>
     <script src="lastfm-widget.js"></script>
     <script src="script.js"></script>
     <script src="theme-switcher.js"></script>
-
-
-
-
 
 </body>
 

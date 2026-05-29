@@ -20,50 +20,50 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <div class="crt"></div>
     <style>
-        #webweaving-container,
-        #webweaving-container .caixamaisclara {
+        body > .layout-with-sidebars {
             display: block !important;
-            padding: 4px !important;
+            grid-template-columns: none !important;
         }
 
-        #webweaving-container .galeria-pin {
+        #containerprincipal {
+            text-align: left !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+
+        .galeria-pin {
             column-count: 3 !important;
             column-gap: 4px !important;
-            display: block !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            padding: 4px !important;
             width: 100% !important;
+            box-sizing: border-box !important;
         }
 
-        #webweaving-container .galeria-pin a,
-        #webweaving-container .galeria-pin > img,
-        #webweaving-container .galeria-pin div {
+        .galeria-pin a {
             display: block !important;
-            float: none !important;
             break-inside: avoid !important;
+            page-break-inside: avoid !important;
             -webkit-column-break-inside: avoid !important;
-            margin: 0 0 4px 0 !important;
-            padding: 0 !important;
+            margin-bottom: 4px !important;
             line-height: 0 !important;
-            font-size: 0 !important;
-            width: 100% !important;
-            height: auto !important;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
 
-        #webweaving-container .galeria-pin img {
+        .galeria-pin a img {
+            width: 100% !important;
+            height: auto !important;
             display: block !important;
-            width: 100% !important;
-            height: auto !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            object-fit: unset !important;
-            max-width: 100% !important;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
 
-        #webweaving-container .galeria-pin img:hover {
+        .galeria-pin a img:hover {
             transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .galeria-pin { column-count: 2 !important; }
         }
     </style>
 </head>
@@ -96,21 +96,18 @@
                     <a data-fancybox="gallery" href="imgs/memes/311.webp" data-caption=""><img src="imgs/memes/311.webp"></a>
                     <a data-fancybox="gallery" href="imgs/memes/329.webp" data-caption=""><img src="imgs/memes/329.webp"></a>
                     <a data-fancybox="gallery" href="imgs/memes/336.webp" data-caption=""><img src="imgs/memes/336.webp"></a>
-                    <a data-fancybox="gallery" href="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" data-caption=""><img src=""></a>
+                    <a data-fancybox="gallery" href="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" data-caption=""><img src="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg"></a>
                     <a data-fancybox="gallery" href="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg" data-caption=""><img src="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg"></a>
                     <a data-fancybox="gallery" href="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg" data-caption=""><img src="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg"></a>
                     <a data-fancybox="gallery" href="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" data-caption=""><img src="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg"></a>
                     <a data-fancybox="gallery" href="imgs/memes/mamaedormiu.jpeg" data-caption=""><img src="imgs/memes/mamaedormiu.jpeg"></a>
-                </div>                    <a data-fancybox="gallery" href="https://pbs.twimg.com/media/HAhC2srXMAAf9-e?format=jpg&name=small" data-caption=""><img src="https://pbs.twimg.com/media/HAhC2srXMAAf9-e?format=jpg&name=small"></a>
-                </div>                    <a data-fancybox="gallery" href="https://pbs.twimg.com/media/G_c6Bf6XAAAgHPf?format=jpg&name=small" data-caption=""><img src="https://pbs.twimg.com/media/G_c6Bf6XAAAgHPf?format=jpg&name=small"></a>
-
+                </div>
             </div>
         </main>
     </div>
 
     <script src="script.js"></script>
     <script src="lastfm-widget.js"></script>
-    <script src="theme-switcher.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>Fancybox.bind('[data-fancybox="gallery"]', {});</script>
 </body>

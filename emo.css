@@ -275,7 +275,7 @@ a:hover {
 body>.layout-with-sidebars {
 
   display: grid !important;
-grid-template-columns: minmax(0, 300px) minmax(0, 1fr) minmax(0, 300px);}
+grid-template-columns: auto minmax(500px, 1fr) auto;}
 
 
 header {
@@ -541,15 +541,6 @@ header {
   }
 }
 
-
-.whiskers {
-  -webkit-mask-image: url(https://i.imgur.com/RVv0Knw.png);
-  -webkit-mask-size: 100%;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  width: 200px;
-  height: auto
-}
 
 #logopatinha {
   height: 5rem;
@@ -1400,16 +1391,6 @@ th {
   }
 }
 
-.skin-grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: 3px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
 
 .content-column {
   display: flex;
@@ -1770,86 +1751,6 @@ th {
 }
 
 
-.games-section {
-  background-color: #0a0a0a;
-  padding: 20px;
-  border-radius: 3px;
-  box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-  max-width: 50rem;
-  margin: 20px auto;
-  text-align: center;
-  color: #0a0a0a;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
-
-.games-title {
-  text-align: center;
-  font-size: 3rem;
-
-  color: #610000;
-  ;
-  text-transform: uppercase;
-  text-align: center;
-
-  margin-top: 0;
-  margin-bottom: 20px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
-
-
-.games-button-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-
-  margin-top: 0;
-  padding: 10px;
-  width: 100%;
-}
-
-
-.game-button-link {}
-
-
-
-
-
-.game-iframe-wrapper {
-
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background-color: transparent;
-  border-radius: 3px;
-  box-shadow: none;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.game-iframe-wrapper iframe {
-
-  width: 100%;
-  border: none;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-}
-
-
-#gameIframe,
-.gameIframe {
-  width: 100%;
-  border: none;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  outline: none;
-
-}
-
 
 .button-container.portfolio-buttons {
   display: flex;
@@ -1867,38 +1768,6 @@ th {
     padding: 15px;
     margin: 15px auto;
   }
-
-  .games-title {
-    font-size: 1.8em;
-    margin-bottom: 20px;
-  }
-
-  .games-button-container {
-    gap: 8px;
-  }
-
-}
-
-@media (max-width: 480px) {
-  .games-section {
-    padding: 10px;
-    margin: 10px auto;
-  }
-
-  .games-title {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-  }
-
-  .games-button-container {
-    flex-direction: column;
-    gap: 6px;
-
-    .game-button-link {
-      width: 100%;
-    }
-  }
-
 
 
 
@@ -2029,114 +1898,8 @@ th {
 
 
 
-  #posts-container h2 {
-    text-align: left;
-    font-family: "MinFont";
-    color: #534F4A;
-    margin-bottom: 20px;
-  }
 
 
-
-
-
-
-
-  #posts-container h2 {
-    text-align: left;
-    font-family: "MinFont";
-    color: #534F4A;
-    margin-bottom: 20px;
-  }
-
-
-  .blog-post {
-    background-color: transparent;
-    border: none;
-    margin: 0px;
-    border-radius: 0px;
-    box-shadow: none;
-    word-wrap: break-word;
-    text-align: left;
-  }
-
-  div.blog-post {
-    background-color: transparent;
-    border: none;
-    margin: 0px;
-    border-radius: 0px;
-    box-shadow: none;
-    word-wrap: break-word;
-    text-align: left;
-  }
-
-  .post-info-header {
-    display: flex;
-    align-items: center;
-    font-family: "MinFont";
-    color: #534F4A;
-    font-size: 0.9em;
-    margin-bottom: 8px;
-    gap: 5px;
-  }
-
-  .post-author-name {
-    font-weight: bold;
-  }
-
-  .post-separator {
-    font-size: 1.2em;
-    line-height: 1;
-  }
-
-
-  .blog-post h1 {
-    font-family: "MinFont";
-    color: #534F4A;
-    padding: 5px;
-    margin: 5px;
-  }
-
-  .blog-post h2 {
-    font-family: "MinFont";
-    color: #534F4A;
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 1.2em;
-    line-height: 1.2;
-    text-align: left;
-  }
-
-  .blog-post img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 10px auto;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
-
-  .blog-post {
-    background-color: transparent;
-    border: none;
-    padding: 5px 0;
-    margin: 0;
-    border-radius: 0;
-    box-shadow: none;
-    word-wrap: break-word;
-    text-align: left;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-
-  }
-
-  .post-divider {
-    border: none;
-    border-top: 1px solid #534f4a;
-    margin: 10px 0;
-    width: 100%;
-  }
 
 
 
@@ -2203,11 +1966,6 @@ th {
     text-decoration: none;
     transition: background-color 0.3s ease;/
   }
-
-  .blog-post .translate-button:hover {
-    background-color: #0056b3;
-  }
-
 
 
 
@@ -2485,3 +2243,5 @@ header,
 .ds-tooltip:hover::after {
   opacity: 1;
 }
+
+

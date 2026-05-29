@@ -4,7 +4,6 @@
 <head>
     <script src="oneko.js"></script>
     <script>NekoType = "black"</script>
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -12,431 +11,224 @@
         gtag('js', new Date());
         gtag('config', 'G-4K5KDKEJ2E');
     </script>
-    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
     <meta charset="UTF-8">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-
-
-
     <title>@minkurosu</title>
-
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <div class="crt"></div>
+    <link rel="stylesheet" href="emo.css" />
     <style>
-        html,
-        body,
-        iframe {
-            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
-        }
+  .image-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 10px 0;
+}
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.grid-item img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+}
+.grid-item img:hover { transform: scale(1.04); }
+.grid-item h3 {
+    font-size: 0.8rem;
+    text-align: center;
+    margin: 2px 0 0 0;
+    padding: 0;
+    line-height: 1.2;
+}
 
+.picrew-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 10px 0;
+}
+.picrew-grid-item a {
+    display: block;
+    line-height: 0;
+}
+.picrew-grid-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+    transition: transform 0.2s ease;
+}
+.picrew-grid-item img:hover { transform: scale(1.04); }
 
-        a,
-        button,
-        input[type="submit"],
-        input[type="button"],
-        select {
-            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-        }
-
-
-
-        #container {
-
-            padding: 1.25rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 50rem;
-            box-sizing: border-box;
-
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-
-
-
-
-
-        .galeria-grid img:hover {
-            transform: scale(1.05);
-        }
-
-
-
-
-        .image-grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-
-        .image-grid-container-picrew {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-
-
-        .grid-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            background-color: #534f4a49;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .grid-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-
-
-        .grid-item img {
-            width: 100%;
-            height: auto;
-
-            max-width: 250px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-
-        .grid-item h3 {
-            font-size: 1.2em;
-
-            margin: 0;
-        }
-
-
-
-
-
-        .picrew-grid-container {
-
-            columns: 3;
-            column-gap: 20px;
-
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .picrew-grid-item {
-
-            break-inside: avoid-column;
-
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-bottom: 20px;
-            width: 100%;
-
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-        }
-
-        .picrew-grid-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .picrew-grid-item a {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100%;
-            width: 100%;
-        }
-
-        .picrew-grid-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-
-            object-fit: cover;
-
-        }
-
-        .picrew-grid-item h3 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #495057;
-            margin: 0 10px;
-            padding: 0;
-            text-align: center;
-            display: block;
-        }
-
-
-        @media (max-width: 768px) {
-            .picrew-grid-container {
-                columns: 2;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .picrew-grid-container {
-                columns: 1;
-            }
-        }
-
-        #theme-toggle-button {
-            background: none !important;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            cursor: pointer;
-            outline: none;
-        }
+@media (max-width: 500px) {
+    .image-grid-container { grid-template-columns: repeat(2, 1fr); }
+    .picrew-grid-container { grid-template-columns: repeat(3, 1fr); }
+}
     </style>
-
+    <div class="crt"></div>
 </head>
 
 <body>
-
     <div class="layout-with-sidebars">
-
-
-
         <main id="containerprincipal">
-
             <div id="container">
+
                 <div class="caixamaisclara">
-                    <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
+                    <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo">
                 </div>
+
                 <hr>
+
                 <div class="caixamaisclara">
                     <div class="games">
                         <h2>minverso</h2>
+
                         <h3>me in games:</h3>
                         <div class="image-grid-container">
                             <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/baldursgate3.png" alt="Description for Image 1">
+                                <img src="imgs/site_imgs/minverso/baldursgate3.png" alt="Baldur's Gate 3">
                                 <h3>baldurs gate 3</h3>
                             </div>
-
-
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/growtopia.jpg" alt="Description for Image 3">
-                                <h3>growtopia</h3>
-                            </div>
-
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/ponytown.png" alt="Description for Image 4">
-                                <h3>ponytown</h3>
-                            </div>
-
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/diablo.jpg" alt="Description for Image 2">
-                                <h3>diablo iv</h3>
-                            </div>
-
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/roblox.png" alt="Description for Image 2">
-                                <h3>roblox</h3>
-                            </div>
-
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/habbo.png" alt="Description for Image 2">
-                                <h3>habbo</h3>
-                            </div>
-                            <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/transformice.png" alt="Description for Image 1">
+                             <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/transformice.png" alt="Transformice">
                                 <h3>transformice</h3>
                             </div>
-
+                           
                             <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/sunhaven.png" alt="">
+                                <img src="imgs/site_imgs/minverso/ponytown.png" alt="Ponytown">
+                                <h3>ponytown</h3>
+                            </div>
+                             <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/growtopia.jpg" alt="Growtopia">
+                                <h3>growtopia</h3>
+                            </div>
+                            <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/diablo.jpg" alt="Diablo IV">
+                                <h3>diablo iv</h3>
+                            </div>
+                            <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/roblox.png" alt="Roblox">
+                                <h3>roblox</h3>
+                            </div>
+                            <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/habbo.png" alt="Habbo">
+                                <h3>habbo</h3>
+                            </div>
+                           
+                            <div class="grid-item">
+                                <img src="imgs/site_imgs/minverso/sunhaven.png" alt="Sun Haven">
                                 <h3>sun haven</h3>
                             </div>
-
                             <div class="grid-item">
-                                <img src="imgs/site_imgs/minverso/aot.png" alt="Description for Image 1">
+                                <img src="imgs/site_imgs/minverso/aot.png" alt="AOT">
                                 <h3>aot</h3>
                             </div>
-
-
-
                         </div>
-
-
-
-
-
-
-
+<br>
                         <h3>picrews:</h3>
-
                         <div class="picrew-grid-container">
                             <div class="picrew-grid-item">
-                                <a href="https://picrew.me/en/image_maker/2212965/complete?cd=0GgMA4exJP"
-                                    target="_blank">
+                                <a href="https://picrew.me/en/image_maker/2212965/complete?cd=0GgMA4exJP" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew1.png" alt="">
-
                                 </a>
                             </div>
-
-                            
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/1868017" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew2.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew3.png" alt="">
-
                                 </a>
                             </div>
-
-                                  <div class="picrew-grid-item">
+                            <div class="picrew-grid-item">
                                 <a href="https://sp-studio.de/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/SP-Studio.png" alt="">
-
                                 </a>
                             </div>
-
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2366392/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew4.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew5.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/1243146" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew6.png" alt="">
-
                                 </a>
                             </div>
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/1322863" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew7.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/1203523" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew8.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/1469769/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew9.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew10.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew11.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew12.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew13.png" alt="">
-
                                 </a>
                             </div>
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew14.png" alt="">
-
                                 </a>
                             </div>
-
-
                             <div class="picrew-grid-item">
                                 <a href="https://picrew.me/en/image_maker/2141620/" target="_blank">
                                     <img src="imgs/site_imgs/minverso/picrew/picrew15.png" alt="">
-
                                 </a>
                             </div>
-
-
                         </div>
 
                     </div>
-
-
-
-
                 </div>
+
+            </div>
         </main>
-
-
-
     </div>
 
     <script src="lastfm-widget.js"></script>
     <script src="script.js"></script>
     <script src="theme-switcher.js"></script>
-
-
-
-
-
 </body>
 
 </html>

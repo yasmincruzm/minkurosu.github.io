@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
     <script type="module" src="blog.js"></script>
@@ -16,483 +15,186 @@
         gtag('js', new Date());
         gtag('config', 'G-4K5KDKEJ2E');
     </script>
-    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1600px, initial-scale=0.4, maximum-scale=1.0, user-scalable=yes">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-
-
     <title>@minkurosu</title>
-
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="emo.css" />
     <style>
-        html,
-        body,
-        iframe {
-            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
-        }
-
-
-        a,
-        button,
-        input[type="submit"],
-        input[type="button"],
-        select {
-            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-        }
-
-
-
-        #container {
-
-            padding: 1.25rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 50rem;
-            box-sizing: border-box;
-
-        }
-
-
-
-
-
-
-
-
-
-        #posts-container {
-            padding: 10px;
-        }
-
-        #posts-container h2 {
-            text-align: left;
-            font-family: "MinFont";
-            color: #534F4A;
-            margin-bottom: 20px;
-        }
-
+        /* --- blog: alinha data/hora à esquerda, suaviza título --- */
         .blog-post {
-            background-color: transparent;
-            border: none;
-            margin: 0px;
-            border-radius: 0px;
-            box-shadow: none;
-            word-wrap: break-word;
             text-align: left;
         }
 
-        div.blog-post {
-            background-color: transparent;
-            border: none;
-            margin: 0px;
-            border-radius: 0px;
-            box-shadow: none;
-            word-wrap: break-word;
-            text-align: left;
-        }
-
-        .post-info-header {
+        .blog-post .post-info-header {
             display: flex;
             align-items: center;
-            font-family: "MinFont";
-            color: #534F4A;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-            gap: 5px;
-        }
-
-        .post-author-name {
-            font-weight: bold;
-        }
-
-        .post-separator {
-            font-size: 1.2em;
-            line-height: 1;
-        }
-
-
-        .blog-post h1 {
-            font-family: "MinFont";
-            color: #534F4A;
-            padding: 5px;
-            margin: 5px;
-        }
-
-        .blog-post h2 {
-            font-family: "MinFont";
-            color: #534F4A;
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 1.2em;
-            line-height: 1.2;
+            gap: 6px;
             text-align: left;
-        }
-
-        .blog-post img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 10px auto;
-            border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .blog-post {
-            background-color: transparent;
-            border: none;
-            padding: 5px 0;
-            margin: 0;
-            border-radius: 0;
-            box-shadow: none;
-            word-wrap: break-word;
-            text-align: left;
-            padding: 10px;
-            width: 100%;
-            box-sizing: border-box;
-
-        }
-
-        .post-divider {
-            border: none;
-            border-top: 1px solid #534f4a;
-            margin: 10px 0;
-            width: 100%;
-        }
-
-
-
-        .nav-side {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-
-
-        .caixamaisclaraCenterSimple {
-            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-            flex-direction: column
-        }
-
-        .caixamaisclara h4,
-        .caixamaisclaraCenterSimple h4 {
+            font-size: 0.85rem;
+            color: #4b4b4b;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-
-            width: 100% !important;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            box-sizing: border-box;
-
+            margin-bottom: 4px;
         }
 
-        #theme-toggle-button {
-            background: none !important;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            cursor: pointer;
-            outline: none;
+        .blog-post .post-date,
+        .blog-post .post-time,
+        .blog-post .post-separator {
+            text-align: left;
+            font-size: 0.85rem;
         }
 
-        #posts-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-
-            padding: 1.25rem;
-            border-radius: 0.9375rem;
+        .blog-post .post-title {
+            font-size: 1.6rem;
+            text-align: left;
+            margin: 0 0 8px 0;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-=        .post-info-header {
-            display: flex;
-            align-items: center;
-            font-family: "MinFont";
-            color: #534F4A;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .post-date {
-            font-weight: bold;
-            color: #7c1d1d;
-        }
-
-        .post-time {
-            color: #534F4A;
-            font-size: 0.85em;
-            opacity: 0.8;
-        }
-
-        .post-separator {
-            color: #534F4A;
-            opacity: 0.5;
-        }
-
-        .post-image-wrapper {
-            margin: 10px 0;
-            width: 100%;
-        }
-
-        .post-image-wrapper img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            margin: 0;
-        }
-
-        .post-body {
-            width: 100%;
-        }
-
-        .post-body.has-image {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .post-text {
-            word-wrap: break-word;
+        .blog-post .post-text {
+            text-align: left;
+            font-size: 0.95rem;
             line-height: 1.6;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
     </style>
-
 </head>
 
 <body>
-
     <div class="layout-with-sidebars">
-
-        <aside id="sidebar-esquerda-container" class="sidebar">
-        </aside>
-
-
         <main id="containerprincipal">
 
+            <div class="caixamaisclara">
+                <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo">
+            </div>
 
-            <div id="container">
-                <div class="caixamaisclara">
-                    <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
-                </div>
-                <hr>
-                <div class="caixamaisclaraCenterSimple">
-                    <h4>sorry if theres any foreign readers, i kinda wanna do my entries in brazilian portuguese bc it's
-                        my first language and its more comfortable, so feel free to translate if you're interested
-                        enough to read.</h4>
-
-                    <div class="nav-item">
-                    
-                    </div>
-                    <br>
-                    <div id="google_translate_element"></div>
-                </div>
+            <div class="caixamaisclaraCenterSimple">
+                <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
+                    first language, so feel free to translate if you're interested enough to read.</h4>
+                <div class="nav-item"></div>
                 <br>
-                <div class="caixamaisclara" id="posts-container">
+                <div id="google_translate_element"></div>
+            </div>
 
-                    <!-- ============================================
-                   
-            
+            <hr>
 
-                    <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">DD/MM/AAAA</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">HH:MM</span>
-                        </div>
-                        <h2 class="post-title">Título do post</h2>
-                        <div class="post-image-wrapper">
-                            <img src="URL_DA_IMAGEM" alt="descrição da imagem">
-                        </div>
-                        <div class="post-text">
-                            <p>Texto do post aqui...</p>
-                        </div>
-                        <hr class="post-divider">
+            <div id="posts-container">
+
+                <!-- POST -->
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">24/05/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">01:36</span>
                     </div>
-
-                    SEM IMAGEM:
-                    <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">DD/MM/AAAA</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">HH:MM</span>
-                        </div>
-                        <h2 class="post-title">Título do post</h2>
-                        <div class="post-text">
-                            <p>texto do post...</p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-                    ============================================ -->
-
-                    <!-- POST  -->
-
-
-  <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">24/05/2026</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">01:36</span>
-                        </div>
-                        <h2 class="post-title">só da maluco</h2>
-                        <div class="post-image-wrapper">
-                            <img src="" alt="">
-                        </div>
-                        <div class="post-text">
-
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-
-                    <!-- POST  -->
-
-
-
-     <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">04/03/2026</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">15:02</span>
-                        </div>
-                        <h2 class="post-title">adeus celular</h2>
-                        <div class="post-image-wrapper">
-                            <img src="" alt="">
-                        </div>
-                        <div class="post-text">
-                           so queria reclamar mais q meu celular quebrou (pela 2 vez), ta com loop na tela de boot, e o conserto nem vale a pena. era tao lindo e tinha um stylus... meus sentimentos por ele sao bem ambivalentes, pois apesar de eu amar muito o modelo e ele me permitir desenhar com stylus, eu também odeio a dependência e comportamento compulsorio que temos com nossos celulares (ou pelo menos eu tive). o que complica é que vou ter que arranjar outro, parece impossivel viver sem celular hoje em dia, tudo precisa dessa desgraça, até para trabalhar, comprar comida, andar por aí. não queria ter que pagar caro em algo que me faz mal
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-
-     <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">25/02/2026</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">01:32</span>
-                        </div>
-                        <h2 class="post-title">hiperfocos alimentares</h2>
-                        <div class="post-image-wrapper">
-                            <img src="URL_DA_IMAGEM" alt="descrição da imagem">
-                        </div>
-                        <div class="post-text">
-                            <p>esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. Enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
-                                <br> alguns dos outros "hiperfocos" que eu lembro (também vou adicionando mais depois):<br>
-                          <br>  -chá de canela
-                                <br>  -macarrão carbonara
-                          <br>  -cenoura fatiada na frigideira, com temperos
-                       <br> -vitamina de abacate
-
-                 <br>   -geléia
-                </p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-                   
-
-
-
-
-
-
-<div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">25/02/2026</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">00:45</span>
-                        </div>
-                        <h2 class="post-title">meu futuro incerto</h2>
-                        <div class="post-image-wrapper">
-                            <img src="" alt="">
-                        </div>
-                        <div class="post-text">
-                            <p>estou no limbo esperando minha faculdade liberar o diploma, 
-                                estou grata por não conseguir começar alguma pós ou entrar em algum emprego,
-                                 estão sendo meu ultimo gostinho da vagabundagem (ou nem tanto, 
-                                 já que estou o tempo todo fazendo comissões de live2d). 
-                                 fiquei um bom tempo quebrando cabeça se faço uma pós em clínica, 
-                                 mas ainda não fechei com alguma abordagem específica. 
-                                 Depois, fiquei em duvida entre atuações que não necessariamente precisam de abordagem,
-                                  tipo recursos humanos 
-                                  (mas eu precisaria fazer algum curso de administração pra conseguir emprego na área), 
-                                  ou também avaliação psicológica, e acabei decidindo fazer essa (por enquanto).
-                                   esqueci até que não to tão no limbo assim, pois comecei um curso novo,
-                                    em prótese dentária (ate coloquei uns dentes decorativos nesse site), 
-                                    assim poderei trabalhar de casa, fazendo trabalhos manuais e colaborando
-                                     para o trabalho dos meus pais.</p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-               
-
-                    <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">23/02/2026</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">23:00</span>
-                        </div>
-                        <h2 class="post-title">lol</h2>
-                        <div class="post-text">
-                            <p>eu do ultimo post nem esperava a bomba q ia vim (sobre os arquivos lá.. podre), espero que nao tenha um futuro post se referindo a esse se as coisas piorarem :D </p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-                    <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">05/08/2025</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">04:03</span>
-                        </div>
-                        <h2 class="post-title">pensamentos da madrugada</h2>
-                        <div class="post-text">
-                            <p>sao 4h da manha e nao consigo dormir, nao consigo parar de pensar em como o mundo é podre, pensei em vim aqui desabafar. agora que comecei a escrever parece q dá um branco, nao consigo nem pensar por onde começar a escrever. oq mais anda me destroindo é a sensação de impotência, nao tem NADA que a gnt possa fazer, parece q ja estamos destinados a nos extinguir, a ganancia dos 1% vai causar o fim da porra do planeta, antes fosse so da nossa especie, que COM CERTEZA a natureza encontraria um jeito de contornar a situação. isso nao é nem questao de partido antes que me chamem de comunista, sei la nao acha que o jeito q o mundo funciona nao vai ter consequencia?? que a existencia de bilionarios é insustentavel? ate pq ate parece que so nos meros cidadãos fazendo nossa reciclagem vai salvar algum planeta. sem falar da porra de um genocídio. mal aconteceu um, que diziam "jamais esquecer", e na real nunca terminou, ne? tudo consequencia de uma mesma historia.. sei la, não sou capaz de comentar, mas é muito dificil viver o dia a dia enquanto isso tudo acontece, pra que continuar estudando pra tentar um futuro economicamente seguro, se o mundo ta quebrando em tudo? sei la, parece q quanto mais eu envelheço, mais eu percebo como as pessoas são podres, e mais vontade de morrer eu sinto.</p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
-                    <div class="blog-post">
-                        <div class="post-info-header">
-                            <span class="post-date">26/07/2025</span>
-                            <span class="post-separator">·</span>
-                            <span class="post-time">01:49</span>
-                        </div>
-                        <h2 class="post-title">recesso!</h2>
-                        <div class="post-text">
-                            <p>finalmente estou de "férias" da facul, 1mÊszinho de descanso SÓ QUE NÃO!! vou ter q aproveitar esse tempo pra dar uma adiantada no meu tcc, fora as commissions que peguei. Confesso que o que ta me dando um gás é o show do my chemical romance, mesmo faltando 200 dias, sei que meu esforço vai ser muito bem recompensado!!!!</p>
-                        </div>
-                        <hr class="post-divider">
-                    </div>
-
+                    <h2 class="post-title">só da maluco</h2>
+                    <div class="post-text"></div>
+                    <hr class="post-divider">
                 </div>
 
+                <!-- POST -->
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">04/03/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">15:02</span>
+                    </div>
+                    <h2 class="post-title">adeus celular</h2>
+                    <div class="post-text">
+                        so queria reclamar mais q meu celular quebrou (pela 2 vez), ta com loop na tela de boot, e o conserto nem vale a pena. era tao lindo e tinha um stylus... meus sentimentos por ele sao bem ambivalentes, pois apesar de eu amar muito o modelo e ele me permitir desenhar com stylus, eu também odeio a dependência e comportamento compulsorio que temos com nossos celulares (ou pelo menos eu tive). o que complica é que vou ter que arranjar outro, parece impossivel viver sem celular hoje em dia, tudo precisa dessa desgraça, até para trabalhar, comprar comida, andar por aí. não queria ter que pagar caro em algo que me faz mal
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">25/02/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">01:32</span>
+                    </div>
+                    <h2 class="post-title">hiperfocos alimentares</h2>
+                    <div class="post-text">
+                        <p>esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. Enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
+                            <br> alguns dos outros "hiperfocos" que eu lembro (também vou adicionando mais depois):<br>
+                            <br>-chá de canela
+                            <br>-macarrão carbonara
+                            <br>-cenoura fatiada na frigideira, com temperos
+                            <br>-vitamina de abacate
+                            <br>-geléia
+                        </p>
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">25/02/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">00:45</span>
+                    </div>
+                    <h2 class="post-title">meu futuro incerto</h2>
+                    <div class="post-text">
+                        <p>estou no limbo esperando minha faculdade liberar o diploma,
+                            estou grata por não conseguir começar alguma pós ou entrar em algum emprego,
+                            estão sendo meu ultimo gostinho da vagabundagem (ou nem tanto,
+                            já que estou o tempo todo fazendo comissões de live2d).
+                            fiquei um bom tempo quebrando cabeça se faço uma pós em clínica,
+                            mas ainda não fechei com alguma abordagem específica.
+                            Depois, fiquei em duvida entre atuações que não necessariamente precisam de abordagem,
+                            tipo recursos humanos
+                            (mas eu precisaria fazer algum curso de administração pra conseguir emprego na área),
+                            ou também avaliação psicológica, e acabei decidindo fazer essa (por enquanto).
+                            esqueci até que não to tão no limbo assim, pois comecei um curso novo,
+                            em prótese dentária (ate coloquei uns dentes decorativos nesse site),
+                            assim poderei trabalhar de casa, fazendo trabalhos manuais e colaborando
+                            para o trabalho dos meus pais.</p>
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">23/02/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">23:00</span>
+                    </div>
+                    <h2 class="post-title">lol</h2>
+                    <div class="post-text">
+                        <p>eu do ultimo post nem esperava a bomba q ia vim (sobre os arquivos lá.. podre), espero que nao tenha um futuro post se referindo a esse se as coisas piorarem :D</p>
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">05/08/2025</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">04:03</span>
+                    </div>
+                    <h2 class="post-title">pensamentos da madrugada</h2>
+                    <div class="post-text">
+                        <p>sao 4h da manha e nao consigo dormir, nao consigo parar de pensar em como o mundo é podre, pensei em vim aqui desabafar. agora que comecei a escrever parece q dá um branco, nao consigo nem pensar por onde começar a escrever. oq mais anda me destroindo é a sensação de impotência, nao tem NADA que a gnt possa fazer, parece q ja estamos destinados a nos extinguir, a ganancia dos 1% vai causar o fim da porra do planeta, antes fosse so da nossa especie, que COM CERTEZA a natureza encontraria um jeito de contornar a situação. isso nao é nem questao de partido antes que me chamem de comunista, sei la nao acha que o jeito q o mundo funciona nao vai ter consequencia?? que a existencia de bilionarios é insustentavel? ate pq ate parece que so nos meros cidadãos fazendo nossa reciclagem vai salvar algum planeta. sem falar da porra de um genocídio. mal aconteceu um, que diziam "jamais esquecer", e na real nunca terminou, ne? tudo consequencia de uma mesma historia.. sei la, não sou capaz de comentar, mas é muito dificil viver o dia a dia enquanto isso tudo acontece, pra que continuar estudando pra tentar um futuro economicamente seguro, se o mundo ta quebrando em tudo? sei la, parece q quanto mais eu envelheço, mais eu percebo como as pessoas são podres, e mais vontade de morrer eu sinto.</p>
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">26/07/2025</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">01:49</span>
+                    </div>
+                    <h2 class="post-title">recesso!</h2>
+                    <div class="post-text">
+                        <p>finalmente estou de "férias" da facul, 1mÊszinho de descanso SÓ QUE NÃO!! vou ter q aproveitar esse tempo pra dar uma adiantada no meu tcc, fora as commissions que peguei. Confesso que o que ta me dando um gás é o show do my chemical romance, mesmo faltando 200 dias, sei que meu esforço vai ser muito bem recompensado!!!!</p>
+                    </div>
+                    <hr class="post-divider">
+                </div>
+
+            </div>
 
         </main>
-
-
-
     </div>
-
-
-
 </body>
 
 </html>

@@ -9,66 +9,69 @@
         gtag('js', new Date());
         gtag('config', 'G-4K5KDKEJ2E');
     </script>
-    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
     <meta charset="UTF-8">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
     <title>@minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-    <div class="crt"></div>
+    <link rel="stylesheet" href="emo.css" />
     <style>
-        #theme-toggle-button {
-            background: none !important;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            border: none;
-            padding: 0;
-            margin: 0;
-            cursor: pointer;
-            outline: none;
-        }
-
-        #container,
-        #container .caixamaisclara {
+        body > .layout-with-sidebars {
             display: block !important;
-            padding: 4px !important;
+            grid-template-columns: none !important;
         }
 
-        #container .galeria-pin {
+        #containerprincipal {
+            text-align: left !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+
+        .galeria-pin {
             column-count: 3 !important;
             column-gap: 4px !important;
-            display: block !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            padding: 4px !important;
             width: 100% !important;
+            box-sizing: border-box !important;
         }
 
-        #container .galeria-pin a,
-        #container .galeria-pin > img,
-        #container .galeria-pin div {
+        .galeria-pin > a,
+        .galeria-pin > table,
+        .galeria-pin > div {
             display: block !important;
-            float: none !important;
             break-inside: avoid !important;
+            page-break-inside: avoid !important;
             -webkit-column-break-inside: avoid !important;
-            margin: 0 0 4px 0 !important;
-            padding: 0 !important;
-            line-height: 0 !important;
-            font-size: 0 !important;
+            margin-bottom: 4px !important;
+            overflow: hidden !important;
             width: 100% !important;
-            height: auto !important;
-            overflow: visible !important;
+            box-sizing: border-box !important;
         }
 
-        #container .galeria-pin img {
-            display: block !important;
+        .galeria-pin > a {
+            line-height: 0 !important;
+        }
+
+        .galeria-pin > table,
+        .galeria-pin > div {
+            line-height: 1.4 !important;
+        }
+
+        .galeria-pin a img {
             width: 100% !important;
             height: auto !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            object-fit: unset !important;
-            max-width: 100% !important;
+            display: block !important;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .galeria-pin a img:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .galeria-pin { column-count: 2 !important; }
         }
     </style>
 </head>
@@ -76,90 +79,77 @@
 <body>
     <div class="layout-with-sidebars">
         <main id="containerprincipal">
-            <div id="container">
-                <div class="galeria-pin">
-                    <a data-fancybox="gallery" href="imgs/quizzes/arcano.png" data-caption=""><img src="imgs/quizzes/arcano.png"></a>
-                                     
-                   <table width="" height="" border="0" align="center" cellpadding="2" cellspacing="5" bgcolor="#00000">
-  <tr>
-    <td height="1" align="center" style="color: #FFFFFF; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold">
-      <span style="font-size: xx-large">Hello</span><br>
-      <span style="font-size: medium">My name is</span>
-    </td>
-  </tr>
-  <tr>
-    <td height="1" valign="middle" align="center" bgcolor="#000000" style="color: #FFFFFF; font-family: Marker Felt, Verdana, Arial, Helvetica, sans-serif">
-      Min
-    </td>
-  </tr>
-  <tr>
-    <td height="1" align="center" style="color: #FFFFFF; font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold">
-      <span style="font-size: medium">I am</span>
-    </td>
-  </tr>
-  <tr>
-    <td valign="middle" align="center" bgcolor="#000000" style="color: #FFFFFF; font-family: Marker Felt, Verdana, Arial, Helvetica, sans-serif">
-      alien, androgynous, animal lover, artsy, autistic, caring, cat lover, commie, confidant, demisexual, dreamer, dude, eyeliner fag, feminist, freak, Green, gender liberationist, genderqueer, introvert, kitty, LGBTQIA, leftist, monogamist, nerd, obsessed, person, queer, queer liberationist, quiet, quirky, right-brained, sensitive, shy, trans-friendly, twink
-    </td>
-  </tr>
-  <tr>
-    <td height="1" align="center" style="color: #FFFFFF; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: x-small">
-      <a href="http://www.yaygender.net/pages/gender.pl" style="color: #FFFFFF">Who are you?</a>
-    </td>
-  </tr>
-</table>
+            <div class="galeria-pin">
+                <a data-fancybox="gallery" href="imgs/quizzes/arcano.png" data-caption=""><img src="imgs/quizzes/arcano.png"></a>
 
-                    
-                    <a href="https://quiz.pikminbloom.com/#/result"><img src="imgs/quizzes/result_kosumosu_en.webp"></a>
+                <table width="100%" border="0" align="center" cellpadding="2" cellspacing="5" bgcolor="#000000">
+                    <tr>
+                        <td align="center" style="color:#FFFFFF;font-family:Verdana,Arial,sans-serif;font-weight:bold">
+                            <span style="font-size:xx-large">Hello</span><br>
+                            <span style="font-size:medium">My name is</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" align="center" bgcolor="#000000" style="color:#FFFFFF;font-family:Marker Felt,Verdana,Arial,sans-serif">
+                            Min
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="color:#FFFFFF;font-family:Verdana,Arial,sans-serif;font-weight:bold">
+                            <span style="font-size:medium">I am</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" align="center" bgcolor="#000000" style="color:#FFFFFF;font-family:Marker Felt,Verdana,Arial,sans-serif">
+                            alien, androgynous, animal lover, artsy, autistic, caring, cat lover, commie, confidant, demisexual, dreamer, dude, eyeliner fag, feminist, freak, Green, gender liberationist, genderqueer, introvert, kitty, LGBTQIA, leftist, monogamist, nerd, obsessed, person, queer, queer liberationist, quiet, quirky, right-brained, sensitive, shy, trans-friendly, twink
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="color:#FFFFFF;font-family:Verdana,Arial,sans-serif;font-size:x-small">
+                            <a href="http://www.yaygender.net/pages/gender.pl" style="color:#FFFFFF">Who are you?</a>
+                        </td>
+                    </tr>
+                </table>
 
+                <a href="https://quiz.pikminbloom.com/#/result"><img src="imgs/quizzes/result_kosumosu_en.webp"></a>
+                <a data-fancybox="gallery" href="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg" data-caption=""><img src="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg"></a>
+                <a data-fancybox="gallery" href="http://cupped-expressions.net/cheese/quiz/" data-caption=""><img src="https://cupped-expressions.net/cheese/quiz/cheddar03.gif"></a>
+                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/4097_Dandere.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/4097_Dandere.jpg"></a>
+                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/3278_New_generation.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/3278_New_generation.jpg"></a>
+                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg"></a>
+                <a data-fancybox="gallery" href="imgs/quizzes/kindoftouch.png" data-caption=""><img src="imgs/quizzes/kindoftouch.png"></a>
+                <a data-fancybox="gallery" href="https://uquiz.com/Result/static/lite/MPB0zf/1238441/personality/1196948" data-caption=""><img src="imgs/quizzes/howlovingyoufeelslike.png"></a>
+                <a href="http://thousandroads.net/misc/pmdquiz/"><img src="http://thousandroads.net/misc/pmdquiz/static/results/Cubone.png"></a>
+                <a href="https://uquiz.com/quiz/MntFFK/to-whom-does-your-heart-belong"><img src="imgs/quizzes/uquiz.png"></a>
+                <a href="https://uquiz.com/quiz/tjZ8p6/what-form-of-love-do-you-embody"><img src="imgs/quizzes/love.png"></a>
+                <a href="https://www.theotaku.com/quizzes/view/1349/what_is_your_anime_eye_color%3F"><img src="http://www.theotaku.com/guru_results/1349_pink.jpg" alt="What Is Your Anime Eye Color?"></a>
+                <a href="https://www.theotaku.com/quizzes/view/2910/what_type_of_movie_are_you%3F"><img src="http://www.theotaku.com/guru_results/2910_Animation.jpg" alt="What Type Of Movie Are You?"></a>
+                <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/whatfairy_firefairy.gif"></a>
+                <img src="https://web.archive.org/web/20040812013343im_/http://www.drudabear.com/cheerbearaward.jpg">
+                <a href="https://www.theotaku.com/quizzes/view/1592/what_is_your_anime_hair_color%3F"><img src="http://www.theotaku.com/guru_results/1592_Brunette.jpg" alt="What Is Your Anime Hair Color?"></a>
+                <a data-fancybox="gallery" href="https://www.idrlabs.com/4-axes/test.php" data-caption=""><img src="imgs/quizzes/4-axes.png"></a>
+                <a data-fancybox="gallery" href="https://www.idrlabs.com/autism-spectrum/test.php" data-caption=""><img src="imgs/quizzes/autism-spectrum.png"></a>
+                <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/leader.pl" data-caption=""><img src="imgs/quizzes/leader.jpg"></a>
+                <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/16sm.pl" data-caption=""><img src="imgs/quizzes/16sm.png"></a>
+                <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/primeape.gif"></a>
+                <a data-fancybox="gallery" href="https://www.gotoquiz.com/results/what_is_your_gender_expression" data-caption=""><img src="imgs/quizzes/gender.png"></a>
+                <img src="https://web.archive.org/web/20020628140753im_/http://broken.blackroses.com/members/quizlets/odd.jpg">
+                <a href="http://www.nerdtests.com/ft_loser.php?im"><img src="http://www.nerdtests.com/images/ft/lsr.php?val=1704" alt="I am 71% loser."></a>
+                <a href="https://www.nerdtests.com/mq/uttake.php?id=293366"><img src="https://www.nerdtests.com/mq/badge/85ff49a7267274a3.jpg" alt="How EMO are u?!"></a>
+                <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/ElementQuizResults/element-water.jpg"></a>
+                <a href="http://www.nerdtests.com/ft_weird.php?im"><img src="http://www.nerdtests.com/thetester/images/php/wq.php?val=5339" alt="What is your weird quotient?"></a>
+                <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/mewtwo.gif" alt="I am a Mewtwo!"></a>
+                <a href="https://www.theotaku.com/quizzes/view/2412/what_eevee_evolution_are_you%3F"><img src="http://www.theotaku.com/guru_results/2412_Leafeon.jpg" alt="What Eevee Evolution Are You?"></a>
+                <a href="https://andou.gay/quiz/donutquiz"><img src="https://andou.gay/quiz/mmdonut.png"></a>
+                <a href="https://cadnomori.neocities.org/quizzes/conjurer.png"><img src="https://cadnomori.neocities.org/quizzes/conjurer.png"></a>
+                <a href="https://thel3tterm.neocities.org/bonus/quiz.html"><img src="https://thel3tterm.neocities.org/resources/seraph_result.gif" alt="Seraph"></a>
 
-                    <a data-fancybox="gallery" href="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg" data-caption=""><img src="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg"></a>
-                                     <a data-fancybox="gallery" href="http://cupped-expressions.net/cheese/quiz/" data-caption=""><img src="https://cupped-expressions.net/cheese/quiz/cheddar03.gif"></a>
-
-                    <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/4097_Dandere.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/4097_Dandere.jpg"></a>
-                    <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/3278_New_generation.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/3278_New_generation.jpg"></a>
-                    <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg"></a>
-                    <a data-fancybox="gallery" href="imgs/quizzes/kindoftouch.png" data-caption=""><img src="imgs/quizzes/kindoftouch.png"></a>
-                    <a data-fancybox="gallery" href="https://uquiz.com/Result/static/lite/MPB0zf/1238441/personality/1196948?&s=8fef69f3-83f2-4333-8716-bea4dfdbba0c" data-caption=""><img src="imgs/quizzes/howlovingyoufeelslike.png"></a>
-                    <a href="http://thousandroads.net/misc/pmdquiz/"><img src="http://thousandroads.net/misc/pmdquiz/static/results/Cubone.png"></a>
-                    
-                    <a href="https://uquiz.com/quiz/MntFFK/to-whom-does-your-heart-belong"><img src="imgs/quizzes/uquiz.png"></a>
-                    <a href="https://uquiz.com/quiz/tjZ8p6/what-form-of-love-do-you-embody"><img src="imgs/quizzes/love.png"></a>
-                    <a href="https://www.theotaku.com/quizzes/view/1349/what_is_your_anime_eye_color%3F"><img src="http://www.theotaku.com/guru_results/1349_pink.jpg" alt="What Is Your Anime Eye Color?"></a>
-                    <a href="https://www.theotaku.com/quizzes/view/2910/what_type_of_movie_are_you%3F"><img src="http://www.theotaku.com/guru_results/2910_Animation.jpg" alt="What Type Of Movie Are You?"></a>
-                    <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/whatfairy_firefairy.gif"></a>
-                    <div class="galeria-item">
-                        <img src="https://web.archive.org/web/20040812013343im_/http://www.drudabear.com/cheerbearaward.jpg">
-                    </div>
-                    
-                    <a href="https://www.theotaku.com/quizzes/view/1592/what_is_your_anime_hair_color%3F"><img src="http://www.theotaku.com/guru_results/1592_Brunette.jpg" alt="What Is Your Anime Hair Color?"></a>
-                    <a data-fancybox="gallery" href="https://www.idrlabs.com/4-axes/test.php" data-caption=""><img src="imgs/quizzes/4-axes.png"></a>
-                    <a data-fancybox="gallery" href="https://www.idrlabs.com/autism-spectrum/test.php" data-caption=""><img src="imgs/quizzes/autism-spectrum.png"></a>
-                    <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/leader.pl" data-caption=""><img src="imgs/quizzes/leader.jpg"></a>
-                    <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/16sm.pl" data-caption=""><img src="imgs/quizzes/16sm.png"></a>
-                    <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/primeape.gif"></a>
-                    <a data-fancybox="gallery" href="https://www.gotoquiz.com/results/what_is_your_gender_expression" data-caption=""><img src="imgs/quizzes/gender.png"></a>
-                    <img src="https://web.archive.org/web/20020628140753im_/http://broken.blackroses.com/members/quizlets/odd.jpg">
-                    <a href="http://www.nerdtests.com/ft_loser.php?im"><img src="http://www.nerdtests.com/images/ft/lsr.php?val=1704" alt="I am 71% loser."></a>
-                    <a href="https://www.nerdtests.com/mq/uttake.php?id=293366"><img src="https://www.nerdtests.com/mq/badge/85ff49a7267274a3.jpg" alt="How EMO are u?!"></a>
-                    <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/ElementQuizResults/element-water.jpg"></a>
-                    <a href="http://www.nerdtests.com/ft_weird.php?im"><img src="http://www.nerdtests.com/thetester/images/php/wq.php?val=5339" alt="What is your weird quotient?"></a>
-                    <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/mewtwo.gif" alt="I am a Mewtwo!"></a>
-                    <a href="https://www.theotaku.com/quizzes/view/2412/what_eevee_evolution_are_you%3F"><img src="http://www.theotaku.com/guru_results/2412_Leafeon.jpg" alt="What Eevee Evolution Are You?"></a>
-                    <a href="https://andou.gay/quiz/donutquiz"><img src="https://andou.gay/quiz/mmdonut.png"></a>
-                    <a href="https://cadnomori.neocities.org/quizzes/conjurer.png"><img src="https://cadnomori.neocities.org/quizzes/conjurer.png"></a>
-                    <a href="https://thel3tterm.neocities.org/bonus/quiz.html"><img src="https://thel3tterm.neocities.org/resources/seraph_result.gif" alt="Seraph"></a>
-              
-                    <div class="results" style="width: 200px;background-color: #fff;color: #000;display: block;padding: 10px;border: 1px solid;margin: 0 auto;font-family: 'times';font-size: '15pt';">
-      <p style="margin: 0">This page is protected by a</p>
-      <h1 class="title" style="margin: 0">DOLPHIN</h1>
-      <img class="image" style="max-width: 160px;border: 1px solid" alt="DOLPHIN" src="https://i.ibb.co/zr1qMd7/dolphin.png">
-      <p class="description">There are currently 42 species of dolphins</p>
-      <small>
-        <a href="https://hekate.neocities.org">Want your own? Visit hekate.neocities.org!</a>
-      </small>
-    </div>
-                
+                <div class="results" style="width:100%;background-color:#fff;color:#000;padding:10px;border:1px solid #000;box-sizing:border-box;font-size:12px;line-height:1.4">
+                    <p style="margin:0">This page is protected by a</p>
+                    <h1 style="margin:0;font-size:1.2em;line-height:1.2">DOLPHIN</h1>
+                    <img style="max-width:100%;border:1px solid;display:block" alt="DOLPHIN" src="https://i.ibb.co/zr1qMd7/dolphin.png">
+                    <p style="margin:4px 0">There are currently 42 species of dolphins</p>
+                    <small><a href="https://hekate.neocities.org">Want your own? Visit hekate.neocities.org!</a></small>
                 </div>
             </div>
         </main>

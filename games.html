@@ -5,6 +5,99 @@
     <meta charset="UTF-8">
     <title>game diary</title>
     <style>
+
+        
+.skin-item {
+  background-color: #0a0a0a;
+  border: 4px solid #310000;
+  border-radius: 3px;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.skin-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+.skin-item img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+
+.skin-title {
+  font-size: 1rem;
+  color: #610000;
+  margin: 0;
+  padding-top: 5px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .skin-grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+  }
+
+  .skin-item {
+    padding: 10px;
+  }
+
+  .skin-title {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 480px) {
+  .skin-grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+
+  .skin-item {
+    padding: 8px;
+  }
+
+  .skin-title {
+    font-size: 0.75em;
+  }
+}
+
+
+
+.skin-item {
+  background-color: #0a0a0a;
+  border: 4px solid #310000;
+  border-radius: 3px;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease-in-out;
+}
+.skin-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 3px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
         .caixamaisclaraInterests {
             display: flex;
             flex-direction: column;

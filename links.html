@@ -206,6 +206,18 @@
 
     .contact-links { width: 380px; margin: 0 auto 0.7rem; }
 
+    /* --- botões: 50% de largura, centralizados --- */
+    .contact-links {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    .contact-links .pushable {
+      width: 50% !important;
+    }
+
     .pushable {
       position: relative;
       border: none;
@@ -217,7 +229,8 @@
       transition: filter 250ms;
       text-decoration: none;
       display: block;
-      width: 100%;
+      width: 50%;
+      object-position: center;
     }
 
     .shadow {

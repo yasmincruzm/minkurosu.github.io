@@ -2,109 +2,33 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <title>dream journal</title>
-
-  <style>
-    html,
-    body,
-    iframe {
-      cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
-    }
-
-    a,
-    button,
-    input[type="submit"],
-    input[type="button"],
-    select {
-      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-    }
-
-    .caixamaisclaraCenterSimple {
-      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-      flex-direction: column;
-      padding: 15px;
-      margin: 20px 0;
-    }
-
-    .caixamaisclara {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #posts-container {
-      padding: 10px;
-    }
-
-    .blog-post {
-      background-color: transparent;
-      border: none;
-      padding: 5px 0;
-      margin: 0;
-      border-radius: 0;
-      box-shadow: none;
-      word-wrap: break-word;
-      text-align: left;
-    }
-
-    .blog-post h1 {
-      color: #534F4A;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .blog-post p {
-      color: #534F4A;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      line-height: 1.6;
-    }
-
-    .post-divider {
-      margin: 20px 0;
-      border-top: 1px solid #534F4A;
-    }
-
-    .blog-post img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 10px auto;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-
-    body {
-      top: 0 !important;
-    }
-  </style>
-
+    <meta charset="UTF-8">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <title>dream journal</title>
+    <link rel="stylesheet" href="emo.css" />
 </head>
 
 <body>
-  <div class="caixamaisclara">
-    <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
+    <div class="caixamaisclara">
+        <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo">
+        <br>
+    </div>
+
     <br>
-  </div>
 
-  <br>
+    <div class="caixamaisclaraCenterSimple">
+        <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
+            first language, so feel free to translate if you're interested enough to read.</h4>
+        <div id="google_translate_element"></div>
+    </div>
 
-  <div class="caixamaisclaraCenterSimple">
-    <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
-      first language, so feel free to translate if you're interested enough to read.</h4>
-    <div id="google_translate_element"></div>
-  </div>
+    <hr>
 
-  <hr>
+    <div id="dreams-container">
+        <h2>loading dreams...</h2>
+    </div>
 
-  <div class="caixamaisclara" id="dreams-container">
-    <h2>loading dreams...</h2>
-  </div>
-
-  <script type="module" src="dream-journal.js"></script>
-
-
+    <script type="module" src="dream-journal.js"></script>
 </body>
 
 </html>
