@@ -9,8 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.text();
             })
             .then(html => {
-                // Se o HTML carregado tem seu próprio layout-with-sidebars,
-                // extrai só o conteúdo do #containerprincipal interno
+
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const innerContainer = doc.querySelector('#containerprincipal');
@@ -37,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('erro ao carregar página:', error);
-                mainContainer.innerHTML = '<p>erro ao carregar a página.</p>';
+                mainContainer.innerHTML = '<p>error.</p>';
             });
     }
 
