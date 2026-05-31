@@ -126,8 +126,8 @@ function initComposer() {
             charCount.textContent = MAX;
             charCount.className = '';
         } catch (err) {
-            console.error('erro ao postar:', err);
-            alert('não foi possível postar.');
+            console.error('error:', err);
+            alert('error.');
         } finally {
             submitBtn.textContent = 'post';
             submitBtn.disabled = true;
