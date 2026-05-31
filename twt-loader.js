@@ -1,5 +1,6 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, query, orderBy, onSnapshot, getDocs, doc, addDoc, updateDoc, increment, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, collection, query, orderBy, onSnapshot, getDocs, doc, addDoc, updateDoc, deleteDoc, increment, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -11,15 +12,27 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+const ALLOWED_EMAIL = 'mincruzm@gmail.com';
 
-// ── styles ─────────────────────────────────────
+const app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+let isOwner = false;
+onAuthStateChanged(auth, (user) => {
+    isOwner = !!(user && user.email === ALLOWED_EMAIL);
+    // mostra/esconde todos os menus de dono já renderizados
+    document.querySelectorAll('.owner-menu-btn').forEach(btn => {
+        btn.style.display = isOwner ? 'flex' : 'none';
+    });
+});
+
 const style = document.createElement('style');
 style.textContent = `
     #tweets-container li .info p,
     #tweets-container .reply .content,
     #secret-posts-container li .info p { text-align:justify; hyphens:auto; }
+    .like-count { display:none !important; }
     .link-card { display:flex; flex-direction:column; border:1px solid #3A3A3A; border-radius:16px; overflow:hidden; margin-top:10px; text-decoration:none; transition:background 0.18s; background:#1e2124; max-width:100%; cursor:pointer; }
     .link-card:hover { background:#252a2e; }
     .link-card .lc-img { width:100%; max-height:220px; object-fit:cover; display:block; }
@@ -28,10 +41,105 @@ style.textContent = `
     .link-card .lc-title { font-size:14px; color:#E1E8ED; font-weight:bold; line-height:1.35; margin-bottom:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .link-card .lc-desc { font-size:13px; color:#8899A6; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
     .link-card-loading { border:1px solid #3A3A3A; border-radius:16px; margin-top:10px; padding:12px 14px; background:#1e2124; color:#6e7c86; font-size:12px; }
+    .owner-menu-wrap { position:relative; margin-left:auto; }
+    .owner-menu-btn {
+        display:none; align-items:center; justify-content:center;
+        background:none; border:none; cursor:pointer;
+        color:#555; padding:4px 8px; border-radius:4px;
+        font-size:15px; letter-spacing:3px; line-height:1;
+        transition:color 0.15s;
+    }
+    .owner-menu-btn:hover { color:#B3B3B3; }
+    .owner-dropdown {
+        display:none; position:absolute; right:0; top:100%;
+        background:#1e1e1e; border:1px solid #3A3A3A;
+        border-radius:8px; overflow:hidden; z-index:99;
+        min-width:130px; box-shadow:0 4px 16px rgba(0,0,0,0.5);
+    }
+    .owner-dropdown.open { display:block; }
+    .owner-dropdown button {
+        display:block; width:100%; background:none; border:none;
+        color:#E1E8ED; font-size:13px; font-family:"MinFont",monospace;
+        padding:10px 14px; text-align:left; cursor:pointer;
+        transition:background 0.15s;
+    }
+    .owner-dropdown button:hover { background:#2a2a2a; }
+    .owner-dropdown button.danger { color:#e05c5c; }
+    .owner-dropdown button.danger:hover { background:#2a1a1a; }
+    #edit-modal-overlay {
+        display:none; position:fixed; inset:0;
+        background:rgba(0,0,0,0.75); z-index:999;
+        align-items:center; justify-content:center;
+    }
+    #edit-modal-overlay.open { display:flex; }
+    #edit-modal {
+        background:#1a1a1a; border:1px solid #4a0000;
+        outline:1px solid #1a1a1a; border-radius:4px;
+        padding:20px; width:90%; max-width:480px;
+        display:flex; flex-direction:column; gap:12px;
+        font-family:"MinFont",monospace;
+    }
+    #edit-modal h3 { margin:0; color:#d5d5d5; font-size:14px; }
+    #edit-modal textarea {
+        background:#111; border:1px solid #4a0000;
+        outline:1px solid #1a1a1a; border-radius:2px;
+        color:#d5d5d5; font-family:"MinFont",monospace;
+        font-size:14px; padding:10px; resize:vertical;
+        min-height:100px; width:100%; box-sizing:border-box;
+    }
+    #edit-modal-footer { display:flex; gap:8px; justify-content:flex-end; }
+    #edit-modal-footer button {
+        background:#0a0a0a; color:#4b4b4b;
+        border:0.3125rem solid #1a1919; border-radius:2px;
+        padding:6px 16px; font-family:"MinFont",monospace;
+        font-size:13px; font-weight:bold; cursor:pointer;
+        transition:all 0.2s ease-in-out;
+    }
+    #edit-modal-footer button:hover { color:#310000; border-color:#310000; }
+    #edit-save-btn { border-color:#4a0000 !important; color:#8f0000 !important; }
+    #edit-save-btn:hover { border-color:#8f0000 !important; color:#d5d5d5 !important; }
 `;
 document.head.appendChild(style);
 
-// ── media helpers ──────────────────────────────
+function injectEditModal() {
+    if (document.getElementById('edit-modal-overlay')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'edit-modal-overlay';
+    overlay.innerHTML = `
+        <div id="edit-modal">
+            <h3>editar post</h3>
+            <textarea id="edit-modal-textarea" maxlength="500"></textarea>
+            <div id="edit-modal-footer">
+                <button id="edit-cancel-btn">cancelar</button>
+                <button id="edit-save-btn">salvar</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    document.getElementById('edit-cancel-btn').addEventListener('click', closeEditModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeEditModal(); });
+}
+
+let _editPostId = null;
+function openEditModal(postId, currentContent) {
+    _editPostId = postId;
+    document.getElementById('edit-modal-textarea').value = currentContent;
+    document.getElementById('edit-modal-overlay').classList.add('open');
+}
+function closeEditModal() {
+    _editPostId = null;
+    document.getElementById('edit-modal-overlay').classList.remove('open');
+}
+async function saveEdit() {
+    if (!_editPostId) return;
+    const newContent = document.getElementById('edit-modal-textarea').value.trim();
+    if (!newContent) return;
+    try {
+        await updateDoc(doc(db, 'posts', _editPostId), { content: newContent });
+        closeEditModal();
+    } catch(err) { console.error('edit error:', err); alert('erro ao editar.'); }
+}
+
 const IMAGE_EXT = /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i;
 const VIDEO_EXT = /\.(mp4|webm|ogg|mov)(\?.*)?$/i;
 
@@ -176,19 +284,23 @@ function renderPost(post, postId) {
 
     const built  = buildEmbeds(urls);
     const liked  = (JSON.parse(localStorage.getItem('likedPosts') || '[]')).includes(postId);
-    const count  = post.likeCount || 0;
 
     return {
         html: '<img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">'
             + '<div class="info">'
-            + '<strong>min* <span>@minkurosu \u2022 ' + fmt(post.timestamp) + '</span></strong>'
+            + '<strong>min* <span>@minkurosu \u2022 ' + fmt(post.timestamp) + '</span>'
+            + '<span class="owner-menu-wrap">'
+            + '<button class="owner-menu-btn" title="opções" style="display:' + (isOwner ? 'flex' : 'none') + '">···</button>'
+            + '<div class="owner-dropdown">'
+            + '<button class="edit-post-btn">editar</button>'
+            + '<button class="delete-post-btn danger">apagar</button>'
+            + '</div></span></strong>'
             + '<p>' + text + '</p>'
             + built.html
             + '<div class="post-actions">'
             + '<div class="action-button reply-button"><span>reply</span></div>'
             + '<div class="action-button like-button ' + (liked ? 'liked' : '') + '" data-type="post">'
             + '<svg viewBox="0 0 24 24"><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12z"></path></svg>'
-            + '<span class="like-count">' + count + '</span>'
             + '</div></div>'
             + '<form class="reply-form">'
             + '<input type="text" name="authorName" placeholder="user" required maxlength="49">'
@@ -303,6 +415,43 @@ function initSecret() {
 }
 
 async function handleActionClick(e) {
+    const menuBtn = e.target.closest('.owner-menu-btn');
+    if (menuBtn) {
+        const dropdown = menuBtn.nextElementSibling;
+        document.querySelectorAll('.owner-dropdown.open').forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+        dropdown.classList.toggle('open');
+        return;
+    }
+
+    // fechar dropdowns ao clicar fora
+    if (!e.target.closest('.owner-menu-wrap')) {
+        document.querySelectorAll('.owner-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+
+    // editar post
+    const editBtn = e.target.closest('.edit-post-btn');
+    if (editBtn && isOwner) {
+        const li = editBtn.closest('li[data-post-id]');
+        if (!li) return;
+        const postId = li.dataset.postId;
+        const rawText = li.querySelector('.info p').innerText;
+        editBtn.closest('.owner-dropdown').classList.remove('open');
+        openEditModal(postId, rawText);
+        return;
+    }
+
+    // apagar post
+    const delBtn = e.target.closest('.delete-post-btn');
+    if (delBtn && isOwner) {
+        const li = delBtn.closest('li[data-post-id]');
+        if (!li) return;
+        if (!confirm('apagar este post?')) return;
+        try {
+            await deleteDoc(doc(db, 'posts', li.dataset.postId));
+        } catch(err) { console.error('delete error:', err); alert('erro ao apagar.'); }
+        return;
+    }
+
     const replyBtn = e.target.closest('.reply-button');
     if (replyBtn) {
         replyBtn.closest('li[data-post-id]').querySelector('.reply-form').classList.toggle('active');
@@ -349,8 +498,10 @@ async function handleReplySubmit(e) {
     } catch(err) { console.error('reply error:', err); alert("couldn't send reply."); }
 }
 
-// ── init ───────────────────────────────────────
-function init() {
+ function init() {
+    injectEditModal();
+    document.getElementById('edit-save-btn').addEventListener('click', saveEdit);
+
     const container = document.getElementById('tweets-container');
     if (container) {
         container.addEventListener('click', handleActionClick);
