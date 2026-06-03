@@ -289,13 +289,24 @@
         </div>
     </div>
     <hr>
+<div class="caixamaisclaraInterests" style="display: flex; gap: 1rem; align-items: stretch;">
+
+  <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; max-height: 200px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
+    <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
+    <p>
+      my first contact with the internet was through social network games (orkut, facebook) and the sims, when i was little i didn't have much access to the wider internet, just my circle of people i knew. i remember playing games like happy farm, pet mania, simcity? and especially the sims. i have this memory of using a cr4cked disc from my neighbors. i made my family and built this entirely rectangular house with no room divisions or any architectural sense whatsoever lmaooo, at some point the kitchen caught fire, and i remember just closing the game and never opening it again, because i was scared my family would die in real life. that's me in a nutshell, gaming/internet addiction and obsessive compulsive disorder :D
+      even though i didn't really catch the tumblr era (i was more of an instagram and twitter person), i remember seeing the most gorgeous pages on tumblr and always wanting to make one like that. around 2024, i was encouraged by my bf to take some programming courses, and my first steps were through the classics, html and css. i watched some classes from santander academy, ada tech, and another site i got borrowed logins for lol. my first project was a landing page with my main links, kind of like a "linktree", and over time i kept adding more sections, like my 2d animation and photography portfolios, and then i discovered neocities :3 i started thinking about ways to help myself use social media less (instagram, the late twitter now known as x), and the psychological impact is pretty noticeable, society must really be compromised, given how normalized it all is and how even small businesses depend entirely on instagram for exposure. unfortunately i can't quit completely, since most of my clients are on twitter (and i've been there since before it got bought and ruined), and most of the people i know are on instagram.
+    </p>
+  </div>
 <div class="mrn-wrap" style="flex: 1; text-transform: lowercase; padding: 1rem;">
 
+  <!-- CABEÇALHO -->
   <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
     <h3 style="color:rgb(85,3,3); font-size:16px; margin:0;">me rn</h3>
     <span id="mrn-date" style="font-size:12px; color:#888;"></span>
   </div>
 
+  <!-- SLIDER -->
   <div style="display:flex; align-items:center; gap:8px;">
     <button onclick="mrnGo(-1)" style="background:none; border:none; cursor:pointer; color:rgb(85,3,3); font-size:1rem; padding:0;">←</button>
     <div style="overflow:hidden; flex:1;">
@@ -304,16 +315,22 @@
     <button onclick="mrnGo(1)" style="background:none; border:none; cursor:pointer; color:rgb(85,3,3); font-size:1rem; padding:0;">→</button>
   </div>
 
+  <!-- LEGENDA -->
   <p id="mrn-caption" style="font-size:12px; color:#888; margin:6px 0 0;"></p>
 
 </div>
 
 <script>
+// ✏️ EDITE AQUI — adicione quantas fotos quiser
 const mrnSlides = [
   {
-    img: "minkurosu.site/imgs/memes/txf.jpg.jpg",
-    date: "012/06/2025",
-    caption: " "
+    img: "url-da-foto-1.jpg",
+    date: "01/06/2025",
+  },
+  {
+    img: "url-da-foto-2.jpg",
+    date: "15/05/2025",
+    caption: "legenda da foto 2"
   },
  
 ];
@@ -341,6 +358,8 @@ function mrnGo(dir) { mrnGoTo(mrnCurrent + dir); }
 
 mrnGoTo(0);
 </script>
+
+</div>
 <hr>
     <div class="caixamaisclaraInterests">
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
