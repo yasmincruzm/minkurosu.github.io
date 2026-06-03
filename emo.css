@@ -1291,11 +1291,11 @@ h5 {
 }
 
 .divider {
-  width: 2px;
+  width: 4px;
   background-color: #310101;
   margin: 0 10px;
-  height: auto;
-  min-height: 100px;
+  height: 80px;
+      align-self: center;
 }
 
 
