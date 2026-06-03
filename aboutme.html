@@ -338,7 +338,7 @@ const mrnDate = document.getElementById("mrn-date");
 mrnSlides.forEach(s => {
   const slide = document.createElement("div");
   slide.style.cssText = "flex:0 0 100%;";
-slide.innerHTML = `<img src="${s.img}" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:8px;">`;  mrnTrack.appendChild(slide);
+slide.innerHTML = `<img src="${s.img}" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">`;  mrnTrack.appendChild(slide);
 });
 
 function mrnGoTo(n) {
