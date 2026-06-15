@@ -200,7 +200,7 @@
 
             function initializeGames() {
                 if (initialized) {
-                    console.log('⚠️ Já inicializado, ignorando...');
+                    console.log('starting');
                     return;
                 }
 
@@ -208,20 +208,20 @@
                 const contentDiv = document.getElementById('gameContent');
 
                 if (!contentDiv) {
-                    console.log('❌ gameContent não encontrado');
+                    console.log('not found');
                     return;
                 }
 
                 if (buttons.length === 0) {
-                    console.log('❌ botões não encontrados');
+                    console.log('not found');
                     return;
                 }
 
-                console.log(`✅ Inicializando ${buttons.length} botões...`);
+                console.log(`loading ${buttons.length}...`);
                 initialized = true;
 
                 function loadGame(url) {
-                    console.log('📥 Carregando:', url);
+                    console.log('loading:', url);
                     contentDiv.innerHTML = '<h1 style="text-align:center;padding:20px;color:#534F4A;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">Loading...</h1>';
 
                     fetch(url)
@@ -230,7 +230,7 @@
                             return response.text();
                         })
                         .then(html => {
-                            console.log('✅ HTML recebido');
+                            console.log('HTML on');
 
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(html, 'text/html');
@@ -241,11 +241,10 @@
                             }
 
                             contentDiv.innerHTML = main.innerHTML;
-                            console.log('✨ Conteúdo inserido!');
+                            console.log('!');
 
-                            // Executa scripts
                             const scripts = contentDiv.querySelectorAll('script');
-                            console.log(`📜 Executando ${scripts.length} scripts...`);
+                            console.log(` ${scripts.length} scripts...`);
 
                             scripts.forEach((oldScript) => {
                                 const newScript = document.createElement('script');
@@ -260,10 +259,10 @@
                                 document.body.appendChild(newScript);
                             });
 
-                            console.log('✅ Scripts executados!');
+                            console.log('scrips on');
                         })
                         .catch(error => {
-                            console.error('❌ Erro:', error);
+                            console.error('Error:', error);
                             contentDiv.innerHTML = `
                             <div style="text-align:center;padding:40px;">
                                 <h1 style="color:#8B0000;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">
@@ -300,7 +299,7 @@
                     });
                 });
 
-                console.log(' loading primeiro jogo...');
+                console.log(' loading...');
                 if (freshButtons[0]) {
                     freshButtons[0].click();
                 }
@@ -318,7 +317,7 @@
 
             window.addEventListener('load', function () {
                 if (!initialized) {
-                    console.log('🔄 trying to window.load...');
+                    console.log('trying to load...');
                     initializeGames();
                 }
             });

@@ -69,9 +69,16 @@
 <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
     <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
 
-
+<script>
+  const title = " @minkurosu ";
+  let pos = 0;
+  setInterval(function() {
+    document.title = title.slice(pos) + title.slice(0, pos);
+    pos = (pos + 1) % title.length;
+  }, 200);
+</script>
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-    <title>@minkurosu</title>
+    <title></title>
 
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <div class="crt"></div>
@@ -812,7 +819,7 @@ div#goog-gt- {
                 <hr>
          
 <div class="nav-side">
-<div class="side-item"><a href="#" data-page="feed" class="nav-link">feed</a></div>
+<div class="side-item"><a href="#" data-page="feed" class="nav-link">photos</a></div>
    <div class="side-item"><a href="#" data-page="portfolio-menu" class="nav-link">portfolios</a></div>
 
   <div class="side-item"><a href="#" data-page="portfolio-photos" class="nav-link">photography</a></div>
@@ -899,9 +906,9 @@ div#goog-gt- {
                                                 <iframe src="https://iframe.chat/embed?chat=minkurosu" style="max-width: 90%; height: 300px;" id="chattable"></iframe>
 
                 <hr>
-<a href="https://tamanotchi.world/24409c"><img src="https://tamanotchi.world/i/24409" alt="It's tamaNOTchi! Click to feed!"></a>
-              <a href="https://tamanotchi.world/33672c"><img src="https://tamanotchi.world/i/33672" alt="It's tamaNOTchi! Click to feed!"></a>
-
+<a href="https://tamanotchi.world/24409c"><img src="https://tamanotchi.world/i/24409" alt="It's tamaNOTchi! Click to feed!" style="height: 70px;"></a>
+              <a href="https://tamanotchi.world/33672c"><img src="https://tamanotchi.world/i/33672" style="height: 70px;" alt="It's tamaNOTchi! Click to feed!"></a>
+<br>
                 <a href="https://elu-isa.neocities.org/"><img loading="lazy" style="desaturatepics" src="https://elu-isa.neocities.org/_assets/illustrations/NB_rat.png
 ">
 </a>
@@ -911,19 +918,24 @@ div#goog-gt- {
               <br>
 
             
-<div style="display:grid;place-items:center">
-<a href="https://nanacore.net/cliques/brs">
-<img src="https://nanacore.net/imgs/brs/bandeira.png" title="Esse site faz parte do WebCírculo BR!">
-</a>
-<a href="https://nanacore.net/cliques/brs?action=random">random</a>
-</div>
+<div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
 
-<div id="palestinering">
+  <div style="display: flex; align-items: center; gap: 4px;">
+    <a href="https://nanacore.net/cliques/brs?action=prev" title="previous">←</a>
+    <a href="https://nanacore.net/cliques/brs">
+      <img src="https://nanacore.net/imgs/brs/bandeira.png" title="Esse site faz parte do WebCírculo BR!">
+    </a>
+    <a href="https://nanacore.net/cliques/brs?action=next" title="next">→</a>
+  </div>
+
+  <div id="palestinering" style="display: flex; align-items: center; gap: 4px;">
     <a href="https://catboo.leprd.space/webring/redirect.php?prv&s=min" title="previous">←</a>
     <a href="https://websitesforpalestine.neocities.org/" target="_blank">
-        <img src="https://websitesforpalestine.neocities.org/widget/mini.png" alt="websites for a free palestine">
+      <img src="https://websitesforpalestine.neocities.org/widget/mini.png" alt="websites for a free palestine">
     </a>
     <a href="https://catboo.leprd.space/webring/redirect.php?nxt&s=min" title="next">→</a>
+  </div>
+
 </div>
 <hr>
 
@@ -1661,51 +1673,7 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
     </div>
 </div>
   <br>
-  <!-- <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
-  <div class="scrollSmaller" style="padding: 4px 6px;">
-    <h3 style="margin: 2px 0 3px;">statuscafe</h3>
-    <hr style="margin: 2px 0 4px;">
-    <div id="status-feed"><h4>loading...</h4></div>
-  </div>
-</div>
-
-<script>
-(function() {
-  const USERNAME = 'minkurosu';
-  const FEED_URL = `https://status.cafe/users/${USERNAME}.atom`;
-  const PROXIES = [
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(FEED_URL)}`,
-    `https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`,
-    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(FEED_URL)}`
-  ];
-
-  function tryProxy(index) {
-    if (index >= PROXIES.length) {
-      document.getElementById('status-feed').innerHTML = '<h4>erro ao carregar</h4>';
-      return;
-    }
-    fetch(PROXIES[index])
-      .then(r => r.text())
-      .then(str => {
-        const xml = new DOMParser().parseFromString(str, 'text/xml');
-        const entries = [...xml.querySelectorAll('entry')];
-        if (!entries.length) { tryProxy(index + 1); return; }
-        document.getElementById('status-feed').innerHTML = entries.map(entry => {
-          const content = entry.querySelector('content')?.textContent || '';
-          const date = new Date(entry.querySelector('updated')?.textContent);
-          const timeStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
-          return `<h4>${timeStr} - ${content}</h4>`;
-        }).join('');
-      })
-      .catch(() => tryProxy(index + 1));
-  }
-
-  tryProxy(0);
-})();
-</script> -->
-
-
-
+  
 
 
 </div>
