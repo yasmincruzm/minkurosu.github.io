@@ -1201,7 +1201,15 @@ h5 {
   max-height: 25px;
 }
 
+.desaturate50 {
+  filter: saturate(0.6);
+  transition: filter 0.3s ease;
+}
 
+.desaturate50:hover {
+  filter: saturate(1);
+  transition: filter 0.3s ease;
+}
 
 
 .desaturatepics {
