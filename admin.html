@@ -8,7 +8,7 @@
    <script type="text/javascript" 
   src="//livetrafficfeed.com/static/v5/livetrafficfeed.js">
 </script>
-    <title>Admin Panel - @minkurosu</title>
+    <title>admin</title>
 </head>
 
 <style>
@@ -35,7 +35,6 @@
         padding: 20px;
     }
 
-    /* ── card base ── */
     .admin-form-box {
         background-color: #24211e;
         margin: 30px auto;
@@ -51,7 +50,6 @@
         gap: 14px;
     }
 
-    /* ── headings ── */
     .admin-form-box h1 {
         margin: 0 0 10px 0;
         color: #d5d5d5;
@@ -70,7 +68,6 @@
         width: 100%;
     }
 
-    /* ── form fields ── */
     .field {
         display: flex;
         flex-direction: column;
@@ -104,7 +101,6 @@
         caret-color: #d5d5d5;
     }
 
-    /* fix autofill yellow */
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
@@ -127,7 +123,6 @@
         line-height: 1.5;
     }
 
-    /* ── buttons ── */
     button {
         padding: 11px 20px;
         background-color: #333;
@@ -152,7 +147,6 @@
         transform: translateY(0);
     }
 
-    /* ── divider ── */
     .divider {
         display: flex;
         align-items: center;
@@ -178,7 +172,6 @@
         letter-spacing: 1px;
     }
 
-    /* ── google btn ── */
     #google-login-btn {
         background-color: #1e1b18;
         border: 1px solid #534F4A;
@@ -200,7 +193,6 @@
         flex-shrink: 0;
     }
 
-    /* ── hr ── */
     hr {
         border: none;
         border-top: 1px solid #534F4A;
@@ -208,7 +200,6 @@
         width: 100%;
     }
 
-    /* ── messages ── */
     .message {
         border-radius: 6px;
         text-align: center;
@@ -226,7 +217,6 @@
     .error,   #login-message.error   { background-color: #2a1e1e; border: 1px solid #4a2e2e; color: #bf6a6a; padding: 10px 12px; }
     .info,    #login-message.info    { color: #7a9abf; padding: 10px 0; }
 
-    /* ── logout ── */
     #logout-btn {
         background-color: #2a1e1e;
         border: 1px solid #4a2e2e;
@@ -235,7 +225,6 @@
 
     #logout-btn:hover { background-color: #3a2020; border-color: #6a3a3a; }
 
-    /* ── visitor tracker ── */
     #visitor-tracker {
         width: 100%;
         display: flex;
@@ -277,7 +266,6 @@
     .tracker-section { width: 100%; }
     .tracker-section h2 { font-family: "MinFont", monospace; color: #d5d5d5; margin-bottom: 12px; }
 
-    /* ── minha visita destacada ── */
     .tracker-row-me {
         border-color: #6C6661 !important;
         background: #2a2520 !important;
@@ -295,14 +283,26 @@
         border-radius: 4px;
         vertical-align: middle;
     }
+
+    .tracker-badge {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 0.75em;
+    padding: 1px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+.tracker-badge-new    { background: #1e2a1e; border: 1px solid #2e4a2e; color: #6abf6a; }
+.tracker-badge-return { background: #1e1e2a; border: 1px solid #2e2e4a; color: #6a8abf; }
+
+
 </style>
 
 <body>
     <div id="container">
 
-        <!-- LOGIN -->
         <div id="login-form" class="admin-form-box">
-            <h1>login do admin</h1>
+            <h1>login</h1>
 
             <form id="login-email-form" style="width:100%; display:flex; flex-direction:column; gap:14px;">
                 <div class="field">
@@ -331,7 +331,6 @@
             <div id="login-message"></div>
         </div>
 
-        <!-- ADMIN PANEL -->
         <div id="admin-panel-section" class="admin-form-box" style="display: none;">
 
             <h2>new post</h2>
@@ -344,7 +343,7 @@
                 <input type="url" id="post-image-url" placeholder="Ex: https://seusite.com/imagem.jpg">
             </div>
             <div class="field">
-                <label for="post-image-file">Ou, upload de imagem (opcional):</label>
+                <label for="post-image-file">ou, upload de imagem (opcional):</label>
                 <input type="file" id="post-image-file" accept="image/*">
             </div>
             <button type="button" id="publish-post-btn">publicar</button>

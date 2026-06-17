@@ -30,7 +30,6 @@ function msg(el, text, type) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── auth ──────────────────────────────────
     const loginForm      = document.getElementById('login-form');
     const loginEmailForm = document.getElementById('login-email-form');
     const loginEmail     = document.getElementById('login-email');
@@ -162,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── dreams ─────────────────────────────────
     const dreamContent = document.getElementById('dream-content');
     const publishDream = document.getElementById('publish-dream-btn');
     const dreamMsg     = document.getElementById('dream-message');
@@ -180,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── blog posts ─────────────────────────────
     const blogTitle   = document.getElementById('blog-title');
     const blogContent = document.getElementById('blog-content');
     const blogImgUrl  = document.getElementById('blog-image-url');
