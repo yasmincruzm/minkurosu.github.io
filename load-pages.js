@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
 
     function loadPage(pageName) {
+        history.pushState({ page: pageName }, '', `/${pageName}`);
+
         fetch(`${pageName}.html`)
             .then(response => {
                 if (!response.ok) throw new Error(`erro ao carregar: ${response.statusText}`);
@@ -26,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.body.appendChild(newScript);
                 });
 
+                if (window.trackPage) window.trackPage(pageName);
+
                 if (typeof Fancybox !== 'undefined') {
                     Fancybox.bind('[data-fancybox="gallery"]', {});
                 }
@@ -41,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.navigateTo = loadPage;
+
+    window.addEventListener('popstate', e => {
+        const page = e.state?.page || 'aboutme';
+        loadPage(page);
+    });
+
 
     navLinks.forEach(link => {
         link.addEventListener('click', event => {

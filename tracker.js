@@ -28,22 +28,18 @@ async function fetchWithTimeout(url, ms = 4000) {
 
 function parseUA(ua) {
     let browser = 'Unknown', os = 'Unknown', device = 'Desktop';
-
     if (/Edg\//.test(ua))             browser = 'Edge';
     else if (/OPR\/|Opera/.test(ua))  browser = 'Opera';
     else if (/Chrome\//.test(ua))     browser = 'Chrome';
     else if (/Firefox\//.test(ua))    browser = 'Firefox';
     else if (/Safari\//.test(ua))     browser = 'Safari';
-
     if (/Windows/.test(ua))           os = 'Windows';
     else if (/Android/.test(ua))      os = 'Android';
     else if (/iPhone|iPad/.test(ua))  os = 'iOS';
     else if (/Mac OS/.test(ua))       os = 'macOS';
     else if (/Linux/.test(ua))        os = 'Linux';
-
     if (/Mobile|Android|iPhone/.test(ua))  device = 'Mobile';
     else if (/iPad|Tablet/.test(ua))       device = 'Tablet';
-
     return { browser, os, device };
 }
 
@@ -79,114 +75,125 @@ async function getGeo() {
             return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
         }
     ];
-
     for (const api of apis) {
         try {
             const result = await api();
             if (result.city && result.city !== 'unknown' && result.city !== '') return result;
         } catch { continue; }
     }
-
     return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
 }
 
-
-const SESSION_KEY  = 'mku_sid';
-const COUNT_KEY    = 'mku_visits';
-const FIRST_KEY    = 'mku_first';
+const SESSION_KEY = 'mku_sid';
+const COUNT_KEY   = 'mku_visits';
+const FIRST_KEY   = 'mku_first';
 
 function getSessionData() {
     const raw        = localStorage.getItem(COUNT_KEY);
     const visitCount = raw ? parseInt(raw, 10) + 1 : 1;
     const isNewVisitor = visitCount === 1;
     localStorage.setItem(COUNT_KEY, String(visitCount));
-
-    if (!localStorage.getItem(FIRST_KEY)) {
-        localStorage.setItem(FIRST_KEY, new Date().toISOString());
-    }
+    if (!localStorage.getItem(FIRST_KEY)) localStorage.setItem(FIRST_KEY, new Date().toISOString());
     const firstVisit = localStorage.getItem(FIRST_KEY);
-
     let sessionId = sessionStorage.getItem(SESSION_KEY);
     if (!sessionId) {
         sessionId = Math.random().toString(36).slice(2) + Date.now().toString(36);
         sessionStorage.setItem(SESSION_KEY, sessionId);
     }
-
     return { visitCount, isNewVisitor, firstVisit, sessionId };
 }
 
+let currentPage   = 'aboutme';
+let pageStartTime = Date.now();
+let maxScroll     = 0;
+let hiddenTime    = 0;
+let hiddenSince   = null;
+let clickCount    = 0;
 
-let maxScroll    = 0;
-let hiddenTime   = 0;
-let hiddenSince  = null;
-const pageStart  = Date.now();
+function resetPageState(pageName) {
+    currentPage   = pageName;
+    pageStartTime = Date.now();
+    maxScroll     = 0;
+    clickCount    = 0;
+}
 
 function updateMaxScroll() {
-    const scrolled  = window.scrollY + window.innerHeight;
-    const total     = document.documentElement.scrollHeight;
-    const pct       = Math.round((scrolled / total) * 100);
+    const scrolled = window.scrollY + window.innerHeight;
+    const total    = document.documentElement.scrollHeight;
+    const pct      = Math.round((scrolled / total) * 100);
     if (pct > maxScroll) maxScroll = pct;
 }
 
 document.addEventListener('scroll', updateMaxScroll, { passive: true });
-
+document.addEventListener('click',  () => { clickCount++; }, { passive: true });
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         hiddenSince = Date.now();
     } else {
-        if (hiddenSince) {
-            hiddenTime += Date.now() - hiddenSince;
-            hiddenSince = null;
-        }
+        if (hiddenSince) { hiddenTime += Date.now() - hiddenSince; hiddenSince = null; }
     }
 });
 
+let geoPromise     = null;
+let sessionData    = null;
+let parsedUA       = null;
 
-async function track() {
+async function init() {
+    geoPromise  = getGeo();
+    sessionData = getSessionData();
+    parsedUA    = parseUA(navigator.userAgent);
+}
+
+async function recordPageView(pageName) {
     try {
-        const geo     = await getGeo();
-        const parsed  = parseUA(navigator.userAgent);
-        const session = getSessionData();
-
-        const lang = navigator.language || 'unknown';
-
+        const geo = await geoPromise;
         await addDoc(collection(db, 'visitors'), {
-            ip:        geo.ip,
-            city:      geo.city      || 'unknown',
-            region:    geo.region    || 'unknown',
-            country:   geo.country   || 'unknown',
-            cc:        geo.cc        || '',
-            browser:   parsed.browser,
-            os:        parsed.os,
-            device:    parsed.device,
-            page:      window.location.pathname,
-            referrer:  document.referrer || 'direct',
-            lang,
-            sessionId:    session.sessionId,
-            visitCount:   session.visitCount,
-            isNewVisitor: session.isNewVisitor,
-            firstVisit:   session.firstVisit,
-            maxScroll,
-            timestamp: serverTimestamp()
+            ip:          geo.ip,
+            city:        geo.city    || 'unknown',
+            region:      geo.region  || 'unknown',
+            country:     geo.country || 'unknown',
+            cc:          geo.cc      || '',
+            browser:     parsedUA.browser,
+            os:          parsedUA.os,
+            device:      parsedUA.device,
+            page:        `/${pageName}`,
+            referrer:    document.referrer || 'direct',
+            lang:        navigator.language || 'unknown',
+            sessionId:   sessionData.sessionId,
+            visitCount:  sessionData.visitCount,
+            isNewVisitor: sessionData.isNewVisitor,
+            firstVisit:  sessionData.firstVisit,
+            maxScroll:   0,
+            timestamp:   serverTimestamp()
         });
-
-        window.addEventListener('pagehide', async () => {
-            updateMaxScroll();
-            const activeTime = Math.round((Date.now() - pageStart - hiddenTime) / 1000);
-            try {
-                await addDoc(collection(db, 'visitors_exit'), {
-                    sessionId:  session.sessionId,
-                    page:       window.location.pathname,
-                    maxScroll,
-                    activeTime, 
-                    timestamp:  serverTimestamp()
-                });
-            } catch { /* silent */ }
-        }, { once: true });
-
     } catch (err) {
-        console.warn('tracker:', err);
+        console.warn('tracker pageview:', err);
     }
 }
 
-track();
+async function recordPageExit(pageName) {
+    updateMaxScroll();
+    const activeTime = Math.round((Date.now() - pageStartTime - hiddenTime) / 1000);
+    try {
+        await addDoc(collection(db, 'visitors_exit'), {
+            sessionId:  sessionData.sessionId,
+            page:       `/${pageName}`,
+            maxScroll,
+            activeTime,
+            clickCount,
+            timestamp:  serverTimestamp()
+        });
+    } catch { /* silent */ }
+}
+
+window.trackPage = async function(pageName) {
+    await recordPageExit(currentPage);
+    resetPageState(pageName);
+    await recordPageView(pageName);
+};
+
+window.addEventListener('pagehide', () => {
+    recordPageExit(currentPage);
+}, { once: true });
+
+init().then(() => recordPageView('aboutme'));
