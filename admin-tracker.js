@@ -50,7 +50,6 @@ function browserIcon(b) {
     return ({ Chrome: '🟡', Firefox: '🟠', Safari: '🔵', Edge: '🟢', Opera: '🔴' })[b] || '🌐';
 }
 
-// gera iniciais/avatar a partir do IP para dar identidade visual
 function ipAvatar(ip) {
     if (!ip || ip === 'unknown') return '??';
     const parts = ip.split('.');
@@ -58,7 +57,6 @@ function ipAvatar(ip) {
     return ip.slice(0, 2);
 }
 
-// cor determinística pelo IP
 function ipColor(ip) {
     if (!ip) return '#534F4A';
     let hash = 0;
@@ -174,10 +172,9 @@ export async function loadVisitorTracker(app) {
     const container = document.getElementById('visitor-tracker');
     if (!container) return;
 
-    const q     = query(collection(db, 'visitors'),      orderBy('timestamp', 'desc'), limit(100));
-    const qExit = query(collection(db, 'visitors_exit'), orderBy('timestamp', 'desc'), limit(300));
+    const q     = query(collection(db, 'visitors'),      orderBy('timestamp', 'desc'), limit(200));
+    const qExit = query(collection(db, 'visitors_exit'), orderBy('timestamp', 'desc'), limit(400));
 
-    // exitMap: sessionId+page -> exit data
     const exitMap = {};
     onSnapshot(qExit, snap => {
         snap.docs.forEach(doc => {
@@ -193,18 +190,15 @@ export async function loadVisitorTracker(app) {
             return;
         }
 
-        // agrupa por IP, mantém só a visita mais recente por IP
         const byIp = {};
         snapshot.docs.forEach(doc => {
             const d = doc.data();
             if (!d.ip || d.ip === 'unknown') return;
             if (!byIp[d.ip]) byIp[d.ip] = d;
-            // já está ordenado por desc, então o primeiro é o mais recente
         });
 
         renderAnalytics(byIp);
 
-        // ordena por timestamp desc
         const sorted = Object.values(byIp).sort((a, b) => {
             const ta = a.timestamp?.toDate?.()?.getTime() || 0;
             const tb = b.timestamp?.toDate?.()?.getTime() || 0;
