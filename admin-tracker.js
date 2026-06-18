@@ -7,9 +7,7 @@ async function getMyIp() {
         const res  = await fetch('https://ip-api.com/json/?fields=query');
         const data = await res.json();
         myIp = data.query || null;
-    } catch {
-        myIp = null;
-    }
+    } catch { myIp = null; }
 }
 
 function countryFlag(cc) {
@@ -19,19 +17,154 @@ function countryFlag(cc) {
         .join('');
 }
 
-const deviceIcon  = d => d === 'Mobile' ? '📱' : d === 'Tablet' ? '💻' : '🖥️';
-const browserIcon = b => ({ Chrome: '🟡', Firefox: '🟠', Safari: '🔵', Edge: '🟢', Opera: '🔴' })[b] || '🌐';
-
-function scrollBar(pct) {
-    if (pct == null) return '';
-    const filled = Math.round(pct / 10);
-    const bar    = '█'.repeat(filled) + '░'.repeat(10 - filled);
-    return `<span title="scroll máximo: ${pct}%">${bar} ${pct}%</span>`;
+function fmtTime(seconds) {
+    if (seconds == null || seconds < 0) return null;
+    if (seconds < 60) return `${seconds}s`;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return s > 0 ? `${m}m ${s}s` : `${m}m`;
 }
 
-function visitBadge(count, isNew) {
-    if (isNew || count === 1) return `<span class="tracker-badge tracker-badge-new">✨ novo</span>`;
-    return `<span class="tracker-badge tracker-badge-return">↩ visita #${count}</span>`;
+function timeAgo(date) {
+    if (!date) return '—';
+    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diff < 60)    return `${diff}s atrás`;
+    if (diff < 3600)  return `${Math.floor(diff / 60)}min atrás`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h atrás`;
+    return date.toLocaleDateString('pt-BR');
+}
+
+function scrollBar(pct) {
+    if (pct == null) return '—';
+    const filled = Math.round(pct / 10);
+    return '█'.repeat(filled) + '░'.repeat(10 - filled) + ` ${pct}%`;
+}
+
+function deviceIcon(d) {
+    if (d === 'Mobile') return '📱';
+    if (d === 'Tablet') return '💻';
+    return '🖥️';
+}
+
+function browserIcon(b) {
+    return ({ Chrome: '🟡', Firefox: '🟠', Safari: '🔵', Edge: '🟢', Opera: '🔴' })[b] || '🌐';
+}
+
+// gera iniciais/avatar a partir do IP para dar identidade visual
+function ipAvatar(ip) {
+    if (!ip || ip === 'unknown') return '??';
+    const parts = ip.split('.');
+    if (parts.length >= 2) return parts[0].slice(-1) + parts[1].slice(-1);
+    return ip.slice(0, 2);
+}
+
+// cor determinística pelo IP
+function ipColor(ip) {
+    if (!ip) return '#534F4A';
+    let hash = 0;
+    for (const c of ip) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+    const hue = Math.abs(hash) % 360;
+    return `hsl(${hue}, 30%, 35%)`;
+}
+
+function renderCard(d, exit, isMe) {
+    const flag     = countryFlag(d.cc || '');
+    const ts       = d.timestamp?.toDate();
+    const ago      = timeAgo(ts);
+    const location = [d.city, d.region, d.country]
+        .filter(v => v && v !== 'unknown' && v !== '')
+        .join(', ') || 'localização desconhecida';
+
+    const isNew    = d.isNewVisitor || d.visitCount === 1;
+    const visitLabel = isNew
+        ? `<span class="vc-badge vc-badge-new">novo visitante</span>`
+        : `<span class="vc-badge vc-badge-return">visita #${d.visitCount}</span>`;
+
+    const firstVisitLine = d.firstVisit && !isNew
+        ? `<div class="vc-row"><span class="vc-key">1ª visita</span><span class="vc-val">${new Date(d.firstVisit).toLocaleDateString('pt-BR')}</span></div>`
+        : '';
+
+    const referrerDisplay = !d.referrer || d.referrer === 'direct'
+        ? 'direto'
+        : d.referrer.length > 35 ? d.referrer.slice(0, 35) + '…' : d.referrer;
+
+    const activeTimeStr = exit?.activeTime != null ? fmtTime(exit.activeTime) : null;
+    const clickStr      = exit?.clickCount  != null ? `${exit.clickCount} cliques` : null;
+    const scrollStr     = (exit?.maxScroll ?? d.maxScroll) != null ? scrollBar(exit?.maxScroll ?? d.maxScroll) : null;
+
+    const avatar    = ipAvatar(d.ip);
+    const avatarBg  = isMe ? '#3a3330' : ipColor(d.ip);
+    const meBadge   = isMe ? `<span class="vc-me">👑 eu</span>` : '';
+
+    return `
+    <div class="vc-card${isMe ? ' vc-card-me' : ''}" data-ip="${d.ip}">
+        <div class="vc-header">
+            <div class="vc-avatar" style="background:${avatarBg}">${avatar}</div>
+            <div class="vc-header-info">
+                <span class="vc-location">${flag} ${location}${meBadge}</span>
+                <span class="vc-ago">${ago}</span>
+            </div>
+            ${visitLabel}
+        </div>
+        <div class="vc-body">
+            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(d.device)} ${d.device} · ${browserIcon(d.browser)} ${d.browser} · ${d.os}</span></div>
+            <div class="vc-row"><span class="vc-key">página</span><span class="vc-val">${d.page || '—'}</span></div>
+            <div class="vc-row"><span class="vc-key">origem</span><span class="vc-val">${referrerDisplay}</span></div>
+            <div class="vc-row"><span class="vc-key">idioma</span><span class="vc-val">${d.lang || '—'}</span></div>
+            ${firstVisitLine}
+            <div class="vc-divider"></div>
+            <div class="vc-row"><span class="vc-key">scroll</span><span class="vc-val vc-mono">${scrollStr || '—'}</span></div>
+            ${activeTimeStr ? `<div class="vc-row"><span class="vc-key">tempo ativo</span><span class="vc-val">${activeTimeStr}</span></div>` : ''}
+            ${clickStr      ? `<div class="vc-row"><span class="vc-key">cliques</span><span class="vc-val">${clickStr}</span></div>` : ''}
+        </div>
+    </div>`;
+}
+
+function renderAnalytics(byIp) {
+    const section = document.getElementById('analytics-section');
+    if (!section) return;
+
+    const all = Object.values(byIp);
+    const total   = all.length;
+    const newV    = all.filter(d => d.isNewVisitor || d.visitCount === 1).length;
+    const returnV = total - newV;
+
+    const pages    = {}, countries = {}, devices = {}, browsers = {}, refs = {};
+    all.forEach(d => {
+        if (d.page)    pages[d.page]       = (pages[d.page]       || 0) + 1;
+        if (d.country && d.country !== 'unknown') countries[d.country] = (countries[d.country] || 0) + 1;
+        if (d.device)  devices[d.device]   = (devices[d.device]   || 0) + 1;
+        if (d.browser) browsers[d.browser] = (browsers[d.browser] || 0) + 1;
+        const r = (!d.referrer || d.referrer === 'direct') ? 'direto' : d.referrer;
+        refs[r] = (refs[r] || 0) + 1;
+    });
+
+    const top = (obj, n = 5) => Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, n);
+    const bar = (v, max) => {
+        const pct = max ? Math.round((v / max) * 100) : 0;
+        return `<span class="an-bar" style="--pct:${pct}%"></span>`;
+    };
+    const tbl = (title, rows) => {
+        if (!rows.length) return '';
+        const max = rows[0][1];
+        return `<div class="an-block"><span class="an-label">${title}</span>${
+            rows.map(([k, v]) => `<div class="an-row"><span class="an-key">${k}</span>${bar(v, max)}<span class="an-val">${v}</span></div>`).join('')
+        }</div>`;
+    };
+
+    section.innerHTML = `
+    <div class="an-stats">
+        <div class="an-stat"><span class="an-n">${total}</span><span class="an-l">visitantes únicos</span></div>
+        <div class="an-stat"><span class="an-n">${newV}</span><span class="an-l">novos</span></div>
+        <div class="an-stat"><span class="an-n">${returnV}</span><span class="an-l">retornos</span></div>
+    </div>
+    <div class="an-grid">
+        ${tbl('páginas', top(pages))}
+        ${tbl('países', top(countries))}
+        ${tbl('dispositivos', top(devices))}
+        ${tbl('navegadores', top(browsers))}
+        ${tbl('origem', top(refs))}
+    </div>`;
 }
 
 export async function loadVisitorTracker(app) {
@@ -41,7 +174,18 @@ export async function loadVisitorTracker(app) {
     const container = document.getElementById('visitor-tracker');
     if (!container) return;
 
-    const q = query(collection(db, 'visitors'), orderBy('timestamp', 'desc'), limit(60));
+    const q     = query(collection(db, 'visitors'),      orderBy('timestamp', 'desc'), limit(100));
+    const qExit = query(collection(db, 'visitors_exit'), orderBy('timestamp', 'desc'), limit(300));
+
+    // exitMap: sessionId+page -> exit data
+    const exitMap = {};
+    onSnapshot(qExit, snap => {
+        snap.docs.forEach(doc => {
+            const d = doc.data();
+            const key = (d.sessionId || '') + (d.page || '');
+            if (key && !exitMap[key]) exitMap[key] = d;
+        });
+    });
 
     onSnapshot(q, snapshot => {
         if (snapshot.empty) {
@@ -49,49 +193,30 @@ export async function loadVisitorTracker(app) {
             return;
         }
 
-        const rows = snapshot.docs.map(doc => {
+        // agrupa por IP, mantém só a visita mais recente por IP
+        const byIp = {};
+        snapshot.docs.forEach(doc => {
             const d = doc.data();
+            if (!d.ip || d.ip === 'unknown') return;
+            if (!byIp[d.ip]) byIp[d.ip] = d;
+            // já está ordenado por desc, então o primeiro é o mais recente
+        });
 
-            const ts      = d.timestamp?.toDate();
-            const timeStr = ts
-                ? ts.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })
-                : '—';
+        renderAnalytics(byIp);
 
-            const flag    = countryFlag(d.cc || '');
-            const isMe    = myIp && d.ip === myIp;
-            const meClass = isMe ? ' tracker-row-me' : '';
-            const meBadge = isMe ? ' <span class="tracker-me-badge">👑 eu</span>' : '';
+        // ordena por timestamp desc
+        const sorted = Object.values(byIp).sort((a, b) => {
+            const ta = a.timestamp?.toDate?.()?.getTime() || 0;
+            const tb = b.timestamp?.toDate?.()?.getTime() || 0;
+            return tb - ta;
+        });
 
-            const location = [d.city, d.region, d.country]
-                .filter(v => v && v !== 'unknown' && v !== '')
-                .join(', ') || 'localização desconhecida';
-
-            const langStr    = d.lang ? `🗣️ ${d.lang}` : '';
-            const scrollStr  = d.maxScroll != null ? `📜 scroll: ${scrollBar(d.maxScroll)}` : '';
-            const visitStr   = d.visitCount != null ? visitBadge(d.visitCount, d.isNewVisitor) : '';
-            const firstStr   = d.firstVisit && !d.isNewVisitor
-                ? `primeira visita: ${new Date(d.firstVisit).toLocaleDateString('pt-BR')}`
-                : '';
-
-            const sessionLine = [langStr, scrollStr].filter(Boolean).join(' · ');
-            const visitLine   = [visitStr, firstStr].filter(Boolean).join(' · ');
-
-            return `
-            <div class="tracker-row${meClass}">
-                <span class="tracker-flag">${flag}</span>
-                <div class="tracker-info">
-                    <span class="tracker-location">${location}${meBadge}</span>
-                    <span class="tracker-meta">
-                        ${deviceIcon(d.device)} ${d.device} · ${browserIcon(d.browser)} ${d.browser} · ${d.os}
-                    </span>
-                    <span class="tracker-meta">🌐 ${d.ip} · 🔗 ${d.referrer}</span>
-                    <span class="tracker-meta">📄 ${d.page} · ⏰ ${timeStr}</span>
-                    ${sessionLine  ? `<span class="tracker-meta">${sessionLine}</span>`  : ''}
-                    ${visitLine    ? `<span class="tracker-meta">${visitLine}</span>`    : ''}
-                </div>
-            </div>`;
+        const html = sorted.map(d => {
+            const exit = exitMap[(d.sessionId || '') + (d.page || '')] || {};
+            const isMe = myIp && d.ip === myIp;
+            return renderCard(d, exit, isMe);
         }).join('');
 
-        container.innerHTML = rows;
+        container.innerHTML = html;
     });
 }

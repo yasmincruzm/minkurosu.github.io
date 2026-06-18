@@ -227,73 +227,237 @@
 
     #visitor-tracker {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        max-height: 400px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #534F4A #24211e;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 10px;
     }
 
-    #visitor-tracker::-webkit-scrollbar { width: 5px; }
-    #visitor-tracker::-webkit-scrollbar-track { background: #1a1815; }
-    #visitor-tracker::-webkit-scrollbar-thumb { background: #534F4A; border-radius: 4px; }
+    .tracker-empty { color: #555; font-family: "MinFont", monospace; font-size: 0.9em; text-align: center; padding: 20px 0; }
 
-    .tracker-row {
+    /* visitor cards */
+    .vc-card {
+        background: #1a1815;
+        border: 1px solid #3a3632;
+        border-radius: 8px;
+        overflow: hidden;
+        font-family: "MinFont", monospace;
+        font-size: 0.82em;
+        animation: vcIn 0.3s ease;
+    }
+
+    @keyframes vcIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .vc-card-me {
+        border-color: #6C6661;
+        box-shadow: 0 0 0 1px #534F4A;
+    }
+
+    .vc-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px 8px;
+        background: #24211e;
+        border-bottom: 1px solid #3a3632;
+    }
+
+    .vc-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85em;
+        font-weight: bold;
+        color: #d5d5d5;
+        flex-shrink: 0;
+        letter-spacing: 0.5px;
+    }
+
+    .vc-header-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+    }
+
+    .vc-location {
+        color: #d5d5d5;
+        font-weight: bold;
+        font-size: 0.95em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vc-ago {
+        color: #555;
+        font-size: 0.82em;
+    }
+
+    .vc-me {
+        display: inline-block;
+        margin-left: 5px;
+        background: #3a3330;
+        border: 1px solid #6C6661;
+        color: #d5d5d5;
+        font-size: 0.72em;
+        padding: 0 5px;
+        border-radius: 3px;
+        vertical-align: middle;
+    }
+
+    .vc-badge {
+        flex-shrink: 0;
+        font-size: 0.72em;
+        padding: 2px 6px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+    .vc-badge-new    { background: #1e2a1e; border: 1px solid #2e4a2e; color: #6abf6a; }
+    .vc-badge-return { background: #1e1e2a; border: 1px solid #2e2e4a; color: #6a8abf; }
+
+    .vc-body {
+        padding: 8px 12px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .vc-row {
+        display: flex;
+        gap: 6px;
+        align-items: baseline;
+    }
+
+    .vc-key {
+        color: #555;
+        min-width: 72px;
+        flex-shrink: 0;
+        font-size: 0.85em;
+    }
+
+    .vc-val {
+        color: #aaa;
+        flex: 1;
+        word-break: break-all;
+    }
+
+    .vc-mono {
+        font-family: "MinFont", monospace;
+        font-size: 0.88em;
+        letter-spacing: -0.5px;
+    }
+
+    .vc-divider {
+        border-top: 1px solid #2a2724;
+        margin: 4px 0;
+    }
+
+    /* analytics */
+    #analytics-section {
+        width: 100%;
+    }
+
+    .an-stats {
         display: flex;
         gap: 10px;
-        align-items: flex-start;
+        margin-bottom: 14px;
+    }
+
+    .an-stat {
+        flex: 1;
         background: #1a1815;
         border: 1px solid #3a3632;
         border-radius: 6px;
         padding: 10px 12px;
-        font-family: "MinFont", monospace;
-        font-size: 0.82em;
-        animation: fadeIn 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-4px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .tracker-flag { font-size: 1.4em; line-height: 1; padding-top: 2px; }
-    .tracker-info { display: flex; flex-direction: column; gap: 3px; flex: 1; }
-    .tracker-location { color: #d5d5d5; font-weight: bold; font-size: 0.95em; }
-    .tracker-meta { color: #888; font-size: 0.88em; }
-    .tracker-empty { color: #555; font-family: "MinFont", monospace; font-size: 0.9em; text-align: center; padding: 20px 0; }
-    .tracker-section { width: 100%; }
-    .tracker-section h2 { font-family: "MinFont", monospace; color: #d5d5d5; margin-bottom: 12px; }
-
-    .tracker-row-me {
-        border-color: #6C6661 !important;
-        background: #2a2520 !important;
-        box-shadow: 0 0 0 1px #534F4A;
-    }
-
-    .tracker-me-badge {
-        display: inline-block;
-        margin-left: 6px;
-        background: #3a3330;
-        border: 1px solid #6C6661;
+    .an-n {
+        font-size: 1.5em;
+        font-weight: bold;
         color: #d5d5d5;
-        font-size: 0.75em;
-        padding: 1px 6px;
-        border-radius: 4px;
-        vertical-align: middle;
     }
 
-    .tracker-badge {
-    display: inline-block;
-    margin-left: 6px;
-    font-size: 0.75em;
-    padding: 1px 6px;
-    border-radius: 4px;
-    vertical-align: middle;
-}
-.tracker-badge-new    { background: #1e2a1e; border: 1px solid #2e4a2e; color: #6abf6a; }
-.tracker-badge-return { background: #1e1e2a; border: 1px solid #2e2e4a; color: #6a8abf; }
+    .an-l {
+        font-size: 0.75em;
+        color: #888;
+    }
+
+    .an-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .an-block {
+        background: #1a1815;
+        border: 1px solid #3a3632;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .an-label {
+        font-size: 0.75em;
+        color: #555;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .an-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.82em;
+    }
+
+    .an-key {
+        color: #aaa;
+        min-width: 100px;
+        flex-shrink: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .an-bar {
+        flex: 1;
+        height: 4px;
+        background: #3a3632;
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .an-bar::after {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: var(--pct, 0%);
+        background: #6C6661;
+        border-radius: 2px;
+        transition: width 0.4s ease;
+    }
+
+    .an-val {
+        color: #d5d5d5;
+        min-width: 24px;
+        text-align: right;
+        flex-shrink: 0;
+    }
 
 
 </style>
@@ -389,11 +553,19 @@
 
             <hr>
 <a target="_blank" href="https://livetrafficfeed.com/live/minkurosu.site"><img src="//livetrafficfeed.com/static/imgv2/feed.png?d=minkurosu.site&c=6f0bfaeaffe1784ccb1d7211a53cd8a5&w=240&h=10&bg=303030&ht=d40404&b=631010&t=949494&r=537063695"></a>
-                <h2>👁 visitantes recentes</h2>
-                <div id="visitor-tracker">
-                    <p class="tracker-empty">carregando...</p>
-                </div>
+
+            <h2>📊 analytics</h2>
+            <div id="analytics-section">
+                <p class="tracker-empty">carregando...</p>
             </div>
+
+            <hr>
+
+            <h2>👁 visitantes recentes</h2>
+            <div id="visitor-tracker">
+                <p class="tracker-empty">carregando...</p>
+            </div>
+        </div>
 
             <hr>
 
