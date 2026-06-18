@@ -186,8 +186,12 @@ async function recordPageExit(pageName) {
     } catch { /* silent */ }
 }
 
+let firstPage = true;
 window.trackPage = async function(pageName) {
-    await recordPageExit(currentPage);
+    if (!firstPage) {
+        await recordPageExit(currentPage);
+    }
+    firstPage = false;
     resetPageState(pageName);
     await recordPageView(pageName);
 };
@@ -196,4 +200,4 @@ window.addEventListener('pagehide', () => {
     recordPageExit(currentPage);
 }, { once: true });
 
-init().then(() => recordPageView('aboutme'));
+init();

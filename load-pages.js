@@ -1,3 +1,14 @@
+function waitForTracker(ms = 5000) {
+    return new Promise((resolve, reject) => {
+        if (window.trackPage) return resolve();
+        const start = Date.now();
+        const id = setInterval(() => {
+            if (window.trackPage) { clearInterval(id); resolve(); }
+            else if (Date.now() - start > ms) { clearInterval(id); reject(); }
+        }, 50);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -28,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.body.appendChild(newScript);
                 });
 
-                if (window.trackPage) window.trackPage(pageName);
+                waitForTracker().then(() => window.trackPage(pageName));
 
                 if (typeof Fancybox !== 'undefined') {
                     Fancybox.bind('[data-fancybox="gallery"]', {});
