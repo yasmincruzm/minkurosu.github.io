@@ -1,28 +1,22 @@
-function waitForTracker(ms = 5000) {
-    return new Promise((resolve, reject) => {
-        if (window.trackPage) return resolve();
-        const start = Date.now();
-        const id = setInterval(() => {
-            if (window.trackPage) { clearInterval(id); resolve(); }
-            else if (Date.now() - start > ms) { clearInterval(id); reject(); }
-        }, 50);
-    });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    function loadPage(pageName) {
-        history.pushState({ page: pageName }, '', `/${pageName}`);
+    function trackCurrentPage(pageName) {
+        if (typeof window.trackPage === 'function') {
+            window.trackPage(pageName);
+        } else {
+            window.addEventListener('tracker:ready', () => window.trackPage(pageName), { once: true });
+        }
+    }
 
+    function loadPage(pageName) {
         fetch(`${pageName}.html`)
             .then(response => {
                 if (!response.ok) throw new Error(`erro ao carregar: ${response.statusText}`);
                 return response.text();
             })
             .then(html => {
-
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const innerContainer = doc.querySelector('#containerprincipal');
@@ -39,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.body.appendChild(newScript);
                 });
 
-                waitForTracker().then(() => window.trackPage(pageName));
+                trackCurrentPage(pageName);
 
                 if (typeof Fancybox !== 'undefined') {
                     Fancybox.bind('[data-fancybox="gallery"]', {});
@@ -62,12 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
         loadPage(page);
     });
 
-
     navLinks.forEach(link => {
         link.addEventListener('click', event => {
             event.preventDefault();
             const page = event.target.getAttribute('data-page');
-            if (page) loadPage(page);
+            if (page) {
+                history.pushState({ page }, '', `/${page}`);
+                loadPage(page);
+            }
         });
     });
 

@@ -117,6 +117,7 @@ const geoPromise   = getGeo();
 const sessionData  = getSessionData();
 const parsedUA     = parseUA(navigator.userAgent);
 
+// verifica se é admin pelo IP — silencioso, não bloqueia nada
 let isAdmin = false;
 geoPromise.then(geo => {
     if (geo.ip) sessionStorage.setItem('mku_ip', geo.ip);
@@ -197,6 +198,8 @@ window.trackPage = async function(pageName) {
     resetPageState(pageName);
     await recordPageView(pageName);
 };
+
+window.dispatchEvent(new CustomEvent('tracker:ready'));
 
 window.addEventListener('pagehide', () => {
     if (!isAdmin) recordPageExit(currentPage);
