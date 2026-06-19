@@ -13,6 +13,8 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
+const ADMIN_EMAIL = 'mincruzm@gmail.com';
+
 async function fetchWithTimeout(url, ms = 4000) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), ms);
@@ -109,6 +111,17 @@ let maxScroll     = 0;
 let hiddenTime    = 0;
 let hiddenSince   = null;
 let clickCount    = 0;
+let firstPage     = true;
+
+const geoPromise   = getGeo();
+const sessionData  = getSessionData();
+const parsedUA     = parseUA(navigator.userAgent);
+
+let isAdmin = false;
+geoPromise.then(geo => {
+    if (geo.ip) sessionStorage.setItem('mku_ip', geo.ip);
+    if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
+});
 
 function resetPageState(pageName) {
     currentPage   = pageName;
@@ -134,37 +147,28 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-let geoPromise     = null;
-let sessionData    = null;
-let parsedUA       = null;
-
-async function init() {
-    geoPromise  = getGeo();
-    sessionData = getSessionData();
-    parsedUA    = parseUA(navigator.userAgent);
-}
-
 async function recordPageView(pageName) {
+    if (isAdmin) return;
     try {
         const geo = await geoPromise;
         await addDoc(collection(db, 'visitors'), {
-            ip:          geo.ip,
-            city:        geo.city    || 'unknown',
-            region:      geo.region  || 'unknown',
-            country:     geo.country || 'unknown',
-            cc:          geo.cc      || '',
-            browser:     parsedUA.browser,
-            os:          parsedUA.os,
-            device:      parsedUA.device,
-            page:        `/${pageName}`,
-            referrer:    document.referrer || 'direct',
-            lang:        navigator.language || 'unknown',
-            sessionId:   sessionData.sessionId,
-            visitCount:  sessionData.visitCount,
+            ip:           geo.ip,
+            city:         geo.city    || 'unknown',
+            region:       geo.region  || 'unknown',
+            country:      geo.country || 'unknown',
+            cc:           geo.cc      || '',
+            browser:      parsedUA.browser,
+            os:           parsedUA.os,
+            device:       parsedUA.device,
+            page:         `/${pageName}`,
+            referrer:     document.referrer || 'direct',
+            lang:         navigator.language || 'unknown',
+            sessionId:    sessionData.sessionId,
+            visitCount:   sessionData.visitCount,
             isNewVisitor: sessionData.isNewVisitor,
-            firstVisit:  sessionData.firstVisit,
-            maxScroll:   0,
-            timestamp:   serverTimestamp()
+            firstVisit:   sessionData.firstVisit,
+            maxScroll:    0,
+            timestamp:    serverTimestamp()
         });
     } catch (err) {
         console.warn('tracker pageview:', err);
@@ -172,6 +176,7 @@ async function recordPageView(pageName) {
 }
 
 async function recordPageExit(pageName) {
+    if (isAdmin) return;
     updateMaxScroll();
     const activeTime = Math.round((Date.now() - pageStartTime - hiddenTime) / 1000);
     try {
@@ -186,18 +191,13 @@ async function recordPageExit(pageName) {
     } catch { /* silent */ }
 }
 
-let firstPage = true;
 window.trackPage = async function(pageName) {
-    if (!firstPage) {
-        await recordPageExit(currentPage);
-    }
+    if (!firstPage) await recordPageExit(currentPage);
     firstPage = false;
     resetPageState(pageName);
     await recordPageView(pageName);
 };
 
 window.addEventListener('pagehide', () => {
-    recordPageExit(currentPage);
+    if (!isAdmin) recordPageExit(currentPage);
 }, { once: true });
-
-init();

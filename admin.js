@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg(loginMessage, 'acesso negado.', 'error');
                 return;
             }
+            localStorage.setItem('mku_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             msg(loginMessage, `erro: ${err.message}`, 'error');
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg(loginMessage, 'acesso negado. use sua conta autorizada.', 'error');
                 return;
             }
+            localStorage.setItem('mku_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             msg(loginMessage, `erro: ${err.message}`, 'error');
@@ -91,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutBtn?.addEventListener('click', async () => {
         try {
             await signOut(auth);
+            localStorage.removeItem('mku_admin');
             msg(loginMessage, 'logged out.', 'info');
         } catch (err) {
             msg(loginMessage, `logout error: ${err.message}`, 'error');

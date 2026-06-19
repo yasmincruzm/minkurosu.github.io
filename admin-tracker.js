@@ -194,6 +194,7 @@ export async function loadVisitorTracker(app) {
         snapshot.docs.forEach(doc => {
             const d = doc.data();
             if (!d.ip || d.ip === 'unknown') return;
+            if (d.ip === myIp) return; // ignora visitas do admin
             if (!byIp[d.ip]) byIp[d.ip] = d;
         });
 
