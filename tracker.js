@@ -124,6 +124,54 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
+const subpageClickBuffer = {}; 
+
+function getSubpageLabel(el) {
+    if (el.dataset.subpage) return el.dataset.subpage;
+    if (el.dataset.tab)     return el.dataset.tab;
+    if (el.dataset.page)    return el.dataset.page;
+    const parent = el.closest('[data-page]');
+    if (parent && parent !== el) return parent.dataset.page;
+    return null;
+}
+
+document.addEventListener('click', e => {
+    const target = e.target.closest('[data-subpage],[data-tab],[data-page]');
+    if (!target) return;
+    const label = getSubpageLabel(target);
+    if (!label) return;
+    subpageClickBuffer[label] = (subpageClickBuffer[label] || 0) + 1;
+}, { passive: true });
+
+async function flushSubpageClicks() {
+    if (isAdmin) return;
+    const entries = Object.entries(subpageClickBuffer);
+    if (!entries.length) return;
+    const toSend = { ...subpageClickBuffer };
+    Object.keys(subpageClickBuffer).forEach(k => delete subpageClickBuffer[k]);
+
+    try {
+        const geo = await geoPromise;
+        for (const [subpage, count] of Object.entries(toSend)) {
+            await addDoc(collection(db, 'subpage_clicks'), {
+                sessionId:  sessionData.sessionId,
+                ip:         geo.ip,
+                page:       currentPage ? `/${currentPage}` : '/',
+                subpage,
+                count,
+                timestamp:  serverTimestamp()
+            });
+        }
+    } catch (err) {
+        console.warn('tracker subpage clicks:', err);
+        Object.entries(toSend).forEach(([k, v]) => {
+            subpageClickBuffer[k] = (subpageClickBuffer[k] || 0) + v;
+        });
+    }
+}
+
+setInterval(flushSubpageClicks, 30_000);
+
 const sessionData = getSessionData();
 const parsedUA    = parseUA(navigator.userAgent);
 const geoPromise  = getGeo();
@@ -176,6 +224,7 @@ async function recordPageExit(pageName) {
             timestamp:  serverTimestamp()
         });
     } catch { /* silent */ }
+    await flushSubpageClicks();
 }
 
 window.trackPage = async function(pageName) {
@@ -190,5 +239,8 @@ window._trackerReadyFired = true;
 window.dispatchEvent(new CustomEvent('tracker:ready'));
 
 window.addEventListener('pagehide', () => {
-    if (!isAdmin && currentPage) recordPageExit(currentPage);
+    if (!isAdmin && currentPage) {
+        recordPageExit(currentPage);
+        flushSubpageClicks();
+    }
 }, { once: true });
