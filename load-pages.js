@@ -1,78 +1,119 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
-    const navLinks = document.querySelectorAll('.nav-link');
+    if (!mainContainer) return;
 
-    function trackCurrentPage(pageName) {
+
+    function callTracker(pageName) {
         if (typeof window.trackPage === 'function') {
             window.trackPage(pageName);
         } else {
             const handler = () => window.trackPage(pageName);
             window.addEventListener('tracker:ready', handler, { once: true });
             setTimeout(() => {
-                if (typeof window.trackPage === 'function' && !window._trackerReadyFired) {
+                if (typeof window.trackPage === 'function') {
                     window.removeEventListener('tracker:ready', handler);
                     window.trackPage(pageName);
                 }
-            }, 1000);
+            }, 800);
         }
     }
 
-    function loadPage(pageName) {
+    function rehydrateScripts(container) {
+        container.querySelectorAll('script').forEach(old => {
+            const neo = document.createElement('script');
+            Array.from(old.attributes).forEach(a => neo.setAttribute(a.name, a.value));
+            if (!old.src) neo.textContent = old.textContent;
+            old.remove();
+            document.body.appendChild(neo);
+        });
+    }
+
+    function initSlideshowIfNeeded() {
+        const area = mainContainer.querySelector('.slideshow-area');
+        if (!area) return;
+        const imgs = area.querySelectorAll('img');
+        if (!imgs.length) return;
+        let idx = 0;
+        imgs.forEach(i => i.classList.remove('active'));
+        imgs[0].classList.add('active');
+        clearInterval(window.slideshowInterval);
+        window.slideshowInterval = setInterval(() => {
+            imgs[idx].classList.remove('active');
+            idx = (idx + 1) % imgs.length;
+            imgs[idx].classList.add('active');
+        }, 4000);
+    }
+
+    function fixViewport() {
+        const vp = document.querySelector('meta[name="viewport"]');
+        if (vp) vp.setAttribute('content',
+            'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
+    }
+
+
+    function loadPage(pageName, pushState = false) {
         fetch(`${pageName}.html`)
-            .then(response => {
-                if (!response.ok) throw new Error(`erro ao carregar: ${response.statusText}`);
-                return response.text();
+            .then(r => {
+                if (!r.ok) throw new Error(r.statusText);
+                return r.text();
             })
             .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const innerContainer = doc.querySelector('#containerprincipal');
-                mainContainer.innerHTML = innerContainer ? innerContainer.innerHTML : html;
+                const doc = new DOMParser().parseFromString(html, 'text/html');
 
-                mainContainer.querySelectorAll('script').forEach(oldScript => {
-                    const newScript = document.createElement('script');
-                    Array.from(oldScript.attributes).forEach(attr =>
-                        newScript.setAttribute(attr.name, attr.value)
-                    );
-                    newScript.textContent = oldScript.src ? '' : oldScript.textContent;
-                    if (oldScript.src) newScript.src = oldScript.src;
-                    oldScript.remove();
-                    document.body.appendChild(newScript);
+                const inner = doc.querySelector('#containerprincipal') || doc.querySelector('#container');
+                mainContainer.innerHTML = inner ? inner.innerHTML : html;
+
+                fixViewport();
+                rehydrateScripts(mainContainer);
+
+                setTimeout(() => {
+                    initSlideshowIfNeeded();
+
+                    if (typeof Fancybox !== 'undefined') {
+                        Fancybox.bind('[data-fancybox="gallery"]', {});
+                    }
+
+                    if (typeof inicializarLastFmWidget === 'function') {
+                        inicializarLastFmWidget();
+                    }
+                }, 200);
+
+                callTracker(pageName);
+
+                document.querySelectorAll('.nav-link').forEach(l => {
+                    l.classList.toggle('active', l.getAttribute('data-page') === pageName);
                 });
 
-                trackCurrentPage(pageName);
-
-                if (typeof Fancybox !== 'undefined') {
-                    Fancybox.bind('[data-fancybox="gallery"]', {});
-                }
-
-                if (pageName === 'aboutme' && typeof inicializarLastFmWidget === 'function') {
-                    setTimeout(inicializarLastFmWidget, 300);
+                if (pushState) {
+                    history.pushState({ page: pageName }, '', `/${pageName}`);
                 }
             })
-            .catch(error => {
-                console.error('erro ao carregar página:', error);
-                mainContainer.innerHTML = '<p>error.</p>';
+            .catch(err => {
+                console.error('erro ao carregar página:', err);
+                mainContainer.innerHTML = '<p>erro ao carregar. tente novamente.</p>';
             });
     }
 
-    window.navigateTo = loadPage;
+    window.navigateTo = (pageName) => loadPage(pageName, true);
 
-    window.addEventListener('popstate', e => {
-        const page = e.state?.page || 'aboutme';
-        loadPage(page);
-    });
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', event => {
-            event.preventDefault();
-            const page = event.target.getAttribute('data-page');
-            if (page) {
-                history.pushState({ page }, '', `/${page}`);
-                loadPage(page);
-            }
+    document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const page = link.getAttribute('data-page');
+            if (page) loadPage(page, true);
         });
     });
 
-    loadPage('aboutme');
+    window.addEventListener('popstate', e => {
+        const page = e.state?.page || 'aboutme';
+        loadPage(page, false);
+    });
+
+    const initialPage = (() => {
+        const path = location.pathname.replace(/^\//, '').replace(/\.html$/, '');
+        return path && path !== 'index' ? path : 'aboutme';
+    })();
+
+    history.replaceState({ page: initialPage }, '', `/${initialPage}`);
+    loadPage(initialPage, false);
 });
