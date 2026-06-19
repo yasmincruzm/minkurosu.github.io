@@ -13,9 +13,7 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-const ADMIN_EMAIL = 'mincruzm@gmail.com';
-
-async function fetchWithTimeout(url, ms = 4000) {
+async function fetchWithTimeout(url, ms = 5000) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), ms);
     try {
@@ -48,7 +46,7 @@ function parseUA(ua) {
 async function getGeo() {
     const apis = [
         async () => {
-            const r = await fetchWithTimeout('https://ip-api.com/json/?fields=status,message,country,regionName,city,query,countryCode');
+            const r = await fetchWithTimeout('https://ip-api.com/json/?fields=status,country,regionName,city,query,countryCode');
             const d = await r.json();
             if (d.status !== 'success') throw new Error('ip-api failed');
             return { ip: d.query, city: d.city, region: d.regionName, country: d.country, cc: d.countryCode };
@@ -65,22 +63,11 @@ async function getGeo() {
             if (!d.success) throw new Error('ipwho failed');
             return { ip: d.ip, city: d.city, region: d.region, country: d.country, cc: d.country_code };
         },
-        async () => {
-            const r = await fetchWithTimeout('https://ipapi.co/json/');
-            const d = await r.json();
-            if (!d.ip || d.error) throw new Error('ipapi.co failed');
-            return { ip: d.ip, city: d.city, region: d.region, country: d.country_name, cc: d.country_code };
-        },
-        async () => {
-            const r = await fetchWithTimeout('https://api64.ipify.org?format=json');
-            const d = await r.json();
-            return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
-        }
     ];
     for (const api of apis) {
         try {
             const result = await api();
-            if (result.city && result.city !== 'unknown' && result.city !== '') return result;
+            if (result.ip && result.ip !== 'unknown') return result;
         } catch { continue; }
     }
     return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
@@ -113,11 +100,10 @@ let hiddenSince   = null;
 let clickCount    = 0;
 let firstPage     = true;
 
-const geoPromise   = getGeo();
-const sessionData  = getSessionData();
-const parsedUA     = parseUA(navigator.userAgent);
+const geoPromise  = getGeo();
+const sessionData = getSessionData();
+const parsedUA    = parseUA(navigator.userAgent);
 
-// verifica se é admin pelo IP — silencioso, não bloqueia nada
 let isAdmin = false;
 geoPromise.then(geo => {
     if (geo.ip) sessionStorage.setItem('mku_ip', geo.ip);
@@ -199,7 +185,9 @@ window.trackPage = async function(pageName) {
     await recordPageView(pageName);
 };
 
+window._trackerReadyFired = false;
 window.dispatchEvent(new CustomEvent('tracker:ready'));
+window._trackerReadyFired = true;
 
 window.addEventListener('pagehide', () => {
     if (!isAdmin) recordPageExit(currentPage);

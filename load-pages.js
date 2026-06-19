@@ -6,7 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.trackPage === 'function') {
             window.trackPage(pageName);
         } else {
-            window.addEventListener('tracker:ready', () => window.trackPage(pageName), { once: true });
+            const handler = () => window.trackPage(pageName);
+            window.addEventListener('tracker:ready', handler, { once: true });
+            setTimeout(() => {
+                if (typeof window.trackPage === 'function' && !window._trackerReadyFired) {
+                    window.removeEventListener('tracker:ready', handler);
+                    window.trackPage(pageName);
+                }
+            }, 1000);
         }
     }
 
