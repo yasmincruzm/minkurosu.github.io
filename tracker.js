@@ -10,8 +10,14 @@ const firebaseConfig = {
     appId: "1:290821725607:web:5e39e561da53ac7c8a2a82"
 };
 
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const db  = getFirestore(app);
+let app;
+try {
+    const existing = getApps().find(a => a.options.projectId === firebaseConfig.projectId);
+    app = existing || initializeApp(firebaseConfig, 'tracker');
+} catch(e) {
+    app = getApps()[0];
+}
+const db = getFirestore(app);
 
 async function fetchWithTimeout(url, ms = 5000) {
     const controller = new AbortController();
