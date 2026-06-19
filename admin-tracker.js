@@ -193,9 +193,10 @@ export async function loadVisitorTracker(app) {
         const byIp = {};
         snapshot.docs.forEach(doc => {
             const d = doc.data();
-            if (!d.ip || d.ip === 'unknown') return;
-            if (d.ip === myIp) return; // ignora visitas do admin
-            if (!byIp[d.ip]) byIp[d.ip] = d;
+            const hasIp = d.ip && d.ip !== 'unknown';
+            const key = hasIp ? d.ip : (d.sessionId ? `sid:${d.sessionId}` : `doc:${doc.id}`);
+            if (hasIp && d.ip === myIp) return; 
+            if (!byIp[key]) byIp[key] = d;
         });
 
         renderAnalytics(byIp);
