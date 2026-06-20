@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, collection, addDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -14,7 +14,7 @@ const existing = getApps().find(a => a.options.projectId === firebaseConfig.proj
 const app = existing || initializeApp(firebaseConfig, 'tracker');
 const db = getFirestore(app);
 
-async function fetchWithTimeout(url, ms = 5000) {
+async function fetchWithTimeout(url, ms = 2500) {
     const ctrl = new AbortController();
     const id = setTimeout(() => ctrl.abort(), ms);
     try {
@@ -45,31 +45,31 @@ function parseUA(ua) {
 }
 
 async function getGeo() {
-    const apis = [
-        async () => {
+    const apiCalls = [
+        (async () => {
             const r = await fetchWithTimeout('https://ip-api.com/json/?fields=status,country,regionName,city,query,countryCode');
             const d = await r.json();
             if (d.status !== 'success') throw new Error('ip-api fail');
             return { ip: d.query, city: d.city, region: d.regionName, country: d.country, cc: d.countryCode };
-        },
-        async () => {
+        })(),
+        (async () => {
             const r = await fetchWithTimeout('https://freeipapi.com/api/json');
             const d = await r.json();
             if (!d.ipAddress) throw new Error('freeipapi fail');
             return { ip: d.ipAddress, city: d.cityName, region: d.regionName, country: d.countryName, cc: d.countryCode };
-        },
-        async () => {
+        })(),
+        (async () => {
             const r = await fetchWithTimeout('https://ipwho.is/');
             const d = await r.json();
             if (!d.success) throw new Error('ipwho fail');
             return { ip: d.ip, city: d.city, region: d.region, country: d.country, cc: d.country_code };
-        },
+        })(),
     ];
-    for (const api of apis) {
-        try {
-            const result = await api();
-            if (result.ip && result.ip !== 'unknown') return result;
-        } catch { continue; }
+
+    try {
+        const result = await Promise.any(apiCalls);
+        if (result.ip && result.ip !== 'unknown') return result;
+    } catch {
     }
     return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
 }
@@ -124,7 +124,7 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-const subpageClickBuffer = {}; 
+const subpageClickBuffer = {};
 
 function getSubpageLabel(el) {
     if (el.dataset.subpage) return el.dataset.subpage;
@@ -179,19 +179,20 @@ const geoPromise  = getGeo();
 let isAdmin = false;
 geoPromise.then(geo => {
     if (geo.ip) sessionStorage.setItem('mku_ip', geo.ip);
-    if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
 });
+if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
+
+let currentVisitDocRef = null;
 
 async function recordPageView(pageName) {
     if (isAdmin) return;
     try {
-        const geo = await geoPromise;
-        await addDoc(collection(db, 'visitors'), {
-            ip:           geo.ip,
-            city:         geo.city    || 'unknown',
-            region:       geo.region  || 'unknown',
-            country:      geo.country || 'unknown',
-            cc:           geo.cc      || '',
+        currentVisitDocRef = await addDoc(collection(db, 'visitors'), {
+            ip:           'unknown',
+            city:         'unknown',
+            region:       'unknown',
+            country:      'unknown',
+            cc:           '',
             browser:      parsedUA.browser,
             os:           parsedUA.os,
             device:       parsedUA.device,
@@ -204,6 +205,22 @@ async function recordPageView(pageName) {
             firstVisit:   sessionData.firstVisit,
             maxScroll:    0,
             timestamp:    serverTimestamp()
+        });
+
+        const docRefAtCreation = currentVisitDocRef;
+        geoPromise.then(async geo => {
+            if (isAdmin || !geo.ip || geo.ip === 'unknown') return;
+            try {
+                await updateDoc(docRefAtCreation, {
+                    ip:      geo.ip,
+                    city:    geo.city    || 'unknown',
+                    region:  geo.region  || 'unknown',
+                    country: geo.country || 'unknown',
+                    cc:      geo.cc      || ''
+                });
+            } catch (err) {
+                console.warn('tracker geo update:', err);
+            }
         });
     } catch (err) {
         console.warn('tracker pageview:', err);
