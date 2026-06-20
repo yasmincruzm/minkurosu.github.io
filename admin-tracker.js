@@ -94,6 +94,14 @@ function renderCard(d, exit, isMe) {
     const avatarBg  = isMe ? '#3a3330' : ipColor(d.ip);
     const meBadge   = isMe ? `<span class="vc-me">👑 eu</span>` : '';
 
+    const pagesVisited = (d.pagesVisited && d.pagesVisited.length ? d.pagesVisited : [d.page]).filter(Boolean);
+    const pagesHtml = pagesVisited.length > 1
+        ? `<div class="vc-row" style="align-items:flex-start;">
+               <span class="vc-key">páginas (${pagesVisited.length})</span>
+               <span class="vc-val">${pagesVisited.map(p => `<span class="vc-page-tag">${p}</span>`).join('')}</span>
+           </div>`
+        : `<div class="vc-row"><span class="vc-key">página</span><span class="vc-val">${d.page || '—'}</span></div>`;
+
     return `
     <div class="vc-card${isMe ? ' vc-card-me' : ''}" data-ip="${d.ip}">
         <div class="vc-header">
@@ -106,7 +114,7 @@ function renderCard(d, exit, isMe) {
         </div>
         <div class="vc-body">
             <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(d.device)} ${d.device} · ${browserIcon(d.browser)} ${d.browser} · ${d.os}</span></div>
-            <div class="vc-row"><span class="vc-key">página</span><span class="vc-val">${d.page || '—'}</span></div>
+            ${pagesHtml}
             <div class="vc-row"><span class="vc-key">origem</span><span class="vc-val">${referrerDisplay}</span></div>
             <div class="vc-row"><span class="vc-key">idioma</span><span class="vc-val">${d.lang || '—'}</span></div>
             ${firstVisitLine}
@@ -129,7 +137,10 @@ function renderAnalytics(byIp) {
 
     const pages    = {}, countries = {}, devices = {}, browsers = {}, refs = {};
     all.forEach(d => {
-        if (d.page)    pages[d.page]       = (pages[d.page]       || 0) + 1;
+        // conta cada página visitada por esse visitante (não só a mais recente)
+        const pgs = (d.pagesVisited && d.pagesVisited.length ? d.pagesVisited : [d.page]).filter(Boolean);
+        pgs.forEach(p => { pages[p] = (pages[p] || 0) + 1; });
+
         if (d.country && d.country !== 'unknown') countries[d.country] = (countries[d.country] || 0) + 1;
         if (d.device)  devices[d.device]   = (devices[d.device]   || 0) + 1;
         if (d.browser) browsers[d.browser] = (browsers[d.browser] || 0) + 1;
@@ -172,7 +183,7 @@ export async function loadVisitorTracker(app) {
     const container = document.getElementById('visitor-tracker');
     if (!container) return;
 
-    const q     = query(collection(db, 'visitors'),      orderBy('timestamp', 'desc'), limit(200));
+    const q     = query(collection(db, 'visitors'),      orderBy('timestamp', 'desc'), limit(500));
     const qExit = query(collection(db, 'visitors_exit'), orderBy('timestamp', 'desc'), limit(400));
 
     const exitMap = {};
@@ -194,9 +205,14 @@ export async function loadVisitorTracker(app) {
         snapshot.docs.forEach(doc => {
             const d = doc.data();
             const hasIp = d.ip && d.ip !== 'unknown';
-            const key = hasIp ? d.ip : (d.sessionId ? `sid:${d.sessionId}` : `doc:${doc.id}`);
-            if (hasIp && d.ip === myIp) return; 
-            if (!byIp[key]) byIp[key] = d;
+            const key = d.sessionId ? `sid:${d.sessionId}` : (hasIp ? d.ip : `doc:${doc.id}`);
+            if (hasIp && d.ip === myIp) return;
+
+            if (!byIp[key]) {
+                byIp[key] = { ...d, pagesVisited: d.page ? [d.page] : [] };
+            } else if (d.page && !byIp[key].pagesVisited.includes(d.page)) {
+                byIp[key].pagesVisited.push(d.page);
+            }
         });
 
         renderAnalytics(byIp);
