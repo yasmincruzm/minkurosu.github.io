@@ -1771,6 +1771,104 @@ th {
 
 .contact-links {}
 
+/* ===== toybox: estantes (bookshelf) e slots de itens ===== */
+/* movido de toybox.html pro CSS global pra funcionar tanto na pagina solo quanto carregado via load-pages.js/index.js (innerHTML do fragmento nao carrega o <style> do <head> da pagina) */
+/* IMPORTANTE: colocado ANTES do @media (max-width: 768px) abaixo porque esse media query esta sem o '}' de fechamento (bug pre-existente no emo.css) e estava prendendo tudo que vinha depois dele dentro do breakpoint mobile */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 900px;
+  width: 100%;
+}
+
+.bookshelf-item {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: visible;
+}
+
+.bookshelf-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.item-slot {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: visible;
+  z-index: 10;
+}
+
+.item-slot.top-slot {
+  top: 12%;
+  left: 7%;
+  width: 85%;
+  height: 33%;
+}
+
+.item-slot.bottom-slot {
+  top: 63%;
+  left: 8%;
+  width: 85%;
+  height: 32%;
+}
+
+.inserted-item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  z-index: 1000;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: max-content;
+  max-width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  position: absolute;
+  z-index: 1000;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .games-section {
     padding: 15px;
@@ -2251,5 +2349,3 @@ header,
 .ds-tooltip:hover::after {
   opacity: 1;
 }
-
-
