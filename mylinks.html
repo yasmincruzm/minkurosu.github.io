@@ -14,6 +14,7 @@
   <title>@minkurosu</title>
   <style>
     @font-face { font-family: "MinFont"; src: url(fonts/minFont.ttf) format('truetype'); }
+    @font-face { font-family: "OldEnglishGothicPixelRegular"; src: url(fonts/OldEnglishGothicPixelRegular.ttf) format('truetype'); }
 
     #container > .caixamaisclara {
       width: 100%;
@@ -30,7 +31,7 @@
       outline: none !important;
       border-radius: 3px;
       padding: 24px 20px;
-      width: 320px;
+      width: 650px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -42,18 +43,36 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 1.2rem;
+      margin: 0 auto 0.6rem;
+      transition: transform 0.3s ease-in-out;
     }
     .imagem-circular img {
-      width: 150px;
-      height: 150px;
+      width: 250px;
+      height: 250px;
       border-radius: 50%;
       box-shadow: 0 0 0.625rem rgba(0,0,0,0.5);
     }
-    .imagem-circular:hover {
-      transform: scale(1.05);
-      transition: transform 0.3s ease-in-out;
+    .imagem-circular:hover { transform: scale(1.05); }
+
+    h2.h2text {
+      font-family: "OldEnglishGothicPixelRegular", serif;
+      font-size: 2.2rem;
+      color: #4b4b4b;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 0.1rem 0 0.05rem;
+      text-align: center;
     }
+
+    .bio {
+      font-family: "MinFont", monospace;
+      font-size: 0.82rem;
+      color: #4b4b4b;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      line-height: 1.7;
+      margin-bottom: 0.4rem;
+      text-align: center;
+    }
+
     .contact-links { width: 260px; margin: 0 auto 1.1rem; }
 
     .pushable {
@@ -121,6 +140,55 @@
     }
 
     .pushable:focus:not(:focus-visible) { outline: none; }
+
+    .ds-tooltip {
+      position: relative;
+      display: block;
+      overflow: visible;
+    }
+    .ds-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0a;
+      color: #4b4b4b;
+      outline: 1px solid #1a1a1a;
+      font-family: "MinFont", monospace;
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      white-space: nowrap;
+      border-radius: 1px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 999;
+      text-shadow: none;
+    }
+    .ds-tooltip::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% - 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #0a0a0a;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      z-index: 1000;
+    }
+    .ds-tooltip:hover::after,
+    .ds-tooltip:hover::before { opacity: 1; }
+
+    .desaturatepics {
+      filter: saturate(0.2);
+      transition: filter 0.3s ease;
+    }
+    .desaturatepics:hover { filter: saturate(1); }
+
+    .footimg { margin: 6px; }
   </style>
 </head>
 <body>
@@ -129,8 +197,16 @@
     <div class="conjuntoblocos">
 
       <div class="imagem-circular">
-        <img src="imgs/site_imgs/iconredondo.jpg" alt="Imagem Circular">
+        <img src="imgs/site_imgs/iconredondo.jpg" ">
       </div>
+
+
+     <br>
+ <br>
+ <p> </p>
+      <br>
+
+  
 
       <div class="contact-links">
         <a href="https://x.com/MinKurosu" class="pushable" target="_blank">
@@ -138,37 +214,54 @@
           <span class="front">twitter</span>
         </a>
       </div>
+
       <div class="contact-links">
         <a href="https://bsky.app/profile/minkurosu.bsky.social" class="pushable" target="_blank">
           <span class="shadow"></span><span class="edge"></span>
           <span class="front">bluesky</span>
         </a>
       </div>
+
       <div class="contact-links">
-        <a href="https://twitch.tv/minkurosu" class="pushable" target="_blank">
-          <span class="shadow"></span><span class="edge"></span>
-          <span class="front">twitch</span>
-        </a>
-      </div>
-      <div class="contact-links">
-        <a href="https://vgen.co/MinKurosu" class="pushable" target="_blank">
+        <a href="https://vgen.co/MinKurosu" class="pushable ds-tooltip" data-tooltip="another way to commission me !" target="_blank" rel="noopener">
           <span class="shadow"></span><span class="edge"></span>
           <span class="front">vgen</span>
         </a>
       </div>
-     
+
+      <div class="contact-links">
+        <a href="https://steamcommunity.com/id/minkurosu/" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">steam</span>
+        </a>
+      </div>
+
       <div class="contact-links">
         <a href="https://open.spotify.com/user/mimincruzm" class="pushable" target="_blank">
           <span class="shadow"></span><span class="edge"></span>
           <span class="front">spotify</span>
         </a>
       </div>
+
+      <div class="contact-links">
+        <a href="https://twitch.tv/minkurosu" class="pushable" target="_blank">
+          <span class="shadow"></span><span class="edge"></span>
+          <span class="front">twitch</span>
+        </a>
+      </div>
+
       <div class="contact-links">
         <a href="https://neocities.org/site/minkurosu" class="pushable" target="_blank">
           <span class="shadow"></span><span class="edge"></span>
           <span class="front">neocities</span>
         </a>
       </div>
+
+
+      <br>
+      <div style="height:6px"></div>
+      <img src="imgs/webgraphics/pixels/7971ce38.gif" class="desaturatepics footimg">
+      <div style="height:6px"></div>
 
     </div>
   </div>
