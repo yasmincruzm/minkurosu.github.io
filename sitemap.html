@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<div id="containerprincipal">
+  <style>
+    @font-face { font-family: "MinFont"; src: url(fonts/minFont.ttf) format('truetype'); }
+
+    .sitemap-wrap {
+      font-family: "MinFont", monospace;
+      color: #4b4b4b;
+      padding: 2rem 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sitemap-tree {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .sitemap-spine {
+      width: 1px;
+      background: #2a2a2a;
+      flex-shrink: 0;
+    }
+
+    .sitemap-sections {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sitemap-section {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 1.1rem 0;
+    }
+
+    .sitemap-branch {
+      width: 14px;
+      height: 1px;
+      background: #2a2a2a;
+      margin-top: 0.55rem;
+      flex-shrink: 0;
+    }
+
+    .sitemap-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding-left: 0.8rem;
+    }
+
+    .sitemap-label {
+      font-size: 0.78rem;
+      color: #3a3a3a;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+      margin-left: -0.3rem;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .sitemap-link {
+      font-family: "MinFont", monospace;
+      font-size: 0.88rem;
+      color: #4b4b4b;
+      text-decoration: none;
+      display: block;
+      line-height: 1.6;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+      transition: color 0.15s ease;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .sitemap-link:hover { color: #570000; }
+  </style>
+
+  <div class="sitemap-wrap">
+    <div class="sitemap-tree">
+      <div class="sitemap-spine"></div>
+      <div class="sitemap-sections">
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">main</span>
+            <button class="sitemap-link" onclick="window.navigateTo('aboutme')">home</button>
+          </div>
+        </div>
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">art</span>
+            <button class="sitemap-link" onclick="window.navigateTo('feed')">gallery</button>
+            <button class="sitemap-link" onclick="window.navigateTo('portfolio-menu')">portfolios</button>
+            <button class="sitemap-link" onclick="window.navigateTo('portfolio-photos')">photography</button>
+          </div>
+        </div>
+
+        
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">leisure</span>
+            <button class="sitemap-link" onclick="window.navigateTo('music')">playlists</button>
+            <button class="sitemap-link" onclick="window.navigateTo('games')">games</button>
+            <button class="sitemap-link" onclick="window.navigateTo('toybox')">toybox</button>
+                        <button class="sitemap-link" onclick="window.navigateTo('yaoifridge')">yaoi fridge</button>
+
+          </div>
+        </div>
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">text</span>
+            <button class="sitemap-link" onclick="window.navigateTo('blog')">blog</button>
+            <button class="sitemap-link" onclick="window.navigateTo('dream-journal')">dream journal</button>
+                        <button class="sitemap-link" onclick="window.navigateTo('thoughts')">thoughts</button>
+                                    <button class="sitemap-link" onclick="window.navigateTo('posts')">posts</button>
+
+
+          </div>
+        </div>
+
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">personal</span>
+            <button class="sitemap-link" onclick="window.navigateTo('minverso')">minverso</button>
+                        <button class="sitemap-link" onclick="window.navigateTo('webweaving')">webweaving</button>
+                                    <button class="sitemap-link" onclick="window.navigateTo('quizzes')">quiz / tests</button>
+                                                <button class="sitemap-link" onclick="window.navigateTo('room')">room</button>
+            <button class="sitemap-link" onclick="window.navigateTo('mystuff')">my stuff</button>
+
+
+
+          </div>
+        </div>
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">community</span>
+            <button class="sitemap-link" onclick="window.navigateTo('guestbook')">guestbook</button>
+            <button class="sitemap-link" onclick="window.navigateTo('linklist')">cool links</button>
+          </div>
+        </div>
+
+        <div class="sitemap-section">
+          <div class="sitemap-branch"></div>
+          <div class="sitemap-content">
+            <span class="sitemap-label">about the site</span>
+            <button class="sitemap-link" onclick="window.navigateTo('credits')">credits</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
