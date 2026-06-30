@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
+    <link rel="stylesheet" href="emo.css">
+    <title>mailbox ✉</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .mailbox-box {
+            background-color: #141414;
+            border: 1px solid #4a0000;
+            border-radius: 3px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            padding: 32px 28px;
+            max-width: 500px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mailbox-box h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #a7a7a7;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .mailbox-box p {
+            margin: 0;
+            color: #555;
+            font-size: 0.9em;
+            text-align: center;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            max-height: 400px;
+            resize: none;
+            overflow: hidden;
+            padding: 12px;
+            background-color: #0a0a0a;
+            border: 1px solid #310000;
+            border-radius: 3px;
+            color: #a7a7a7;
+            font-family: "MinFont", monospace;
+            font-size: 1em;
+            line-height: 1.5;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+            text-shadow: none;
+        }
+
+        textarea:focus {
+            border-color: #6a0000;
+        }
+
+        textarea::placeholder {
+            color: #333;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.78em;
+            color: #333;
+            margin-top: -10px;
+        }
+
+        .char-count.warn {
+            color: #8a3a3a;
+        }
+
+        button {
+            background-color: #1a0000;
+            border: 1px solid #4a0000;
+            color: #a7a7a7;
+            font-family: "MinFont", monospace;
+            font-size: 1em;
+            padding: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #2a0000;
+            border-color: #6a0000;
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 0.88em;
+            padding: 8px;
+            border-radius: 3px;
+            display: none;
+        }
+
+        .status.success {
+            display: block;
+            background-color: #0a1a0a;
+            border: 1px solid #1e3a1e;
+            color: #5a9a5a;
+        }
+
+        .status.error {
+            display: block;
+            background-color: #1a0a0a;
+            border: 1px solid #3a1e1e;
+            color: #9a5a5a;
+        }
+
+        .back-link {
+            font-size: 0.85em;
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="mailbox-box">
+        <h1>✉ mailbox</h1>
+        <p>send me an anonymous message.<br>i read everything.</p>
+
+        <textarea id="msg-input" placeholder="say something..." maxlength="1000"></textarea>
+        <div class="char-count"><span id="char-count">0</span>/1000</div>
+
+        <button id="send-btn">send</button>
+        <div id="status" class="status"></div>
+
+        <a href="index.html" class="back-link">← back</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+        import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+            authDomain: "minkurosu.firebaseapp.com",
+            projectId: "minkurosu",
+            storageBucket: "minkurosu.firebasestorage.app",
+            messagingSenderId: "290821725607",
+            appId: "1:290821725607:web:5e39e561da53ac7c8a2a82"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db  = getFirestore(app);
+
+        const textarea  = document.getElementById('msg-input');
+        const sendBtn   = document.getElementById('send-btn');
+        const status    = document.getElementById('status');
+        const charCount = document.getElementById('char-count');
+
+        textarea.addEventListener('input', () => {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+
+            const len = textarea.value.length;
+            charCount.textContent = len;
+            charCount.parentElement.classList.toggle('warn', len > 900);
+        });
+
+        sendBtn.addEventListener('click', async () => {
+            const text = textarea.value.trim();
+            if (!text) return;
+
+            sendBtn.disabled = true;
+            status.className = 'status';
+            status.textContent = '';
+
+            let ip = 'unknown';
+            try {
+                const res  = await fetch('https://ip-api.com/json/?fields=query,country,city,regionName');
+                const data = await res.json();
+                ip = data.query || 'unknown';
+            } catch {}
+
+            try {
+                await addDoc(collection(db, 'mailbox'), {
+                    message: text,
+                    ip,
+                    timestamp: serverTimestamp()
+                });
+
+                status.textContent = 'message sent ♥';
+                status.className   = 'status success';
+                textarea.value     = '';
+                textarea.style.height = '';
+                charCount.textContent = '0';
+            } catch (err) {
+                status.textContent = 'something went wrong. try again.';
+                status.className   = 'status error';
+                console.error(err);
+            }
+
+            sendBtn.disabled = false;
+        });
+    </script>
+</body>
+</html>

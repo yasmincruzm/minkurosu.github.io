@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 import { loadVisitorTracker } from './admin-tracker.js';
 
@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
             loadVisitorTracker(app);
+            loadMailbox(db);
         } else {
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
@@ -203,3 +204,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+function loadMailbox(db) {
+    const container = document.getElementById('mailbox-list');
+    if (!container) return;
+
+    const q = query(collection(db, 'mailbox'), orderBy('timestamp', 'desc'));
+
+    onSnapshot(q, snapshot => {
+        if (snapshot.empty) {
+            container.innerHTML = `<p class="tracker-empty">nenhuma mensagem ainda.</p>`;
+            return;
+        }
+
+        container.innerHTML = snapshot.docs.map(docSnap => {
+            const d  = docSnap.data();
+            const id = docSnap.id;
+            const ts = d.timestamp?.toDate();
+            const ago = ts
+                ? ts.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+                : '—';
+
+            return `
+            <div class="mb-card" data-id="${id}">
+                <div class="mb-msg">${escapeHtml(d.message || '')}</div>
+                <div class="mb-meta">
+                    <span class="mb-ip">🌐 ${d.ip || 'unknown'}</span>
+                    <span>${ago}</span>
+                </div>
+                <button class="mb-delete" data-id="${id}">deletar</button>
+            </div>`;
+        }).join('');
+
+        container.querySelectorAll('.mb-delete').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('deletar essa mensagem?')) return;
+                try {
+                    await deleteDoc(doc(db, 'mailbox', btn.dataset.id));
+                } catch (err) {
+                    alert('erro ao deletar: ' + err.message);
+                }
+            });
+        });
+    });
+}
+
+function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}

@@ -471,7 +471,64 @@
         flex-shrink: 0;
     }
 
+    /* mailbox */
+    #mailbox-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
 
+    .mb-card {
+        background: #1a1815;
+        border: 1px solid #3a3632;
+        border-radius: 6px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-family: "MinFont", monospace;
+        animation: vcIn 0.3s ease;
+    }
+
+    .mb-msg {
+        color: #d5d5d5;
+        font-size: 0.95em;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .mb-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 0.75em;
+        color: #555;
+        flex-wrap: wrap;
+    }
+
+    .mb-ip {
+        color: #6C6661;
+        font-family: "MinFont", monospace;
+    }
+
+    .mb-delete {
+        align-self: flex-end;
+        background: #2a1e1e;
+        border: 1px solid #4a2e2e;
+        color: #bf6a6a;
+        font-family: "MinFont", monospace;
+        font-size: 0.75em;
+        padding: 3px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        width: auto;
+        transition: background-color 0.2s;
+    }
+
+    .mb-delete:hover {
+        background-color: #3a2020;
+    }
 </style>
 
 <body>
@@ -565,6 +622,13 @@
 
             <hr>
 <a target="_blank" href="https://livetrafficfeed.com/live/minkurosu.site"><img src="//livetrafficfeed.com/static/imgv2/feed.png?d=minkurosu.site&c=6f0bfaeaffe1784ccb1d7211a53cd8a5&w=240&h=10&bg=303030&ht=d40404&b=631010&t=949494&r=537063695"></a>
+
+            <h2>✉ mailbox</h2>
+            <div id="mailbox-list">
+                <p class="tracker-empty">carregando...</p>
+            </div>
+
+            <hr>
 
             <h2>analytics</h2>
             <div id="analytics-section">
