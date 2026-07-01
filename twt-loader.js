@@ -132,17 +132,17 @@ async function createTweet() {
   const imageEl = document.getElementById("compose-image");
   const submitBtn = document.getElementById("compose-submit");
 
-  const text = textEl.value.trim();
+  const content = textEl.value.trim();
   const imageUrl = imageEl.value.trim();
 
-  if (!text && !imageUrl) return;
+  if (!content && !imageUrl) return;
 
   submitBtn.disabled = true;
   submitBtn.textContent = "postando...";
 
   try {
     await addDoc(collection(db, "posts"), {
-      text,
+      content,
       imageUrl: imageUrl || null,
       likes: 0,
       timestamp: serverTimestamp()
@@ -178,7 +178,7 @@ async function deleteTweet(id, liEl) {
 
 async function saveEdit(id, liEl, newText) {
   try {
-    await updateDoc(doc(db, "posts", id), { text: newText });
+    await updateDoc(doc(db, "posts", id), { content: newText });
   } catch (err) {
     console.error("Erro ao editar:", err);
     alert("Não foi possível editar o post.");
@@ -237,7 +237,7 @@ function buildTweetEl(id, data) {
     <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
     <div class="info">
       <strong>min* <span>@minkurosu · ${formatDate(data.timestamp)}</span></strong>
-      <p>${linkify(data.text)}</p>
+      <p>${linkify(data.content)}</p>
       ${imgHtml}
     </div>
   `;
@@ -266,7 +266,7 @@ function buildTweetEl(id, data) {
     editBtn.addEventListener("click", e => {
       e.stopPropagation();
       dropdown.classList.remove("open");
-      enterEditMode(id, li, data.text || "");
+      enterEditMode(id, li, data.content || "");
     });
 
     const deleteBtn = document.createElement("button");
