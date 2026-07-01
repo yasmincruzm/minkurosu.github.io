@@ -404,6 +404,93 @@
   }#thoughts-root .reply .actions {
     display: flex;
     margin-top: 8px;
+  }#thoughts-root #compose-post {
+    display: none;
+    background: #1A1A1A;
+    border-bottom: 1px solid #3A3A3A;
+    padding: 15px;
+  }#thoughts-root #compose-post .compose-body {
+    display: flex;
+    gap: 10px;
+  }#thoughts-root #compose-post .compose-body img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }#thoughts-root #compose-post .compose-fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }#thoughts-root #compose-post textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: vertical;
+    min-height: 60px;
+    color: #E1E8ED;
+    font-size: 15px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    outline: none;
+  }#thoughts-root #compose-post input[type="text"] {
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #E1E8ED;
+    font-size: 13px;
+    margin-top: 8px;
+    outline: none;
+  }#thoughts-root #compose-post .compose-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }#thoughts-root #compose-post button {
+    background: #3BB9E3;
+    color: #FFF;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }#thoughts-root #compose-post button:hover {
+    background: #2da0c7;
+  }#thoughts-root #compose-post button:disabled {
+    background: #2a4a56;
+    cursor: default;
+  }#thoughts-root .edit-form {
+    margin-top: 5px;
+  }#thoughts-root .edit-form textarea {
+    width: 100%;
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    padding: 10px;
+    color: #E1E8ED;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+    margin-bottom: 8px;
+  }#thoughts-root .edit-form .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }#thoughts-root .edit-form .edit-save {
+    background: #3BB9E3;
+    color: #FFF;
+    border: none;
+    border-radius: 16px;
+    padding: 6px 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+  }#thoughts-root .edit-form .edit-cancel {
+    background: transparent;
+    color: #B3B3B3;
+    border: 1px solid #3A3A3A;
+    border-radius: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 13px;
   }
 
   </style>
@@ -471,6 +558,18 @@
       <section class="timeline">
         <div class="timeline-divider"></div>
 
+        <div id="compose-post">
+          <div class="compose-body">
+            <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
+            <div class="compose-fields">
+              <textarea id="compose-text" placeholder="o que você está pensando?"></textarea>
+              <input type="text" id="compose-image" placeholder="URL da imagem (opcional)">
+            </div>
+          </div>
+          <div class="compose-actions">
+            <button id="compose-submit">postar</button>
+          </div>
+        </div>
 
         <ul id="tweets-container" class="tweets">
           <li style="justify-content: center; padding: 20px; font-weight: bold; color: #667580;">loading <thoughts
