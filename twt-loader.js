@@ -1,5 +1,5 @@
-import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
   collection,
@@ -12,18 +12,19 @@ import {
   updateDoc,
   serverTimestamp,
   increment
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBn3bPbxmRYX5nZ4mj1L8e4hLoUX0ywHcQ",
-  authDomain: "minkurosu-site.firebaseapp.com",
-  projectId: "minkurosu-site",
-  storageBucket: "minkurosu-site.appspot.com",
-  messagingSenderId: "397200745609",
-  appId: "1:397200745609:web:b0f4a3e1c2d5f6a7b8c9d0"
+    apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+    authDomain: "minkurosu.firebaseapp.com",
+    projectId: "minkurosu",
+    storageBucket: "minkurosu.firebasestorage.app",
+    messagingSenderId: "290821725607",
+    appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
+    measurementId: "G-M7PWC6DDRH"
 };
 
-const ADMIN_EMAIL = "minkurosu@gmail.com"; // ← seu e-mail
+const ADMIN_EMAIL = "mincruzm@gmail.com"; // ← mesmo e-mail do admin.js
 
 const app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -102,6 +103,106 @@ style.textContent = `
     fill: none; stroke: currentColor; stroke-width: 2;
     flex-shrink: 0;
   }
+
+  #compose-post {
+    display: none;
+    background: #1A1A1A;
+    border-bottom: 1px solid #3A3A3A;
+    padding: 15px;
+  }
+  #compose-post .compose-body {
+    display: flex;
+    gap: 10px;
+  }
+  #compose-post .compose-body img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  #compose-post .compose-fields {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  #compose-post textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: vertical;
+    min-height: 60px;
+    color: #E1E8ED;
+    font-size: 15px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    outline: none;
+  }
+  #compose-post input[type="text"] {
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #E1E8ED;
+    font-size: 13px;
+    margin-top: 8px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #compose-post .compose-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  #compose-post button {
+    background: #3BB9E3;
+    color: #FFF;
+    border: none;
+    border-radius: 16px;
+    padding: 8px 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  #compose-post button:hover { background: #2da0c7; }
+  #compose-post button:disabled { background: #2a4a56; cursor: default; }
+
+  .edit-form { margin-top: 5px; }
+  .edit-form textarea {
+    width: 100%;
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    padding: 10px;
+    color: #E1E8ED;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+  }
+  .edit-form .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .edit-form .edit-save {
+    background: #3BB9E3;
+    color: #FFF;
+    border: none;
+    border-radius: 16px;
+    padding: 6px 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .edit-form .edit-cancel {
+    background: transparent;
+    color: #B3B3B3;
+    border: 1px solid #3A3A3A;
+    border-radius: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 13px;
+  }
 `;
 document.head.appendChild(style);
 
@@ -125,7 +226,7 @@ function linkify(text) {
     .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
 }
 
-async function createTweet() {
+async function createPost() {
   if (!isAdmin) return;
 
   const textEl = document.getElementById("compose-text");
@@ -143,8 +244,7 @@ async function createTweet() {
   try {
     await addDoc(collection(db, "posts"), {
       content,
-      imageUrl: imageUrl || null,
-      likes: 0,
+      imageUrl: imageUrl || "",
       timestamp: serverTimestamp()
     });
     textEl.value = "";
@@ -158,12 +258,32 @@ async function createTweet() {
   }
 }
 
-const composeSubmitBtn = document.getElementById("compose-submit");
-if (composeSubmitBtn) {
-  composeSubmitBtn.addEventListener("click", createTweet);
+function injectComposeBox() {
+  if (document.getElementById("compose-post")) return;
+  const container = document.getElementById("tweets-container");
+  if (!container || !container.parentNode) return;
+
+  const box = document.createElement("div");
+  box.id = "compose-post";
+  box.innerHTML = `
+    <div class="compose-body">
+      <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
+      <div class="compose-fields">
+        <textarea id="compose-text" placeholder="o que você está pensando?"></textarea>
+        <input type="text" id="compose-image" placeholder="URL da imagem (opcional)">
+      </div>
+    </div>
+    <div class="compose-actions">
+      <button id="compose-submit">postar</button>
+    </div>
+  `;
+  container.parentNode.insertBefore(box, container);
+
+  document.getElementById("compose-submit").addEventListener("click", createPost);
+  box.style.display = isAdmin ? "block" : "none";
 }
 
-async function deleteTweet(id, liEl) {
+async function deletePost(id, liEl) {
   if (!confirm("Apagar este post?")) return;
   try {
     await deleteDoc(doc(db, "posts", id));
@@ -176,16 +296,16 @@ async function deleteTweet(id, liEl) {
   }
 }
 
-async function saveEdit(id, liEl, newText) {
+async function saveEdit(id, newContent) {
   try {
-    await updateDoc(doc(db, "posts", id), { content: newText });
+    await updateDoc(doc(db, "posts", id), { content: newContent });
   } catch (err) {
     console.error("Erro ao editar:", err);
     alert("Não foi possível editar o post.");
   }
 }
 
-function enterEditMode(id, liEl, currentText) {
+function enterEditMode(id, liEl, currentContent) {
   const infoDiv = liEl.querySelector(".info");
   const pEl = infoDiv.querySelector("p");
   if (!pEl) return;
@@ -203,7 +323,7 @@ function enterEditMode(id, liEl, currentText) {
   `;
 
   const textarea = form.querySelector(".edit-textarea");
-  textarea.value = currentText;
+  textarea.value = currentContent;
 
   form.querySelector(".edit-cancel").addEventListener("click", e => {
     e.stopPropagation();
@@ -213,11 +333,11 @@ function enterEditMode(id, liEl, currentText) {
 
   form.querySelector(".edit-save").addEventListener("click", async e => {
     e.stopPropagation();
-    const newText = textarea.value.trim();
-    if (!newText) return;
+    const newContent = textarea.value.trim();
+    if (!newContent) return;
 
-    await saveEdit(id, liEl, newText);
-    pEl.innerHTML = linkify(newText);
+    await saveEdit(id, newContent);
+    pEl.innerHTML = linkify(newContent);
     form.remove();
     pEl.style.display = "";
   });
@@ -225,7 +345,7 @@ function enterEditMode(id, liEl, currentText) {
   infoDiv.appendChild(form);
 }
 
-function buildTweetEl(id, data) {
+function buildPostEl(id, data) {
   const li = document.createElement("li");
 
   const imgHtml = data.imageUrl
@@ -237,7 +357,7 @@ function buildTweetEl(id, data) {
     <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
     <div class="info">
       <strong>min* <span>@minkurosu · ${formatDate(data.timestamp)}</span></strong>
-      <p>${linkify(data.content)}</p>
+      <p>${linkify(data.content || "")}</p>
       ${imgHtml}
     </div>
   `;
@@ -284,7 +404,7 @@ function buildTweetEl(id, data) {
     deleteBtn.addEventListener("click", e => {
       e.stopPropagation();
       dropdown.classList.remove("open");
-      deleteTweet(id, li);
+      deletePost(id, li);
     });
 
     dropdown.appendChild(editBtn);
@@ -346,6 +466,8 @@ function buildTweetEl(id, data) {
   return li;
 }
 
+injectComposeBox();
+
 const container = document.getElementById("tweets-container");
 let cachedDocs = [];
 
@@ -353,7 +475,7 @@ function rerenderAll() {
   if (!container || cachedDocs.length === 0) return;
   container.innerHTML = "";
   cachedDocs.forEach(({ id, data }) => {
-    container.appendChild(buildTweetEl(id, data));
+    container.appendChild(buildPostEl(id, data));
   });
 }
 
@@ -377,7 +499,7 @@ if (!container) {
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       cachedDocs.push({ id: docSnap.id, data });
-      container.appendChild(buildTweetEl(docSnap.id, data));
+      container.appendChild(buildPostEl(docSnap.id, data));
     });
   }, err => {
     console.error("twt-loader snapshot error:", err);
