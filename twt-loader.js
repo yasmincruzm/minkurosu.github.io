@@ -1,4 +1,3 @@
-
 import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import {
@@ -8,8 +7,10 @@ import {
   orderBy,
   onSnapshot,
   doc,
+  addDoc,
   deleteDoc,
   updateDoc,
+  serverTimestamp,
   increment
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -32,6 +33,10 @@ let isAdmin = false;
 
 onAuthStateChanged(auth, user => {
   isAdmin = !!(user && user.email === ADMIN_EMAIL);
+
+  const composeBox = document.getElementById("compose-post");
+  if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";
+
   rerenderAll();
 });
 
@@ -120,10 +125,48 @@ function linkify(text) {
     .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
 }
 
+async function createTweet() {
+  if (!isAdmin) return;
+
+  const textEl = document.getElementById("compose-text");
+  const imageEl = document.getElementById("compose-image");
+  const submitBtn = document.getElementById("compose-submit");
+
+  const text = textEl.value.trim();
+  const imageUrl = imageEl.value.trim();
+
+  if (!text && !imageUrl) return;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "postando...";
+
+  try {
+    await addDoc(collection(db, "posts"), {
+      text,
+      imageUrl: imageUrl || null,
+      likes: 0,
+      timestamp: serverTimestamp()
+    });
+    textEl.value = "";
+    imageEl.value = "";
+  } catch (err) {
+    console.error("Erro ao postar:", err);
+    alert("Não foi possível criar o post.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "postar";
+  }
+}
+
+const composeSubmitBtn = document.getElementById("compose-submit");
+if (composeSubmitBtn) {
+  composeSubmitBtn.addEventListener("click", createTweet);
+}
+
 async function deleteTweet(id, liEl) {
   if (!confirm("Apagar este post?")) return;
   try {
-    await deleteDoc(doc(db, "tweets", id));
+    await deleteDoc(doc(db, "posts", id));
     liEl.style.transition = "opacity 0.3s";
     liEl.style.opacity = "0";
     setTimeout(() => liEl.remove(), 310);
@@ -131,6 +174,55 @@ async function deleteTweet(id, liEl) {
     console.error("Erro ao deletar:", err);
     alert("Não foi possível deletar o post.");
   }
+}
+
+async function saveEdit(id, liEl, newText) {
+  try {
+    await updateDoc(doc(db, "posts", id), { text: newText });
+  } catch (err) {
+    console.error("Erro ao editar:", err);
+    alert("Não foi possível editar o post.");
+  }
+}
+
+function enterEditMode(id, liEl, currentText) {
+  const infoDiv = liEl.querySelector(".info");
+  const pEl = infoDiv.querySelector("p");
+  if (!pEl) return;
+
+  pEl.style.display = "none";
+
+  const form = document.createElement("div");
+  form.className = "edit-form";
+  form.innerHTML = `
+    <textarea class="edit-textarea"></textarea>
+    <div class="edit-actions">
+      <button class="edit-cancel">cancelar</button>
+      <button class="edit-save">salvar</button>
+    </div>
+  `;
+
+  const textarea = form.querySelector(".edit-textarea");
+  textarea.value = currentText;
+
+  form.querySelector(".edit-cancel").addEventListener("click", e => {
+    e.stopPropagation();
+    form.remove();
+    pEl.style.display = "";
+  });
+
+  form.querySelector(".edit-save").addEventListener("click", async e => {
+    e.stopPropagation();
+    const newText = textarea.value.trim();
+    if (!newText) return;
+
+    await saveEdit(id, liEl, newText);
+    pEl.innerHTML = linkify(newText);
+    form.remove();
+    pEl.style.display = "";
+  });
+
+  infoDiv.appendChild(form);
 }
 
 function buildTweetEl(id, data) {
@@ -160,6 +252,23 @@ function buildTweetEl(id, data) {
     const dropdown = document.createElement("div");
     dropdown.className = "twt-dropdown";
 
+    const editBtn = document.createElement("button");
+    editBtn.className = "twt-dropdown-btn";
+    editBtn.innerHTML = `
+      <svg viewBox="0 0 24 24">
+        <path d="M12 20h9"/>
+        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+      </svg>
+      editar post
+    `;
+    editBtn.style.color = "#B3B3B3";
+
+    editBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      dropdown.classList.remove("open");
+      enterEditMode(id, li, data.text || "");
+    });
+
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "twt-dropdown-btn";
     deleteBtn.innerHTML = `
@@ -178,6 +287,7 @@ function buildTweetEl(id, data) {
       deleteTweet(id, li);
     });
 
+    dropdown.appendChild(editBtn);
     dropdown.appendChild(deleteBtn);
     menuBtn.appendChild(dropdown);
 
@@ -223,7 +333,7 @@ function buildTweetEl(id, data) {
     countEl.textContent = parseInt(countEl.textContent) + delta;
 
     try {
-      await updateDoc(doc(db, "tweets", id), { likes: increment(delta) });
+      await updateDoc(doc(db, "posts", id), { likes: increment(delta) });
     } catch {
       likeBtn.classList.toggle("liked");
       countEl.textContent = parseInt(countEl.textContent) - delta;
@@ -250,7 +360,7 @@ function rerenderAll() {
 if (!container) {
   console.warn("twt-loader: #tweets-container não encontrado");
 } else {
-  const q = query(collection(db, "tweets"), orderBy("timestamp", "desc"));
+  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
   onSnapshot(q, snapshot => {
     cachedDocs = [];
