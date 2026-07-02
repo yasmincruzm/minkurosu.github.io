@@ -1,5 +1,5 @@
 import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
   collection,
@@ -29,7 +29,6 @@ const ADMIN_EMAIL = "mincruzm@gmail.com"; // ← mesmo e-mail do admin.js
 const app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
-const provider = new GoogleAuthProvider();
 
 let isAdmin = false;
 
@@ -38,9 +37,6 @@ onAuthStateChanged(auth, user => {
 
   const composeBox = document.getElementById("compose-post");
   if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";
-
-  const loginBtn = document.getElementById("twt-login-btn");
-  if (loginBtn) loginBtn.textContent = isAdmin ? "sair" : "entrar";
 
   rerenderAll();
 });
@@ -208,133 +204,6 @@ style.textContent = `
     font-size: 13px;
   }
 
-  #twt-login-btn {
-    display: block;
-    text-align: right;
-    padding: 8px 15px;
-    font-size: 12px;
-    color: #667580;
-    cursor: pointer;
-    background: #1A1A1A;
-    border-bottom: 1px solid #3A3A3A;
-  }
-  #twt-login-btn:hover { color: #3BB9E3; }
-
-  #twt-login-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-  }
-  #twt-login-overlay.open { display: flex; }
-
-  #twt-login-modal {
-    background-color: #24211e;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 30px 28px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    max-width: 380px;
-    width: 90%;
-    border: 1px solid #534F4A;
-    gap: 14px;
-    position: relative;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-  }
-  #twt-login-modal h1 {
-    margin: 0 0 10px 0;
-    color: #E1E8ED;
-    text-align: center;
-    font-size: 1.6em;
-    letter-spacing: 1px;
-    width: 100%;
-  }
-  #twt-login-close {
-    position: absolute;
-    top: 10px; right: 12px;
-    background: none;
-    border: none;
-    color: #888;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0;
-  }
-  #twt-login-modal .field {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 6px;
-  }
-  #twt-login-modal label {
-    font-weight: bold;
-    color: #888;
-    font-size: 0.85em;
-  }
-  #twt-login-modal input {
-    padding: 11px 13px;
-    border: 1px solid #3a3632;
-    border-radius: 6px;
-    font-size: 0.95em;
-    background-color: #1a1815;
-    color: #E1E8ED;
-    width: 100%;
-    outline: none;
-    box-sizing: border-box;
-  }
-  #twt-login-modal input:focus { border-color: #6C6661; }
-  #twt-login-modal button[type="submit"],
-  #twt-google-btn {
-    padding: 11px 20px;
-    background-color: #3BB9E3;
-    color: #FFF;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    width: 100%;
-  }
-  #twt-login-modal button[type="submit"]:hover { background-color: #2da0c7; }
-  #twt-login-modal .divider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    margin: 2px 0;
-  }
-  #twt-login-modal .divider::before,
-  #twt-login-modal .divider::after {
-    content: '';
-    flex: 1;
-    border-top: 1px solid #3a3632;
-  }
-  #twt-login-modal .divider span {
-    color: #4a4642;
-    font-size: 0.8em;
-    letter-spacing: 1px;
-  }
-  #twt-google-btn {
-    background-color: #1e1b18 !important;
-    border: 1px solid #534F4A !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  #twt-google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-  #twt-login-message {
-    width: 100%;
-    text-align: center;
-    font-size: 0.85em;
-    border-radius: 6px;
-  }
-  #twt-login-message:empty { display: none; }
-  #twt-login-message.error { background: #2a1e1e; border: 1px solid #4a2e2e; color: #bf6a6a; padding: 10px 12px; }
 `;
 document.head.appendChild(style);
 
@@ -388,101 +257,6 @@ async function createPost() {
     submitBtn.disabled = false;
     submitBtn.textContent = "postar";
   }
-}
-
-function buildLoginModal() {
-  if (document.getElementById("twt-login-overlay")) return;
-
-  const overlay = document.createElement("div");
-  overlay.id = "twt-login-overlay";
-  overlay.innerHTML = `
-    <div id="twt-login-modal">
-      <button type="button" id="twt-login-close">✕</button>
-      <h1>login</h1>
-      <form id="twt-login-form" style="width:100%; display:flex; flex-direction:column; gap:14px;">
-        <div class="field">
-          <label for="twt-login-email">email:</label>
-          <input type="email" id="twt-login-email" required>
-        </div>
-        <div class="field">
-          <label for="twt-login-password">senha:</label>
-          <input type="password" id="twt-login-password" required>
-        </div>
-        <button type="submit">entrar</button>
-      </form>
-      <div class="divider"><span>ou</span></div>
-      <button type="button" id="twt-google-btn">
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        </svg>
-        entrar com google
-      </button>
-      <div id="twt-login-message"></div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-
-  const msgEl = overlay.querySelector("#twt-login-message");
-  const setMsg = text => { msgEl.textContent = text; msgEl.className = text ? "error" : ""; };
-
-  const close = () => overlay.classList.remove("open");
-
-  overlay.addEventListener("click", e => { if (e.target === overlay) close(); });
-  overlay.querySelector("#twt-login-close").addEventListener("click", close);
-
-  overlay.querySelector("#twt-login-form").addEventListener("submit", async e => {
-    e.preventDefault();
-    const email = overlay.querySelector("#twt-login-email").value;
-    const pass  = overlay.querySelector("#twt-login-password").value;
-    try {
-      const cred = await signInWithEmailAndPassword(auth, email, pass);
-      if (cred.user.email !== ADMIN_EMAIL) {
-        await signOut(auth);
-        setMsg("acesso negado.");
-        return;
-      }
-      close();
-    } catch (err) {
-      setMsg(`erro: ${err.message}`);
-    }
-  });
-
-  overlay.querySelector("#twt-google-btn").addEventListener("click", async () => {
-    try {
-      const cred = await signInWithPopup(auth, provider);
-      if (cred.user.email !== ADMIN_EMAIL) {
-        await signOut(auth);
-        setMsg("acesso negado. use sua conta autorizada.");
-        return;
-      }
-      close();
-    } catch (err) {
-      setMsg(`erro: ${err.message}`);
-    }
-  });
-}
-
-function injectLoginTrigger() {
-  if (document.getElementById("twt-login-btn")) return;
-  const container = document.getElementById("tweets-container");
-  if (!container || !container.parentNode) return;
-
-  const btn = document.createElement("div");
-  btn.id = "twt-login-btn";
-  btn.textContent = isAdmin ? "sair" : "entrar";
-  container.parentNode.insertBefore(btn, container);
-
-  btn.addEventListener("click", () => {
-    if (isAdmin) {
-      signOut(auth);
-    } else {
-      buildLoginModal();
-      document.getElementById("twt-login-overlay").classList.add("open");
-    }
-  });
 }
 
 function injectComposeBox() {
@@ -688,7 +462,6 @@ function buildPostEl(id, data) {
   return li;
 }
 
-injectLoginTrigger();
 injectComposeBox();
 
 const container = document.getElementById("tweets-container");
