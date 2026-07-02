@@ -60,8 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(html => {
                 const doc = new DOMParser().parseFromString(html, 'text/html');
 
+                const thoughts = doc.querySelector('#thoughts-root');
                 const inner = doc.querySelector('#containerprincipal') || doc.querySelector('#container');
-                mainContainer.innerHTML = inner ? inner.innerHTML : html;
+
+                if (thoughts) {
+                    const styles = Array.from(doc.querySelectorAll('style'))
+                        .map(s => s.outerHTML)
+                        .join('');
+                    mainContainer.innerHTML = styles + thoughts.outerHTML;
+                } else {
+                    mainContainer.innerHTML = inner ? inner.innerHTML : html;
+                }
 
                 fixViewport();
                 rehydrateScripts(mainContainer);
