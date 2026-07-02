@@ -1,4 +1,5 @@
 import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+console.log("[twt-loader] script executando, URL atual:", location.href);
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -34,6 +35,7 @@ let isAdmin = false;
 
 onAuthStateChanged(auth, user => {
   isAdmin = !!(user && user.email === ADMIN_EMAIL);
+  console.log("[twt-loader] auth state:", user ? user.email : "ninguém logado", "→ isAdmin =", isAdmin);
 
   const composeBox = document.getElementById("compose-post");
   if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";

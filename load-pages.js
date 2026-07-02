@@ -52,8 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function loadPage(pageName, pushState = false) {
+        console.log("[load-pages] buscando:", `${pageName}.html`);
         fetch(`${pageName}.html`)
             .then(r => {
+                console.log("[load-pages] resposta:", r.status, r.url);
                 if (!r.ok) throw new Error(r.statusText);
                 return r.text();
             })
@@ -61,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const doc = new DOMParser().parseFromString(html, 'text/html');
 
                 const thoughts = doc.querySelector('#thoughts-root');
+                console.log("[load-pages] #thoughts-root encontrado no fragmento?", !!thoughts);
                 const inner = doc.querySelector('#containerprincipal') || doc.querySelector('#container');
 
                 if (thoughts) {
