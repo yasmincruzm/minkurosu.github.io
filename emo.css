@@ -1923,3 +1923,13 @@ header,
   }
 }
 
+#container p {
+  font-size: 15px !important;
+}
+
+@media (max-device-width: 768px), (pointer: coarse) {
+  #container p {
+    font-size: 17px !important;
+    line-height: 1.5;
+  }
+}
