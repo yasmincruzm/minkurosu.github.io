@@ -44,14 +44,13 @@ function parseUA(ua) {
     return { browser, os, device };
 }
 
+// NOTA: ip-api.com só suporta HTTP no plano free (não HTTPS). Como o site roda em
+// HTTPS, o browser bloqueia esse request como "mixed content" e ele SEMPRE falha,
+// só desperdiçando o timeout de 2.5s. Tirei ele da lista e priorizei os dois que
+// realmente respondem via HTTPS. Se quiser reativar via proxy, dá pra rotear pelo
+// Cloud Function lá embaixo.
 async function getGeo() {
     const apiCalls = [
-        (async () => {
-            const r = await fetchWithTimeout('https://ip-api.com/json/?fields=status,country,regionName,city,query,countryCode');
-            const d = await r.json();
-            if (d.status !== 'success') throw new Error('ip-api fail');
-            return { ip: d.query, city: d.city, region: d.regionName, country: d.country, cc: d.countryCode };
-        })(),
         (async () => {
             const r = await fetchWithTimeout('https://freeipapi.com/api/json');
             const d = await r.json();
@@ -63,6 +62,13 @@ async function getGeo() {
             const d = await r.json();
             if (!d.success) throw new Error('ipwho fail');
             return { ip: d.ip, city: d.city, region: d.region, country: d.country, cc: d.country_code };
+        })(),
+        (async () => {
+            const r = await fetchWithTimeout('https://api.ipify.org?format=json');
+            const d = await r.json();
+            if (!d.ip) throw new Error('ipify fail');
+            // ipify só devolve o IP, sem geo — serve de último fallback pra não perder o IP
+            return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
         })(),
     ];
 
@@ -163,7 +169,7 @@ async function flushSubpageClicks() {
             });
         }
     } catch (err) {
-        console.warn('tracker subpage clicks:', err);
+        console.warn('coleta subpage clicks:', err);
         Object.entries(toSend).forEach(([k, v]) => {
             subpageClickBuffer[k] = (subpageClickBuffer[k] || 0) + v;
         });
@@ -184,10 +190,26 @@ if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
 
 let currentVisitDocRef = null;
 
+// fila de retry: se o addDoc falhar (offline, regra do firestore, etc.) a gente
+// tenta de novo em vez de simplesmente engolir o erro e perder a visita
+const pendingRetries = [];
+
+async function withRetry(fn, label, attempts = 3) {
+    for (let i = 0; i < attempts; i++) {
+        try {
+            return await fn();
+        } catch (err) {
+            console.warn(`coleta ${label} (tentativa ${i + 1}):`, err.message || err);
+            if (i === attempts - 1) throw err;
+            await new Promise(res => setTimeout(res, 500 * (i + 1)));
+        }
+    }
+}
+
 async function recordPageView(pageName) {
     if (isAdmin) return;
     try {
-        currentVisitDocRef = await addDoc(collection(db, 'visitors'), {
+        currentVisitDocRef = await withRetry(() => addDoc(collection(db, 'visitors'), {
             ip:           'unknown',
             city:         'unknown',
             region:       'unknown',
@@ -205,25 +227,25 @@ async function recordPageView(pageName) {
             firstVisit:   sessionData.firstVisit,
             maxScroll:    0,
             timestamp:    serverTimestamp()
-        });
+        }), 'pageview');
 
         const docRefAtCreation = currentVisitDocRef;
         geoPromise.then(async geo => {
             if (isAdmin || !geo.ip || geo.ip === 'unknown') return;
             try {
-                await updateDoc(docRefAtCreation, {
+                await withRetry(() => updateDoc(docRefAtCreation, {
                     ip:      geo.ip,
                     city:    geo.city    || 'unknown',
                     region:  geo.region  || 'unknown',
                     country: geo.country || 'unknown',
                     cc:      geo.cc      || ''
-                });
+                }), 'geo update');
             } catch (err) {
-                console.warn('tracker geo update:', err);
+                console.warn('coleta geo update falhou de vez:', err);
             }
         });
     } catch (err) {
-        console.warn('tracker pageview:', err);
+        console.warn('coleta pageview falhou de vez:', err);
     }
 }
 
@@ -240,7 +262,7 @@ async function recordPageExit(pageName) {
             clickCount,
             timestamp:  serverTimestamp()
         });
-    } catch { /* silent */ }
+    } catch { /* silencioso: navegador já pode estar fechando a aba, sem tempo pra retry */ }
     await flushSubpageClicks();
 }
 
