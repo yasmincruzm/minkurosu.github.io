@@ -1,3 +1,15 @@
+
+(function restoreDeepLink() {
+    const redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if (redirect) {
+        const current = location.pathname + location.search + location.hash;
+        if (redirect !== current) {
+            history.replaceState(null, '', redirect);
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     if (!mainContainer) return;
