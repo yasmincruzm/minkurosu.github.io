@@ -9,7 +9,9 @@ async function tryLoadDashboardWidgets(app) {
         if (typeof mod.loadDashboardWidgets === 'function') {
             mod.loadDashboardWidgets(app);
         }
-    
+    } catch (err) {
+            ]        console.warn('admin-widgets.js não carregado (ok se ainda não existir):', err.message || err);
+    }
 }
 
 const firebaseConfig = {
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-    getRedirectResult(auth).then(cred => {
+]    getRedirectResult(auth).then(cred => {
         if (!cred) return;
         if (cred.user.email !== ALLOWED_EMAIL) {
             signOut(auth);
@@ -112,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             console.error('google popup login error:', err.code, err.message);
 
-          
             const popupIssues = [
                 'auth/popup-blocked',
                 'auth/popup-closed-by-user',
