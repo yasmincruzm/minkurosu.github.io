@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.querySelectorAll('script').forEach(old => {
             const src = old.getAttribute('src');
 
+          
             if (src && loadedExternalScripts.has(new URL(src, location.href).href)) {
                 old.remove();
                 return;
@@ -74,8 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
             imgs[idx].classList.add('active');
         }, 4000);
     }
-
-
     const IFRAME_PAGES = ['games'];
 
     function fixViewport(pageName) {
@@ -91,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const pageCache = new Map();
+
 
     let currentFetchController = null;
 
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         .join('');
                     mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                  
+                   
                     const styles = Array.from(doc.querySelectorAll('head style'))
                         .map(s => s.outerHTML)
                         .join('');
@@ -160,10 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     l.classList.toggle('active', l.getAttribute('data-page') === pageName);
                 });
 
-            
+   
             })
             .catch(err => {
-                if (err.name === 'AbortError') return; // cancelado por uma navegação mais nova, ignora
+                if (err.name === 'AbortError') return;
                 console.error('erro ao carregar página:', err);
                 mainContainer.innerHTML = '<p>erro ao carregar. tente novamente.</p>';
             });
