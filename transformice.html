@@ -153,6 +153,24 @@
                 max-height: 150px;
             }
         }
+
+        /* Gallery / screenshot images - mantém o tamanho natural, sem cortar em quadrado */
+        a[data-fancybox] img,
+        img.screenshots,
+        .fancybox-image,
+        .fancybox__image,
+        .fancybox-content img,
+        .fancybox__content img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -167,29 +185,35 @@
 
            
 
-            <img src="imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png" class="screenshots">
+            <a data-fancybox="gallery" href="imgs/games/transformice/335240_459.jpg">
+                <img src="imgs/games/transformice/335240_459.jpg" class="screenshots">
+            </a>
                 <h5 class="screenshotDescription"> </h5>
                 <br>
-               
-                    <img src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" class="screenshots">
-                <h5 class="screenshotDescription"> </h5>
-                <br>
-               
-                    <img src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" class="screenshots">
-                <h5 class="screenshotDescription"> </h5>
-                <br>
-                   <img src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" class="screenshots">
-                <h5 class="screenshotDescription"> </h5>
-                <br>
-                   <img src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" class="screenshots">
-                <h5 class="screenshotDescription"></h5>
-                <br>
-              
 
-                   <img src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" class="screenshots">
+            <a data-fancybox="gallery" href="imgs/games/transformice/335240_489.jpg">
+                <img src="imgs/games/transformice/335240_489.jpg" class="screenshots">
+            </a>
                 <h5 class="screenshotDescription"> </h5>
                 <br>
-               
+
+            <a data-fancybox="gallery" href="imgs/games/transformice/Transformice2026-07-03.gif">
+                <img src="imgs/games/transformice/Transformice2026-07-03.gif" class="screenshots">
+            </a>
+                <h5 class="screenshotDescription"> </h5>
+                <br>
+
+            <a data-fancybox="gallery" href="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png">
+                <img src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" class="screenshots">
+            </a>
+                <h5 class="screenshotDescription"> </h5>
+                <br>
+
+            <a data-fancybox="gallery" href="imgs/games/transformice/citanao.png">
+                <img src="imgs/games/transformice/citanao.png" class="screenshots">
+            </a>
+                <h5 class="screenshotDescription"> </h5>
+                <br>
 
         </div>
         </div>

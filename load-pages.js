@@ -80,8 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         .map(s => s.outerHTML)
                         .join('');
                     mainContainer.innerHTML = styles + thoughts.outerHTML;
+                } else if (inner) {
+                  
+                    const styles = Array.from(doc.querySelectorAll('style'))
+                        .map(s => s.outerHTML)
+                        .join('');
+                    mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                    mainContainer.innerHTML = inner ? inner.innerHTML : html;
+                    mainContainer.innerHTML = html;
                 }
 
                 fixViewport();

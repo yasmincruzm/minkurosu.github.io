@@ -153,6 +153,23 @@
                 max-height: 150px;
             }
         }
+
+        a[data-fancybox] img,
+        img.screenshots,
+        .fancybox-image,
+        .fancybox__image,
+        .fancybox-content img,
+        .fancybox__content img {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
