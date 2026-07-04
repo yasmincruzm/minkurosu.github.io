@@ -34,11 +34,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const loadedExternalScripts = new Set(
+        Array.from(document.scripts).map(s => s.src).filter(Boolean)
+    );
+
     function rehydrateScripts(container) {
         container.querySelectorAll('script').forEach(old => {
+            const src = old.getAttribute('src');
+
+          
+            if (src && loadedExternalScripts.has(new URL(src, location.href).href)) {
+                old.remove();
+                return;
+            }
+
             const neo = document.createElement('script');
             Array.from(old.attributes).forEach(a => neo.setAttribute(a.name, a.value));
-            if (!old.src) neo.textContent = old.textContent;
+            if (!old.src) {
+                neo.textContent = old.textContent;
+            } else {
+                loadedExternalScripts.add(new URL(old.src, location.href).href);
+            }
             old.remove();
             document.body.appendChild(neo);
         });
@@ -60,14 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    // Páginas que contêm <iframe> (ex: o gamelog) precisam de um viewport de
-    // largura real do dispositivo. Um <iframe> não tem "viewport" próprio de
-    // verdade: ele só herda a largura em CSS px que o documento pai der pra
-    // ele. Se a página principal mente dizendo que tem 1920px de largura
-    // (o hack abaixo, pra manter o layout "desktop" no resto do site), o
-    // iframe também "acha" que tem ~900px+ de largura mesmo num celular real
-    // — e por isso as media queries mobile do jogo (e o Fancybox dentro dele)
-    // nunca disparam direito e tudo aparece minúsculo/zoombado.
+    
     const IFRAME_PAGES = ['games'];
 
     function fixViewport(pageName) {
@@ -82,12 +91,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    
+    const pageCache = new Map();
+
+    let currentFetchController = null;
+
     function loadPage(pageName, pushState = false) {
-        fetch(`${pageName}.html`)
-            .then(r => {
-                if (!r.ok) throw new Error(r.statusText);
-                return r.text();
-            })
+        if (currentFetchController) currentFetchController.abort();
+
+        const cached = pageCache.get(pageName);
+        const fetchPromise = cached
+            ? Promise.resolve(cached)
+            : (() => {
+                currentFetchController = new AbortController();
+                return fetch(`${pageName}.html`, { signal: currentFetchController.signal })
+                    .then(r => {
+                        if (!r.ok) throw new Error(r.statusText);
+                        return r.text();
+                    })
+                    .then(html => {
+                        pageCache.set(pageName, html);
+                        return html;
+                    });
+            })();
+
+        fetchPromise
             .then(html => {
                 const doc = new DOMParser().parseFromString(html, 'text/html');
 
@@ -106,9 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         .join('');
                     mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                    // fallback: página não tem #thoughts-root, #containerprincipal nem #container.
-                    // usar o html cru (com <html>/<head>/<body>) quebra a estrutura da página principal,
-                    // então pegamos só o <body> (mantendo os <style> do <head>, se houver).
+                  
                     const styles = Array.from(doc.querySelectorAll('head style'))
                         .map(s => s.outerHTML)
                         .join('');
@@ -141,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(err => {
+                if (err.name === 'AbortError') return; 
                 console.error('erro ao carregar página:', err);
                 mainContainer.innerHTML = '<p>erro ao carregar. tente novamente.</p>';
             });

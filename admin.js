@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 import { loadDashboardWidgets } from './admin-widgets.js';
@@ -39,6 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
+    getRedirectResult(auth).then(cred => {
+        if (!cred) return;
+        if (cred.user.email !== ALLOWED_EMAIL) {
+            signOut(auth);
+            msg(loginMessage, 'acesso negado.', 'error');
+            return;
+        }
+        localStorage.setItem('mku_admin', '1');
+        msg(loginMessage, 'logged in!', 'success');
+    }).catch(err => {
+        console.error('redirect login error:', err);
+        msg(loginMessage, `erro no login: ${err.code || err.message}`, 'error');
+    });
+
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
         if (user) {
@@ -77,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     googleLoginBtn?.addEventListener('click', async () => {
+        msg(loginMessage, 'abrindo login do google...', 'info');
         try {
             const cred = await signInWithPopup(auth, provider);
             if (cred.user.email !== ALLOWED_EMAIL) {
@@ -87,7 +102,32 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('mku_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
-            msg(loginMessage, `erro: ${err.message}`, 'error');
+            console.error('google popup login error:', err.code, err.message);
+
+        
+            const popupIssues = [
+                'auth/popup-blocked',
+                'auth/popup-closed-by-user',
+                'auth/cancelled-popup-request',
+                'auth/operation-not-supported-in-this-environment'
+            ];
+
+            if (popupIssues.includes(err.code)) {
+                msg(loginMessage, 'popup bloqueado, redirecionando...', 'info');
+                try {
+                    await signInWithRedirect(auth, provider);
+                } catch (err2) {
+                    msg(loginMessage, `erro: ${err2.code || err2.message}`, 'error');
+                }
+                return;
+            }
+
+            if (err.code === 'auth/unauthorized-domain') {
+                msg(loginMessage, 'este domínio não está autorizado no firebase (authentication > settings > authorized domains).', 'error');
+                return;
+            }
+
+            msg(loginMessage, `erro: ${err.code || err.message}`, 'error');
         }
     });
 
