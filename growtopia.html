@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="styles.css" id="theme-stylesheet">
     <link rel="stylesheet" href="screenshots-fit.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <title>minecraft</title>
 
     <style>
@@ -201,13 +200,7 @@
                 min-width: unset;
             }
         }
-
-        a[data-fancybox] img,
-        img.screenshots,
-        .fancybox-image,
-        .fancybox__image,
-        .fancybox-content img,
-        .fancybox__content img {
+        img.screenshots {
             max-width: 100% !important;
             max-height: 100% !important;
             width: auto !important;
@@ -237,15 +230,15 @@
 
             <p> so crazy to think the game i played when i was 10 was so important its printed in my brain/dreams.</p>
 
-            <a data-fancybox="gallery" href="imgs/games/growtopiacharacter.png" data-caption="my character">
+            <a href="imgs/games/growtopiacharacter.png" target="_blank">
                 <img src="imgs/games/growtopiacharacter.png" alt="my character" style="height: 200px;">
             </a>
             <br>
-            <a data-fancybox="gallery" href="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg">
+            <a href="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg" target="_blank">
                 <img src="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg" style="width:600px">
             </a>
 
-            <a data-fancybox="gallery" href="imgs/games/screenshots/mimin.png" data-caption="my main world">
+            <a href="imgs/games/screenshots/mimin.png" target="_blank">
                 <img src="imgs/games/screenshots/mimin.png" style="width:600px">
             </a>
             <p> my main world</p>
@@ -265,31 +258,5 @@
     document.getElementById('growtopia-days-counter').textContent =
         GT_REF_DAYS + Math.floor((Date.now() - GT_REF_DATE) / 86400000);
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <script>
-        Fancybox.bind('[data-fancybox="gallery"]', {
-            dragToClose: true,
-            Images: { zoom: false },
-            Toolbar: { display: ["close"] },
-        });
-    </script>
-    <style>
-        .fancybox__container {
-            --fancybox-bg: rgba(24, 20, 18, 0.92);
-            max-width: 100dvw !important;
-            max-height: 100dvh !important;
-        }
-        .fancybox__slide {
-            padding: 8px !important;
-        }
-        .fancybox__content {
-            max-width: 100% !important;
-            max-height: 100% !important;
-        }
-        @media (max-width: 550px) {
-            .fancybox__toolbar { --fancybox-thumbs-height: 0px; }
-            .fancybox__nav { --f-button-width: 40px; --f-button-height: 40px; }
-        }
-    </style>
 
 </html>

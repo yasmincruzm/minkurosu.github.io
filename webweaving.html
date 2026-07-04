@@ -20,16 +20,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <div class="crt"></div>
     <style>
-        body > .layout-with-sidebars {
-            display: block !important;
-            grid-template-columns: none !important;
-        }
-
-        #containerprincipal {
-            text-align: left !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            padding: 0 !important;
+        /* estas regras eram globais (body > .layout-with-sidebars, #containerprincipal)
+           e, como essa página é injetada como innerHTML dentro do site principal
+           (não carregada isolada), elas colidiam com os MESMOS ids/classes do
+           index.html de verdade — forçando o layout com sidebars inteiro do site
+           a virar display:block e some com o grid sempre que essa página carregava.
+           Agora ficam restritas ao próprio container da galeria (#webweaving-container),
+           que é o único elemento que realmente pertence a esta página. */
+        #webweaving-container {
+            text-align: left;
+            width: 100%;
+            max-width: 100%;
         }
 
         .galeria-pin {
