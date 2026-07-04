@@ -987,7 +987,7 @@ h5 {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .column h4 {
-  font-size: 16px !important;
+  font-size: 16px;
   text-indent: 0px;
   max-width: 550px;
   padding: 2px;
