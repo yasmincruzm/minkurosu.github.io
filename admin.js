@@ -2,7 +2,15 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-import { loadDashboardWidgets } from './admin-widgets.js';
+
+async function tryLoadDashboardWidgets(app) {
+    try {
+        const mod = await import('./admin-widgets.js');
+        if (typeof mod.loadDashboardWidgets === 'function') {
+            mod.loadDashboardWidgets(app);
+        }
+    
+}
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -64,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
-            loadDashboardWidgets(app);
+            tryLoadDashboardWidgets(app);
             loadMailbox(db);
         } else {
             adminPanel.style.display = 'none';
@@ -104,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) {
             console.error('google popup login error:', err.code, err.message);
 
-        
+          
             const popupIssues = [
                 'auth/popup-blocked',
                 'auth/popup-closed-by-user',
