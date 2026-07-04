@@ -60,10 +60,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    function fixViewport() {
+    // Páginas que contêm <iframe> (ex: o gamelog) precisam de um viewport de
+    // largura real do dispositivo. Um <iframe> não tem "viewport" próprio de
+    // verdade: ele só herda a largura em CSS px que o documento pai der pra
+    // ele. Se a página principal mente dizendo que tem 1920px de largura
+    // (o hack abaixo, pra manter o layout "desktop" no resto do site), o
+    // iframe também "acha" que tem ~900px+ de largura mesmo num celular real
+    // — e por isso as media queries mobile do jogo (e o Fancybox dentro dele)
+    // nunca disparam direito e tudo aparece minúsculo/zoombado.
+    const IFRAME_PAGES = ['games'];
+
+    function fixViewport(pageName) {
         const vp = document.querySelector('meta[name="viewport"]');
-        if (vp) vp.setAttribute('content',
-            'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
+        if (!vp) return;
+        if (IFRAME_PAGES.includes(pageName)) {
+            vp.setAttribute('content', 'width=device-width, initial-scale=1.0, shrink-to-fit=no');
+        } else {
+            vp.setAttribute('content',
+                'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
+        }
     }
 
 
@@ -91,14 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         .join('');
                     mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                   
+                    // fallback: página não tem #thoughts-root, #containerprincipal nem #container.
+                    // usar o html cru (com <html>/<head>/<body>) quebra a estrutura da página principal,
+                    // então pegamos só o <body> (mantendo os <style> do <head>, se houver).
                     const styles = Array.from(doc.querySelectorAll('head style'))
                         .map(s => s.outerHTML)
                         .join('');
                     mainContainer.innerHTML = doc.body ? styles + doc.body.innerHTML : html;
                 }
 
-                fixViewport();
+                fixViewport(pageName);
                 rehydrateScripts(mainContainer);
 
                 setTimeout(() => {

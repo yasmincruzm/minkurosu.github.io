@@ -324,8 +324,30 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
-        Fancybox.bind('[data-fancybox="gallery"]', {});
+        Fancybox.bind('[data-fancybox="gallery"]', {
+            dragToClose: true,
+            Images: { zoom: false },
+            Toolbar: { display: ["close"] },
+        });
     </script>
+    <style>
+        .fancybox__container {
+            --fancybox-bg: rgba(24, 20, 18, 0.92);
+            max-width: 100dvw !important;
+            max-height: 100dvh !important;
+        }
+        .fancybox__slide {
+            padding: 8px !important;
+        }
+        .fancybox__content {
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+        @media (max-width: 550px) {
+            .fancybox__toolbar { --fancybox-thumbs-height: 0px; }
+            .fancybox__nav { --f-button-width: 40px; --f-button-height: 40px; }
+        }
+    </style>
 </body>
 
 </html>
