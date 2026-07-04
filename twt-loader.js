@@ -24,7 +24,7 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-const ADMIN_EMAIL = "mincruzm@gmail.com"; // ← mesmo e-mail do admin.js
+const ADMIN_EMAIL = "mincruzm@gmail.com"; 
 
 const app  = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
 const auth = getAuth(app);

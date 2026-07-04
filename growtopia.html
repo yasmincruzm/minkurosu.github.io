@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="styles.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="screenshots-fit.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <title>minecraft</title>
 
     <style>
@@ -258,36 +260,14 @@
     </main>
 </body>
 <script>
-
-
-    function updateGrowtopiaAccountAge() {
-
-        const today = new Date();
-
-
-
-        const initialDaysAgo = 4373;
-        const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
-        const growtopiaStartDate = new Date(today.getTime() - (initialDaysAgo * ONE_DAY_IN_MS));
-
-
-        const differenceInMs = today.getTime() - growtopiaStartDate.getTime();
-
-
-        const daysPassed = Math.floor(differenceInMs / ONE_DAY_IN_MS);
-
-        const counterElement = document.getElementById('growtopia-days-counter');
-
-
-        if (counterElement) {
-            counterElement.textContent = daysPassed;
-        }
-    }
-
-
-    document.addEventListener('DOMContentLoaded', updateGrowtopiaAccountAge);
-
-
+    const GT_REF_DAYS = 4373;
+    const GT_REF_DATE = new Date('2026-07-04');
+    document.getElementById('growtopia-days-counter').textContent =
+        GT_REF_DAYS + Math.floor((Date.now() - GT_REF_DATE) / 86400000);
 </script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script>
+        Fancybox.bind('[data-fancybox="gallery"]', {});
+    </script>
 
 </html>

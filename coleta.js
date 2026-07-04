@@ -44,11 +44,6 @@ function parseUA(ua) {
     return { browser, os, device };
 }
 
-// NOTA: ip-api.com só suporta HTTP no plano free (não HTTPS). Como o site roda em
-// HTTPS, o browser bloqueia esse request como "mixed content" e ele SEMPRE falha,
-// só desperdiçando o timeout de 2.5s. Tirei ele da lista e priorizei os dois que
-// realmente respondem via HTTPS. Se quiser reativar via proxy, dá pra rotear pelo
-// Cloud Function lá embaixo.
 async function getGeo() {
     const apiCalls = [
         (async () => {
@@ -67,7 +62,6 @@ async function getGeo() {
             const r = await fetchWithTimeout('https://api.ipify.org?format=json');
             const d = await r.json();
             if (!d.ip) throw new Error('ipify fail');
-            // ipify só devolve o IP, sem geo — serve de último fallback pra não perder o IP
             return { ip: d.ip, city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
         })(),
     ];
@@ -190,8 +184,7 @@ if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
 
 let currentVisitDocRef = null;
 
-// fila de retry: se o addDoc falhar (offline, regra do firestore, etc.) a gente
-// tenta de novo em vez de simplesmente engolir o erro e perder a visita
+
 const pendingRetries = [];
 
 async function withRetry(fn, label, attempts = 3) {
@@ -262,7 +255,7 @@ async function recordPageExit(pageName) {
             clickCount,
             timestamp:  serverTimestamp()
         });
-    } catch { /* silencioso: navegador já pode estar fechando a aba, sem tempo pra retry */ }
+    } catch {  }
     await flushSubpageClicks();
 }
 

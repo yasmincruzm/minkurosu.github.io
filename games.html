@@ -4,99 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>game diary</title>
+    <link rel="stylesheet" href="screenshots-fit.css">
     <style>
-
-        
-.skin-item {
-  background-color: #0a0a0a;
-  border: 4px solid #310000;
-  border-radius: 3px;
-  padding: 15px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform 0.2s ease-in-out;
-}
-
-.skin-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-
-.skin-item img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin-bottom: 10px;
-  border-radius: 2px;
-}
-
-.skin-title {
-  font-size: 1rem;
-  color: #610000;
-  margin: 0;
-  padding-top: 5px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .skin-grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-  }
-
-  .skin-item {
-    padding: 10px;
-  }
-
-  .skin-title {
-    font-size: 0.8em;
-  }
-}
-
-@media (max-width: 480px) {
-  .skin-grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-  }
-
-  .skin-item {
-    padding: 8px;
-  }
-
-  .skin-title {
-    font-size: 0.75em;
-  }
-}
-
-
-
-.skin-item {
-  background-color: #0a0a0a;
-  border: 4px solid #310000;
-  border-radius: 3px;
-  padding: 15px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform 0.2s ease-in-out;
-}
-.skin-grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  border-radius: 3px;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
 
         .caixamaisclaraInterests {
             display: flex;
@@ -123,227 +32,147 @@
             padding: 0;
         }
 
+        .game-tab-radio {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .games-button-container label {
+            cursor: pointer;
+        }
+
         #gameContent {
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
             background-color: transparent;
-            min-height: 400px;
-            color: #610000;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .game-frame {
+            display: none;
+            width: 100%;
+            height: 2200px;
+            border: none;
+            border-radius: 0.9375rem;
         }
 
-        .skin-title {
-            font-size: 1rem;
-            color: #610000;
-
-
+        #tab-minecraft:checked~#gameContent #frame-minecraft,
+        #tab-bg3:checked~#gameContent #frame-bg3,
+        #tab-transformice:checked~#gameContent #frame-transformice,
+        #tab-tomodachi:checked~#gameContent #frame-tomodachi,
+        #tab-growtopia:checked~#gameContent #frame-growtopia,
+        #tab-stardew:checked~#gameContent #frame-stardew {
+            display: block;
         }
 
-        #gameContent:not(:empty) {
-            animation: fadeIn 0.3s ease-in;
+        #tab-minecraft:checked~.caixamaisclaraInterests label[for="tab-minecraft"] .front,
+        #tab-bg3:checked~.caixamaisclaraInterests label[for="tab-bg3"] .front,
+        #tab-transformice:checked~.caixamaisclaraInterests label[for="tab-transformice"] .front,
+        #tab-tomodachi:checked~.caixamaisclaraInterests label[for="tab-tomodachi"] .front,
+        #tab-growtopia:checked~.caixamaisclaraInterests label[for="tab-growtopia"] .front,
+        #tab-stardew:checked~.caixamaisclaraInterests label[for="tab-stardew"] .front {
+            filter: brightness(1.35);
         }
+
+
+        
+.screenshots,
+.screenshot-gallery img,
+a[data-fancybox] img,
+.fancybox-image,
+.fancybox__image,
+.fancybox-content img,
+.fancybox__content img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+ 
+a[data-fancybox] {
+    display: block;
+    max-width: 100%;
+    text-align: center;
+}
+ 
+.screenshotDescription {
+    text-align: center;
+    color: #534F4A;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+ 
+
+
     </style>
 </head>
 
 <body>
     <div class="games-section">
+
+        <!-- radios escondidos: controlam qual aba/iframe aparece -->
+        <input type="radio" name="game-tab" id="tab-minecraft" class="game-tab-radio" checked>
+        <input type="radio" name="game-tab" id="tab-bg3" class="game-tab-radio">
+        <input type="radio" name="game-tab" id="tab-transformice" class="game-tab-radio">
+        <input type="radio" name="game-tab" id="tab-tomodachi" class="game-tab-radio">
+        <input type="radio" name="game-tab" id="tab-growtopia" class="game-tab-radio">
+        <input type="radio" name="game-tab" id="tab-stardew" class="game-tab-radio">
+
         <div class="caixamaisclaraInterests">
             <h1 class="games-title">choose a game!</h1>
             <div class="games-button-container">
-                <a href="#" class="pushable game-button-link" data-src="minecraft.html">
+                <label for="tab-minecraft" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">minecraft</span>
-                </a>
-                 <a href="#" class="pushable game-button-link" data-src="baldursgate.html">
+                </label>
+
+                <label for="tab-bg3" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">baldurs gate 3</span>
-                </a>
+                </label>
 
-                
-                <a href="#" class="pushable game-button-link" data-src="transformice.html">
+                <label for="tab-transformice" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">transformice</span>
-                </a>
+                </label>
 
-
-                   <a href="#" class="pushable game-button-link" data-src="tomodachi.html">
+                <label for="tab-tomodachi" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">tomodachi life</span>
-                </a>
-               
+                </label>
 
-
-                <a href="#" class="pushable game-button-link" data-src="growtopia.html">
+                <label for="tab-growtopia" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">growtopia</span>
-                </a>
-                <a href="#" class="pushable game-button-link" data-src="stardewvalley.html">
+                </label>
+
+                <label for="tab-stardew" class="pushable">
                     <span class="shadow"></span>
                     <span class="edge"></span>
                     <span class="front">stardew valley</span>
-                </a>
-                
-               
+                </label>
             </div>
         </div>
 
-        <div id="gameContent"></div>
+        <div id="gameContent">
+            <iframe id="frame-minecraft" class="game-frame" src="minecraft.html" loading="lazy"></iframe>
+            <iframe id="frame-bg3" class="game-frame" src="baldursgate.html" loading="lazy"></iframe>
+            <iframe id="frame-transformice" class="game-frame" src="transformice.html" loading="lazy"></iframe>
+            <iframe id="frame-tomodachi" class="game-frame" src="tomodachi.html" loading="lazy"></iframe>
+            <iframe id="frame-growtopia" class="game-frame" src="growtopia.html" loading="lazy"></iframe>
+            <iframe id="frame-stardew" class="game-frame" src="stardewvalley.html" loading="lazy"></iframe>
+        </div>
     </div>
-
-    <script>
-
-        (function () {
-            'use strict';
-
-            console.log('🎮 Games.html carregado!');
-
-            let initialized = false;
-
-            function initializeGames() {
-                if (initialized) {
-                    console.log('starting');
-                    return;
-                }
-
-                const buttons = document.querySelectorAll('.game-button-link');
-                const contentDiv = document.getElementById('gameContent');
-
-                if (!contentDiv) {
-                    console.log('not found');
-                    return;
-                }
-
-                if (buttons.length === 0) {
-                    console.log('not found');
-                    return;
-                }
-
-                console.log(`loading ${buttons.length}...`);
-                initialized = true;
-
-                function loadGame(url) {
-                    console.log('loading:', url);
-                    contentDiv.innerHTML = '<h1 style="text-align:center;padding:20px;color:#534F4A;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">Loading...</h1>';
-
-                    fetch(url)
-                        .then(response => {
-                            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                            return response.text();
-                        })
-                        .then(html => {
-                            console.log('HTML on');
-
-                            const parser = new DOMParser();
-                            const doc = parser.parseFromString(html, 'text/html');
-                            const main = doc.querySelector('main') || doc.querySelector('body');
-
-                            if (!main) {
-                                throw new Error('Conteúdo não encontrado');
-                            }
-
-                            contentDiv.innerHTML = main.innerHTML;
-                            console.log('!');
-
-                            const scripts = contentDiv.querySelectorAll('script');
-                            console.log(` ${scripts.length} scripts...`);
-
-                            scripts.forEach((oldScript) => {
-                                const newScript = document.createElement('script');
-
-                                if (oldScript.src) {
-                                    newScript.src = oldScript.src;
-                                } else {
-                                    newScript.textContent = oldScript.textContent;
-                                }
-
-                                oldScript.parentNode.removeChild(oldScript);
-                                document.body.appendChild(newScript);
-                            });
-
-                            console.log('scrips on');
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            contentDiv.innerHTML = `
-                            <div style="text-align:center;padding:40px;">
-                                <h1 style="color:#8B0000;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">
-                                    Error loading ${url}
-                                </h1>
-                                <p style="color:#534F4A;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;">
-                                    ${error.message}
-                                </p>
-                            </div>
-                        `;
-                        });
-                }
-
-                buttons.forEach((btn) => {
-                    const newBtn = btn.cloneNode(true);
-                    btn.parentNode.replaceChild(newBtn, btn);
-                });
-
-                const freshButtons = document.querySelectorAll('.game-button-link');
-
-                freshButtons.forEach((button) => {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        const gameSrc = this.getAttribute('data-src');
-                        console.log('🖱️ Clique:', gameSrc);
-
-                        freshButtons.forEach(b => b.classList.remove('active'));
-
-                        this.classList.add('active');
-
-                        loadGame(gameSrc);
-                    });
-                });
-
-                console.log(' loading...');
-                if (freshButtons[0]) {
-                    freshButtons[0].click();
-                }
-            }
-
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initializeGames);
-            } else {
-                initializeGames();
-            }
-
-            setTimeout(initializeGames, 100);
-            setTimeout(initializeGames, 300);
-
-            window.addEventListener('load', function () {
-                if (!initialized) {
-                    console.log('trying to load...');
-                    initializeGames();
-                }
-            });
-
-            window.initGamesPage = initializeGames;
-
-        })();
-    </script>
 </body>
 
 </html>

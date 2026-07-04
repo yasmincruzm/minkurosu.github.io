@@ -1644,10 +1644,9 @@ th {
 .sidebar .box,
 .conjuntoblocos,
 header,
-.skin-item,
 .scrollSmaller,
 .scrollMedium {
-  border: 1px solid #4a0000 !important;
+  border: none !important;
   outline: 1px solid #1a1a1a;
   image-rendering: pixelated;
 }

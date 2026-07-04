@@ -1,4 +1,3 @@
-
 (function restoreDeepLink() {
     const redirect = sessionStorage.redirect;
     delete sessionStorage.redirect;
@@ -15,16 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!mainContainer) return;
 
 
-    function callTracker(pageName) {
-        if (typeof window.trackPage === 'function') {
-            window.trackPage(pageName);
+    function notifySession(pageName) {
+        if (typeof window.markVisit === 'function') {
+            window.markVisit(pageName);
         } else {
-            const handler = () => window.trackPage(pageName);
-            window.addEventListener('tracker:ready', handler, { once: true });
+            let fired = false;
+            const handler = () => {
+                fired = true;
+                window.markVisit(pageName);
+            };
+            window.addEventListener('app:ready', handler, { once: true });
             setTimeout(() => {
-                if (typeof window.trackPage === 'function') {
-                    window.removeEventListener('tracker:ready', handler);
-                    window.trackPage(pageName);
+                if (fired) return;
+                window.removeEventListener('app:ready', handler);
+                if (typeof window.markVisit === 'function') {
+                    window.markVisit(pageName);
                 }
             }, 800);
         }
@@ -87,7 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         .join('');
                     mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                    mainContainer.innerHTML = html;
+                   
+                    const styles = Array.from(doc.querySelectorAll('head style'))
+                        .map(s => s.outerHTML)
+                        .join('');
+                    mainContainer.innerHTML = doc.body ? styles + doc.body.innerHTML : html;
                 }
 
                 fixViewport();
@@ -105,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }, 200);
 
-                callTracker(pageName);
+                notifySession(pageName);
 
                 document.querySelectorAll('.nav-link').forEach(l => {
                     l.classList.toggle('active', l.getAttribute('data-page') === pageName);

@@ -2,7 +2,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-import { loadVisitorTracker } from './painel-visitas.js';
+import { loadDashboardWidgets } from './admin-widgets.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
-            loadVisitorTracker(app);
+            loadDashboardWidgets(app);
             loadMailbox(db);
         } else {
             adminPanel.style.display = 'none';

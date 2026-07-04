@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="screenshots-fit.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <style>
         html,
         body {
@@ -154,7 +156,6 @@
             }
         }
 
-        /* Gallery / screenshot images - mantém o tamanho natural, sem cortar em quadrado */
         a[data-fancybox] img,
         img.screenshots,
         .fancybox-image,
@@ -203,14 +204,9 @@
                 <h5 class="screenshotDescription"> </h5>
                 <br>
 
-            <a data-fancybox="gallery" href="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png">
-                <img src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" class="screenshots">
-            </a>
-                <h5 class="screenshotDescription"> </h5>
-                <br>
-
+        
             <a data-fancybox="gallery" href="imgs/games/transformice/citanao.png">
-                <img src="imgs/games/transformice/citanao.png" class="screenshots">
+                <img src="imgs/games/transformice/citanao.png" class="">
             </a>
                 <h5 class="screenshotDescription"> </h5>
                 <br>
@@ -219,6 +215,11 @@
         </div>
 
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script>
+        Fancybox.bind('[data-fancybox="gallery"]', {});
+    </script>
 </body>
 
 </html>
