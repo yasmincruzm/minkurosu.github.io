@@ -44,20 +44,33 @@
         text-align: center;
     }
 
-    @keyframes slidefade {
-        0%   { opacity: 0; }
-        5%   { opacity: 1; }
-        45%  { opacity: 1; }
-        50%  { opacity: 0; }
-        100% { opacity: 0; }
+    .slideshow-area {
+        position: relative;
+        width: 100%;
+        max-width: 250px;
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+        border-radius: 8px;
     }
 
     .slideshow-area img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
         animation: slidefade 8s infinite;
     }
 
     .slideshow-area img:nth-child(1) { animation-delay: 0s; }
-    .slideshow-area img:nth-child(2) { animation-delay: -4s; }
+    .slideshow-area img:nth-child(2) { animation-delay: 4s; }
+
+    @keyframes slidefade {
+        0%, 45%   { opacity: 1; }
+        50%, 95%  { opacity: 0; }
+        100%      { opacity: 1; }
+    }
 </style>
 <div id="container">
     <div class="caixamaisclara">
@@ -83,9 +96,9 @@
             </div>
             <div class="column">
                  <div class="welcome">
-                <h3 style="font-weight: bold;">PLEASE DO NOT INTERACT if: <img src="imgs/webgraphics/pixels/hiss.gif" > </h3>
+                <h3 style="font-weight: bold;">PLEASE DO NOT<br> INTERACT if: <img src="imgs/webgraphics/pixels/hiss.gif" > </h3>
                </div>
-                 <h4 style="font-size: 1.1rem;">dni if you're alt-right / incel / racist / zionist / nazi / homophobic / transphobic /psychophobic / any hate-based phobic. 
+                 <h4 style="font-size: 1.1rem;">dni if you're alt-right / incel / racist / zionist / nazi / homophobic / transphobic / psychophobic / any hate-based phobic. 
                     <br>
                     <br>just try to be a good person. at all times.</h4>
                 <h4 style="font-size: 1.1rem;">i also highly advise not visiting my site if you're my family member or know me from
@@ -106,8 +119,10 @@
     <div class="caixamaisclara" style="margin: 20px;">
         <div class="about-me-container">
             <div class="slideshow-area">
-                <img src="imgs/site_imgs/slideshow-me/2.jpg" class="active">
-     </div>
+                <img src="imgs/site_imgs/slideshow-me/2.jpg">
+                <img src="imgs/feed/icon.jpeg">
+
+            </div>
 
             <div class="badges-area">
                 <div class="badges-container">
@@ -170,10 +185,7 @@
                         
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">feeling</td>
-                                <td style="border: 1px solid black; padding: 8px;"><a
-                                        href="https://www.imood.com/users/minkurosu"><img
-                                            src="https://moods.imood.com/display/uname-minkurosu/fg-8a8278/trans-1/imood.gif"
-                                            alt="The current mood of minkurosu at www.imood.com" border="0"></a>
+                                       <td style="border: 1px solid black; padding: 8px;"><a href="https://www.imood.com/users/minkurosu"><img src="https://moods.imood.com/display/uname-minkurosu/fg-8a8278/trans-1/imood.gif" alt="The current mood of minkurosu at www.imood.com" border="0"></a></td>
                                 </td>
                             </tr>
                          <tr>
