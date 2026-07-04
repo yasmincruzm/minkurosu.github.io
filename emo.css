@@ -963,7 +963,7 @@ h5 {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0px;
   grid-template-columns: 300px 1fr 1000px;
   !important -webkit-column-rule: 1px solid #dbdbdb;
   -moz-column-rule: 1px solid #dbdbdb;
@@ -973,6 +973,8 @@ h5 {
 .column {
   flex: 1;
   margin: 5px;
+  padding: 0 8px;
+  box-sizing: border-box;
   justify-content: left;
   -webkit-column-rule: 1px solid #dbdbdb;
   -moz-column-rule: 1px solid #dbdbdb;
@@ -985,15 +987,33 @@ h5 {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .column h4 {
-  font-size: 18px;
+  font-size: 16px !important;
   text-indent: 0px;
-  max-width: 500px;
+  max-width: 550px;
   padding: 2px;
-  margin: 8px;
+  margin: 0 0 0.4rem 0;
+  line-height: 1.15;
+  text-align: justify;
+  text-align-last: left;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+.column h4:last-child {
+  margin-bottom: 0;
+}
 .welcome {
-  margin-right: 30px;
+  margin-right: 0;
+  margin-bottom: 0.4rem;
+}
+.welcome h2 {
+  margin: 0;
+  line-height: 1.1;
+}
+.welcome h2.likes,
+.welcome h2.deslikes {
+  text-align: center;
+  margin-left: 0;
+  margin-right: 0;
 }
 .deslikes {
   text-align: right;
@@ -1004,10 +1024,12 @@ h5 {
   margin-left: 3rem;
 }
 .column h3 {
-  font-size: 32px;
+  font-size: 26px;
   text-align: center;
   text-indent: 20px;
-  max-width: 500px;
+  max-width: 550px;
+  line-height: 1.1;
+  margin: 0 0 0.4rem 0;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .divider {
@@ -1933,4 +1955,3 @@ header,
     line-height: 1.5;
   }
 }
-
