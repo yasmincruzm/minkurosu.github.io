@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     if (!mainContainer) return;
 
-
     function notifySession(pageName) {
         if (typeof window.markVisit === 'function') {
             window.markVisit(pageName);
@@ -42,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.querySelectorAll('script').forEach(old => {
             const src = old.getAttribute('src');
 
-          
             if (src && loadedExternalScripts.has(new URL(src, location.href).href)) {
                 old.remove();
                 return;
@@ -75,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imgs[idx].classList.add('active');
         }, 4000);
     }
+
     const IFRAME_PAGES = ['games'];
 
     function fixViewport(pageName) {
@@ -88,10 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     const pageCache = new Map();
-
-
     let currentFetchController = null;
 
     function loadPage(pageName, pushState = false) {
@@ -126,13 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         .join('');
                     mainContainer.innerHTML = styles + thoughts.outerHTML;
                 } else if (inner) {
-                  
                     const styles = Array.from(doc.querySelectorAll('style'))
                         .map(s => s.outerHTML)
                         .join('');
                     mainContainer.innerHTML = styles + inner.innerHTML;
                 } else {
-                   
                     const styles = Array.from(doc.querySelectorAll('head style'))
                         .map(s => s.outerHTML)
                         .join('');
@@ -159,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.nav-link').forEach(l => {
                     l.classList.toggle('active', l.getAttribute('data-page') === pageName);
                 });
-
-   
             })
             .catch(err => {
                 if (err.name === 'AbortError') return;

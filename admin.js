@@ -2,17 +2,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-
-async function tryLoadDashboardWidgets(app) {
-    try {
-        const mod = await import('./admin-widgets.js');
-        if (typeof mod.loadDashboardWidgets === 'function') {
-            mod.loadDashboardWidgets(app);
-        }
-    } catch (err) {
-            ]        console.warn('admin-widgets.js não carregado (ok se ainda não existir):', err.message || err);
-    }
-}
+import { loadVisitorTracker } from './admin-tracker.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -49,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-]    getRedirectResult(auth).then(cred => {
+    getRedirectResult(auth).then(cred => {
         if (!cred) return;
         if (cred.user.email !== ALLOWED_EMAIL) {
             signOut(auth);
@@ -74,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
-            tryLoadDashboardWidgets(app);
+            loadVisitorTracker(app);
             loadMailbox(db);
         } else {
             adminPanel.style.display = 'none';
