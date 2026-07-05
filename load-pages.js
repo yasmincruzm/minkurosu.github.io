@@ -2,10 +2,7 @@
     const redirect = sessionStorage.redirect;
     delete sessionStorage.redirect;
     if (redirect) {
-        const current = location.pathname + location.search + location.hash;
-        if (redirect !== current) {
-            history.replaceState(null, '', redirect);
-        }
+        window.__deepLinkPath = redirect;
     }
 })();
 
@@ -140,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     initSlideshowIfNeeded();
 
                     if (typeof Fancybox !== 'undefined') {
-                        Fancybox.bind('[data-fancybox="gallery"]', {});
+                        Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
                     }
 
                     if (typeof inicializarLastFmWidget === 'function') {
@@ -156,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 if (err.name === 'AbortError') return;
-                console.error('erro ao carregar página:', err);
-                mainContainer.innerHTML = '<p>erro ao carregar. tente novamente.</p>';
+                console.error('page load failed:', err);
+                mainContainer.innerHTML = '<p>failed to load. try again.</p>';
             });
     }
 
@@ -177,10 +174,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const initialPage = (() => {
-        const path = location.pathname.replace(/^\//, '').replace(/\.html$/, '');
+        const rawPath = window.__deepLinkPath || location.pathname;
+        const path = rawPath.replace(/^\//, '').replace(/\.html$/, '').split(/[?#]/)[0];
         return path && path !== 'index' ? path : 'aboutme';
     })();
 
-    history.replaceState({ page: initialPage }, '', `/${initialPage}`);
+    history.replaceState({ page: initialPage }, '', '/');
     loadPage(initialPage, false);
 });

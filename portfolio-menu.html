@@ -249,12 +249,6 @@
       margin: 12px 0 4px;
     }
 
-    .fancybox__caption {
-      font-size: 14px;
-      color: #534f4a;
-      border-color: #24211e;
-    }
-
     #portfolio-conteudo {
       width: 100%;
       margin-top: 20px;
@@ -360,7 +354,7 @@
             setTimeout(() => {
               if (typeof Fancybox !== 'undefined') {
                 Fancybox.destroy();
-                Fancybox.bind('[data-fancybox]', {});
+                Fancybox.bind('[data-fancybox]', { Hash: false });
               }
             }, 300);
 

@@ -39,8 +39,6 @@
 
     .grid-feed a:hover img { transform: scale(1.05); }
 
-    .fancybox__caption { font-size: 14px; color: #534f4a; border-color: #24211e; }
-
     @media (max-width: 768px) {
       .grid-feed { grid-template-columns: repeat(2, 1fr); }
     }
@@ -85,6 +83,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-  <script>Fancybox.bind('[data-fancybox="gallery"]', {});</script>
+  <script>Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });</script>
 </body>
 </html>

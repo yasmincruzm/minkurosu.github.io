@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
             initializeSlideshow();
 
             if (typeof Fancybox !== 'undefined') {
-              Fancybox.bind('[data-fancybox="gallery"]', {});
+              // Hash: false evita que o fancybox empurre um estado no histórico
+              // do navegador — era isso que fazia voltar pra página principal
+              // depois de fechar o visualizador.
+              Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
               console.log('✅ fancybox initialized in index.js');
             }
 
