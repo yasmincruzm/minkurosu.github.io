@@ -204,6 +204,20 @@ a:hover {
 body>.layout-with-sidebars {
   display: grid !important;
 grid-template-columns: auto minmax(500px, 1fr) auto;}
+
+@media (max-width: 900px), (max-device-width: 900px), (pointer: coarse) {
+  body>.layout-with-sidebars {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .caixamaisclara .sidebar,
+  .sidebar {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+}
 header {
   background-color: #0a0a0a;
   background-attachment: fixed;
@@ -660,7 +674,7 @@ h5 {
 .fancybox__nav .f-button:active {
   background: rgba(20, 0, 0, 0.85);
 }
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
   .fancybox__caption {
     font-size: 11px;
     padding: 6px 12px;
@@ -681,7 +695,7 @@ h5 {
     padding: 44px 8px 48px;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 480px), (max-device-width: 480px), (pointer: coarse) {
   .fancybox__slide {
     padding: 48px 4px 52px;
   }
@@ -1124,7 +1138,7 @@ th {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   font-weight: 500;
 }
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
   .skin-grid-container {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 15px;
@@ -1136,7 +1150,7 @@ th {
     font-size: 0.8em;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 480px), (max-device-width: 480px), (pointer: coarse) {
   .skin-grid-container {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
@@ -1325,7 +1339,7 @@ th {
   visibility: visible;
   opacity: 1;
 }
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
   .games-section {
     padding: 15px;
     margin: 15px auto;
@@ -1680,7 +1694,7 @@ header,
 .ds-tooltip:hover::after {
   opacity: 1;
 }
-@media (max-width: 600px) {
+@media (max-width: 600px), (max-device-width: 600px), (pointer: coarse) {
   .maincollums {
     flex-direction: column !important;
     gap: 0 !important;

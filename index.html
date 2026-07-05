@@ -60,9 +60,7 @@
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
-        Fancybox.bind('[data-fancybox="gallery"]', {
-            Hash: false
-        });    
+        bindGalleryFancybox();
     </script>
 
 
@@ -309,7 +307,7 @@ div#goog-gt- {
             opacity: 1;
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 767px), (max-device-width: 767px), (pointer: coarse) {
             .about-me-container {
                 flex-direction: column;
                 height: auto;
@@ -392,6 +390,20 @@ div#goog-gt- {
       height: 100%;
       object-fit: cover;
       object-position: center;
+    }
+
+    @media (max-width: 767px), (max-device-width: 767px), (pointer: coarse) {
+        a[data-fancybox="gallery"] {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* compensa o zoom de 0.4 do resto do site (viewport 1920px) pra esses
+           iframes ficarem em tamanho tocável/legível no celular */
+        #chattable,
+        .playlist-iframe-placeholder {
+            zoom: 2.5;
+        }
     }
 
 
@@ -575,7 +587,7 @@ div#goog-gt- {
 }
 .picrew-grid-item img:hover { transform: scale(1.04); }
 
-@media (max-width: 500px) {
+@media (max-width: 500px), (max-device-width: 500px), (pointer: coarse) {
     .image-grid-container { grid-template-columns: repeat(2, 1fr); }
     .picrew-grid-container { grid-template-columns: repeat(3, 1fr); }
 }

@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>game diary</title>
     <link rel="stylesheet" href="screenshots-fit.css">
     <style>
 
@@ -80,6 +79,18 @@
             opacity: 1;
             pointer-events: auto;
             z-index: 1;
+        }
+
+        /* garante que o iframe não fique achatado no celular se a medição
+           via contentDocument falhar (ex: jogo hospedado cross-origin) */
+        @media (max-width: 767px), (max-device-width: 767px), (pointer: coarse) {
+            .game-frame {
+                min-height: 280px;
+            }
+
+            .games-button-container {
+                gap: 6px;
+            }
         }
 
         #tab-minecraft:checked~.caixamaisclaraInterests label[for="tab-minecraft"] .front,
