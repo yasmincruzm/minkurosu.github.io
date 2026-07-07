@@ -1463,21 +1463,7 @@ th {
     margin-right: auto;
     box-sizing: border-box;
   }
-  #google_translate_element {
-    text-shadow: none !important;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
-  }
-  #google_translate_element {
-    background-color: #505050 !important;
-    text-decoration: none;
-    padding: 5px !important;
-    border-radius: 3px !important;
-    border: 1px solid #505050 !important;
-    display: block !important;
-  }
+
   .blog-post .translate-button {
     display: inline-block;
     width: auto;
@@ -1492,23 +1478,6 @@ th {
     font-size: 0.9em;
     text-decoration: none;
     transition: background-color 0.3s ease;/
-  }
-  .goog-te-gadget-simple {
-    border-left: 1px solid #a7a7a7;
-    border-top: 1px solid #a7a7a7;
-    border-bottom: 1px solid #a7a7a7;
-    border-right: 1px solid #a7a7a7;
-    font-size: 10pt;
-    display: inline-block;
-    padding-top: 1px;
-    padding-bottom: 2px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  .goog-te-gadget-simple a {
-    text-decoration: none;
-    text-shadow: none;
-    font-family: MinFont;
   }
   .blog-post .post-divider {
     margin-top: 25px;
