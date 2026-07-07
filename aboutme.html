@@ -277,7 +277,7 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
     <div class="caixa-iframe-onlnbrd">
         <h3>draw me anything, or write your name,<br> leave your mark here! just be nice</h3>
         <br>
-        <iframe src="https://onlnbrd.com/b/JLeicUoP" class="desaturate"   style="border:0px #161616 none;" name="myiFrame" scrolling="no"
+        <iframe src="https://onlnbrd.com/b/JLeicUoP" class="desaturatepics" style="border:0px #161616 none;" name="myiFrame" scrolling="no"
                         frameborder="0" marginheight="0px" marginwidth="0px" height="500px" width="100%"
                         allowfullscreen></iframe>
     </div>
@@ -361,60 +361,38 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
 
  <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
     <h3 style="color:rgb(85,3,3); font-size:16px; margin:0;">me rn</h3>
-    <span id="mrn-date" style="font-size:12px; color:#888;"></span>
   </div>
 
- <div style="display:flex; align-items:center; gap:8px;">
-    <button onclick="mrnGo(-1)" style="background:none; border:none; cursor:pointer; color:rgb(85,3,3); font-size:1rem; padding:0;">←</button>
-    <div style="overflow:hidden; flex:1;">
-      <div id="mrn-track" style="display:flex; transition:transform 0.35s ease;"></div>
+  <div style="display:flex; align-items:center; gap:8px;">
+    <a href="#mrn-2" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">←</a>
+    <div class="mrn-viewport" style="overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; flex:1; -webkit-overflow-scrolling:touch;">
+      <div style="display:flex;">
+
+        
+        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://i.pinimg.com/1200x/c4/3b/da/c43bda2f334e302d8f6f06747d766e32.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">07/07/2026</p>
+        </div>
+
+
+
+
+        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">29/06/2026</p>
+        </div>
+
+        <div id="mrn-2" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://minkurosu.site/imgs/memes/txf.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">02/06/2026</p>
+        </div>
+
+      </div>
     </div>
-    <button onclick="mrnGo(1)" style="background:none; border:none; cursor:pointer; color:rgb(85,3,3); font-size:1rem; padding:0;">→</button>
+    <a href="#mrn-1" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">→</a>
   </div>
-
-  <p id="mrn-caption" style="font-size:12px; color:#888; margin:6px 0 0;"></p>
 
 </div>
-
-<script>
-const mrnSlides = [
-   {
-img: "https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg",   
- date: "29/06/2026",
-    caption: ""
-  },
-
-{
-img: "https://minkurosu.site/imgs/memes/txf.jpg",   
- date: "02/06/2026",
-    caption: ""
-  },
- 
-
-];
-
-let mrnCurrent = 0;
-const mrnTrack = document.getElementById("mrn-track");
-const mrnCaption = document.getElementById("mrn-caption");
-const mrnDate = document.getElementById("mrn-date");
-
-mrnSlides.forEach(s => {
-  const slide = document.createElement("div");
-  slide.style.cssText = "flex:0 0 100%;";
-slide.innerHTML = `<img src="${s.img}" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">`;  mrnTrack.appendChild(slide);
-});
-
-function mrnGoTo(n) {
-  mrnCurrent = (n + mrnSlides.length) % mrnSlides.length;
-  mrnTrack.style.transform = `translateX(-${mrnCurrent * 100}%)`;
-  mrnCaption.textContent = mrnSlides[mrnCurrent].caption;
-  mrnDate.textContent = mrnSlides[mrnCurrent].date;
-}
-
-function mrnGo(dir) { mrnGoTo(mrnCurrent + dir); }
-
-mrnGoTo(0);
-</script>
 
         </div>
     <hr>
