@@ -212,19 +212,10 @@ body>.layout-with-sidebars {
   display: grid !important;
 grid-template-columns: auto minmax(500px, 1fr) auto;}
 
-@media (max-width: 900px), (max-device-width: 900px), (pointer: coarse) {
-  body>.layout-with-sidebars {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-  .caixamaisclara .sidebar,
-  .sidebar {
-    max-width: 100% !important;
-    width: 100% !important;
-    box-sizing: border-box;
-  }
-}
+/* obs: o layout fica sempre lado a lado (grid), inclusive no mobile —
+   o "responsivo" aqui é feito via viewport 1920px + zoom (initial-scale),
+   não por stack em coluna. Por isso não tem media query de (pointer: coarse)
+   forçando flex-column aqui: isso é o que quebrava o lado a lado no celular. */
 header {
   background-color: #0a0a0a;
   background-attachment: fixed;
@@ -246,6 +237,12 @@ header {
   justify-content: center;
   width: 100%;
   flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.navbar::-webkit-scrollbar {
+  display: none;
 }
 .nav-item {
   font-size: 1rem;
@@ -260,6 +257,7 @@ header {
   padding: 0.0625rem;
   padding-right: 0.625rem;
   font-size: 1.5rem;
+  flex-shrink: 0;
 }
 .navbar a {
   text-decoration: none;
