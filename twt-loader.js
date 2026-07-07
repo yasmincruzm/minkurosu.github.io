@@ -1,6 +1,12 @@
 import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import {
   getFirestore,
   collection,
   query,
@@ -29,6 +35,7 @@ const ADMIN_EMAIL = "mincruzm@gmail.com";
 const app  = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
+const storage = getStorage(app);
 
 let isAdmin = false;
 
@@ -148,6 +155,70 @@ style.textContent = `
     width: 100%;
     box-sizing: border-box;
   }
+  #compose-post .compose-image-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+  }
+  #compose-post .compose-image-row input[type="text"] {
+    margin-top: 0;
+    flex: 1;
+  }
+  #compose-post .compose-upload-btn {
+    flex-shrink: 0;
+    background: #252525;
+    border: 1px solid #3A3A3A;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #B3B3B3;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+  }
+  #compose-post .compose-upload-btn:hover {
+    background: #2a2a2a;
+    color: #E1E8ED;
+  }
+  #compose-post .compose-image-preview {
+    display: none;
+    position: relative;
+    margin-top: 10px;
+    width: fit-content;
+  }
+  #compose-post .compose-image-preview.active {
+    display: block;
+  }
+  #compose-post .compose-image-preview img {
+    max-width: 160px;
+    max-height: 160px;
+    border-radius: 8px;
+    display: block;
+  }
+  #compose-post .compose-image-remove {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1A1A1A;
+    border: 1px solid #3A3A3A;
+    color: #E1E8ED;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #compose-post .compose-image-remove:hover { background: #bf6a6a; }
+  #compose-post .compose-upload-hint {
+    font-size: 11px;
+    color: #667580;
+    margin-top: 4px;
+  }
   #compose-post .compose-actions {
     display: flex;
     justify-content: flex-end;
@@ -221,9 +292,50 @@ function escHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
+// separa pontuação de fechamento (. , ) ! ? etc) que ficou grudada no final
+// da URL sem querer, ex: "confere: https://site.com/foto.png." -> a imagem
+// não batia com o regex de extensão porque tinha o ponto sobrando no final.
+function stripTrailingPunctuation(url) {
+  const trailChars = /[).,;:!?'"\]}]$/;
+  let core = url;
+  let trail = "";
+
+  while (trailChars.test(core)) {
+    const lastChar = core.slice(-1);
+
+    // mantém o ")" se ele fechar um "(" que existe de fato dentro do link
+    if (lastChar === ")") {
+      const opens = (core.match(/\(/g) || []).length;
+      const closes = (core.match(/\)/g) || []).length;
+      if (closes <= opens) break;
+    }
+
+    trail = lastChar + trail;
+    core = core.slice(0, -1);
+  }
+
+  return { core, trail };
+}
+
+// verifica se a URL vai virar um embed (imagem, youtube, spotify) -
+// nesse caso escondemos o link cru no texto, já que o embed abaixo
+// já mostra o conteúdo (igual o twitter faz)
+function isEmbeddableUrl(url) {
+  if (/\.(gif|png|jpe?g|webp)(\?\S*)?$/i.test(url)) return true;
+  if (/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/.test(url)) return true;
+  if (/open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/.test(url)) return true;
+  return false;
+}
+
 function linkify(text) {
   return escHtml(text)
-    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:#3BB9E3;">$1</a>')
+    .replace(/(https?:\/\/[^\s<]+)/g, raw => {
+      const { core, trail } = stripTrailingPunctuation(raw);
+      if (isEmbeddableUrl(core)) {
+        return trail;
+      }
+      return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
+    })
     .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
 }
 
@@ -257,13 +369,14 @@ function buildEmbedHtml(url) {
 }
 
 function buildEmbeds(text) {
-  const urls = [...text.matchAll(/(https?:\/\/[^\s<]+)/g)].map(m => m[1]);
+  const rawUrls = [...text.matchAll(/(https?:\/\/[^\s<]+)/g)].map(m => m[1]);
   const seen = new Set();
   let html = "";
-  for (const url of urls) {
-    if (seen.has(url)) continue;
-    seen.add(url);
-    html += buildEmbedHtml(url);
+  for (const raw of rawUrls) {
+    const { core } = stripTrailingPunctuation(raw);
+    if (seen.has(core)) continue;
+    seen.add(core);
+    html += buildEmbedHtml(core);
   }
   return html;
 }
@@ -271,26 +384,41 @@ function buildEmbeds(text) {
 async function createPost() {
   if (!isAdmin) return;
 
+  const box = document.getElementById("compose-post");
   const textEl = document.getElementById("compose-text");
-  const imageEl = document.getElementById("compose-image");
+  const urlEl = document.getElementById("compose-image");
+  const fileEl = document.getElementById("compose-image-file");
   const submitBtn = document.getElementById("compose-submit");
 
   const content = textEl.value.trim();
-  const imageUrl = imageEl.value.trim();
+  const pastedUrl = urlEl.value.trim();
+  const file = fileEl.files[0];
 
-  if (!content && !imageUrl) return;
+  if (!content && !pastedUrl && !file) return;
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "postando...";
 
   try {
+    let imageUrl = pastedUrl || "";
+
+    if (file) {
+      submitBtn.textContent = "enviando imagem...";
+      const path = `posts/${Date.now()}_${file.name}`;
+      const fileRef = storageRef(storage, path);
+      await uploadBytes(fileRef, file);
+      imageUrl = await getDownloadURL(fileRef);
+    }
+
+    submitBtn.textContent = "postando...";
+
     await addDoc(collection(db, "posts"), {
       content,
-      imageUrl: imageUrl || "",
+      imageUrl,
       timestamp: serverTimestamp()
     });
+
     textEl.value = "";
-    imageEl.value = "";
+    if (box && box._clearImageSelection) box._clearImageSelection();
   } catch (err) {
     console.error("Erro ao postar:", err);
     alert("Não foi possível criar o post.");
@@ -312,7 +440,16 @@ function injectComposeBox() {
       <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
       <div class="compose-fields">
         <textarea id="compose-text" placeholder="o que você está pensando?"></textarea>
-        <input type="text" id="compose-image" placeholder="URL da imagem (opcional)">
+        <div class="compose-image-row">
+          <input type="text" id="compose-image" placeholder="URL da imagem (opcional)">
+          <label class="compose-upload-btn" for="compose-image-file">upar imagem</label>
+          <input type="file" id="compose-image-file" accept="image/*" hidden>
+        </div>
+        <div class="compose-upload-hint">cole um link de imagem da internet ou envie uma imagem do seu dispositivo</div>
+        <div id="compose-image-preview" class="compose-image-preview">
+          <img id="compose-image-preview-img" src="" alt="preview">
+          <button type="button" class="compose-image-remove" id="compose-image-remove" title="remover imagem">×</button>
+        </div>
       </div>
     </div>
     <div class="compose-actions">
@@ -320,6 +457,50 @@ function injectComposeBox() {
     </div>
   `;
   container.parentNode.insertBefore(box, container);
+
+  const urlInput = box.querySelector("#compose-image");
+  const fileInput = box.querySelector("#compose-image-file");
+  const preview = box.querySelector("#compose-image-preview");
+  const previewImg = box.querySelector("#compose-image-preview-img");
+  const removeBtn = box.querySelector("#compose-image-remove");
+
+  function showPreview(src) {
+    previewImg.src = src;
+    preview.classList.add("active");
+  }
+
+  function clearImageSelection() {
+    fileInput.value = "";
+    urlInput.value = "";
+    urlInput.disabled = false;
+    preview.classList.remove("active");
+    previewImg.src = "";
+  }
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    urlInput.value = "";
+    urlInput.disabled = true;
+    const reader = new FileReader();
+    reader.onload = e => showPreview(e.target.result);
+    reader.readAsDataURL(file);
+  });
+
+  urlInput.addEventListener("input", () => {
+    const val = urlInput.value.trim();
+    if (!val) {
+      if (!fileInput.files[0]) preview.classList.remove("active");
+      return;
+    }
+    fileInput.value = "";
+    showPreview(val);
+  });
+
+  removeBtn.addEventListener("click", () => clearImageSelection());
+
+  box.dataset.clearImage = "true";
+  box._clearImageSelection = clearImageSelection;
 
   document.getElementById("compose-submit").addEventListener("click", createPost);
   box.style.display = isAdmin ? "block" : "none";

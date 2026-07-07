@@ -728,28 +728,6 @@ div#goog-gt- {
 </div>
 <br>
    
-                <div class="caixamaisclaraColumn">
-                    <br>
-                  
-                    <br>
-                <script src="https://webneko.net/n20171213.js"></script><a href="https://webneko.net"></a>
-
-                    <div id="fc2-counter-container"></div>
-
-                    <script language="javascript" type="text/javascript"
-                        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
-                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
-
-                    <br>
-
-                    <div class="buttons">
-
-                    </div>
-
-                </div>
-         <div style="display:grid;place-items:center">
-
-</div>
 
                 <hr>
          
@@ -788,6 +766,107 @@ div#goog-gt- {
 
 </div>
 <hr>
+
+                <div class="caixamaisclaraColumn">
+                    <br>
+                  
+                    <br>
+                <script src="https://webneko.net/n20171213.js"></script><a href="https://webneko.net"></a>
+
+                    <div id="fc2-counter-container"></div>
+
+                    <script language="javascript" type="text/javascript"
+                        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
+                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
+
+                    <br>
+
+                    <div class="buttons">
+
+                    </div>
+
+                </div>
+         <div style="display:grid;place-items:center">
+
+</div>
+<hr>
+ <div class="table-container">
+                        <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
+                        
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px;">feeling</td>
+                                       <td style="border: 1px solid black; padding: 8px;"><a href="https://www.imood.com/users/minkurosu"><img src="https://moods.imood.com/display/uname-minkurosu/fg-8a8278/trans-1/imood.gif" alt="The current mood of minkurosu at www.imood.com" border="0"></a></td>
+                                </td>
+                            </tr>
+                         <tr>
+  <td style="border: 1px solid black; padding: 8px;">playing</td>
+  <td style="border: 1px solid black; padding: 8px;" id="discord-game">--</td>
+</tr>
+<tr>
+  <td style="border: 1px solid black; padding: 8px;">listening</td>
+  <td style="border: 1px solid black; padding: 8px;" id="lastfm-song-cell">loading...</td>
+</tr>
+    <tr>
+                                <td style="border: 1px solid black; padding: 8px;">reading</td>
+                                <td style="border: 1px solid black; padding: 8px;">men and his symbols - jung</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px;">watching</td>
+                                <td style="border: 1px solid black; padding: 8px;">twin peaks</td>
+                            </tr>
+                        
+                            <tr>
+                                <td style="border: 1px solid black; padding: 8px;">current obsession:</td>
+                                <td style="border: 1px solid black; padding: 8px;">trying to learn rollerskates, transformice</td>
+                            </tr>
+                        </table>
+                        <script>
+let mrnCurrent = 0;
+const mrnTrack = document.getElementById("mrn-track");
+const mrnCaption = document.getElementById("mrn-caption");
+const mrnDate = document.getElementById("mrn-date");
+
+mrnSlides.forEach(s => {
+  const slide = document.createElement("div");
+  slide.style.cssText = "flex:0 0 100%;";
+slide.innerHTML = `<img src="${s.img}" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">`;  mrnTrack.appendChild(slide);
+});
+
+function mrnGoTo(n) {
+  mrnCurrent = (n + mrnSlides.length) % mrnSlides.length;
+  mrnTrack.style.transform = `translateX(-${mrnCurrent * 100}%)`;
+  mrnCaption.textContent = mrnSlides[mrnCurrent].caption;
+  mrnDate.textContent = mrnSlides[mrnCurrent].date;
+}
+
+function mrnGo(dir) { mrnGoTo(mrnCurrent + dir); }
+
+mrnGoTo(0);
+</script>
+<script>
+  const DISCORD_ID = '425408284711714826';
+
+  async function fetchDiscordActivity() {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+      const { data } = await res.json();
+      const cell = document.getElementById('discord-game');
+      
+      if (data.activities && data.activities.length > 0) {
+        cell.textContent = data.activities.map(a => a.name.toLowerCase()).join(', ');
+      } else {
+        cell.textContent = 'nothing';
+      }
+    } catch (e) {
+      document.getElementById('discord-game').textContent = 'error';
+    }
+  }
+
+  fetchDiscordActivity();
+  setInterval(fetchDiscordActivity, 30000);
+</script>
+
+                    </div>
 <div style="
   color: #b30f0f;
   font-weight: bold;
@@ -1524,7 +1603,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="button-wall">
         <a href="https://crushcapitalism.neocities.org/"><img loading="lazy" src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate"></a>
         <a href="https://lilithdev.neocities.org/"><img loading="lazy" src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate"></a>
-
+<a href="https://kkul.neocities.org/"><img src="https://file.garden/aS-t0Aj4K3mdDujK/kkulbutton.gif" class="desaturate">
 <a href="https://ries.neocities.org/" target="_blank"><img loading="lazy" src="https://ries.neocities.org/media/button.gif"></a>
         <a href="https://ghostk.id/"><img loading="lazy" src="https://ghostk.id/i/88x31.gif" alt="https://ghostk.id button"  class="desaturate"></a>
         <a href="https://miserabledolly.neocities.org/"><img loading="lazy" src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate"></a>

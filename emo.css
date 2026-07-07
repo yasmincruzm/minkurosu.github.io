@@ -112,11 +112,10 @@
   pointer-events: none;
   animation: flicker 0.15s infinite;
 }
-:root {
-  color-scheme: light;
-}
+
 html,
 body {
+  color: #0a0a0a;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -124,13 +123,22 @@ body {
   font-family: "MinFont";
   background-attachment: fixed;
 }
+
+#body {
+  color: #0a0a0a;
+ 
+}
+.body {
+  color: #0a0a0a;
+ 
+}
+
 html {
   cursor: url('caminho/para/sua/rockcursornormal.png'), auto;
   background-image: url(imgs/site_imgs/petcemetery.gif);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  /* isso aqui evita que o celular aumente a fonte sozinho, não mexer */
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -189,11 +197,10 @@ body::-webkit-scrollbar-thumb:hover {
 .scroller::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.7);
 }
-/* links dos artistas do spotify, tava com fonte bugada então botei inherit */
 .marked-link {
   font-size: inherit;
   text-decoration: underline;
-  color: #4b4b4b;
+  color: #5a5a5a;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 a:hover {
@@ -256,7 +263,7 @@ header {
 }
 .navbar a {
   text-decoration: none;
-  color: #4b4b4b;
+  color: #5a5a5a;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   background-color: #0a0a0a;
   padding: 3px 10px;
@@ -269,7 +276,7 @@ header {
 }
 .navbar a:hover {
   background-color: #0a0a0a;
-  color: #310000;
+  color: #570000;
   transform: scale(1.15);
   transition: all 0.2s ease-in-out;
   animation: ease-in-out;
@@ -289,7 +296,7 @@ header {
   padding: 3px;
   text-align: center;
   text-decoration: none;
-  color: #4b4b4b;
+  color: #5a5a5a;
   background: #141414;
   border: 0.3125rem solid #310000;
   border-radius: .625rem;
@@ -299,6 +306,7 @@ header {
 .caixamaisclara .side-item a:hover {
   background: #0a0a0a;
   color: #570000;
+  text-decoration: underline;
   transform: scale(1.15);
 }
 .caixamaisclara .sidebar {
@@ -332,12 +340,12 @@ header {
   width: 100%;
 }
 .navbar a {
-  color: #4b4b4b;
+  color: #5a5a5a;
   background-color: #0a0a0a;
 }
 .side-item a {
   text-decoration: none;
-  color: #4b4b4b;
+  color: #5a5a5a;
   background-color: #0a0a0a;
   padding: 3px 10px;
   border-radius: 2px;
@@ -348,7 +356,7 @@ header {
 }
 .side-item a:hover {
   text-decoration: none;
-  color: #4b4b4b;
+  color: #570000;
   background-color: #0a0a0a;
   padding: 3px 10px;
   border-radius: 2px;
@@ -358,7 +366,7 @@ header {
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
 }
 .side-item :hover {
-  background-color: #0a0a0a;
+  background-color: ;
   color: #570000;
   transform: scale(1.10);
   transition: all 0.2s ease-in-out;
@@ -376,7 +384,7 @@ header {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  color: #4b4b4b;
+  color: #5a5a5a;
 }
 #container {
   background-color: #0a0a0a;
@@ -388,7 +396,7 @@ header {
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;
-  color: #4b4b4b;
+  color: #5a5a5a;
 }
 #logopatinha {
   height: 5rem;
@@ -487,17 +495,17 @@ header {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 #statuscafe-username {
-  color: #4b4b4b;
+  color: #5a5a5a;
   font-weight: bold;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 #statuscafe-content {
-  color: #4b4b4b;
+  color: #5a5a5a;
   font-size: 1.1em;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 #statuscafe {
-  color: #4b4b4b;
+  color: #5a5a5a;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .caixamaisclaraCenter {
@@ -622,7 +630,7 @@ h5 {
 }
 .fancybox__caption {
   font-size: 14px;
-  color: #534f4a;
+  color: #5a5a5a;
   border-color: #3a0000;
   font-family: "MinFont", monospace;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -731,7 +739,7 @@ h5 {
 }
 .sidebar h2 {
   font-size: 64px;
-  color: #4b4b4b;
+  color: #5a5a5a;
   margin: 0.08em;
   text-shadow: 1px 1px 2px black;
   font-family: "OldEnglishGothicPixelRegular", serif;
@@ -739,7 +747,7 @@ h5 {
 }
 .sidebar h3 {
   font-size: 18px;
-  color: #4b4b4b;
+  color: #5a5a5a;
   margin: 0.3rem;
   text-shadow: 1px 1px 2px black;
   font-family:
@@ -747,7 +755,7 @@ h5 {
 }
 .sidebar h4 {
   font-size: 18px;
-  color: #4b4b4b;
+  color: #5a5a5a;
   margin: 0rem;
   text-shadow: 1px 1px 2px black;
   font-family:
@@ -764,7 +772,7 @@ h5 {
   margin-top: 0.25rem;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
-  color: #4b4b4b;
+  color: #5a5a5a;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .sidebar a:hover {
@@ -1040,7 +1048,7 @@ table {
   border-spacing: 0;
   border-radius: 3px;
   overflow: hidden;
-  color: #53504b;
+  color: #64625e;
   border: none;
   border-width: 0px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;

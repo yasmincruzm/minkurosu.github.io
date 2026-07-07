@@ -17,10 +17,14 @@
     }
 
     .styled-table thead tr {
-        background-color: #1a1a1a;
+        background-color: #1a1a1a73;
         color: #ffffff;
         text-align: center;
     }
+   tr:nth-of-type(odd) {
+      background-color:#72727217;
+    }
+
 
     .styled-table th,
     .styled-table td {
@@ -72,6 +76,59 @@
     25%, 95%  { opacity: 0; }
     100%      { opacity: 1; }
 }
+
+        #gallery {
+            width: 700px;
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            column-count: 3;
+            column-gap: 15px;
+        }
+
+        .image-container {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 5px;
+            text-align: center;
+            break-inside: avoid;
+            border-radius: 0px;
+            transition: transform 0.2s ease;
+        }
+
+        .image-container:hover {
+            transform: scale(1.05);
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        input[type="range"] {
+            accent-color: #310101;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background-color: #310101;
+        }
+
+        br {
+
+
+               tr:nth-of-type(odd) {
+      background-color:#ccc;
+    }
+
+   display: block;
+   margin: 4px 0;
+}
+
+
 </style>
 <div id="container">
     <div class="caixamaisclara">
@@ -88,22 +145,23 @@
                     <img src="imgs/webgraphics/pixels/hipaw.gif" style="vertical-align: middle;"><br>
                 </div>
              <h4 style="font-size: 1rem;">hii! welcome to my page, and <span style="font-size: 1.4rem;">thank you for visiting!! :3</span>
-    this is my tiny space on the internet, my attempt to have a
-    place of my own, not depending on social media (i think it can be kinda toxic & im trying to be less on it).
-    i think its kinda awful how we gotta have lots of social apps, and that we depend on them for everything nowadays. here, i can
-    keep my art, memories, etc.
+    this is my attempt to have a
+    corner on the internet without depending on social media (im trying to be less on it).
+    i think its awful how we gotta have lots of different social apps for different reasons, and how we depend on them for socializing nowadays. here, i can
+    keep my art, memories, portfolio, etc, all in one place (with some cautions with privacy).
 </h4>
                 <h4 style="font-size: 1rem;">this page's content can involve themes that can be considered uncomfortable, cringe, taboo or nsfw, so please avoid exploring more if you have problems with that.</h4>
             </div>
             <div class="column">
                  <div class="welcome">
-                <h3 style="font-weight: bold;">PLEASE DO NOT<br> INTERACT if: <img src="imgs/webgraphics/pixels/hiss.gif" > </h3>
+                <h3 style="font-weight: bold;">PLEASE DO NOT INTERACT/PROCEED if you're: <img src="imgs/webgraphics/pixels/hiss.gif" > </h3>
                </div>
-                 <h4 style="font-size: 1.1rem;">dni if you're alt-right / incel / racist / zionist / nazi / homophobic / transphobic / psychophobic / any hate-based phobic. 
+                 <h4 style="font-size: 1rem;">b1got/ alt-right / 1nc3l / r4cist / z1onist / n4zi / h0mophobic / tr4nsphobic / psych0phobic / any hate-based phobic. 
                     <br>
+also, know that have a boyfriend, so if you're here to harass me or push my boundaries of closeness, this isn't the place for you.
                     <br>just try to be a good person. at all times.</h4>
-                <h4 style="font-size: 1.1rem;">i also highly advise not visiting my site if you're my family member or know me from
-                    work or something alike, and the content of this site doesn't reflect my professional capabilities. therapists are human being too, y'know?</h4>
+                <h4 style="font-size: 1rem;">i also highly advise not visiting my site if you're my family member or know me from
+                    work or something alike, and the content of this site doesn't reflect my professional capabilities. psychologists are human being too, y'know?</h4>
             </div>
         </div>
         <hd></hd>
@@ -118,15 +176,12 @@
     </div>
     <hr>
     <div class="caixamaisclara" style="margin: 20px;">
-        <div class="about-me-container">
+        <div class="about-me-container" style="min-width: ;">
             <div class="slideshow-area">
                 <img src="imgs/site_imgs/slideshow-me/2.jpg">
                 <img src="imgs/feed/icon.jpeg">
-                                <img src="imgs/feed/359676570_1281671176051603_6240681789574852749_n_17844844440017402.png">
-                                                <img src="imgs/feed/gabmin.jpg">
-
-
-
+                <img src="imgs/feed/359676570_1281671176051603_6240681789574852749_n_17844844440017402.png">
+                <img src="imgs/feed/gabmin.jpg">
             </div>
 
             <div class="badges-area">
@@ -135,87 +190,69 @@
                         <img src="imgs/webgraphics/identitybuttons/cat.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/artist.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/brasil.png" class="badge-img">
-
                         <img src="imgs/webgraphics/identitybuttons/demi.png" class="badge-img">
-                                                               <img src="imgs/webgraphics/identitybuttons/Nonbinary.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/Nonbinary.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/queer.png" class="badge-img">
-
-
-                        
                         <img src="imgs/webgraphics/identitybuttons/emo.png" class="badge-img">
-                                 <img src="imgs/webgraphics/identitybuttons/punk.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/punk.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/art.png" class="badge-img">
-
-                                            <img src="imgs/webgraphics/identitybuttons/crafts.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/crafts.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/pc.png" class="badge-img">
-
-                    
-                                 <img src="imgs/webgraphics/identitybuttons/taken.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/taken.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/vampirekin.png" class="badge-img">
-           
-                     
                         <img src="imgs/webgraphics/identitybuttons/veg.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/nature.gif" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/eng2lng.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/sun.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/horse.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/student.png" class="badge-img">
-                                     <img src="imgs/webgraphics/identitybuttons/intro.png" class="badge-img">
-
-                                                               <img src="imgs/webgraphics/identitybuttons/neurodivergent.png" class="badge-img">
-
+                        <img src="imgs/webgraphics/identitybuttons/intro.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/neurodivergent.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/ocd.png" class="badge-img">
-                        
-                                       <img src="imgs/webgraphics/identitybuttons/sensitive.png" class="badge-img">
-                                                              <img src="imgs/webgraphics/identitybuttons/Highly_Sensitive_Person.png" class="badge-img">
-             <img src="imgs/webgraphics/identitybuttons/infp.png" class="badge-img">
-                                             <img src="imgs/webgraphics/identitybuttons/agWlVws.png" class="badge-img">
-
-                                             <img src="imgs/webgraphics/identitybuttons/iJL1j5x.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/sensitive.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/Highly_Sensitive_Person.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/infp.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/agWlVws.png" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/iJL1j5x.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/minecraft.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/My_Little_Pony.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/v50Ipgt.png" class="badge-img">
-
                         <img src="imgs/webgraphics/identitybuttons/righthand.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/+18.png" class="badge-img">
-
                     </div>
                 </div>
             </div>
 
             <div class="content-area">
-                <div class="caixamaisclaraColumnSimple">
-                    <div class="table-container">
-                        <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
-                        
-                            <tr>
-                                <td style="border: 1px solid black; padding: 8px;">feeling</td>
-                                       <td style="border: 1px solid black; padding: 8px;"><a href="https://www.imood.com/users/minkurosu"><img src="https://moods.imood.com/display/uname-minkurosu/fg-8a8278/trans-1/imood.gif" alt="The current mood of minkurosu at www.imood.com" border="0"></a></td>
-                                </td>
-                            </tr>
-                         <tr>
-  <td style="border: 1px solid black; padding: 8px;">playing</td>
-  <td style="border: 1px solid black; padding: 8px;" id="discord-game">--</td>
-</tr>
-<tr>
-  <td style="border: 1px solid black; padding: 8px;">listening</td>
-  <td style="border: 1px solid black; padding: 8px;" id="lastfm-song-cell">loading...</td>
-</tr>
-    <tr>
-                                <td style="border: 1px solid black; padding: 8px;">reading</td>
-                                <td style="border: 1px solid black; padding: 8px;">men and his symbols - jung</td>
-                            </tr>
-                            <tr>
-                                <td style="border: 1px solid black; padding: 8px;">watching</td>
-                                <td style="border: 1px solid black; padding: 8px;">twin peaks</td>
-                            </tr>
-                        
-                            <tr>
-                                <td style="border: 1px solid black; padding: 8px;">current obsession:</td>
-                                <td style="border: 1px solid black; padding: 8px;">trying to learn rollerskates, transformice</td>
-                            </tr>
-                        </table>
-                    </div>
+                <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 15rem;  overflow-y: auto; padding: 0rem; text-transform: lowercase;">
+                    <h3 style="color: rgb(85, 3, 3);">about me</h3>
+                    <h4 style="text-justify: auto; text-align: justify; font-size: 1rem; width: ; color: #5a5a5a;">
+                      sinto vergonha em me apresentar mas na internet é mais tranquilo, entao aí vai :3 sou a Min, tenho 23 anos, 
+                      e desde que me entendo por gente gosto muito de arte, internet,
+                       jogos online, animais e natureza (mesmo gostando mto de ficar no meu quarto tmb hehe).<br>    
+                                           nesse site vc consegue encontrar um pouco das coisas q eu gosto e faço.
+ as vezes penso que se definir com rótulos pode ser um pouco limitante, mas é o que temos pra definir nossos interesses, 
+ que acabam também nos definindo como pessoa.
+                         gosto da subcultura alternativa, principalmente de punk e emo, que mais se alinham com meus sentimentos, 
+                         ideais éticos, políticos, musicais, e estéticos.<br>
+            
+                        por mais q eu varie mto entre exposiçao e isolamento, acho que esse site pode me trazer coisas boas, 
+                        tipo descentralizar redes sociais e me ajudar com meu senso de self?? se isso faz sentido... 
+                        pode não parecer mas sou meio timida ao ponto de eu não ter muitas fotos de certa epoca da minha adolescencia, 
+                        por muito tempo, luto uma batalha pela minha autoestima, muito tempo de terapia, então qualquer coisa que você 
+                        ache vergonhoso ou exagerado,
+                         pra mim esse site é uma evolução e um ato de autocuidado :))
+                         sobre minha personalidade, sempre fui bem introvertida, mas consigo me abrir e falar besteira com pessoas 
+                         que sou mais proxima, mas minha bateria social tem estado bem limitada também, e pela minha jornada de terapia, 
+                         descobri que também sou hipersensível , muito estimulo me sobrecarrega e me cansa, se eu não saio com você não 
+                         significa que tenho algo contra você!!
+                         <br>
+                                                  outra coisa muito importante, tenho 2 gatos, apollo e jupiter. <br>
+
+                         enfim, com o tempo vou adicionando mais coisa que eu pensar aqui
+
+                    </h4> 
+                    
                 </div>
             </div>
         </div>
@@ -233,16 +270,24 @@
         <div class="column">
             <H2 class="deslikes">DESLIKES</H2>
             <H4>bigotry, injustice, capitalism, loud/annoying noises, billionaires, white ceiling lights, forced
-                positivity, closed minds, littering, egotistical people, gender roles, going out, busy schedules</H4>
+                positivity, closed minds, littering, egotistical people, gender roles, going out, busy schedules, ppl that brag about themselves</H4>
         </div>
     </div>
     <hr>
+    <div class="caixa-iframe-onlnbrd">
+        <h3>draw me anything, or write your name,<br> leave your mark here! just be nice</h3>
+        <br>
+        <iframe src="https://onlnbrd.com/b/JLeicUoP" style="border:0px #161616 none;" name="myiFrame" scrolling="no"
+                        frameborder="0" marginheight="0px" marginwidth="0px" height="500px" width="100%"
+                        allowfullscreen></iframe>
+    </div>
+
+    <hr>
     <div class="caixamaisclaraInterests">
         <div class="column">
-          <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
+          <table style="border-collapse: collapse; width: 100%; background-color: transparent; ">
     <tr>
-        <th style="border: 1px solid black; padding: 8px;">interests</th>
-        <th style="border: 1px solid black; padding: 8px;">items</th>
+       
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">music</td>
@@ -254,7 +299,7 @@
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">hobbies i've had</td>
-        <td style="border: 1px solid black; padding: 8px;">drawing, webdesign, live2d animation, quad rollerskates, reading, studying psychology, painting (acrylics & watercolor), wool felting, kung fu (saudade)</td>
+        <td style="border: 1px solid black; padding: 8px;">drawing, gaming, webdesign, live2d animation, quad rollerskates, reading, painting (acrylics & watercolor), wool felting, kung fu (saudade)</td>
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">movies and shows</td>
@@ -262,7 +307,7 @@
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">foods</td>
-        <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds candy!!!!, avocado vitamin, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE, carrots, cinnamon candy and gum, carbonara w/ no bacon, milk with coffee and chocolate powder, strawberry jam, strawberries with chocolate, hommus</td>
+        <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds candy!!!!, avocado vitamin, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE, carrots, cinnamon candy and gum, carbonara w/ no bacon, milk with coffee and chocolate powder, strawberry jam, strawberries with chocolate, hommus, smashed potatoes, ice cream, pasta with tomato sauce and pesto.</td>
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">kins</td>
@@ -292,17 +337,18 @@
         </div>
     </div>
     <hr>
-<div class="caixamaisclaraInterests" style="display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap;">
+    <div class="caixamaisclaraInterests" style="display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap;">
 
-  <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 260px; max-height: 200px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
-    <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
-    <p>
-      my first contact with the internet was through social network games (orkut, facebook) and the sims, when i was little i didn't have much access to the wider internet, just my circle of people i knew. i remember playing games like happy farm, pet mania, simcity? and especially the sims. i have this memory of using a cr4cked disc from my neighbors. i made my family and built this entirely rectangular house with no room divisions or any architectural sense whatsoever lmaooo, at some point the kitchen caught fire, and i remember just closing the game and never opening it again, because i was scared my family would die in real life. that's me in a nutshell, gaming/internet addiction and obsessive compulsive disorder :D
-      even though i didn't really catch the tumblr era (i was more of an instagram and twitter person), i remember seeing the most gorgeous pages on tumblr and always wanting to make one like that. around 2024, i was encouraged by my bf to take some programming courses, and my first steps were through the classics, html and css. i watched some classes from santander academy, ada tech, and another site i got borrowed logins for lol. my first project was a landing page with my main links, kind of like a "linktree", and over time i kept adding more sections, like my 2d animation and photography portfolios, and then i discovered neocities :3 i started thinking about ways to help myself use social media less (instagram, the late twitter now known as x), and the psychological impact is pretty noticeable, society must really be compromised, given how normalized it all is and how even small businesses depend entirely on instagram for exposure. unfortunately i can't quit completely, since most of my clients are on twitter (and i've been there since before it got bought and ruined), and most of the people i know are on instagram.
-    </p>
-  </div>
-          <div class="divider"></div>
+      <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 260px; max-height: 200px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
+        <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
+        <p>
+          my first contact with the internet was through social network games (orkut, facebook) and the sims, when i was little i didn't have much access to the wider internet, just my circle of people i knew. i remember playing games like happy farm, pet mania, simcity? and especially the sims. i have this memory of using a cr4cked disc from my neighbors. i made my family and built this entirely rectangular house with no room divisions or any architectural sense whatsoever lmaooo, at some point the kitchen caught fire, and i remember just closing the game and never opening it again, because i was scared my family would die in real life. that's me in a nutshell, gaming/internet addiction and obsessive compulsive disorder :D
+          even though i didn't really catch the tumblr era (i was more of an instagram and twitter person), i remember seeing the most gorgeous pages on tumblr and always wanting to make one like that. around 2024, i was encouraged by my bf to take some programming courses, and my first steps were through the classics, html and css. i watched some classes from santander academy, ada tech, and another site i got borrowed logins for lol. my first project was a landing page with my main links, kind of like a "linktree", and over time i kept adding more sections, like my 2d animation and photography portfolios, and then i discovered neocities :3 i started thinking about ways to help myself use social media less (instagram, the late twitter now known as x), and the psychological impact is pretty noticeable, society must really be compromised, given how normalized it all is and how even small businesses depend entirely on instagram for exposure. unfortunately i can't quit completely, since most of my clients are on twitter (and i've been there since before it got bought and ruined), and most of the people i know are on instagram.
+        </p>
+      </div>
+      <div class="divider"></div>
 
+    
 <div class="mrn-wrap" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
 
  <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
@@ -361,50 +407,58 @@ function mrnGo(dir) { mrnGoTo(mrnCurrent + dir); }
 
 mrnGoTo(0);
 </script>
-</div>
-<hr>
-    <div class="caixamaisclaraInterests">
+
+        </div>
+    <hr>
+
+    <div class="caixamaisclarac">
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-         
             <div class="caixa-iframe-minkurosu" style="flex: 1; min-width: 280px;">
                 <iframe src="https://minkurosu.atabook.org" width="100%" height="550" style="border:;overflow:hidden;"
                     scrolling="yes" frameborder="0" allowfullscreen></iframe>
             </div>
-              <div class="caixa-iframe-onlnbrd" style="flex: 1; min-width: 280px;">
-                <h2>be nice</h2>
-                <br>
-                <iframe src="https://onlnbrd.com/b/JLeicUoP" style="border:0px #161616 none;" name="myiFrame" scrolling="no"
-                    frameborder="1" marginheight="0px" marginwidth="0px" height="500px" width="100%"
-                    allowfullscreen></iframe>
+            <div class="caixa-iframe-onlnbrd" style="flex: 1; min-width: 280px;">
+                <div id="drawing-container">
+                    <canvas id="drawboxcanvas" width="" height="400"></canvas>
+                    <div class="controls">
+                        <div onclick="change_color(this)" style="background:rgb(66, 0, 0)" class="stroke-color"></div>
+                        <div onclick="change_color(this)" style="background:rgb(0, 0, 65)" class="stroke-color"></div>
+                        <button onclick="Restore()">undo</button>
+                        <button onclick="Clear()">clear</button>
+                        <input type="color" oninput="stroke_color = this.value">
+                        <input type="range" min="1" max="100" oninput="stroke_width = this.value">
+                        <button id="submit">submit drawing</button>
+                    </div>
+                    <p id="status"></p>
+                </div>
+                <script src="drawbox.js"></script>
             </div>
-        </div>
     </div>
     <br>
-    <h2>draw me anything!!<br> leave your mark here</h2>
-    <div id="drawbox-container" class="caixa-iframe-drawbox" style="width: 100%; height: 1000px;">
-        <iframe style="width:100%; height:100%; border:none;" src="drawbox.html" title="Drawbox"></iframe>
+    <br>
+
+    <div id="gallery">
+        <h2>art by you sz </h2>
+        <div class="image-container">
+            <img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/brasilsilsil.webp" alt="straw.page">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/a.jpg" alt="sent by instagram">
+        </div>
     </div>
 </div>
-
-<script>
-  const DISCORD_ID = '425408284711714826';
-
-  async function fetchDiscordActivity() {
-    try {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-      const { data } = await res.json();
-      const cell = document.getElementById('discord-game');
-      
-      if (data.activities && data.activities.length > 0) {
-        cell.textContent = data.activities.map(a => a.name.toLowerCase()).join(', ');
-      } else {
-        cell.textContent = 'nothing';
-      }
-    } catch (e) {
-      document.getElementById('discord-game').textContent = 'error';
-    }
-  }
-
-  fetchDiscordActivity();
-  setInterval(fetchDiscordActivity, 30000);
-</script>
