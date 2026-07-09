@@ -34,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.from(document.scripts).map(s => s.src).filter(Boolean)
     );
 
-    function rehydrateScripts(container) {
+    function rehydrateScripts(container, pageName) {
+  
+        
+        document.querySelectorAll(`script[data-page-script="${pageName}"]`).forEach(s => s.remove());
+
         container.querySelectorAll('script').forEach(old => {
             const src = old.getAttribute('src');
 
@@ -47,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Array.from(old.attributes).forEach(a => neo.setAttribute(a.name, a.value));
             if (!old.src) {
                 neo.textContent = old.textContent;
+                neo.setAttribute('data-page-script', pageName);
             } else {
                 loadedExternalScripts.add(new URL(old.src, location.href).href);
             }
@@ -131,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 fixViewport(pageName);
-                rehydrateScripts(mainContainer);
+                rehydrateScripts(mainContainer, pageName);
 
                 setTimeout(() => {
                     initSlideshowIfNeeded();

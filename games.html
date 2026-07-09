@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="screenshots-fit.css">
+    <link rel="stylesheet" href="emo.css">
     <style>
 
         .caixamaisclaraInterests {
@@ -81,27 +81,7 @@
             z-index: 1;
         }
 
-        /* garante que o iframe não fique achatado no celular se a medição
-           via contentDocument falhar (ex: jogo hospedado cross-origin) */
-        @media (max-width: 767px), (max-device-width: 767px), (pointer: coarse) {
-            .game-frame {
-                min-height: 280px;
-            }
-
-            .games-button-container {
-                gap: 6px;
-            }
-        }
-
-        #tab-minecraft:checked~.caixamaisclaraInterests label[for="tab-minecraft"] .front,
-        #tab-bg3:checked~.caixamaisclaraInterests label[for="tab-bg3"] .front,
-        #tab-transformice:checked~.caixamaisclaraInterests label[for="tab-transformice"] .front,
-        #tab-tomodachi:checked~.caixamaisclaraInterests label[for="tab-tomodachi"] .front,
-        #tab-growtopia:checked~.caixamaisclaraInterests label[for="tab-growtopia"] .front,
-        #tab-stardew:checked~.caixamaisclaraInterests label[for="tab-stardew"] .front {
-            filter: brightness(1.35);
-        }
-
+       
 
         
 .screenshots,
@@ -202,9 +182,20 @@ a[data-fancybox] {
 
     <script>
     (function () {
+
     
+        if (typeof window.__gamesFrameCleanup === 'function') {
+            window.__gamesFrameCleanup();
+        }
+
         const frames = Array.from(document.querySelectorAll('.game-frame'));
         const watched = new WeakSet();
+        const observers = [];
+        const pendingTimeouts = [];
+        let resizeTimer;
+        let resizeHandler;
+        let radioHandlers = [];
+        let destroyed = false;
 
         function measure(iframe) {
             try {
@@ -215,11 +206,12 @@ a[data-fancybox] {
                     doc.body ? doc.body.scrollHeight : 0
                 );
             } catch (e) {
-                return 0; 
+                return 0;
             }
         }
 
         function applyHeight(iframe) {
+            if (destroyed) return;
             const h = measure(iframe);
             if (h > 0) iframe.style.height = h + 'px';
         }
@@ -228,15 +220,19 @@ a[data-fancybox] {
             if (watched.has(iframe)) return;
             watched.add(iframe);
 
-     
             let attempts = 0;
             function poll() {
+                if (destroyed) return;
                 applyHeight(iframe);
                 attempts++;
-                if (attempts < 24) setTimeout(poll, 250); 
+                if (attempts < 24) {
+                    const id = setTimeout(poll, 250);
+                    pendingTimeouts.push(id);
+                }
             }
 
             const start = () => {
+                if (destroyed) return;
                 poll();
                 try {
                     const doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -244,8 +240,9 @@ a[data-fancybox] {
                         const ro = new ResizeObserver(() => applyHeight(iframe));
                         ro.observe(doc.documentElement);
                         if (doc.body) ro.observe(doc.body);
+                        observers.push(ro);
                     }
-                } catch (e) {  }
+                } catch (e) { }
             };
 
             if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
@@ -257,18 +254,28 @@ a[data-fancybox] {
 
         frames.forEach(watch);
 
-
         document.querySelectorAll('.game-tab-radio').forEach(radio => {
-            radio.addEventListener('change', () => {
+            const handler = () => {
                 requestAnimationFrame(() => frames.forEach(applyHeight));
-            });
+            };
+            radio.addEventListener('change', handler);
+            radioHandlers.push({ radio, handler });
         });
 
-        let resizeTimer;
-        window.addEventListener('resize', () => {
+        resizeHandler = () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => frames.forEach(applyHeight), 200);
-        });
+        };
+        window.addEventListener('resize', resizeHandler);
+
+        window.__gamesFrameCleanup = function () {
+            destroyed = true;
+            observers.forEach(ro => ro.disconnect());
+            pendingTimeouts.forEach(id => clearTimeout(id));
+            clearTimeout(resizeTimer);
+            if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+            radioHandlers.forEach(({ radio, handler }) => radio.removeEventListener('change', handler));
+        };
     })();
     </script>
 </body>

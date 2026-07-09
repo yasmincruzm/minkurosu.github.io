@@ -1192,30 +1192,7 @@ th {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   font-weight: 500;
 }
-@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
-  .skin-grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
-  }
-  .skin-item {
-    padding: 10px;
-  }
-  .skin-title {
-    font-size: 0.8em;
-  }
-}
-@media (max-width: 480px), (max-device-width: 480px), (pointer: coarse) {
-  .skin-grid-container {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-  }
-  .skin-item {
-    padding: 8px;
-  }
-  .skin-title {
-    font-size: 0.75em;
-  }
-}
+
 /*  codepen  */
 .pushable {
   position: relative;
