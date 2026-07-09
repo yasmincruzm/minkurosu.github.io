@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, collection, addDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, collection, addDoc, updateDoc, serverTimestamp, doc, setDoc, increment } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -72,6 +72,35 @@ async function getGeo() {
     } catch {
     }
     return { ip: 'unknown', city: 'unknown', region: 'unknown', country: 'unknown', cc: '' };
+}
+
+const CITY_STATS_COLLECTION = 'city_stats';
+
+function citySlug(city, region, country) {
+    const raw = [city, region, country].filter(Boolean).join('_');
+    const slug = raw
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '');
+    return slug || 'unknown';
+}
+
+async function logCityVisit(geo) {
+    if (!geo || !geo.city || geo.city === 'unknown') return;
+    try {
+        const key = citySlug(geo.city, geo.region, geo.country);
+        await setDoc(doc(db, CITY_STATS_COLLECTION, key), {
+            city:      geo.city,
+            region:    geo.region  || 'unknown',
+            country:   geo.country || 'unknown',
+            cc:        geo.cc      || '',
+            count:     increment(1),
+            lastVisit: serverTimestamp()
+        }, { merge: true });
+    } catch (err) {
+        console.warn('error city_stats :', err.message || err);
+    }
 }
 
 const SESSION_KEY = 'mku_sid';
@@ -234,11 +263,12 @@ async function recordPageView(pageName) {
                     cc:      geo.cc      || ''
                 }), 'geo update');
             } catch (err) {
-                console.warn('coleta geo update falhou de vez:', err);
+                console.warn('error:', err);
             }
+            await logCityVisit(geo);
         });
     } catch (err) {
-        console.warn('coleta pageview falhou de vez:', err);
+        console.warn('error:', err);
     }
 }
 

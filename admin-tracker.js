@@ -1,5 +1,7 @@
 import { getFirestore, collection, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
+const CITY_STATS_COLLECTION = 'city_stats';
+
 let myIp = null;
 
 async function getMyIp() {
@@ -137,7 +139,6 @@ function renderAnalytics(byIp) {
 
     const pages    = {}, countries = {}, devices = {}, browsers = {}, refs = {};
     all.forEach(d => {
-        // conta cada página visitada por esse visitante (não só a mais recente)
         const pgs = (d.pagesVisited && d.pagesVisited.length ? d.pagesVisited : [d.page]).filter(Boolean);
         pgs.forEach(p => { pages[p] = (pages[p] || 0) + 1; });
 
@@ -174,6 +175,48 @@ function renderAnalytics(byIp) {
         ${tbl('navegadores', top(browsers))}
         ${tbl('origem', top(refs))}
     </div>`;
+}
+
+function renderCityList(rows) {
+    const container = document.getElementById('city-list');
+    if (!container) return;
+
+    if (!rows.length) {
+        container.innerHTML = `<p class="tracker-empty">nenhuma cidade registrada ainda.</p>`;
+        return;
+    }
+
+    container.innerHTML = rows.map(d => {
+        const flag = countryFlag(d.cc || '');
+        const location = [d.city, d.region, d.country]
+            .filter(v => v && v !== 'unknown' && v !== '')
+            .join(', ') || 'localização desconhecida';
+        const last = d.lastVisit?.toDate ? d.lastVisit.toDate().toLocaleDateString('pt-BR') : '—';
+
+        return `
+        <div class="city-row">
+            <span class="city-flag">${flag}</span>
+            <span class="city-name">${location}</span>
+            <span class="city-count">${d.count || 1}x</span>
+            <span class="city-last">${last}</span>
+        </div>`;
+    }).join('');
+}
+
+export async function loadCityList(app) {
+    const db        = getFirestore(app);
+    const container = document.getElementById('city-list');
+    if (!container) return;
+
+    const q = query(collection(db, CITY_STATS_COLLECTION), orderBy('count', 'desc'), limit(1000));
+
+    onSnapshot(q, snapshot => {
+        const rows = snapshot.docs.map(doc => doc.data());
+        renderCityList(rows);
+    }, err => {
+        console.warn('loadCityList:', err);
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar cidades.</p>`;
+    });
 }
 
 export async function loadVisitorTracker(app) {
