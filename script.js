@@ -5,12 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         track.innerHTML += content;
     });
 });
-
-
-// Exposta globalmente para que o load-pages.js chame depois de injetar
-// qualquer página que tenha elementos .draggable (ex: yaoifridge) —
-// antes essa função só era chamada pelo roteador duplicado que
-// removemos daqui de cima.
 function initializeDrag() {
     function applyTransform(target, x, y, rotation) {
         target.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
@@ -50,6 +44,38 @@ function initializeDrag() {
     });
 }
 window.initializeDrag = initializeDrag;
+
+var expandedCell = null;
+
+function expandCell(cell, href, src) {
+  if (cell.classList.contains('expanded')) {
+    collapseCell(cell);
+    return;
+  }
+  if (expandedCell && expandedCell !== cell) collapseCell(expandedCell);
+  const fullImg = cell.querySelector('.full-img-wrap img');
+  fullImg.src = href;
+  cell.classList.add('expanded');
+  expandedCell = cell;
+  setTimeout(() => {
+    cell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 30);
+}
+
+function collapseCell(cell) {
+  const fullImg = cell.querySelector('.full-img-wrap img');
+  fullImg.src = '';
+  cell.classList.remove('expanded');
+  if (expandedCell === cell) expandedCell = null;
+}
+
+document.addEventListener('click', (e) => {
+  if (expandedCell && !expandedCell.contains(e.target) && !e.target.closest('.grid-feed')) {
+    collapseCell(expandedCell);
+  }
+});
+window.expandCell = expandCell;
+window.collapseCell = collapseCell;
 
 const gtObserver = new MutationObserver(() => {
   const banner = document.querySelector('.goog-te-banner-frame');

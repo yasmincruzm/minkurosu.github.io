@@ -12,39 +12,8 @@
   <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
   <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
   <style>
 
-    .grid-feed {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .grid-feed a {
-      display: block;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      border-radius: 2px;
-      position: relative;
-    }
-
-    .grid-feed img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.2s ease;
-    }
-
-    .grid-feed a:hover img {
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 768px) {
-      .grid-feed { grid-template-columns: repeat(2, 1fr); }
-    }
 
     .section-label {
       text-align: center;
@@ -73,70 +42,390 @@
           <div class="section-label"><h2>digital</h2></div>
           <br>
           <div class="grid-feed">
-            <a href="imgs/art portfolio/pixelicon.jpeg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/pixelicon.jpeg" alt="" /></a>
-            <a href="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt="" /></a>
-            <a href="imgs/art portfolio/jupitercat.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/jupitercat.png" alt="" /></a>
-            <a href="imgs/art portfolio/7.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/7.png" alt="" /></a>
-                                 <a href="imgs/art portfolio/no min holding it in.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/no min holding it in.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/wplace.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/wplace.png" alt="" /></a>
-                      <a href="imgs/art portfolio/padorupnggrey.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/padorupnggrey.png" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/pixelicon.jpeg', 'imgs/art portfolio/pixelicon.jpeg')">
+            <img class="thumb-img" src="imgs/art portfolio/pixelicon.jpeg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/GcgzfGTWkAArcsp.jpeg', 'imgs/art portfolio/GcgzfGTWkAArcsp.jpeg')">
+            <img class="thumb-img" src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/jupitercat.png', 'imgs/art portfolio/jupitercat.png')">
+            <img class="thumb-img" src="imgs/art portfolio/jupitercat.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/7.png', 'imgs/art portfolio/7.png')">
+            <img class="thumb-img" src="imgs/art portfolio/7.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                                 <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/no min holding it in.jpg', 'imgs/art portfolio/no min holding it in.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/no min holding it in.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/wplace.png', 'imgs/art portfolio/wplace.png')">
+            <img class="thumb-img" src="imgs/art portfolio/wplace.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/padorupnggrey.png', 'imgs/art portfolio/padorupnggrey.png')">
+            <img class="thumb-img" src="imgs/art portfolio/padorupnggrey.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-            <a href="imgs/art portfolio/5.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/5.png" alt="" /></a>
-                      <a href="imgs/art portfolio/madeline.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/madeline.png" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/5.png', 'imgs/art portfolio/5.png')">
+            <img class="thumb-img" src="imgs/art portfolio/5.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/madeline.png', 'imgs/art portfolio/madeline.png')">
+            <img class="thumb-img" src="imgs/art portfolio/madeline.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
                      
-                      <a href="imgs/art portfolio/jotaro2020.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/jotaro2020.png" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/jotaro2020.png', 'imgs/art portfolio/jotaro2020.png')">
+            <img class="thumb-img" src="imgs/art portfolio/jotaro2020.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-            <a href="imgs/art portfolio/lispng.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/lispng.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/icon1.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/icon1.png" alt="" /></a>
-            <a href="imgs/art portfolio/APOLLO.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/APOLLO.png" alt="" /></a>
-            <a href="imgs/art portfolio/eueapollo.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/eueapollo.png" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/lispng.jpg', 'imgs/art portfolio/lispng.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/lispng.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/icon1.png', 'imgs/art portfolio/icon1.png')">
+            <img class="thumb-img" src="imgs/art portfolio/icon1.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/APOLLO.png', 'imgs/art portfolio/APOLLO.png')">
+            <img class="thumb-img" src="imgs/art portfolio/APOLLO.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/eueapollo.png', 'imgs/art portfolio/eueapollo.png')">
+            <img class="thumb-img" src="imgs/art portfolio/eueapollo.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
           </div>
 
           <br>
           <div class="section-label"><h2>traditional</h2></div>
           <br>
           <div class="grid-feed">
-            <a href="imgs/art portfolio/2026.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2026-tradicional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/2025.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2025.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/jinx-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/jinx-traditional.jpg" alt="" /></a>
-                      <a href="imgs/art portfolio/mymuse-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/mymuse-traditional.jpg" alt="" /></a>
-                                <a href="imgs/art portfolio/ponysona-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/ponysona-traditional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/2023.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2023.jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2026.jpg', 'imgs/art portfolio/2026.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2026-tradicional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2025.jpg', 'imgs/art portfolio/2025.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2025.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/jinx-traditional.jpg', 'imgs/art portfolio/jinx-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/jinx-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/mymuse-traditional.jpg', 'imgs/art portfolio/mymuse-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/mymuse-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                                <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/ponysona-traditional.jpg', 'imgs/art portfolio/ponysona-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/ponysona-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2023.jpg', 'imgs/art portfolio/2023.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2023.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-                      <a href="imgs/art portfolio/mcr-traditional-2.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/mcr-traditional-2.jpg" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/mcr-traditional-2.jpg', 'imgs/art portfolio/mcr-traditional-2.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/mcr-traditional-2.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
                   
-                      <a href="imgs/art portfolio/2023(2).jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2023(2).jpg" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2023(2).jpg', 'imgs/art portfolio/2023(2).jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2023(2).jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
 
-                      <a href="imgs/art portfolio/erenyeager-2021.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/erenyeager-2021.jpg" alt="" /></a>
-           <a href="imgs/art portfolio/konan-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/konan-traditional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/carl-grimes-2020.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/carl-grimes-2020.jpg" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/erenyeager-2021.jpg', 'imgs/art portfolio/erenyeager-2021.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/erenyeager-2021.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+           <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/konan-traditional.jpg', 'imgs/art portfolio/konan-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/konan-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/carl-grimes-2020.jpg', 'imgs/art portfolio/carl-grimes-2020.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/carl-grimes-2020.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
             
-                      <a href="imgs/art portfolio/loboguara.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/loboguara.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/carl-and-rick-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/carl-and-rick-traditional.jpg" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/loboguara.jpg', 'imgs/art portfolio/loboguara.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/loboguara.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/carl-and-rick-traditional.jpg', 'imgs/art portfolio/carl-and-rick-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/carl-and-rick-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-                      <a href="imgs/art portfolio/gma-house-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/gma-house-traditional.jpg" alt="" /></a>
-                        <a href="imgs/art portfolio/madelinewoolfelting2021.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/madelinewoolfelting2021.jpg" alt="" /></a>
+                      <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/gma-house-traditional.jpg', 'imgs/art portfolio/gma-house-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/gma-house-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                        <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/madelinewoolfelting2021.jpg', 'imgs/art portfolio/madelinewoolfelting2021.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/madelinewoolfelting2021.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-            <a href="imgs/art portfolio/haru_needlefelting.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/haru_needlefelting.jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/haru_needlefelting.jpg', 'imgs/art portfolio/haru_needlefelting.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/haru_needlefelting.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
            
             
-            <a href="imgs/art portfolio/ninestones-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/ninestones-traditional.jpg" alt="" /></a>
-                     <a href="imgs/art portfolio/killingstalking-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/killingstalking-traditional.jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/ninestones-traditional.jpg', 'imgs/art portfolio/ninestones-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/ninestones-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                     <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/killingstalking-traditional.jpg', 'imgs/art portfolio/killingstalking-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/killingstalking-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
           
-            <a href="imgs/art portfolio/attackontitan-traditional-2017.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/attackontitan-traditional-2017.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/marcobodt-traditional-2017.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/marcobodt-traditional-2017.jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/attackontitan-traditional-2017.jpg', 'imgs/art portfolio/attackontitan-traditional-2017.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/attackontitan-traditional-2017.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/marcobodt-traditional-2017.jpg', 'imgs/art portfolio/marcobodt-traditional-2017.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/marcobodt-traditional-2017.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
-            <a href="imgs/art portfolio/2017-1-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2017-1-traditional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/armin-2017-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/armin-2017-traditional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/watercolor-2017-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/watercolor-2017-traditional.jpg" alt="" /></a>
-            <a href="imgs/art portfolio/worms-traditional.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/worms-traditional.jpg" alt="" /></a>
-                              <a href="imgs/art portfolio/melanie-2016.jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/melanie-2016.jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2017-1-traditional.jpg', 'imgs/art portfolio/2017-1-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2017-1-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/armin-2017-traditional.jpg', 'imgs/art portfolio/armin-2017-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/armin-2017-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/watercolor-2017-traditional.jpg', 'imgs/art portfolio/watercolor-2017-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/watercolor-2017-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/worms-traditional.jpg', 'imgs/art portfolio/worms-traditional.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/worms-traditional.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                              <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/melanie-2016.jpg', 'imgs/art portfolio/melanie-2016.jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/melanie-2016.jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
          
          
          
-            <a href="imgs/art portfolio/2013(2).jpg" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/2013(2).jpg" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/2013(2).jpg', 'imgs/art portfolio/2013(2).jpg')">
+            <img class="thumb-img" src="imgs/art portfolio/2013(2).jpg" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
          
           </div>
@@ -144,14 +433,38 @@
           <br>
           <div class="section-label"><h2>live2d model art</h2></div>
           <div class="grid-feed">
-            <a href="imgs/art portfolio/minkurosu-vtuber.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/minkurosu-vtuber.png" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/minkurosu-vtuber.png', 'imgs/art portfolio/minkurosu-vtuber.png')">
+            <img class="thumb-img" src="imgs/art portfolio/minkurosu-vtuber.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
           </div>
 
           <br>
           <div class="section-label"><h2>twitch emotes</h2></div>
           <div class="grid-feed">
-            <a href="imgs/art portfolio/AYAYAMinPNG.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/AYAYAMinPNG.png" alt="" /></a>
-                    <a href="imgs/art portfolio/ApolloLove.png" data-fancybox="gallery-art" data-caption=""><img src="imgs/art portfolio/ApolloLove.png" alt="" /></a>
+            <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/AYAYAMinPNG.png', 'imgs/art portfolio/AYAYAMinPNG.png')">
+            <img class="thumb-img" src="imgs/art portfolio/AYAYAMinPNG.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
+                    <div class="feed-cell" onclick="expandCell(this, 'imgs/art portfolio/ApolloLove.png', 'imgs/art portfolio/ApolloLove.png')">
+            <img class="thumb-img" src="imgs/art portfolio/ApolloLove.png" alt="" loading="lazy" />
+            <div class="hover-hint"></div>
+            <div class="full-img-wrap">
+              <img src="">
+              <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+            </div>
+            <div class="caption-text"></div>
+          </div>
 
           </div>
 
@@ -164,7 +477,5 @@
   <script src="lastfm-widget.js"></script>
   <script src="script.js"></script>
   <script src="theme-switcher.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-  <script>Fancybox.bind('[data-fancybox="gallery-art"]', { Hash: false });</script>
 </body>
 </html>

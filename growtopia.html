@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="styles.css" id="theme-stylesheet">
-    <link rel="stylesheet" href="screenshots-fit.css">
     <title>minecraft</title>
 
     <style>
         html,
         body {
-            background-color: #24211e00;
+            background-color: #24211e;
             margin: 0;
             padding: 0;
 
@@ -38,7 +37,7 @@
         }
 
         .caixamaisclara {
-            background-color: #24211e00;
+            background-color: #24211e;
             border-radius: 0.9375rem;
             padding: 10px;
         }
@@ -220,7 +219,7 @@
         <div class="row-container">
 
             <p>growtopia was one of the most important games of my childhood, and my account is <span
-                    id="growtopia-days-counter">calculating...</span> days old.</p>
+                    id="growtopia-days-counter">calculating...</span>+4373 days old.</p>
 
             <p> Sadly, the game isnt the same from that time, now ubisoft bought it and its full of casinos and bots.
             </p>
@@ -253,10 +252,24 @@
     </main>
 </body>
 <script>
+(function () {
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+    const GT_REF_DATE = new Date('2026-07-04T00:00:00Z');
     const GT_REF_DAYS = 4373;
-    const GT_REF_DATE = new Date('2026-07-04');
-    document.getElementById('growtopia-days-counter').textContent =
-        GT_REF_DAYS + Math.floor((Date.now() - GT_REF_DATE) / 86400000);
+
+    const GT_CREATION_DATE = new Date(GT_REF_DATE.getTime() - (GT_REF_DAYS * MS_PER_DAY));
+
+    function getAccountAgeInDays() {
+        const elapsedMs = Date.now() - GT_CREATION_DATE.getTime();
+        return Math.floor(elapsedMs / MS_PER_DAY);
+    }
+
+    const counterEl = document.getElementById('growtopia-days-counter');
+    if (counterEl) {
+        counterEl.textContent = getAccountAgeInDays();
+    }
+})();
 </script>
 
 </html>

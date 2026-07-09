@@ -1097,6 +1097,13 @@ table {
   border-width: 0px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+
+table,
+th,
+td {
+  font-size: 0.95rem;
+}
 td {
   background-color: rgba(255, 255, 255, 0.05);
 }
@@ -1106,6 +1113,13 @@ td {
 }
 th {
   background-color: rgba(255, 255, 255, 0.1);
+}
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+  table,
+  th,
+  td {
+    font-size: 1.05rem;
+  }
 }
 .track {
   width: 100%;
@@ -1377,3 +1391,127 @@ th {
   font-size: 15px !important;
 }
 
+.grid-feed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  align-items: start;
+}
+.feed-cell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+  box-sizing: border-box;
+}
+.feed-cell .thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.feed-cell:not(.expanded):hover .thumb-img {
+  transform: scale(1.04);
+  filter: brightness(0.85);
+}
+.feed-cell .hover-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #fff;
+  font-size: 1.5rem;
+  pointer-events: none;
+}
+.feed-cell:not(.expanded):hover .hover-hint { opacity: 1; }
+
+.feed-cell.expanded {
+  grid-column: 1 / -1;
+  aspect-ratio: unset;
+  overflow: hidden;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 0 1rem;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  animation: expandIn 0.2s ease;
+}
+@keyframes expandIn {
+  from { opacity: 0.6; transform: scaleY(0.95); }
+  to   { opacity: 1;   transform: scaleY(1); }
+}
+.feed-cell.expanded .thumb-img { display: none; }
+.feed-cell.expanded .hover-hint { display: none; }
+
+.full-img-wrap {
+  display: none;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.feed-cell.expanded .full-img-wrap { display: block; }
+.full-img-wrap img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 3px;
+  display: block;
+  box-sizing: border-box;
+}
+
+.close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+  line-height: 26px;
+  text-align: center;
+  cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+  z-index: 5;
+  padding: 0;
+  display: none;
+}
+.feed-cell.expanded .close-btn { display: block; }
+
+.caption-text {
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  padding: 0.75rem 0.25rem 0;
+  box-sizing: border-box;
+  color: inherit;
+  text-align: center;
+}
+.feed-cell.expanded .caption-text { display: block; }
+
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+  .grid-feed { grid-template-columns: repeat(2, 1fr); }
+  .caption-text { font-size: 1rem; }
+}
