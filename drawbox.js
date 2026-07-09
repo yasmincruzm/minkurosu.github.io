@@ -70,16 +70,28 @@ function stop(event) {
     event.preventDefault();
 }
 
+function getCanvasPoint(event) {
+   
+    const rect = canvas.getBoundingClientRect();
+    const touch = (event.touches && event.touches[0]) || (event.targetTouches && event.targetTouches[0]);
+    const clientX = touch ? touch.clientX : event.clientX;
+    const clientY = touch ? touch.clientY : event.clientY;
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    return {
+        x: (clientX - rect.left) * scaleX,
+        y: (clientY - rect.top) * scaleY
+    };
+}
+
 function getX(event) {
-    return event.pageX
-        ? event.pageX - canvas.offsetLeft
-        : event.targetTouches[0].pageX - canvas.offsetLeft;
+    return getCanvasPoint(event).x;
 }
 
 function getY(event) {
-    return event.pageY
-        ? event.pageY - canvas.offsetTop
-        : event.targetTouches[0].pageY - canvas.offsetTop;
+    return getCanvasPoint(event).y;
 }
 
 canvas.addEventListener("touchstart", start, false);
