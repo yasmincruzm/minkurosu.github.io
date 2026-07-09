@@ -143,6 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (typeof inicializarLastFmWidget === 'function') {
                         inicializarLastFmWidget();
                     }
+
+                    if (typeof window.loadDreams === 'function') {
+                        window.loadDreams();
+                    }
+
+                    if (typeof window.initializeDrag === 'function' && mainContainer.querySelector('.draggable')) {
+                        window.initializeDrag();
+                    }
                 }, 200);
 
                 notifySession(pageName);
@@ -154,13 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => {
                 if (err.name === 'AbortError') return;
                 console.error('page load failed:', err);
-                mainContainer.innerHTML = '<p>failed to load. try again.</p>';
+                mainContainer.innerHTML = '<p>error</p>';
             });
     }
 
     window.navigateTo = (pageName) => loadPage(pageName, true);
 
-    document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+    document.querySelectorAll('[data-page]').forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();
             const page = link.getAttribute('data-page');

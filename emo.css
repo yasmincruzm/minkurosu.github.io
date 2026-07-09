@@ -132,10 +132,9 @@ body {
   color: #0a0a0a;
  
 }
-
 html {
-  cursor: url('caminho/para/sua/rockcursornormal.png'), auto;
-  background-image: url(imgs/site_imgs/petcemetery.gif);
+  cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto !important;
+  background-image: url(imgs/site_imgs/petcemetery.gif) !important;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -143,6 +142,7 @@ html {
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
+
 body {
   max-width: 100%;
   display: flex;
@@ -150,14 +150,48 @@ body {
   align-items: center;
   justify-content: flex-start;
   font-style: bold;
+  cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto !important;
 }
+
 a,
 button,
 input[type="submit"],
 input[type="button"],
-select {
-  cursor: url('caminho/para/sua/rockcursorselect.png'), pointer;
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select,
+label,
+summary,
+details,
+ul,
+li,
+option,
+[role="button"],
+[onclick],
+[draggable="true"],
+.clickable {
+  cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+
+
+
 html,
 body {
   scrollbar-width: thin;
@@ -206,16 +240,13 @@ body::-webkit-scrollbar-thumb:hover {
 a:hover {
   color: #a7a7a7;
   text-decoration: underline;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 body>.layout-with-sidebars {
   display: grid !important;
 grid-template-columns: auto minmax(500px, 1fr) auto;}
 
-/* obs: o layout fica sempre lado a lado (grid), inclusive no mobile —
-   o "responsivo" aqui é feito via viewport 1920px + zoom (initial-scale),
-   não por stack em coluna. Por isso não tem media query de (pointer: coarse)
-   forçando flex-column aqui: isso é o que quebrava o lado a lado no celular. */
 header {
   background-color: #0a0a0a;
   background-attachment: fixed;
@@ -279,6 +310,7 @@ header {
   transition: all 0.2s ease-in-out;
   animation: ease-in-out;
   border: 0.3125rem solid #310000;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .caixamaisclara {
   display: flex;
@@ -306,6 +338,7 @@ header {
   color: #570000;
   text-decoration: underline;
   transform: scale(1.15);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .caixamaisclara .sidebar {
   display: flex;
@@ -362,6 +395,7 @@ header {
   display: inline-block;
   border: 0.3125rem solid #310000;
   box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .side-item :hover {
   background-color: ;
@@ -369,6 +403,7 @@ header {
   transform: scale(1.10);
   transition: all 0.2s ease-in-out;
   border: #310000;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .sidebar p,
 .sidebar a {
@@ -403,6 +438,7 @@ header {
 #logopatinha:hover {
   transform: scale(1.10) translateY(2px);
   transition: 0.1s;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 #logobig {
   max-width: 100%;
@@ -414,6 +450,7 @@ header {
 #logobig:hover {
   transform: scale(1.15) translateY(10px);
   transition: 0.4s;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 @keyframes breathing {
   0% {
@@ -622,6 +659,7 @@ h5 {
 .grid-feed a:hover img {
   transform: scale(1.05);
   transition: all 0.2s ease-in-out;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .caixamaisclara img {
   border-radius: 2px;
@@ -668,6 +706,7 @@ h5 {
 .fancybox__nav .f-button:active {
   opacity: 1;
   color: #8b0000 !important;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .fancybox__nav {
   padding: 0 4px;
@@ -679,6 +718,7 @@ h5 {
 .fancybox__nav .f-button:hover,
 .fancybox__nav .f-button:active {
   background: rgba(20, 0, 0, 0.85);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
   .fancybox__caption {
@@ -730,6 +770,7 @@ h5 {
 .boxfoto video:hover,
 .about-content img:hover {
   transform: scale(1.05);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   transition: all 0.2s ease-in-out;
 }
 .sidebar {
@@ -776,6 +817,7 @@ h5 {
 .sidebar a:hover {
   color: #570000;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 #sidepic {
   max-height: 340px;
@@ -906,7 +948,6 @@ h5 {
   padding: 4px;
   resize: none;
   box-sizing: border-box;
-  cursor: text;
   scrollbar-width: none;
 }
 .my-button-box textarea:focus {
@@ -925,20 +966,25 @@ h5 {
 .desaturate50 {
   filter: saturate(0.6);
   transition: filter 0.3s ease;
+  
 }
 .desaturate50:hover {
   filter: saturate(1);
   transition: filter 0.3s ease;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .desaturatepics {
   filter: saturate(0.2);
   transition: filter 0.3s ease;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .desaturatepics:hover {
   filter: saturate(1);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .desaturate:hover {
   filter: saturate(1);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 #nomeSide {
   margin: 0px;
@@ -1079,6 +1125,7 @@ th {
 }
 .track:hover .track-inner {
   animation-play-state: paused;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .track-inner img {
   height: 55px;
@@ -1128,6 +1175,7 @@ th {
 .skin-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .skin-item img {
   max-width: 100%;
@@ -1174,7 +1222,6 @@ th {
   border: none;
   background: transparent;
   padding: 0;
-  cursor: pointer;
   outline-offset: 4px;
   transition: filter 250ms;
   display: inline-block;
@@ -1221,6 +1268,7 @@ th {
 }
 .pushable:hover {
   filter: brightness(110%);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 .pushable:hover .front {
   transform: translateY(-6px);
@@ -1344,6 +1392,7 @@ th {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
   .games-section {
@@ -1373,6 +1422,7 @@ th {
   .imagem-circular:hover {
     transform: scale(1.05);
     transition: 0.3s ease-in-out, transform 0.3s ease-in-out;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   }
   #statuscafe {
     color: #0a0a0a;
@@ -1435,7 +1485,8 @@ th {
     border: none;
     padding: 0;
     margin: 0;
-    cursor: pointer;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
+
     outline: none;
   }
   #theme-toggle-button img#theme-icon {
@@ -1474,7 +1525,7 @@ th {
     color: #a7a7a7;
     border: none;
     border-radius: 2px;
-    cursor: pointer;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
     font-size: 0.9em;
     text-decoration: none;
     transition: background-color 0.3s ease;/
@@ -1491,7 +1542,7 @@ th {
     border: none;
     padding: 0;
     margin: 0;
-    cursor: pointer;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
     outline: none;
   }
   .caixamaisclaraCenterSimple {
@@ -1573,6 +1624,7 @@ th {
   .badge-img:hover {
     transform: scale(1.05);
     transition: all 0.2s ease-in-out;
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   }
   .galeria-container {
     width: 700px;
@@ -1598,6 +1650,7 @@ th {
   }
   .galeria-grid img:hover {
     transform: scale(1.05);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   }
   #img-gallery a {
     height: 300px;
@@ -1611,7 +1664,6 @@ th {
     border: none;
     padding: 0;
     margin: 0;
-    cursor: pointer;
     outline: none;
   }
   .caixamaisclara,

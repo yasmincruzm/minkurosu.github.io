@@ -85,6 +85,18 @@
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <div class="crt"></div>
     <style>
+
+body{
+  background-image: url(imgs/site_imgs/petcemetery.gif); !important
+   height: 100vh;
+  width: 100%;
+  background-image: url(imgs/site_imgs/petcemetery.gif);
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+
 #google_translate_element .goog-te-gadget-simple {
   background-color: #1a1a1a !important;
   border: 1px solid #444 !important;
@@ -153,7 +165,6 @@ div#goog-gt- {
         html,
         body,
         iframe {
-            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
         }
 
 
@@ -398,8 +409,6 @@ div#goog-gt- {
             height: 100px;
         }
 
-        /* compensa o zoom de 0.4 do resto do site (viewport 1920px) pra esses
-           iframes ficarem em tamanho tocável/legível no celular */
         #chattable,
         .playlist-iframe-placeholder {
             zoom: 2.5;
@@ -1454,7 +1463,6 @@ setInterval(checkLive, 300000);
 <script defer src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
 <script defer src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
 (function () {
   const canvas = document.getElementById('viz-canvas');
   const overlay = document.getElementById('fade-overlay');
@@ -1533,7 +1541,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   startViz();
 })();
-});
 </script>
 
               
@@ -1800,7 +1807,7 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en,pt-br',
-      includedLanguages: 'pt-br,es,fr,ko,ja,it,de,ru,zh-CN,en',
+      includedLanguages: '',
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       autoDisplay: false
     }, 'google_translate_element');

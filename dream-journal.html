@@ -1,32 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <title>dream journal</title>
     <link rel="stylesheet" href="emo.css" />
 </head>
+<style>
+    ul {
+        list-style-type: disc;
+    }
 
+    details,
+summary,
+li,
+details *,
+summary * {
+  cursor: url('caminho/para/sua/rockcursorselect.png') 16 16, pointer !important;
+  }
+
+</style>
 <body>
-    <div class="caixamaisclara">
-        <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo">
-        <br>
-    </div>
 
-    <br>
-
-    <div class="caixamaisclaraCenterSimple">
+    <div id="container">
+    <div class="caixamaisclaraColumn">
         <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
             first language, so feel free to translate if you're interested enough to read.</h4>
         <div id="google_translate_element"></div>
-    </div>
+        <br>
+   
+    <br>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0 24px; width:100%; box-sizing:border-box; min-width:0;">
 
+                <details style="display:block; min-width:0; overflow-wrap:break-word; margin-bottom:4px;">
+                    <summary style="list-style:disc; display:flex; align-items:center; gap:8px; padding:6px 0; color:#4b4b4b; font-family:'MinFont',monospace; font-size:1em; ; text-align:left;">- sonhos recorrentes </summary>
+                    <div style="padding-left:6px;">
+                        <ul style="list-style:none; margin:0; padding:4px 0 10px 0; display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left;">
+                                                        
+                            <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• sonhos que se passam na minha casa antiga de quando era criança</li>
+                                                        <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• '' na casa antiga dos meus avós</li>
+
+                        </ul>
+                    </div>
+                </details>
+
+     
+
+        
+
+                <details style="display:block; min-width:0; overflow-wrap:break-word; margin-bottom:4px;">
+                    <summary style="list-style:disc; display:flex; align-items:center; gap:8px; padding:6px 0; color:#4b4b4b; font-size:1em;; text-align:left;">- pesadelos recorrentes</summary>
+                    <div style="padding-left:6px;">
+                        <ul style="list-style:none; margin:0; padding:4px 0 10px 0; display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left;">
+                            <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• passar por uma teia de aranha</li>
+                            <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• olhar pra cima e ver muitas aranhas grandes</li>
+                            <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• frequentemente sonho que meu mapa no jogo growtopia está sendo griefado ou minha conta sendo hackeada</li>
+                                                        <li style="color:#6b6b6b; font-size:0.92em; line-height:1.5; padding-left:2px; text-align:left;">• sonhar que estou fazendo prova na escola mais puxada que estudei</li>
+
+                        </ul>
+                    </div>
+                </details>
+ </div>
+             
+
+            </div>
     <hr>
 
     <div id="dreams-container">
         <h2>loading dreams...</h2>
     </div>
+    </div>
+
+
 
     <script type="module" src="dream-journal.js"></script>
 </body>

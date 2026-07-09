@@ -4,42 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = track.innerHTML;
         track.innerHTML += content;
     });
-
-    const fridgeLink = document.querySelector('a[data-page="yaoifridge"]');
-
-    if (fridgeLink) {
-        fridgeLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            loadYaoifridgeContent();
-        });
-    }
 });
 
 
-async function loadYaoifridgeContent() {
-    try {
-        const container = document.getElementById('container');
-        if (!container) {
-            console.error('elemento #container não foi encontrado');
-            return;
-        }
-
-        const response = await fetch('yaoifridge.html');
-        if (!response.ok) {
-            throw new Error(`erro ao buscar o arquivo: ${response.statusText}`);
-        }
-        const html = await response.text();
-
-        container.innerHTML = html;
-
-        initializeDrag();
-
-    } catch (error) {
-        console.error('erro ao carregar o conteúdo do yaoifridge:', error);
-    }
-}
-
-
+// Exposta globalmente para que o load-pages.js chame depois de injetar
+// qualquer página que tenha elementos .draggable (ex: yaoifridge) —
+// antes essa função só era chamada pelo roteador duplicado que
+// removemos daqui de cima.
 function initializeDrag() {
     function applyTransform(target, x, y, rotation) {
         target.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
@@ -77,38 +48,8 @@ function initializeDrag() {
         const y = parseFloat(item.dataset.y) || 0;
         applyTransform(item, x, y, rotation);
     });
-
-
-    function initializeSlideshow() {
-        let slideIndex = 0;
-        const slides = document.querySelectorAll('.slideshow-area img');
-
-        if (slides.length === 0) {
-            return;
-        }
-
-        function showSlides() {
-
-            slides.forEach(slide => {
-                slide.classList.remove('active');
-            });
-
-
-            slideIndex++;
-            if (slideIndex >= slides.length) {
-                slideIndex = 0;
-            }
-
-            slides[slideIndex].classList.add('active');
-
-
-            setTimeout(showSlides, 4000);
-        }
-
-
-        setTimeout(showSlides, 4000);
-    }
 }
+window.initializeDrag = initializeDrag;
 
 const gtObserver = new MutationObserver(() => {
   const banner = document.querySelector('.goog-te-banner-frame');
