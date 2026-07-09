@@ -33,6 +33,7 @@
     <meta property="og:title" content="min kurosu - links">
 <meta property="og:description" content="meus links e cantinhos ✞">
 <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
+<meta property="og:url" content="https://minkurosu.site/links.html">
 <meta property="og:type" content="website">
 
 <meta name="twitter:card" content="thumbnail.png>
@@ -408,6 +409,8 @@ div#goog-gt- {
             height: 100px;
         }
 
+        /* compensa o zoom de 0.4 do resto do site (viewport 1920px) pra esses
+           iframes ficarem em tamanho tocável/legível no celular */
         #chattable,
         .playlist-iframe-placeholder {
             zoom: 2.5;
@@ -1459,8 +1462,6 @@ setInterval(checkLive, 300000);
   ">👁</button>
 </div>
 
-<script defer src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-<script defer src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
 <script>
 (function () {
   const canvas = document.getElementById('viz-canvas');
@@ -1491,6 +1492,23 @@ setInterval(checkLive, 300000);
     resize();
     if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
   });
+
+  function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[src="' + src + '"]');
+      if (existing) {
+        if (existing.dataset.loaded === '1') { resolve(); return; }
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => { s.dataset.loaded = '1'; resolve(); };
+      s.onerror = reject;
+      document.body.appendChild(s);
+    });
+  }
 
   function startViz() {
     try {
@@ -1538,7 +1556,14 @@ setInterval(checkLive, 300000);
     }
   }
 
-  startViz();
+  if (window.butterchurn && window.butterchurnPresets) {
+    startViz();
+  } else {
+    Promise.all([
+      loadScriptOnce('https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js'),
+      loadScriptOnce('https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js')
+    ]).then(startViz).catch(err => console.error('falha ao carregar butterchurn:', err));
+  }
 })();
 </script>
 
