@@ -1,3 +1,6 @@
+
+window.__pageRouterActive = true;
+
 (function restoreDeepLink() {
     const redirect = sessionStorage.redirect;
     delete sessionStorage.redirect;
@@ -76,17 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    const IFRAME_PAGES = ['games'];
-
-    function fixViewport(pageName) {
+    function fixViewport() {
         const vp = document.querySelector('meta[name="viewport"]');
         if (!vp) return;
-        if (IFRAME_PAGES.includes(pageName)) {
-            vp.setAttribute('content', 'width=device-width, initial-scale=1.0, shrink-to-fit=no');
-        } else {
-            vp.setAttribute('content',
-                'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
-        }
+        vp.setAttribute('content',
+            'width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes');
     }
 
     const pageCache = new Map();
