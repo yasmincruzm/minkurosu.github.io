@@ -210,6 +210,69 @@
             box-sizing: border-box;
             margin: 0 auto;
         }
+
+                .game-frame {
+    display: none;
+    width: 100%;
+    border: none;
+    overflow: hidden; /* sem scrollbar, já que a altura será suficiente */
+}
+
+
+
+#frame-growtopia {
+    height: 700px;
+}
+
+        .lightbox-trigger {
+            display: inline-block;
+            cursor: zoom-in;
+        }
+        .lightbox-trigger img {
+            transition: transform .2s ease, filter .2s ease;
+        }
+        .lightbox-trigger:hover img {
+            transform: scale(1.03);
+            filter: brightness(0.9);
+        }
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+        .lightbox-overlay:target {
+            display: flex;
+        }
+        .lightbox-overlay img {
+            max-width: 92vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 18px;
+            right: 24px;
+            color: #fff;
+            font-size: 2.2rem;
+            line-height: 1;
+            text-decoration: none;
+            z-index: 10000;
+            font-family: sans-serif;
+        }
+        .lightbox-close:hover {
+            color: #ff6b6b;
+        }
+
     </style>
 </head>
 
@@ -219,7 +282,7 @@
         <div class="row-container">
 
             <p>growtopia was one of the most important games of my childhood, and my account is <span
-                    id="growtopia-days-counter">calculating...</span>+4373 days old.</p>
+                    id="growtopia-days-counter">calculating...</span>+ days old.</p>
 
             <p> Sadly, the game isnt the same from that time, now ubisoft bought it and its full of casinos and bots.
             </p>
@@ -229,17 +292,30 @@
 
             <p> so crazy to think the game i played when i was 10 was so important its printed in my brain/dreams.</p>
 
-            <a href="imgs/games/growtopiacharacter.png" target="_blank">
+            <a href="#gt-1" class="lightbox-trigger">
                 <img src="imgs/games/growtopiacharacter.png" alt="my character" style="height: 200px;">
             </a>
+            <div id="gt-1" class="lightbox-overlay">
+                <a href="#" class="lightbox-close" aria-label="fechar">&times;</a>
+                <img src="imgs/games/growtopiacharacter.png" alt="my character">
+            </div>
             <br>
-            <a href="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg" target="_blank">
+
+            <a href="#gt-2" class="lightbox-trigger">
                 <img src="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg" style="width:600px">
             </a>
+            <div id="gt-2" class="lightbox-overlay">
+                <a href="#" class="lightbox-close" aria-label="fechar">&times;</a>
+                <img src="imgs/games/screenshots/Screenshot_20250711_163217_Growtopia.jpg" alt="">
+            </div>
 
-            <a href="imgs/games/screenshots/mimin.png" target="_blank">
+            <a href="#gt-3" class="lightbox-trigger">
                 <img src="imgs/games/screenshots/mimin.png" style="width:600px">
             </a>
+            <div id="gt-3" class="lightbox-overlay">
+                <a href="#" class="lightbox-close" aria-label="fechar">&times;</a>
+                <img src="imgs/games/screenshots/mimin.png" alt="">
+            </div>
             <p> my main world</p>
 
             <div>

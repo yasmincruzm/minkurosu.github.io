@@ -134,7 +134,6 @@ body {
 }
 html {
   cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto !important;
-  background-image: url(imgs/site_imgs/petcemetery.gif) !important;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -196,6 +195,7 @@ html,
 body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
+  
 }
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
@@ -243,10 +243,12 @@ a:hover {
    cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
-body>.layout-with-sidebars {
+body > .layout-with-sidebars {
   display: grid !important;
-grid-template-columns: auto minmax(500px, 1fr) auto;}
-
+  grid-template-columns: 300px 800px 300px !important; 
+  justify-content: center;
+  margin: 0 auto;
+}
 header {
   background-color: #0a0a0a;
   background-attachment: fixed;
@@ -414,8 +416,8 @@ header {
   border-radius: 3px;
   text-align: center;
   margin: 0 auto;
-  width: 100%;
-  position: relative;
+
+  box-sizing: border-box;  position: relative;
   box-sizing: border-box;
   color: #5a5a5a;
 }
@@ -426,8 +428,9 @@ header {
   box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
   text-align: center;
   margin: 0 auto;
-  width: 100%;
-  max-width: 800px;
+width: 100% !important;
+  max-width: 800px !important;
+  box-sizing: border-box;  max-width: 800px;
   box-sizing: border-box;
   color: #5a5a5a;
 }
@@ -774,7 +777,10 @@ h5 {
   transition: all 0.2s ease-in-out;
 }
 .sidebar {
-  max-width: 300px;
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  box-sizing: border-box;
 }
 .sidebar h2 {
   font-size: 64px;

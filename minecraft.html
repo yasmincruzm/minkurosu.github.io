@@ -7,7 +7,6 @@
     <style>
         html,
         body {
-            background-color: #24211e;
             margin: 0;
             padding: 0;
 
@@ -18,57 +17,6 @@
             align-items: flex-start;
             overflow-x: hidden;
 
-        }
-
-        hr {
-            border: 5px;
-            border-top: 0.0625rem solid #ececec;
-            margin: 1.25rem 0;
-        }
-
-
-        #containerprincipal {
-            width: 100%;
-        }
-
-        .caixamaisclara {
-            background-color: #24211e;
-            border-radius: 0.9375rem;
-            padding: 10px;
-        }
-
-        .content-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        #containerprincipal {
-            overflow-x: hidden;
-        }
-
-        h3 {
-            text-align: center;
-            margin-top: 25px;
-            margin-bottom: 20px;
-            color: #534F4A;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            color: #534F4A;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: lowercase;
         }
 
 
@@ -109,23 +57,82 @@
         }
 
 
-        img.screenshots {
-            max-width: 100% !important;
-            max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
-            object-fit: contain !important;
-            display: block !important;
-            border-radius: 6px;
-            box-sizing: border-box;
+        .game-vertical-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 960px; 
             margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
-        .screenshotDescription {
-            text-align: center;
-            color: #534F4A;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        .game-photo-card {
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            background: transparent;
         }
+
+        .game-photo-card .preview-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .game-photo-card:hover .preview-img {
+            transform: scale(1.005);
+            filter: brightness(0.95);
+        }
+
+        .game-photo-card.active .preview-img {
+            display: none;
+        }
+
+        .game-photo-card .expanded-wrapper {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            animation: slideDownIn 0.25s ease;
+        }
+
+        .game-photo-card.active .expanded-wrapper {
+            display: block;
+        }
+
+        .game-photo-card .expanded-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .game-photo-card .photo-caption {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 1.15em;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+        }
+
+        @keyframes slideDownIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+ br{
+    height: 4px;
+    width: 4px;
+ }
+
+          background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
     </style>
 </head>
 
@@ -183,83 +190,160 @@
 
              <h1 class="screenshotDescription"> 2025 w/ bf and friends</h1>
 
-   <a href="imgs/games/screenshots/2025serverselfie.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/2025serverselfie.jpeg"   alt="" class="screenshots" />
-        </a>
+      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/2025serverselfie.jpeg')">
+            <img class="preview-img";" src="imgs/games/minecraft/2025serverselfie.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+                <div class="photo-caption"></div>
+            </div>
+        </div>
  <h5 class="screenshotDescription"> "our 2025 realm selfie"</h5>
   <br>
 
 
 
- <a href="imgs/games/screenshots/village.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/village.jpeg"   alt="" class="screenshots" />
-        </a>
+   <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/village.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/village.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
  <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
 
- <a href="imgs/games/screenshots/gabmincorner.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/gabmincorner.jpeg"   alt="" class="screenshots" />
-        </a>
- <h5 class="screenshotDescription"> "me and my bfs corner"</h5>
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/gabmincorner.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/gabmincorner.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
+<br>
+
+
+  <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/mycorner.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/mycorner.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
 
 
- 
-   <a href="imgs/games/screenshots/mycorner.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/mycorner.jpeg"   alt="" class="screenshots" />
-        </a>
- <h5 class="screenshotDescription"> "my house/lil corner"</h5>
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/sala.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/sala.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
 
- <a href="imgs/games/screenshots/sala.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/sala.jpeg"   alt="" class="screenshots" />
-        </a>
- <h5 class="screenshotDescription"> "living room"</h5>
-  <br>
 
-
-  <a href="imgs/games/screenshots/bedroom.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/bedroom.jpeg"   alt="" class="screenshots" />
-        </a>
- <h5 class="screenshotDescription"> "bedroom"</h5>
-  <br>
-
-
-
-   <a href="imgs/games/screenshots/picnic.jpeg" style="display:block;width:100%;" target="_blank">
-          <img src="imgs/games/screenshots/picnic.jpeg"   alt="" class="screenshots" />
-        </a>
- <h5 class="screenshotDescription"> "picnic"</h5>
-  <br>
-
-
-<h1 class="screenshotDescription">2019 modded</h1>
-
-<a href="imgs/games/screenshots/lardocelar.png" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/lardocelar.png" class="screenshots" /></a>
-<a href="imgs/games/screenshots/lardocelar2.png" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/lardocelar2.png" class="screenshots" /></a>
-<h5 class="screenshotDescription">"lar doce lar"</h5>
+  <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/bedroom.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/bedroom.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
-<a href="imgs/games/screenshots/eueovenomextreme.jpg" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/eueovenomextreme.jpg" class="screenshots" /></a>
-<h5 class="screenshotDescription">when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme</h5>
+
+
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/picnic.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/picnic.jpeg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
-<a href="imgs/games/screenshots/servervenom2023.png" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/servervenom2023.png" class="screenshots" /></a>
-<h5 class="screenshotDescription">another picture, from the same server, with some of its members!</h5>
+
+
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/lardocelar.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/lardocelar.png" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
 
-<a href="imgs/games/screenshots/serverkonan2021.png" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/serverkonan2021.png" class="screenshots" /></a>
-<h1 class="screenshotDescription">my friends @KonanS2's server, from 2021</h1>
-<a href="imgs/games/screenshots/serverkonan20212.png" style="display:block;width:100%;" target="_blank"><img src="imgs/games/screenshots/serverkonan20212.png" class="screenshots" /></a>
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/lardocelar2.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/lardocelar2.png" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "our village"</h5>
 <br>
+
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/eueovenomextreme.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/eueovenomextreme.jpg" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme"</h5>
 <br>
+
+
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/servervenom2023.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/servervenom2023.png" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> "@ the same server"</h5>
+<br>
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan2021.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/serverkonan2021.png" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> ""</h5>
+<br>
+
+
+ <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan20212.jpeg')">
+            <img class="preview-img" src="imgs/games/minecraft/serverkonan20212.png" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+ <h5 class="screenshotDescription"> ""</h5>
+<br>
+
+
+
         </div>
         </div>
 
     </main>
 </body>
 
+    <script>
+        function togglePhoto(card, fullSrc) {
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                return;
+            }
+
+            document.querySelectorAll('.game-photo-card').forEach(c => c.classList.remove('active'));
+
+            var largeImg = card.querySelector('.expanded-wrapper img');
+            if (largeImg && fullSrc) {
+                largeImg.src = fullSrc;
+            }
+
+            card.classList.add('active');
+        }
+    </script>
 </html>

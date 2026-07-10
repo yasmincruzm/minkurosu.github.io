@@ -3,250 +3,158 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
     <style>
-        html,
-        body {
-            background-color: #24211e;
+        html, body {
             margin: 0;
             padding: 0;
-
-            font-family: "MinFont";
-            background-image: none;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            overflow: hidden;
-
         }
 
-        hr {
-            border: 5px;
-            border-top: 0.0625rem solid #ececec;
-            margin: 1.25rem 0;
-        }
-
-
-        #containerprincipal {
-            width: 100%;
-        }
-
-        .caixamaisclara {
-            background-color: #24211e;
-            border-radius: 0.9375rem;
-            padding: 10px;
-        }
-
-        .content-column {
+        .game-vertical-gallery {
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 25px;
             width: 100%;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
+            max-width: 960px; 
+            margin: 0 auto;
+            padding: 15px;
             box-sizing: border-box;
-
         }
 
-        h3 {
-            text-align: center;
-            margin-top: 25px;
-            margin-bottom: 20px;
-            color: #534F4A;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: uppercase;
+        .game-photo-card {
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            background: transparent;
         }
 
-        h2 {
+        .game-photo-card .preview-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .game-photo-card:hover .preview-img {
+            transform: scale(1.005);
+            filter: brightness(0.95);
+        }
+
+        .game-photo-card.active .preview-img {
+            display: none;
+        }
+
+        .game-photo-card .expanded-wrapper {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            animation: slideDownIn 0.25s ease;
+        }
+
+        .game-photo-card.active .expanded-wrapper {
+            display: block;
+        }
+
+        .game-photo-card .expanded-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .game-photo-card .photo-caption {
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            color: #534F4A;
+            margin-top: 12px;
+            font-size: 1.15em;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             text-transform: lowercase;
         }
 
-
-        .skin-grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            justify-content: center;
-            padding: 0;
-            max-width: 100%;
-        }
-
-        .skin-item {
-
-            height: 200px;
-            overflow: hidden;
-
-        }
-
-        .skin-item img {
-            width: 100%;
-            max-height: 150px;
-            object-fit: contain;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .skin-title {
-            font-size: 0.9em;
-            color: #534F4A;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
+        @keyframes slideDownIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
 
-        @media (max-width: 768px) {
-            .skin-grid-container {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
 
-            .skin-item {
-                height: 180px;
-            }
-
-            .skin-item img {
-                max-height: 130px;
-            }
-        }
-
-        @media (max-width: 550px) {
-            .skin-grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .skin-item {
-                padding: 8px;
-                height: 160px;
-            }
-
-            .skin-item img {
-                max-height: 110px;
-            }
-
-            .skin-title {
-                font-size: 0.8em;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .skin-grid-container {
-                grid-template-columns: repeat(1, 1fr);
-            }
-
-            .skin-item {
-                height: 200px;
-            }
-
-            .skin-item img {
-                max-height: 150px;
-            }
-        }
-
-        img.screenshots {
-            max-width: 100% !important;
-            max-height: 100% !important;
-            width: auto !important;
-            height: auto !important;
-            object-fit: contain !important;
-            display: block !important;
-            border-radius: 6px;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
     </style>
 </head>
 
 <body>
-    <main id="containerprincipal">
-        <div class="content-column">
-        
+    <div class="game-vertical-gallery">
 
-
-
-            <br>
-
-            <div class="grid-feed">
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png', 'imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png', 'imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png', 'imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png', 'imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png', 'imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
-              <div class="feed-cell" onclick="expandCell(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png', 'imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png')">
-                <img class="thumb-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" alt="" loading="lazy" />
-                <div class="hover-hint"></div>
-                <div class="full-img-wrap">
-                  <img src="">
-                  <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
-                </div>
-                <div class="caption-text"></div>
-              </div>
-
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png')">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
             </div>
-
-        </div>
         </div>
 
-    </main>
 
-    <script src="script.js"></script>
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+
+  
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+
+      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+
+      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+<div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div> 
+
+
+
+     
+     
+    </div>
+
+    <script>
+        function togglePhoto(card, fullSrc) {
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                return;
+            }
+
+            document.querySelectorAll('.game-photo-card').forEach(c => c.classList.remove('active'));
+
+            var largeImg = card.querySelector('.expanded-wrapper img');
+            if (largeImg && fullSrc) {
+                largeImg.src = fullSrc;
+            }
+
+            card.classList.add('active');
+        }
+    </script>
 </body>
 
 </html>
