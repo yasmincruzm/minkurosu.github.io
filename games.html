@@ -30,14 +30,12 @@
             padding: 0;
         }
 
-        .game-tab-radio {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .games-button-container label {
+        .games-button-container .pushable {
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font: inherit;
         }
 
         #gameContent {
@@ -47,7 +45,7 @@
         }
 
         .game-frame {
-            display: none;
+            display: none; 
             width: 100%;
             height: 700px;
             border: none;
@@ -55,12 +53,7 @@
             overflow: hidden;
         }
 
-        #tab-minecraft:checked ~ #gameContent #frame-minecraft,
-        #tab-bg3:checked ~ #gameContent #frame-bg3,
-        #tab-transformice:checked ~ #gameContent #frame-transformice,
-        #tab-tomodachi:checked ~ #gameContent #frame-tomodachi,
-        #tab-growtopia:checked ~ #gameContent #frame-growtopia,
-        #tab-stardew:checked ~ #gameContent #frame-stardew {
+        .game-frame.active {
             display: block;
             animation: expandIn 0.25s ease;
         }
@@ -75,29 +68,22 @@
 <body>
     <div class="games-section">
 
-        <input type="radio" name="game-tab" id="tab-minecraft" class="game-tab-radio" checked>
-        <input type="radio" name="game-tab" id="tab-bg3" class="game-tab-radio">
-        <input type="radio" name="game-tab" id="tab-transformice" class="game-tab-radio">
-        <input type="radio" name="game-tab" id="tab-tomodachi" class="game-tab-radio">
-        <input type="radio" name="game-tab" id="tab-growtopia" class="game-tab-radio">
-        <input type="radio" name="game-tab" id="tab-stardew" class="game-tab-radio">
-
         <div class="caixamaisclaraInterests">
             <h1 class="games-title">choose a game!</h1>
             <div class="games-button-container">
-                <label for="tab-minecraft" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">minecraft</span></label>
-                <label for="tab-bg3" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">baldurs gate 3</span></label>
-                <label for="tab-transformice" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">transformice</span></label>
-                <label for="tab-tomodachi" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">tomodachi life</span></label>
-                <label for="tab-growtopia" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">growtopia</span></label>
-                <label for="tab-stardew" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">stardew valley</span></label>
+                <button data-game="minecraft" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">minecraft</span></button>
+                <button data-game="bg3" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">baldurs gate 3</span></button>
+                <button data-game="transformice" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">transformice</span></button>
+                <button data-game="tomodachi" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">tomodachi life</span></button>
+                <button data-game="growtopia" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">growtopia</span></button>
+                <button data-game="stardew" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">stardew valley</span></button>
             </div>
         </div>
 
         <div id="gameContent">
-            <iframe id="frame-minecraft" class="game-frame" src="minecraft.html"></iframe>
+            <iframe id="frame-minecraft" class="game-frame active" src="minecraft.html"></iframe>
             <iframe id="frame-bg3" class="game-frame" src="baldursgate.html"></iframe>
-        
+            <iframe id="frame-transformice" class="game-frame" src="transformice.html"></iframe>
             <iframe id="frame-tomodachi" class="game-frame" src="tomodachi.html"></iframe>
             <iframe id="frame-growtopia" class="game-frame" src="growtopia.html"></iframe>
             <iframe id="frame-stardew" class="game-frame" src="stardewvalley.html"></iframe>
@@ -124,6 +110,25 @@
                             new ResizeObserver(function () { resizeFrame(iframe); }).observe(doc.body);
                         }
                     } catch (e) {}
+                });
+            });
+
+            const buttons = document.querySelectorAll('.games-button-container .pushable');
+            const frames = document.querySelectorAll('.game-frame');
+
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const gameTarget = button.getAttribute('data-game');
+
+                    frames.forEach(function (frame) {
+                        frame.classList.remove('active');
+                    });
+
+                    const targetFrame = document.getElementById('frame-' + gameTarget);
+                    if (targetFrame) {
+                        targetFrame.classList.add('active');
+                        resizeFrame(targetFrame);
+                    }
                 });
             });
         })();
