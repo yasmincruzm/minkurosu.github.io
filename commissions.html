@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script src="page-guard.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -12,6 +11,7 @@
   <meta charset="UTF-8">
   <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
   <title>@minkurosu — commissions</title>
+
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
   <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
 
@@ -22,7 +22,6 @@
       padding: 4px;
       text-align: center;
     }
-
 body{
   background-image: url(imgs/site_imgs/petcemetery.gif); !important
    height: 100vh;
@@ -32,7 +31,6 @@ body{
   background-size: cover;
   text-align: center;
 }
-
     .caixaprices h2 {
       font-family: "MinFont", monospace;
       font-size: 1.4rem;
@@ -93,17 +91,7 @@ body{
       background: #1b1b1b;
     }
 
-    .caixaprices hr {
-      border: none;
-      border-top: 1px solid #1e1e1e;
-      margin: 1.2rem 0;
-    }
-
-    #rig-portfolio {
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1.5rem;
-    }
+ 
 
     .rig-page {
       width: 100%;
@@ -218,27 +206,19 @@ body{
     .translate-wrap {
       text-align: center;
       margin: 0.5rem 0 1rem;
-      font-family: "MinFont", monospace;
-      font-size: 0.8rem;
-      color: #3a3836;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 
-    
     .ds-tooltip {
       position: relative;
-      display: inline-block;
-      overflow: visible;
     }
     .ds-tooltip::after {
       content: attr(data-tooltip);
       position: absolute;
-      bottom: 100%;
+      bottom: calc(100% + 6px);
       left: 50%;
       transform: translateX(-50%);
       background: #0a0a0a;
-      color: #4b4b4b;
-      outline: 1px solid #1a1a1a;
+      color: #534f4a;
       font-family: "MinFont", monospace;
       font-size: 0.75rem;
       padding: 4px 8px;
@@ -266,7 +246,217 @@ body{
     .ds-tooltip:hover::after,
     .ds-tooltip:hover::before { opacity: 1; }
 
+    .portfolio-embed .caixamaisclara-conteudo {
+      text-align: center;
+      padding: 20px;
+    }
 
+    .portfolio-embed .section-title {
+      color: #534F4A;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin-bottom: 30px;
+    }
+
+    .portfolio-embed .games-button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .portfolio-embed .grid-feed {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+    }
+
+    .portfolio-embed .grid-feed a {
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .portfolio-embed .grid-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s;
+    }
+
+    .portfolio-embed .grid-feed a:hover img {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+      .portfolio-embed .grid-feed { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .portfolio-embed .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .portfolio-embed .video-cell-wide {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      background: #0a0a0a;
+      border: 1px solid #1a1919;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .portfolio-embed .video-cell-wide iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: none;
+      background: #000;
+    }
+
+    .portfolio-embed .video-cell-wide .caption {
+      font-family: "MinFont", monospace;
+      font-size: 0.78rem;
+      color: #3a3836;
+      text-align: center;
+      padding: 4px 4px 5px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      min-height: 20px;
+    }
+
+    .portfolio-embed .rig-intro {
+      border: 1px solid #2a0000;
+    }
+
+    .portfolio-embed .rig-intro-title {
+      color: #610000;
+    }
+
+    .portfolio-embed .rig-intro ul li::before {
+      color: #610000;
+    }
+
+    .portfolio-embed .rig-page h1 {
+      font-size: 1rem !important;
+      margin: 3px 0 !important;
+      padding: 0 !important;
+      text-align: left;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .portfolio-embed .rig-page h2 {
+      font-size: 1.4rem !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .portfolio-embed .rig-page h3 {
+      font-size: 0.85rem !important;
+      margin: 6px 0 12px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #3a3836;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .portfolio-embed .rig-page h4 {
+      font-size: 0.8rem !important;
+      margin: 4px 0 6px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #3a3836;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .portfolio-embed .pricings-table {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: transparent;
+      font-family: "MinFont", monospace;
+      font-size: 0.85rem;
+    }
+
+    .portfolio-embed .pricings-table th,
+    .portfolio-embed .pricings-table td {
+      border: 1px solid #3a0000;
+      padding: 7px 10px;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .portfolio-embed .pricings-table th {
+      color: #610000;
+      background: #0d0d0d;
+    }
+
+    .portfolio-embed .pricings-table tr:nth-child(even) td {
+      background: #0a0808;
+    }
+
+    .portfolio-embed .terms p,
+    .portfolio-embed .exp p,
+    .portfolio-embed .exp li {
+      font-family: "MinFont", monospace;
+      font-size: 0.85rem;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      text-align: left;
+    }
+
+    .portfolio-embed .exp h3 {
+      font-family: "MinFont", monospace;
+      font-size: 0.9rem;
+      color: #610000;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 12px 0 4px;
+    }
+
+    .portfolio-embed #portfolio-conteudo {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .portfolio-embed #portfolio-conteudo.loading {
+      text-align: center;
+      padding: 50px;
+      color: #534F4A;
+    }
+
+    .portfolio-embed .divportfolio {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .portfolio-embed .divportfolio img,
+    .portfolio-embed .divportfolio video {
+      max-width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .portfolio-embed .divportfolio h1,
+    .portfolio-embed .divportfolio h2,
+    .portfolio-embed .divportfolio h3,
+    .portfolio-embed .divportfolio h4 {
+      color: #534F4A;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 10px 0;
+    }
 
   </style>
 </head>
@@ -278,18 +468,20 @@ body{
         <div class="caixamaisclara">
           <div class="caixaprices">
 
-            <h2 style="font-size: 30px;">commissions</h2>
+
+<br>
+   <div class="">
+        <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
+    </div>   
+             <h2 style="font-size: 30px;">commissions</h2>
+
+          
 
             <div class="translate-wrap">
               translate:<br> <div id="google_translate_element" style="display:inline-block;vertical-align:middle;"></div>
             </div>
 
-            <div class="prices-section">
-              <div id="rig-portfolio"><p style="color:#3a3836;font-family:'MinFont',monospace;">loading...</p></div>
-            </div>
-
             <hr>
-
             <div class="prices-section">
               <table class="tos-table">
                 <tr><th>termos de serviço</th></tr>
@@ -307,54 +499,8 @@ body{
               </table>
             </div>
 
-            <hr>
-
-            <div class="prices-section">
-              <table>
-                <tr><th>descrição</th><th>valor</th></tr>
-                <tr><td>rig lite (quase um pngtuber)</td><td>R$ 95</td></tr>
-                <tr><td>rig halfbody detalhado</td><td>R$ 460</td></tr>
-                <tr><td>rig fullbody detalhado</td><td>R$ 480</td></tr>
-                <tr><td>rig fullbody + vbridger + extra physics</td><td>R$ 550</td></tr>
-                <tr><td>rig vtuber pet/chibi complexo</td><td>R$ 200 +- (depende das camadas)</td></tr>
-                <tr><td>adicional toggle (on/off)</td><td>R$ 5 +-</td></tr>
-                <tr><td>adicional com expressão/movimento / física</td><td>R$ 10</td></tr>
-                <tr><td>adicional com motion/animação (.can3)</td><td>R$ 15–20</td></tr>
-                <tr><td>adicional partes do corpo extra (rabo, orelhas, olho...)</td><td>R$ 15</td></tr>
-                <tr><td>adicional ângulos da cabeça wide-range</td><td>R$ 50</td></tr>
-                <tr><td>adicional boca vbridger</td><td>R$ 50</td></tr>
-                <tr><td>physics augmentation @ vtube studio</td><td>R$ 20</td></tr>
-                <tr><td>rework em qualquer parte</td><td>valor a combinar</td></tr>
-                <tr><td>animação de objetos/props</td><td>valor a combinar</td></tr>
-              </table>
-              <p class="note">* preços podem mudar dependendo da complexidade e número de camadas.</p>
-            </div>
-
-            <hr>
-
-            <div class="prices-section">
-              <h3>international clients</h3>
-              <table>
-                <tr><th>description</th><th>price</th></tr>
-                <tr><td>lite rig (almost pngtuber-level)</td><td>$40</td></tr>
-                <tr><td>detailed halfbody rig</td><td>$180</td></tr>
-                <tr><td>detailed fullbody rig</td><td>$200</td></tr>
-                <tr><td>fullbody rig + vbridger + extra physics</td><td>$250</td></tr>
-                <tr><td>complex vtuber pet/chibi rig</td><td>$60 +- (depends on layers)</td></tr>
-                <tr><td>toggle add-on (on/off)</td><td>$15 +-</td></tr>
-                <tr><td>expression/movement/physics add-on</td><td>$10</td></tr>
-                <tr><td>motion/animation add-on (.can3)</td><td>$10</td></tr>
-                <tr><td>extra body parts add-on (tail, ears, eye...)</td><td>$15</td></tr>
-                <tr><td>wide-range head angles add-on</td><td>$35</td></tr>
-                <tr><td>vbridger mouth add-on</td><td>$35</td></tr>
-                <tr><td>physics augmentation @ vtube studio</td><td>$25</td></tr>
-                <tr><td>rework on any part</td><td>price to be discussed</td></tr>
-                <tr><td>prop/object animation</td><td>price to be discussed</td></tr>
-              </table>
-              <p class="note">* prices may vary depending on complexity and number of layers. payment via paypal.</p>
-            </div>
-
-            <hr>
+           
+            <br>
 
             <div class="prices-section">
               <h3>o que cada rig inclui</h3>
@@ -405,7 +551,90 @@ body{
                 <tr><td>breathing</td></tr>
               </table>
             </div>
+            
+
+            <hr>
+
+
+            <div class="prices-section">
+              <table>
+                <tr><th>descrição</th><th>valor</th></tr>
+                <tr><td>rig lite (quase um pngtuber)</td><td>R$ 95</td></tr>
+               
+                <tr><td>rig halfbody detalhado</td><td>R$ 460</td></tr>
+                <tr><td>rig fullbody detalhado</td><td>R$ 480</td></tr>
+                <tr><td>rig fullbody + vbridger + extra physics</td><td>R$ 550</td></tr>
+                <tr><td>rig vtuber pet/chibi complexo</td><td>R$ 200 +- (depende das camadas)</td></tr>
+                <tr><td>adicional toggle (on/off)</td><td>R$ 5 +-</td></tr>
+                <tr><td>adicional com expressão/movimento / física</td><td>R$ 10</td></tr>
+                <tr><td>adicional com motion/animação (.can3)</td><td>R$ 15–20</td></tr>
+                <tr><td>adicional partes do corpo extra (rabo, orelhas, olho...)</td><td>R$ 15</td></tr>
+                <tr><td>adicional ângulos da cabeça wide-range</td><td>R$ 50</td></tr>
+                <tr><td>adicional boca vbridger</td><td>R$ 50</td></tr>
+                <tr><td>physics augmentation @ vtube studio</td><td>R$ 20</td></tr>
+                <tr><td>rework em qualquer parte</td><td>valor a combinar</td></tr>
+                <tr><td>animação de objetos/props</td><td>valor a combinar</td></tr>
+              </table>
+              <p class="note">* preços podem mudar dependendo da complexidade e número de camadas.</p>
+            </div>
+
             <br>
+
+            <div class="prices-section">
+              <h3>english / international clients</h3>
+              <table>
+                <tr><th>description</th><th>price</th></tr>
+                <tr><td>lite rig (almost pngtuber-level)</td><td>$35</td></tr>
+              
+                <tr><td>detailed halfbody rig</td><td>$180</td></tr>
+                <tr><td>detailed fullbody rig</td><td>$200</td></tr>
+                <tr><td>fullbody rig + vbridger + extra physics</td><td>$250</td></tr>
+                <tr><td>complex vtuber pet/chibi rig</td><td>$60 +- (depends on layers)</td></tr>
+                <tr><td>toggle add-on (on/off)</td><td>$5 +-</td></tr>
+                <tr><td>expression/movement/physics add-on</td><td>$10</td></tr>
+                <tr><td>motion/animation add-on (.can3)</td><td>$20</td></tr>
+                <tr><td>extra body parts add-on (tail, ears, eye...)</td><td>$15</td></tr>
+                <tr><td>wide-range head angles add-on</td><td>$35</td></tr>
+                <tr><td>vbridger face add-on</td><td>$45</td></tr>
+                <tr><td>physics augmentation @ vtube studio</td><td>$25</td></tr>
+                <tr><td>rework on any part</td><td>price to be discussed</td></tr>
+                <tr><td>prop/object animation</td><td>price to be discussed</td></tr>
+              </table>
+              <p class="note">* prices may vary depending on complexity and number of layers. payment via paypal.</p>
+            </div>
+
+            <hr>
+
+
+            <div class="prices-section portfolio-embed">
+              <h3>portfolio</h3>
+              <div class="caixamaisclara-conteudo">
+                <div class="games-button-container">
+                  <a href="#" class="pushable portfolio-nav-button" data-page="portfolio-art.html">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front">drawings</span>
+                  </a>
+                  <a href="#" class="pushable portfolio-nav-button" data-page="portfolio-rig.html">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front">live2d rigs</span>
+                  </a>
+                  <a href="#" class="pushable portfolio-nav-button" data-page="pricings.html">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front">pricings</span>
+                  </a>
+                </div>
+              </div>
+              <div id="portfolio-conteudo">
+                <p style="text-align: center; color: #534F4A;">select a portfolio section above to view content</p>
+              </div>
+            </div>
+
+<hr>
+
+
             <h2 style="margin: 3px; font-size: 18px;">enter the portal to go to my site</h2>
      <a href="/" class="site-banner-link ds-tooltip" data-tooltip="minkurosu.site">
         <img
@@ -417,6 +646,8 @@ body{
           </div>
           
     </div>
+
+
   </div>
 
   <script src="lastfm-widget.js"></script>
@@ -424,24 +655,68 @@ body{
   <script src="theme-switcher.js"></script>
 
   <script>
-    (async function loadRigPortfolio() {
-      const area = document.getElementById('rig-portfolio');
-      try {
-        const res = await fetch('portfolio-rig.html');
-        const html = await res.text();
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const node = doc.querySelector('.rig-page');
-        if (node) area.innerHTML = node.outerHTML;
-      } catch(e) {
-        area.innerHTML = '<p style="color:#3a3836;font-family:MinFont,monospace;">erro ao carregar portfolio</p>';
-      }
+    (function initPortfolioEmbed() {
+      const contentArea = document.getElementById('portfolio-conteudo');
+      const navButtons = document.querySelectorAll('.portfolio-nav-button');
+
+      if (!contentArea || navButtons.length === 0) return;
+
+      const loadPortfolioContent = async (pageUrl) => {
+        contentArea.innerHTML = '<p style="text-align:center;color:#534F4A;">loading...</p>';
+        contentArea.classList.add('loading');
+
+        try {
+          const response = await fetch(pageUrl);
+          if (!response.ok) throw new Error(`http error: ${response.status}`);
+
+          const htmlText = await response.text();
+          const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+
+          let contentNode =
+            doc.querySelector('.portfolioContent') ||
+            doc.querySelector('.rig-page') ||
+            doc.querySelector('.caixaprices') ||
+            doc.querySelector('.grid-feed') ||
+            doc.querySelector('.caixamaisclara');
+
+          contentArea.innerHTML = contentNode ? contentNode.outerHTML : doc.body.innerHTML;
+          contentArea.classList.remove('loading');
+
+          setTimeout(() => {
+            if (typeof Fancybox !== 'undefined') {
+              Fancybox.destroy();
+              if (typeof window.bindGalleryFancybox === 'function') {
+                window.bindGalleryFancybox('[data-fancybox]');
+              } else {
+                Fancybox.bind('[data-fancybox]', { Hash: false });
+              }
+            }
+          }, 300);
+
+        } catch (error) {
+          console.error('error loading content:', error);
+          contentArea.innerHTML = '<p style="color:red;text-align:center;">error loading content</p>';
+          contentArea.classList.remove('loading');
+        }
+      };
+
+      navButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          const pageFile = button.dataset.page;
+          if (pageFile) loadPortfolioContent(pageFile);
+        });
+      });
+
+      loadPortfolioContent('portfolio-rig.html');
     })();
-  </script>  <script>
+  </script>
+  <script>
     (function() {
       function googleTranslateElementInit() {
         new google.translate.TranslateElement({
           pageLanguage: 'pt-br',
-          includedLanguages: 'pt-br,es,fr,ko,ja,it,de,ru,zh-CN,en',
+          includedLanguages: '',
           layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false
         }, 'google_translate_element');

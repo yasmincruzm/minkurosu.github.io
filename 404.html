@@ -4,7 +4,28 @@
 <meta charset="UTF-8">
 <title>min kurosu</title>
 <script>
-   
+(function () {
+  var ALIASES = {
+    'commission': 'commissions',
+    'comms': 'commissions',
+    'encomenda': 'commissions',
+    'rig': 'commissions',
+    'live2d': 'commissions',
+    'portfolio': 'commissions',
+    'portifolio': 'commissions',
+    'psicologia': 'psi'
+  };
+
+  var path = location.pathname.replace(/^\/+/, '').replace(/\.html$/, '').replace(/\/$/, '');
+  var target = ALIASES[path];
+
+  if (target) {
+    location.replace('/' + target);
+    return;
+  }
+})();
+
+
     sessionStorage.redirect = location.pathname + location.search + location.hash;
     location.replace('/');
 </script>

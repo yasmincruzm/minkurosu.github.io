@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="atendimento psicológico - @minkurosu">
+
+    <meta property="og:title" content="min kurosu - psicologia">
+    <meta property="og:description" content="atendimento psicológico, olhar histórico-cultural, sem julgamento.">
+    <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
+    <meta property="og:url" content="https://minkurosu.site/psicologia.html">
+    <meta property="og:type" content="website">
+
+    <title>psicologia // minkurosu</title>
+
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+
+    <!-- usa o mesmo css do resto do site, pra manter fonte (MinFont) e cores -->
+    <!-- caminho absoluto (começando com /) — assim funciona igual em minkurosu.site/psi,
+         minkurosu.site/psi/index.html, ou qualquer outra pasta, sem depender de onde
+         este arquivo for salvo em relação ao emo.css -->
+    <link rel="stylesheet" href="/emo.css" id="theme-stylesheet">
+</head>
+
+<body class="psi-standalone">
+    <!-- o CSS foi movido pra dentro do <body> de propósito: se o seu site carrega
+         páginas dinamicamente e só aproveita o conteúdo do <body>, o <head> (e um
+         <style> que estivesse lá) pode ser descartado. deixando aqui dentro, o CSS
+         viaja junto com o conteúdo não importa como ele seja carregado. -->
+    <style>
+      
+        .psi-wrap, .psi-wrap *, .psi-wrap *::before, .psi-wrap *::after {
+            box-sizing: border-box;
+        }
+
+        /* fallback só entra em ação se você adicionar class="psi-standalone" no <body>
+           — use isso quando abrir este arquivo sozinho, desanexado do site principal.
+           se for colar o .psi-wrap dentro do body do site, não adicione essa classe:
+           o body do site principal manda no fundo/margens, e nada aqui interfere nisso. */
+        body.psi-standalone {
+            background-color: #0a0a0a;
+            margin: 0;
+        }
+
+        /* paleta neutra: só bege/cinza, sem vermelho — preto de fundo,      */
+        /* bege-acinzentado pra letra, bege mais escuro pros detalhes/bordas */
+        /* tudo isolado dentro do .psi-wrap — nada aqui depende do body externo */
+
+        .psi-wrap {
+            /* cor única de letra pra tudo (mais escura que antes) e uma cor
+               de detalhe (bordas, chips, ícones) também um pouco mais escura */
+            --psi-texto: #8a8172;
+            --psi-detalhe: #3d382e;
+
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0.8rem 1rem 2rem;
+            text-align: left !important;
+            background-color: #0a0a0a;
+            color: var(--psi-texto);
+            font-family: "MinFont", sans-serif;
+            text-transform: lowercase;
+
+            /* espaço fixo entre todas as caixas principais (hero, faixa,
+               seções e galeria) — controlado num único lugar */
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .psi-wrap p, .psi-wrap h1, .psi-wrap h2, .psi-wrap h3, .psi-wrap div {
+            text-align: left;
+        }
+
+      
+
+        /* faixa horizontal de tags, no mesmo estilo dos botões do navbar do site */
+        .psi-faixa {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+            padding: 0.3rem;
+            margin: 0.2rem;
+            font-size: 1rem;
+        }
+
+        .psi-faixa span {
+            padding: 2px ;
+            border-radius: 2px;
+            border: 0.15rem solid #1c1914;
+            background-color: #0a0a0a;
+            color: var(--psi-detalhe);
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+        }
+
+        /* ============ HERO HORIZONTAL ============ */
+        .psi-hero {
+            position: relative;
+            border: 3px solid #2b2419;
+            background-color: #0a0a0a;
+            border-radius: 0.5rem;
+            padding: 1.1rem 1.3rem;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* ---- elemento que "sai da caixa": vaza da borda do hero de propósito ---- */
+        .psi-decoracao {
+            position: absolute;
+            width: 54px;
+            height: auto;
+            pointer-events: none;
+            z-index: 3;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+        }
+
+        .psi-decoracao.psi-decoracao-hero {
+            top: -22px;
+            right: -18px;
+            transform: rotate(8deg);
+        }
+
+        .psi-decoracao.psi-decoracao-sobre {
+            width: 42px;
+            bottom: -16px;
+            left: -14px;
+            transform: rotate(-10deg);
+        }
+
+        @media (max-width: 720px) {
+            .psi-decoracao {
+                display: none;
+            }
+        }
+
+        .psi-hero-texto {
+            flex: 1 1 320px;
+            min-width: 260px;
+        }
+
+        .psi-hero h1 {
+            font-size: 1.5rem !important;
+            margin: 0 0 0.15rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            letter-spacing: 0.01em;
+        }
+
+        .psi-hero .psi-crp {
+            font-size: 0.72rem;
+            color: var(--psi-texto);
+            margin-bottom: 0.4rem;
+        }
+
+        /* assinatura: um nózinho emaranhado que se desenrola virando uma linha
+           ondulada — tudo em um traço só, carregando da esquerda pra direita,
+           e o nó fica ali (não some). diâmetro do nó aumentado escalando
+           o svg inteiro (viewBox mantido, largura/altura maiores). */
+        .psi-assinatura {
+            display: block;
+            width: 113px;
+            height: 40px;
+            margin: 0.1rem 0 0.6rem -3px;
+        }
+
+        .psi-assinatura path {
+            fill: none;
+            stroke: var(--psi-detalhe);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            /* desenrola devagar e, ao terminar, entra numa respiração bem sutil
+               e infinita — assim tanto o nó quanto a linha ondulada continuam
+               "vivos" no final, em vez de simplesmente congelar */
+            animation: psi-assinar 2.6s 0.2s cubic-bezier(.4,.1,.2,1) forwards,
+                       psi-respirar 3.8s ease-in-out 2.9s infinite;
+        }
+
+        @keyframes psi-assinar {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes psi-respirar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.78; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .psi-assinatura path {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .psi-hero p.psi-tagline {
+            font-size: 0.9rem;
+            color: var(--psi-texto);
+            max-width: 460px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .psi-cta-btns {
+            margin-top: 0.7rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        /* botão no mesmo molde dos links do navbar do site: caixa preta, borda escura, hover vermelho */
+        .psi-btn {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 2px;
+            font-size: 0.78rem;
+            text-decoration: none;
+            border: 0.15rem solid #1c1914;
+            color: var(--psi-detalhe) !important;
+            background-color: #0a0a0a;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .psi-btn:hover {
+            color: var(--psi-texto) !important;
+            border-color: var(--psi-detalhe);
+            transform: scale(1.08);
+        }
+
+        .psi-btn.secundario {
+            background-color: #0a0a0a;
+            color: var(--psi-detalhe) !important;
+            border: 0.15rem solid #1c1914;
+        }
+
+        /* ============ SEÇÕES EM LINHA (HORIZONTAL) ============ */
+        .psi-secao {
+            position: relative;
+            border: 1px solid #201f1f;
+            background-color: #0f0f0f;
+            border-radius: 0.5rem;
+            padding: 0.9rem;
+            
+        }
+
+        .psi-secao h2 {
+            color: var(--psi-texto);
+            font-size: 0.98rem !important;
+            border-bottom: 1px solid var(--psi-detalhe);
+            padding-bottom: 0.3rem;
+            margin: 0 0 0.5rem;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-secao p {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            margin: 0 0 0.6rem;
+        }
+
+        .psi-secao p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ============ VALORES / PRINCÍPIOS ============ */
+        .psi-lista-valores {
+            list-style: none;
+            margin: 0.6rem 0 0;
+            padding: 0;
+        }
+
+        .psi-lista-valores li {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            padding: 0.45rem 0 0.45rem 1rem;
+            border-bottom: 1px dashed #262626;
+            position: relative;
+        }
+
+        .psi-lista-valores li:last-child {
+            border-bottom: none;
+        }
+
+        .psi-lista-valores li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        /* ============ SERVIÇOS ============ */
+        .psi-servicos-tira {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.6rem;
+            margin-top: 0.3rem;
+        }
+
+        .psi-servico-card {
+            flex: 1 1 170px;
+            max-width: 220px;
+            border: 1px solid var(--psi-detalhe);
+            border-radius: 3px;
+            padding: 0.6rem 0.7rem;
+            background-color: #0a0a0a;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-servico-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .psi-servico-card h3 {
+            margin: 0 0 0.25rem;
+            font-size: 0.85rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-servico-card p {
+            font-size: 0.74rem;
+            margin: 0;
+            color: var(--psi-texto);
+            line-height: 1.4;
+        }
+
+        /* ============ GALERIA FINAL ============ */
+        .psi-galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        .psi-galeria-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border: 2px dashed #262626;
+            border-radius: 2px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-galeria-item:hover {
+            transform: scale(1.03);
+        }
+
+        /* texto de apoio (aparece se a imagem não carregar, já que ela fica por cima) */
+        .psi-galeria-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--psi-texto);
+            padding: 0.4rem;
+            z-index: 0;
+        }
+
+        .psi-thumb-img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-galeria-item:hover .psi-thumb-img {
+            transform: scale(1.06);
+        }
+
+        /* dica sutil que aparece no hover, avisando que dá pra ampliar */
+        .psi-hover-hint {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 0.4rem;
+            font-size: 0.65rem;
+            color: var(--psi-texto);
+            background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .psi-galeria-item:hover .psi-hover-hint {
+            opacity: 1;
+        }
+
+        /* overlay que expande com a foto em tamanho grande, por cima de tudo */
+        .psi-full-img-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 5, 5, 0.92);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease-in-out;
+            padding: 2rem;
+        }
+
+        .psi-galeria-item.expanded .psi-full-img-wrap {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .psi-full-img-wrap img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 3px;
+            box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.7);
+            cursor: default;
+        }
+
+        .psi-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            background: transparent;
+            border: 0.15rem solid #1c1914;
+            color: var(--psi-detalhe);
+            font-size: 1.3rem;
+            line-height: 1;
+            padding: 4px 10px;
+            border-radius: 2px;
+            cursor: pointer;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-close-btn:hover {
+            color: var(--psi-texto);
+        }
+
+        .psi-aviso {
+            font-size: 0.68rem;
+            color: var(--psi-texto);
+            text-align: center;
+            margin-top: 1.2rem;
+            line-height: 1.4;
+            text-transform: none;
+        }
+
+        .psi-footer {
+            text-align: center;
+            padding: 6px;
+            font-size: 0.8rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin-top: 0.8rem;
+        }
+
+        @media (max-width: 720px) {
+            .psi-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .psi-hero-texto {
+                text-align: center;
+            }
+            .psi-cta-btns {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <!--
+        ISTO AQUI FUNCIONA DOS DOIS JEITOS:
+
+        1) DESANEXADO (este arquivo sozinho, como está agora): mantenha
+           class="psi-standalone" no <body> acima. ela só liga o fundo
+           preto e zera a margem do body — nada além disso.
+
+        2) DENTRO DO SITE PRINCIPAL: copie só a <div class="psi-wrap">
+           (com tudo dentro dela) e cole no lugar que quiser dentro do
+           <body> do seu index.html. NÃO copie a classe "psi-standalone"
+           pro body do site principal — assim o fundo, a margem e o resto
+           do layout do site continuam mandando por conta deles, e nenhum
+           estilo daqui vaza pra fora da .psi-wrap nem depende do que tem
+           fora dela.
+    -->
+
+    <div class="psi-wrap">
+
+
+        <!-- ============ HERO / APRESENTAÇÃO (horizontal) ============ -->
+        <div class="psi-hero">
+        
+            <div class="psi-hero-texto" style="flex: 1 1 100%;">
+                <!-- EDITE: seu nome -->
+                <h1>seu nome aqui</h1>
+
+                <!-- EDITE: seu CRP -->
+                <div class="psi-crp">psicóloga(o) — crp 00/00000</div>
+
+                <svg class="psi-assinatura" viewBox="0 0 90 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M0.90 11.20 C 1.09 11.42, 1.14 13.29, 2.01 12.54 C 2.88 11.78, 4.23 7.99, 6.14 6.66 C 8.05 5.33, 11.05 4.50, 13.47 4.55 C 15.89 4.60, 18.81 5.58, 20.66 6.98 C 22.51 8.37, 23.54 10.73, 24.57 12.90 C 25.60 15.07, 27.27 17.82, 26.85 20.00 C 26.44 22.18, 24.05 24.68, 22.09 25.98 C 20.13 27.29, 17.52 27.33, 15.10 27.80 C 12.67 28.28, 9.79 29.51, 7.52 28.85 C 5.25 28.18, 2.44 25.87, 1.49 23.81 C 0.54 21.76, 0.91 17.24, 1.81 16.51 C 2.71 15.77, 5.20 18.24, 6.87 19.39 C 8.54 20.54, 10.04 22.60, 11.83 23.40 C 13.62 24.20, 15.65 24.14, 17.62 24.16 C 19.60 24.18, 21.86 24.39, 23.68 23.52 C 25.50 22.65, 27.84 20.82, 28.56 18.95 C 29.28 17.08, 28.60 14.32, 28.01 12.33 C 27.42 10.33, 26.39 8.43, 25.04 6.97 C 23.68 5.51, 21.76 4.02, 19.87 3.56 C 17.98 3.10, 15.40 3.40, 13.69 4.21 C 11.97 5.03, 10.71 6.90, 9.58 8.45 C 8.44 10.01, 6.94 13.93, 6.88 13.57 C 6.81 13.21, 8.07 7.81, 9.21 6.29 C 10.35 4.76, 12.16 4.50, 13.71 4.42 C 15.25 4.34, 17.18 5.00, 18.48 5.79 C 19.78 6.57, 20.60 7.92, 21.49 9.13 C 22.37 10.34, 23.65 11.67, 23.79 13.05 C 23.94 14.43, 23.20 16.17, 22.37 17.40 C 21.54 18.63, 20.18 19.86, 18.81 20.44 C 17.44 21.01, 15.70 20.82, 14.16 20.85 C 12.61 20.87, 10.98 21.06, 9.53 20.58 C 8.07 20.09, 6.10 19.14, 5.42 17.96 C 4.74 16.77, 4.09 12.11, 5.47 13.46 C 6.85 14.80, 11.57 23.92, 13.68 26.01 C 15.79 28.11, 16.76 26.29, 18.13 26.03 C 19.49 25.77, 20.58 25.11, 21.87 24.46 C 23.16 23.80, 25.30 23.28, 25.85 22.10 C 26.41 20.91, 25.64 18.69, 25.21 17.33 C 24.78 15.97, 23.92 15.14, 23.29 13.95 C 22.65 12.77, 22.41 11.28, 21.40 10.20 C 20.39 9.12, 18.62 7.45, 17.24 7.46 C 15.86 7.47, 14.07 9.08, 13.12 10.24 C 12.18 11.40, 12.12 13.10, 11.58 14.42 C 11.04 15.73, 9.66 18.98, 9.88 18.14 C 10.10 17.30, 11.84 10.87, 12.90 9.37 C 13.96 7.88, 15.19 9.00, 16.25 9.18 C 17.32 9.37, 18.43 9.84, 19.29 10.48 C 20.15 11.11, 20.87 12.04, 21.40 12.99 C 21.93 13.95, 22.44 15.12, 22.46 16.22 C 22.48 17.32, 22.15 18.70, 21.53 19.57 C 20.91 20.44, 19.68 20.99, 18.72 21.44 C 17.76 21.90, 16.80 22.13, 15.74 22.30 C 14.69 22.47, 13.44 22.79, 12.40 22.49 C 11.35 22.20, 10.03 21.43, 9.46 20.53 C 8.89 19.63, 7.86 17.70, 8.98 17.08 C 10.10 16.46, 13.18 16.99, 16.19 16.81 C 19.19 16.63, 25.20 16.14, 27.00 16.00 C 36 2, 44 29, 55 16 C 64 6, 70 24, 80 15" />
+                </svg>
+
+                <!-- EDITE: sua frase de efeito, mais de bater papo que de consultório -->
+                <p class="psi-tagline">
+                    um cantinho pra você falar do que estiver precisando, no seu
+                    tempo. não prometo respostas prontas nem milagre — só escuta
+                    cuidadosa, ética e o compromisso de aprender junto.
+                </p>
+
+                <div class="psi-cta-btns">
+                    <!-- EDITE: seu link de agendamento/whatsapp -->
+                    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o."
+                        class="psi-btn" target="_blank" rel="noopener noreferrer">
+                        marcar um horário
+                    </a>
+                    <!-- EDITE: seu instagram / e-mail -->
+                    <a href="mailto:seuemail@exemplo.com" class="psi-btn secundario">
+                        mandar um e-mail
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- faixa tipo cartaz — EDITE as tags conforme sua atuação -->
+        <div class="psi-faixa">
+            <span>psicologia histórico-cultural</span>
+            <span>atendimento online</span>
+            <span>terapia imparcial e libertadora</span>
+            <span>lgbtqia+</span>
+            <span>neurodivergente</span>
+            <span>autenticidade</span>
+            <span>direitos humanos</span>
+            <span>justiça social</span>
+        </div>
+
+        <!-- ============ SOBRE ============ -->
+        <div class="psi-secao">
+           
+            <div>
+                <h2>sobre o atendimento</h2>
+                <!-- EDITE: troque [ufrj/uff/unb] pela sua faculdade -->
+                <p>
+                    sou psicóloga(o) pela [ufrj/uff/unb]. trabalho a partir da
+                    psicologia histórico-cultural — vigotski, principalmente —
+                    porque não acredito em sofrimento (ou cura) desligado de
+                    tempo, história e lugar social. isso muda a pergunta: não "o
+                    que há de errado com você", mas "o que aconteceu, e onde".
+                </p>
+                <p>
+                    também sou lgbtqia+ e neurodivergente. isso entra na sala de
+                    um jeito prático: pergunto antes de presumir pronome,
+                    diagnóstico ou família; não trato divergência como sintoma a
+                    corrigir. quando o assunto pede outra área, encaminho — não
+                    finjo dar conta de tudo.
+                </p>
+                <p>
+                    boa parte do trabalho é só isso: parar de performar quem os
+                    outros esperam que você seja, e ir descobrindo, sem pressa,
+                    o que sobra quando essa performance para. sigo em supervisão
+                    e formação contínua, dentro do código de ética do cfp.
+                    atendo adultos e adolescentes.
+                </p>
+            </div>
+        </div>
+
+        <!-- ============ VALORES ============ -->
+        <div class="psi-secao">
+            <h2>o que acredito</h2>
+            <p>alguns princípios que levo pro consultório, mais como bússola do que como regra fechada.</p>
+            <ul class="psi-lista-valores">
+                <!-- EDITE: seus valores/princípios -->
+                <li>cada história tem sua própria lógica — não chego com molde pronto.</li>
+                <li>quem decide o rumo da própria vida é você; eu acompanho, não dirijo.</li>
+                <li>não tenho resposta pra tudo, e não finjo que tenho.</li>
+                <li>prefiro te incomodar com uma verdade do que confortar com evasiva.</li>
+                <li>diferença não é desvio a corrigir.</li>
+                <li>sigilo e ética não são discurso — são o mínimo esperado.</li>
+            </ul>
+        </div>
+
+        <!-- ============ SERVIÇOS ============ -->
+        <div class="psi-secao">
+            <h2>áreas de atuação</h2>
+            <p>alguns temas que venho acompanhando com mais frequência — cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
+            <div class="psi-servicos-tira">
+                <!-- EDITE: adicione/remova cards de serviço à vontade -->
+                <div class="psi-servico-card">
+                    <h3>ansiedade</h3>
+                    <p>crise, pensamento acelerado, aquela sensação de que tudo é urgente.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>autoestima</h3>
+                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>relacionamentos</h3>
+                    <p>afeto, família, convivência — e os padrões que a gente repete sem perceber.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>luto</h3>
+                    <p>acompanhamento em perdas de todo tipo, no tempo de cada um.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>raça e racismo</h3>
+                    <p>impactos psíquicos do racismo, sem patologizar a dor de existir numa sociedade racista.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>identidade &amp; lgbtqia+</h3>
+                    <p>espaço afirmativo pra gênero, orientação e transição, sem tutela.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>outro tema aqui</h3>
+                    <p>descrição breve e honesta do que você de fato se sente preparada(o) pra acompanhar.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ GALERIA ============ -->
+        <div class="psi-secao">
+            <h2>galeria</h2>
+            <p>um pouquinho do espaço, do processo e do que faz sentido pra mim — sinta-se em casa antes mesmo de marcar a primeira sessão.</p>
+            <div class="psi-galeria-grid">
+                <!-- EDITE: troque "imgs/sua-foto-N.jpg" (nos dois lugares dentro de cada
+                     célula) pela sua foto de verdade, e troque "imagem N" pela legenda
+                     curta que preferir. enquanto não tiver foto, a miniatura só fica
+                     quebrada (normal) e o texto de apoio aparece no lugar dela — clique
+                     continua funcionando igual. -->
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-1.jpg')">
+                    <span class="psi-galeria-label">imagem 1</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 1">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-2.jpg')">
+                    <span class="psi-galeria-label">imagem 2</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-2.jpg" alt="imagem 2" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 2">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-3.jpg')">
+                    <span class="psi-galeria-label">imagem 3</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-3.jpg" alt="imagem 3" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 3">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-4.jpg')">
+                    <span class="psi-galeria-label">imagem 4</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-4.jpg" alt="imagem 4" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 4">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-5.jpg')">
+                    <span class="psi-galeria-label">imagem 5</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-5.jpg" alt="imagem 5" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 5">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-6.jpg')">
+                    <span class="psi-galeria-label">imagem 6</span>
+                    <img class="psi-thumb-img" src="imgs/sua-foto-6.jpg" alt="imagem 6" loading="lazy" onerror="this.style.display='none'">
+                    <div class="psi-hover-hint">ampliar</div>
+                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
+                        <img src="" alt="imagem 6">
+                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ CONTATO FINAL ============ -->
+        <div class="psi-hero">
+            <div class="psi-hero-texto" style="flex: 1 1 100%;">
+                <h1 style="font-size: 1.3rem !important;">bora conversar?</h1>
+                <p class="psi-tagline">
+                    dar o primeiro passo já é um jeito de cuidar de si mesma(o) — no
+                    seu tempo, sem pressa e sem compromisso de já sair marcando nada.
+                    frequência, formato e valores a gente combina numa conversa,
+                    sem formulário nem burocracia.
+                </p>
+                <p class="psi-tagline" style="margin-top: 0.6rem;">
+                    além do acompanhamento contínuo, também faço sessões avulsas —
+                    pra quando bater a necessidade de desabafar, ou só pra
+                    experimentar e ver se combina, sem compromisso de continuar
+                    caso não role.
+                </p>
+                <div class="psi-cta-btns">
+                    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o."
+                        class="psi-btn" target="_blank" rel="noopener noreferrer">
+                        chamar no whatsapp
+                    </a>
+                    <a href="https://instagram.com/seuinstagram" class="psi-btn secundario" target="_blank"
+                        rel="noopener noreferrer">
+                        ver instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <p class="psi-aviso">
+            atendimento psicológico realizado em conformidade com o código de ética profissional do psicólogo
+            (cfp), sempre em supervisão e formação contínua. este atendimento não substitui acompanhamento
+            psiquiátrico nem emergência médica. em caso de risco à vida, procure o cvv (188) ou o samu (192).
+        </p>
+
+
+    </div>
+
+    <!-- expande a foto clicada em tela cheia (mesmo esquema do resto do site) -->
+    <script>
+        function expandCell(cell, fullSrc) {
+            const wrap = cell.querySelector('.psi-full-img-wrap');
+            const img = wrap.querySelector('img');
+            img.src = fullSrc;
+            cell.classList.add('expanded');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function collapseCell(cell) {
+            cell.classList.remove('expanded');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.psi-galeria-item.expanded').forEach(collapseCell);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
