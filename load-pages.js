@@ -1,4 +1,3 @@
-
 window.__pageRouterActive = true;
 
 (function restoreDeepLink() {
@@ -12,6 +11,22 @@ window.__pageRouterActive = true;
 document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     if (!mainContainer) return;
+
+    const HOME_PAGE = 'aboutme';
+
+    const PAGE_ALIASES = {
+        'comissions': 'commission',
+        'commissions': 'commission',
+        'comission': 'commission'
+    };
+
+    function resolvePage(pageName) {
+        return PAGE_ALIASES[pageName] || pageName;
+    }
+
+    function urlFor(pageName) {
+        return pageName === HOME_PAGE ? '/' : '/' + pageName;
+    }
 
     function notifySession(pageName) {
         if (typeof window.markVisit === 'function') {
@@ -90,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFetchController = null;
 
     function loadPage(pageName, pushState = false) {
+        pageName = resolvePage(pageName);
         if (currentFetchController) currentFetchController.abort();
 
         const cached = pageCache.get(pageName);
@@ -160,6 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('.nav-link').forEach(l => {
                     l.classList.toggle('active', l.getAttribute('data-page') === pageName);
                 });
+
+                if (pushState) {
+                    history.pushState({ page: pageName }, '', urlFor(pageName));
+                }
             })
             .catch(err => {
                 if (err.name === 'AbortError') return;
@@ -189,6 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return path && path !== 'index' ? path : 'aboutme';
     })();
 
-    history.replaceState({ page: initialPage }, '', '/');
+    history.replaceState({ page: initialPage }, '', urlFor(initialPage));
     loadPage(initialPage, false);
 });
