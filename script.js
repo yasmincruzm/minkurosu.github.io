@@ -5,10 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
         track.innerHTML += content;
     });
 });
-function initializeDrag() {
-    function applyTransform(target, x, y, rotation) {
-        target.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
-    }
+
+
+(function () {
+    sessionStorage.redirect = location.pathname + location.search + location.hash;
+    location.replace('/');
+})();
+ 
+
+
+
 
     interact('.draggable')
         .draggable({

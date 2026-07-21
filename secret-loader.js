@@ -1,7 +1,15 @@
-// secret-loader.js
+
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+
+
+function initializeDrag() {
+    function applyTransform(target, x, y, rotation) {
+        target.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+    }
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
