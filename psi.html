@@ -83,8 +83,8 @@
             box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            gap: 0.8rem;
+            align-items: stretch;
+            gap: 1.2rem;
         }
 
         .psi-decoracao {
@@ -116,7 +116,7 @@
         }
 
         .psi-hero-texto {
-            flex: 1 1 320px;
+            flex: 1 1 0;
             min-width: 260px;
         }
 
@@ -437,6 +437,31 @@
             margin-top: 0.8rem;
         }
 
+        .psi-hero-foto {
+            flex: 1 1 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .psi-hero-foto.psi-hero-foto-vazio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            text-align: center;
+            padding: 0.4rem;
+            background-color: #131313;
+            color: var(--psi-detalhe);
+            min-height: 220px;
+        }
+
+        .psi-hero-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         @media (max-width: 720px) {
             .psi-hero {
                 flex-direction: column;
@@ -444,6 +469,11 @@
             }
             .psi-hero-texto {
                 text-align: center;
+            }
+            .psi-hero-foto {
+                margin: 0 auto;
+                width: 100%;
+                max-width: 260px;
             }
             .psi-cta-btns {
                 justify-content: center;
@@ -457,8 +487,8 @@
 
 
         <div class="psi-hero">
-        
-            <div class="psi-hero-texto" style="flex: 1 1 100%;">
+
+            <div class="psi-hero-texto">
                 <h1>yasmin cruz mauricio</h1>
 
                 <div class="psi-crp">psicóloga — crp 05/87037</div>
@@ -473,7 +503,7 @@
    nos constituímos e nos transformamos no contato com o outro, atravessados pela história e contexto diferente de cada um, por isso, pra mim, entender alguém passa por conhecer sua história,
     suas condições de vida e as relações que a formaram, não só o que se apresenta no momento presente.
   acredito numa psicologia que não fecha os olhos pra injustiças em nome de uma "imparcialidade": acredito que a prática deve promover igualdade, equidade e justiça social.
-  proponho aqui um espaço pra compartilharmos experiência e construirmos, juntos, apoio na sua trajetória de vida e autoconhecimento.
+  proponho aqui um espaço pra compartilharmos experiência e construirmos, juntos, apoio na sua trajetória de autoconhecimento e de vida .
 </p>
                 <div class="psi-cta-btns">
                     <a href="https://instagram.com/psi.min" class="psi-btn secundario">
@@ -483,6 +513,11 @@
                         mandar um e-mail
                     </a>
                 </div>
+            </div>
+
+            <div class="psi-hero-foto">
+                <img src="imgs/site_imgs/psi.jpeg" alt="yasmin cruz mauricio" onerror="this.style.display='none'; this.parentElement.classList.add('psi-hero-foto-vazio'); this.nextElementSibling.style.display='block'">
+                <span class="psi-hero-foto-placeholder" style="display:none;">sua foto aqui (3:4)</span>
             </div>
         </div>
         <div class="psi-faixa">
@@ -504,18 +539,17 @@
                 <p>
                     sou psicóloga recém-formada pela UFF, ainda no comecinho de carreira
                     (e prefiro dizer isso de cara, pela transparência e ética), trabalho
-                    a partir da psicologia histórico-cultural, principalmente acredito que
-                    ninguém sofre "por nada", sempre tem uma história, um contexto.
-                    por isso minha escuta não separa o
-                    que você sente do contexto, trabalhamos junto o que
+                    a partir da psicologia histórico-cultural. acredito que
+                   todo sofrimento tem uma história por trás, minha escuta não separa o
+                    que você sente do seu contexto. trabalhamos junto o que
                     faz sentido pra sua vida, não uma fórmula pronta.
                 </p>
 
                 <p>
                     por ser recém-formada, ainda estou construindo minha prática, e entendo
-                    que isso também é uma questão de experiência. não acho justo que preço seja a
-                    única barreira entre alguém e um espaço de escuta, então meus valores
-                    refletem esse momento.
+                    que isso também é uma questão de experiência, não só estudo teórico. também não acho justo que preço seja uma
+                     barreira entre alguém e um espaço de escuta e acolhimento, então meus valores
+                    refletem esse momento e meu ideal por uma psicologia acessível.
                 </p>
 
           
@@ -526,7 +560,7 @@
                     não inventado do nada. isso faz parte da jornada de autoconhecimento,
                     que também tem relação com a busca de autenticidade,
                     já que pra existir do seu jeito, antes é preciso entender o que é seu e o que
-                    foi só aprendido ou imposto.
+                  foi imposto pelo outro.
                 </p>
       <p>
                     nem todo processo precisa ter um formato fixo. às vezes o que alguém
@@ -536,8 +570,8 @@
                     continuidade onde ela não faz sentido no contexto da pessoa.
                 </p>
                 <p>
-                    também atendo sobre supervisão, minha obrigação ética por enquanto,
-                    já que ainda vou fazer uma pós em clínica (atualmente faço em psicologia organizacional).
+                    também atendo sobre supervisão, um dos requisitos mínimos para estar de acordo com a ética profissional,
+                    já que ainda vou fazer uma pós em clínica (atualmente faço em outra área).
                 </p>
             </div>
         </div>
@@ -545,7 +579,7 @@
         <div class="psi-secao">
             <h2>um pouquinho sobre mim, além do crp</h2>
             <p>
-                vínculo também se constrói com alguma e identificação, então breve resumo:
+                vínculo também se constrói com alguma identificação, então breve resumo:
                  gosto da subcultura alternativa, desenhar, videogame, cultura geek e anime. na minha
                  jornada, me descobri lgbtq neurodivergente, e como pessoa com hipersensibilidade,
                   pretendo usar isso a meu favor em uma escuta empática e sensível.
@@ -663,16 +697,6 @@
                     frequência e valores a gente combina.
                 </p>
         
-                <div class="psi-cta-btns">
-                    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o."
-                        class="psi-btn" target="_blank" rel="noopener noreferrer">
-                        chamar no whatsapp
-                    </a>
-                    <a href="https://instagram.com/psi.min" class="psi-btn secundario" target="_blank"
-                        rel="noopener noreferrer">
-                        ver instagram
-                    </a>
-                </div>
             </div>
         </div>
 
