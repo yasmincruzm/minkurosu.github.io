@@ -21,19 +21,19 @@
 <body class="psi-standalone">
 
     <style>
-      
+
         .psi-wrap, .psi-wrap *, .psi-wrap *::before, .psi-wrap *::after {
             box-sizing: border-box;
         }
 
-      
+
         body.psi-standalone {
             background-color: #0a0a0a;
             margin: 0;
         }
 
         .psi-wrap {
-         
+
             --psi-texto: #8a8172;
             --psi-detalhe: #3d382e;
 
@@ -55,7 +55,7 @@
             text-align: left;
         }
 
-      
+
 .psi-faixa {
     display: flex;
     flex-wrap: wrap;
@@ -134,7 +134,7 @@
             margin-bottom: 0.4rem;
         }
 
-      
+
         .psi-assinatura {
             display: block;
             width: 113px;
@@ -150,7 +150,7 @@
             stroke-linejoin: round;
             stroke-dasharray: 500;
             stroke-dashoffset: 500;
-        
+
             animation: psi-assinar 2.6s 0.2s cubic-bezier(.4,.1,.2,1) forwards,
                        psi-respirar 3.8s ease-in-out 2.9s infinite;
         }
@@ -226,7 +226,7 @@
             background-color: #0f0f0f;
             border-radius: 0.5rem;
             padding: 0.9rem;
-            
+
         }
 
         .psi-secao h2 {
@@ -324,7 +324,7 @@
             border: 2px dashed #262626;
             border-radius: 2px;
             overflow: hidden;
-            cursor: pointer;
+            display: block;
             transition: transform 0.2s ease-in-out;
         }
 
@@ -359,36 +359,6 @@
             transform: scale(1.06);
         }
 
-        .psi-galeria-item.com-instagram {
-            aspect-ratio: auto;
-            min-height: 420px;
-            cursor: default;
-        }
-
-        .psi-galeria-item.com-instagram:hover {
-            transform: none;
-        }
-
-        .psi-galeria-item.com-instagram .psi-galeria-label,
-        .psi-galeria-item.com-instagram .psi-thumb-img,
-        .psi-galeria-item.com-instagram .psi-hover-hint,
-        .psi-galeria-item.com-instagram .psi-full-img-wrap {
-            display: none;
-        }
-
-        .psi-instagram-embed {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-        }
-
-        .psi-instagram-embed .instagram-media {
-            margin: 0 !important;
-            min-width: 0 !important;
-            width: 100% !important;
-        }
-
         .psi-hover-hint {
             position: absolute;
             inset: 0;
@@ -407,53 +377,6 @@
 
         .psi-galeria-item:hover .psi-hover-hint {
             opacity: 1;
-        }
-
-        .psi-full-img-wrap {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(5, 5, 5, 0.92);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease-in-out;
-            padding: 2rem;
-        }
-
-        .psi-galeria-item.expanded .psi-full-img-wrap {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .psi-full-img-wrap img {
-            max-width: 90vw;
-            max-height: 85vh;
-            object-fit: contain;
-            border-radius: 3px;
-            box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.7);
-            cursor: default;
-        }
-
-        .psi-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1.2rem;
-            background: transparent;
-            border: 0.15rem solid #1c1914;
-            color: var(--psi-detalhe);
-            font-size: 1.3rem;
-            line-height: 1;
-            padding: 4px 10px;
-            border-radius: 2px;
-            cursor: pointer;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .psi-close-btn:hover {
-            color: var(--psi-texto);
         }
 
         .psi-aviso {
@@ -478,25 +401,18 @@
             flex: 1 1 0;
             border-radius: 0.5rem;
             overflow: hidden;
-        }
-
-        .psi-hero-foto.psi-hero-foto-vazio {
-            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.68rem;
-            text-align: center;
-            padding: 0.4rem;
-            background-color: #131313;
-            color: var(--psi-detalhe);
-            min-height: 220px;
+            align-content: center;
         }
 
         .psi-hero-foto img {
             width: 100%;
-            height: 100%;
+            height: 80%;
+                        border-radius: 0.5rem;
+
             object-fit: cover;
             display: block;
+            align-self: center;
         }
 
         @media (max-width: 720px) {
@@ -518,7 +434,7 @@
         }
     </style>
 
-  
+
 
     <div class="psi-wrap">
 
@@ -554,8 +470,7 @@
             </div>
 
             <div class="psi-hero-foto">
-                <img src="imgs/site_imgs/psi.jpeg" alt="yasmin cruz mauricio" onerror="this.style.display='none'; this.parentElement.classList.add('psi-hero-foto-vazio'); this.nextElementSibling.style.display='block'">
-                <span class="psi-hero-foto-placeholder" style="display:none;">sua foto aqui (3:4)</span>
+                <img src="imgs/site_imgs/psi.jpeg" alt="yasmin cruz mauricio">
             </div>
         </div>
         <div class="psi-faixa">
@@ -590,7 +505,7 @@
                     refletem esse momento e meu ideal por uma psicologia acessível.
                 </p>
 
-          
+
 
                 <p>
                     acredito que a tomada de consciência dos nossos comportamentos e pensamentos é uma das partes fundamentais da psicoterapia.
@@ -643,7 +558,7 @@
             <h2>áreas de atuação</h2>
             <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
             <div class="psi-servicos-tira">
-           
+
                 <div class="psi-servico-card">
                     <h3>TOC</h3>
                     <p>pensamentos intrusivos e rituais que tomam espaço no dia a dia, sem julgamento.</p>
@@ -656,7 +571,7 @@
                     <h3>autoestima</h3>
                     <p>reconstruir a relação com o próprio corpo e a própria história.</p>
                 </div>
-             
+
                 <div class="psi-servico-card">
                     <h3>identidade &amp; lgbtqia+</h3>
                     <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
@@ -668,63 +583,38 @@
             <h2>galeria</h2>
             <p>um pouco do que acredito :)</p>
             <div class="psi-galeria-grid">
+
               
-                <!-- Para exibir um post do Instagram, cole o link em data-instagram-post, por exemplo:
-                     data-instagram-post="https://www.instagram.com/p/ABC123/" -->
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-1.jpg')">
+                <a class="psi-galeria-item" href="imgs/sua-foto-1.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 1</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 1">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-2.jpg')">
+                </a>
+                <a class="psi-galeria-item" href="imgs/sua-foto-2.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 2</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-2.jpg" alt="imagem 2" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-2.jpg" alt="imagem 2" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 2">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-3.jpg')">
+                </a>
+                <a class="psi-galeria-item" href="imgs/sua-foto-3.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 3</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-3.jpg" alt="imagem 3" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-3.jpg" alt="imagem 3" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 3">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-4.jpg')">
+                </a>
+                <a class="psi-galeria-item" href="imgs/sua-foto-4.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 4</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-4.jpg" alt="imagem 4" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-4.jpg" alt="imagem 4" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 4">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-5.jpg')">
+                </a>
+                <a class="psi-galeria-item" href="imgs/sua-foto-5.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 5</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-5.jpg" alt="imagem 5" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-5.jpg" alt="imagem 5" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 5">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" data-instagram-post="" onclick="expandCell(this, 'imgs/sua-foto-6.jpg')">
+                </a>
+                <a class="psi-galeria-item" href="imgs/sua-foto-6.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 6</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-6.jpg" alt="imagem 6" loading="lazy" onerror="this.style.display='none'">
+                    <img class="psi-thumb-img" src="imgs/sua-foto-6.jpg" alt="imagem 6" loading="lazy">
                     <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 6">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -736,7 +626,7 @@
                     seu tempo, sem pressa ou pressão.
                     frequência e valores a gente combina.
                 </p>
-        
+
             </div>
         </div>
 
@@ -747,58 +637,6 @@
         </p>
 
     </div>
-
-    <script async src="https://www.instagram.com/embed.js"></script>
-    <script>
-        function renderInstagramEmbeds() {
-            document.querySelectorAll('.psi-galeria-item[data-instagram-post]').forEach(function (cell) {
-                const postUrl = cell.dataset.instagramPost.trim();
-                if (!/^https?:\/\/(www\.)?instagram\.com\/(p|reel|tv)\//i.test(postUrl)) return;
-
-                cell.classList.add('com-instagram');
-                cell.removeAttribute('onclick');
-                const embed = document.createElement('div');
-                embed.className = 'psi-instagram-embed';
-                const blockquote = document.createElement('blockquote');
-                blockquote.className = 'instagram-media';
-                blockquote.dataset.instgrmPermalink = postUrl;
-                blockquote.dataset.instgrmVersion = '14';
-                const link = document.createElement('a');
-                link.href = postUrl;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                link.textContent = 'ver post no instagram';
-                blockquote.append(link);
-                embed.append(blockquote);
-                cell.prepend(embed);
-            });
-
-            if (window.instgrm && window.instgrm.Embeds) {
-                window.instgrm.Embeds.process();
-            }
-        }
-
-        window.addEventListener('load', renderInstagramEmbeds);
-
-        function expandCell(cell, fullSrc) {
-            const wrap = cell.querySelector('.psi-full-img-wrap');
-            const img = wrap.querySelector('img');
-            img.src = fullSrc;
-            cell.classList.add('expanded');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function collapseCell(cell) {
-            cell.classList.remove('expanded');
-            document.body.style.overflow = '';
-        }
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.psi-galeria-item.expanded').forEach(collapseCell);
-            }
-        });
-    </script>
 
 </body>
 
