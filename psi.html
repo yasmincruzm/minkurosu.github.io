@@ -379,6 +379,59 @@
             opacity: 1;
         }
 
+        .psi-soundnaosun {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .psi-soundnaosun-coluna h3 {
+            margin: 0 0 0.4rem;
+            font-size: 0.85rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-soundnaosun-lista {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .psi-soundnaosun-lista li {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            padding: 0.35rem 0 0.35rem 1rem;
+            border-bottom: 1px dashed #262626;
+            position: relative;
+        }
+
+        .psi-soundnaosun-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .psi-soundnaosun-coluna.psi-sou .psi-soundnaosun-lista li::before {
+            content: "+";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        .psi-soundnaosun-coluna.psi-nao-sou .psi-soundnaosun-lista li::before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        @media (max-width: 560px) {
+            .psi-soundnaosun {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .psi-aviso {
             font-size: 0.68rem;
             color: var(--psi-texto);
@@ -515,7 +568,7 @@
 
 
                 <p>
-                    acredito que a tomada de consciência dos nossos comportamentos e pensamentos é uma das partes fundamentais da psicoterapia.
+                    acredito que a tomada de consciência dos nossos comportamentos e pensamentos são partes fundamentais da psicoterapia.
                     muito do que sentimos e pensamos foi construído nas relações que vivemos,
                     não inventado do nada. isso faz parte da jornada de autoconhecimento,
                     que também tem relação com a busca de autenticidade,
@@ -561,13 +614,65 @@
             </ul>
         </div>
 
+        <div class="psi-secao">
+            <h2>sou / não sou</h2>
+            <p>pra alinhar expectativa antes de qualquer coisa.</p>
+            <div class="psi-soundnaosun">
+                <div class="psi-soundnaosun-coluna psi-sou">
+                    <h3>sou</h3>
+                    <ul class="psi-soundnaosun-lista">
+                        <li>alguém que escuta sem julgar sua história</li>
+                        <li>alguém em construção, honesta sobre isso</li>
+                        <li>alguém que respeita seu tempo e seu contexto</li>
+                        <li>edite aqui</li>
+                    </ul>
+                </div>
+                <div class="psi-soundnaosun-coluna psi-nao-sou">
+                    <h3>não sou</h3>
+                    <ul class="psi-soundnaosun-lista">
+                        <li>alguém com fórmula pronta ou resposta certa, assumimos a postura do não saber</li>
+                        <li>não sou certinha, afinal também sou gente!</li>
+                        <li>não sou conservadora, meu sangue é vermelho e o coração fica no lado esquerdo do peito :) </li>
+                        <li>não quero bancar de intelectual, sou a favor das relações horizontais, e também com psicoeducação!!</li>
+                   <li>definitivamente não curto positividade forçada, aprendemos que reprimir emoções não leva a lugar nenhum</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="psi-secao">
+            <h2>áreas de atuação</h2>
+            <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
+            <div class="psi-servicos-tira">
+
+                <div class="psi-servico-card">
+                    <h3>pensamentos intrusivos</h3>
+                    <p>pensamentos repetitivos e rituais que tomam espaço no dia a dia, entendidos junto com a história de cada um, sem julgamento.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>relacionamentos</h3>
+                    <p>afeto, família, convivência, e os padrões que a gente repete sem perceber.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>autoestima</h3>
+                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
+                </div>
+
+                <div class="psi-servico-card">
+                    <h3>identidade &amp; lgbtqia+</h3>
+                    <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
+                </div>
+            </div>
+        </div>
 
         <div class="psi-secao">
             <h2>galeria</h2>
             <p>um pouco do que acredito :)</p>
             <div class="psi-galeria-grid">
 
-           
+                <!-- cada imagem agora é um link direto: clicar abre o arquivo em tamanho real numa nova aba
+                     (sem JS pra lightbox). se preferir linkar pra um post do instagram em vez da imagem,
+                     troque o href por ex.: https://www.instagram.com/p/ABC123/ -->
                 <a class="psi-galeria-item" href="imgs/sua-foto-1.jpg" target="_blank" rel="noopener noreferrer">
                     <span class="psi-galeria-label">imagem 1</span>
                     <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy">
