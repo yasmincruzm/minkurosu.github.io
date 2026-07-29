@@ -1,767 +1,519 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    <script type="module" src="blog.js"></script>
+    <script src="script.js"></script>
+    <script src="oneko.js"></script>
+    <script>NekoType = "black"</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4K5KDKEJ2E');
+    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="atendimento psicológico - @minkurosu">
-
-    <meta property="og:title" content="min kurosu - psicologia">
-    <meta property="og:description" content="atendimento psicológico, olhar histórico-cultural, sem julgamento.">
-    <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
-    <meta property="og:url" content="https://minkurosu.site/psicologia.html">
-    <meta property="og:type" content="website">
-
-    <title>psicologia</title>
-
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <title>@minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <link rel="stylesheet" href="/emo.css" id="theme-stylesheet">
-</head>
-
-<body class="psi-standalone">
-
+    <link rel="stylesheet" href="emo.css" />
     <style>
-      
-        .psi-wrap, .psi-wrap *, .psi-wrap *::before, .psi-wrap *::after {
-            box-sizing: border-box;
-        }
-
-      
-        body.psi-standalone {
-            background-color: #0a0a0a;
-            margin: 0;
-        }
-
-        .psi-wrap {
-         
-            --psi-texto: #8a8172;
-            --psi-detalhe: #3d382e;
-
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0.8rem 1rem 2rem;
-            text-align: left !important;
-            background-color: #0a0a0a;
-            color: var(--psi-texto);
-            font-family: "MinFont", sans-serif;
-            text-transform: lowercase;
-
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .psi-wrap p, .psi-wrap h1, .psi-wrap h2, .psi-wrap h3, .psi-wrap div {
+        .blog-post {
             text-align: left;
         }
 
-      
-.psi-faixa {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    align-items: center;
-    padding: 0.3rem 0;
-    font-size: 1rem;
-}
-
-.psi-faixa span {
-    padding: 4px 10px;
-    border-radius: 2px;
-    border: 0.15rem solid #1c1914;
-    background-color: #0a0a0a;
-    color: var(--psi-detalhe);
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-}
-
-        .psi-hero {
-            position: relative;
-            border: 3px solid #2b2419;
-            background-color: #0a0a0a;
-            border-radius: 0.5rem;
-            padding: 1.1rem 1.3rem;
-            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+        .blog-post .post-info-header {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 0.8rem;
-        }
-
-        .psi-decoracao {
-            position: absolute;
-            width: 54px;
-            height: auto;
-            pointer-events: none;
-            z-index: 3;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
-        }
-
-        .psi-decoracao.psi-decoracao-hero {
-            top: -22px;
-            right: -18px;
-            transform: rotate(8deg);
-        }
-
-        .psi-decoracao.psi-decoracao-sobre {
-            width: 42px;
-            bottom: -16px;
-            left: -14px;
-            transform: rotate(-10deg);
-        }
-
-        @media (max-width: 720px) {
-            .psi-decoracao {
-                display: none;
-            }
-        }
-
-        .psi-hero-texto {
-            flex: 1 1 320px;
-            min-width: 260px;
-        }
-
-        .psi-hero h1 {
-            font-size: 1.5rem !important;
-            margin: 0 0 0.15rem;
-            color: var(--psi-texto);
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            letter-spacing: 0.01em;
-        }
-
-        .psi-hero .psi-crp {
-            font-size: 0.72rem;
-            color: var(--psi-texto);
-            margin-bottom: 0.4rem;
-        }
-
-      
-        .psi-assinatura {
-            display: block;
-            width: 113px;
-            height: 40px;
-            margin: 0.1rem 0 0.6rem -3px;
-        }
-
-        .psi-assinatura path {
-            fill: none;
-            stroke: var(--psi-detalhe);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-dasharray: 500;
-            stroke-dashoffset: 500;
-        
-            animation: psi-assinar 2.6s 0.2s cubic-bezier(.4,.1,.2,1) forwards,
-                       psi-respirar 3.8s ease-in-out 2.9s infinite;
-        }
-
-        @keyframes psi-assinar {
-            to { stroke-dashoffset: 0; }
-        }
-
-        @keyframes psi-respirar {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.78; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .psi-assinatura path {
-                animation: none;
-                stroke-dashoffset: 0;
-            }
-        }
-
-        .psi-hero p.psi-tagline {
-            font-size: 0.9rem;
-            color: var(--psi-texto);
-            max-width: 460px;
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .psi-cta-btns {
-            margin-top: 0.7rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .psi-btn {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 2px;
-            font-size: 0.78rem;
-            text-decoration: none;
-            border: 0.15rem solid #1c1914;
-            color: var(--psi-detalhe) !important;
-            background-color: #0a0a0a;
-            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: lowercase;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .psi-btn:hover {
-            color: var(--psi-texto) !important;
-            border-color: var(--psi-detalhe);
-            transform: scale(1.08);
-        }
-
-        .psi-btn.secundario {
-            background-color: #0a0a0a;
-            color: var(--psi-detalhe) !important;
-            border: 0.15rem solid #1c1914;
-        }
-
-        .psi-secao {
-            position: relative;
-            border: 1px solid #201f1f;
-            background-color: #0f0f0f;
-            border-radius: 0.5rem;
-            padding: 0.9rem;
-            
-        }
-
-        .psi-secao h2 {
-            color: var(--psi-texto);
-            font-size: 0.98rem !important;
-            border-bottom: 1px solid var(--psi-detalhe);
-            padding-bottom: 0.3rem;
-            margin: 0 0 0.5rem;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .psi-secao p {
-            font-size: 0.86rem;
-            line-height: 1.5;
-            color: var(--psi-texto);
-            margin: 0 0 0.6rem;
-        }
-
-        .psi-secao p:last-child {
-            margin-bottom: 0;
-        }
-
-        .psi-lista-valores {
-            list-style: none;
-            margin: 0.6rem 0 0;
-            padding: 0;
-        }
-
-        .psi-lista-valores li {
-            font-size: 0.86rem;
-            line-height: 1.5;
-            color: var(--psi-texto);
-            padding: 0.45rem 0 0.45rem 1rem;
-            border-bottom: 1px dashed #262626;
-            position: relative;
-        }
-
-        .psi-lista-valores li:last-child {
-            border-bottom: none;
-        }
-
-        .psi-lista-valores li::before {
-            content: "—";
-            position: absolute;
-            left: 0;
-            color: var(--psi-detalhe);
-        }
-
-        .psi-servicos-tira {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 0.6rem;
-            margin-top: 0.3rem;
-        }
-
-        .psi-servico-card {
-            flex: 1 1 170px;
-            max-width: 220px;
-            border: 1px solid var(--psi-detalhe);
-            border-radius: 3px;
-            padding: 0.6rem 0.7rem;
-            background-color: #0a0a0a;
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .psi-servico-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        }
-
-        .psi-servico-card h3 {
-            margin: 0 0 0.25rem;
+            gap: 6px;
+            text-align: left;
             font-size: 0.85rem;
-            color: var(--psi-texto);
+            color: #4b4b4b;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin-bottom: 4px;
+        }
+
+        .blog-post .post-date,
+        .blog-post .post-time,
+        .blog-post .post-separator {
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .blog-post .post-title {
+            font-size: 1.6rem;
+            text-align: left;
+            margin: 0 0 8px 0;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-        .psi-servico-card p {
-            font-size: 0.74rem;
-            margin: 0;
-            color: var(--psi-texto);
-            line-height: 1.4;
+        .blog-post .post-text {
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-        .psi-galeria-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 0.4rem;
-            margin-top: 0.4rem;
-        }
-
-        .psi-galeria-item {
-            position: relative;
-            aspect-ratio: 1 / 1;
-            border: 2px dashed #262626;
-            border-radius: 2px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .psi-galeria-item:hover {
-            transform: scale(1.03);
-        }
-
-        .psi-galeria-label {
-            position: absolute;
-            inset: 0;
-            display: flex;
+        .blogimg{
+            height: 400px;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 0.65rem;
-            color: var(--psi-texto);
-            padding: 0.4rem;
-            z-index: 0;
+            display: block;
+             margin-left:auto; 
+             margin-right:auto;
         }
 
-        .psi-thumb-img {
+        /* ===== galeria dos posts =====
+           Caixa de post com comprimento fixo + texto scrollável
+           + subcaixa de galeria (3 colunas) com esmaecer/expandir.
+           As classes .feed-cell / .thumb-img / .full-img-wrap / .caption-text /
+           .close-btn / .grid-feed já existem no emo.css (mesmas do portfolio),
+           então o "click pra expandir a foto" fica idêntico ao do portfolio. */
+
+        .post-body-fixed {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        .post-text-scroll {
+            height: 340px;               /* <- ajuste aqui a altura fixa do texto */
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-width: thin;
+        }
+
+        .post-text-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .post-text-scroll::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+        }
+        .post-text-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .post-gallery-wrap {
             position: relative;
-            z-index: 1;
+        }
+
+        /* quando qualquer foto é aberta, ou o "ver mais" é clicado, a galeria
+           cresce pra baixo (empurrando o resto da página) em vez de espremer
+           o texto, que tem altura própria e não é afetado */
+        .post-gallery-wrap:has(input:checked) .post-gallery {
+            max-height: none;
+        }
+
+        .post-gallery-wrap:has(input:checked) .gallery-fade {
+            display: none;
+        }
+
+        /* flex em vez de grid: assim, com 1 ou 2 fotos, elas ficam centralizadas
+           ao invés de coladas na esquerda */
+        .post-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            max-height: 168px;          /* ~2 fileiras visíveis antes do "ver mais" */
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+
+        .post-gallery .feed-cell {
+            position: relative;
+            flex: 0 0 calc(33.333% - 4px);
+            max-width: calc(33.333% - 4px);
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        /* foto expandida ocupa a fileira toda */
+        .post-gallery .feed-cell:has(.photo-toggle:checked) {
+            flex: 0 0 100%;
+            max-width: 100%;
+            aspect-ratio: unset;
+        }
+
+        .feed-cell .thumb-label {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .feed-cell .thumb-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
 
-        .psi-galeria-item:hover .psi-thumb-img {
-            transform: scale(1.06);
+        .feed-cell .thumb-label:hover .thumb-img {
+            transform: scale(1.04);
+            filter: brightness(0.85);
         }
 
-        .psi-hover-hint {
+        .feed-cell .hover-hint {
             position: absolute;
             inset: 0;
-            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* a foto grande só aparece quando o checkbox escondido está marcado */
+        .feed-cell .full-img-wrap {
+            display: none;
+            position: relative;
+            width: 100%;
+        }
+
+        .feed-cell .photo-toggle:checked ~ .full-img-wrap {
+            display: block;
+        }
+
+        .feed-cell .photo-toggle:checked ~ .thumb-label {
+            display: none;
+        }
+
+        .feed-cell .full-img-wrap img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 3px;
+            display: block;
+        }
+
+        .feed-cell .close-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            font-size: 15px;
+            line-height: 26px;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+        /* botão de "ver mais fotos" (esmaecer). só aparece se você
+           colocar o input#show-more-... + label.gallery-fade no HTML */
+        .gallery-fade {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 60px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            padding-bottom: 0.4rem;
-            font-size: 0.65rem;
-            color: var(--psi-texto);
-            background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out;
-            pointer-events: none;
-        }
-
-        .psi-galeria-item:hover .psi-hover-hint {
-            opacity: 1;
-        }
-
-        .psi-full-img-wrap {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(5, 5, 5, 0.92);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease-in-out;
-            padding: 2rem;
-        }
-
-        .psi-galeria-item.expanded .psi-full-img-wrap {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .psi-full-img-wrap img {
-            max-width: 90vw;
-            max-height: 85vh;
-            object-fit: contain;
-            border-radius: 3px;
-            box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.7);
-            cursor: default;
-        }
-
-        .psi-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1.2rem;
-            background: transparent;
-            border: 0.15rem solid #1c1914;
-            color: var(--psi-detalhe);
-            font-size: 1.3rem;
-            line-height: 1;
-            padding: 4px 10px;
-            border-radius: 2px;
+            padding-bottom: 6px;
+            background: linear-gradient(to bottom, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.92) 78%);
             cursor: pointer;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            border-radius: 0 0 2px 2px;
         }
 
-        .psi-close-btn:hover {
-            color: var(--psi-texto);
+        .show-more-toggle:checked ~ .post-gallery {
+            max-height: 2000px;
         }
 
-        .psi-aviso {
-            font-size: 0.68rem;
-            color: var(--psi-texto);
+        .show-more-toggle:checked ~ .gallery-fade {
+            display: none;
+        }
+
+        .gallery-expand-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-size: 18px;
+            line-height: 30px;
             text-align: center;
-            margin-top: 1.2rem;
-            line-height: 1.4;
-            text-transform: none;
-        }
-
-        .psi-footer {
-            text-align: center;
-            padding: 6px;
-            font-size: 0.8rem;
-            color: var(--psi-texto);
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin-top: 0.8rem;
-        }
-
-        .psi-hero-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        .psi-hero-titulo {
-            flex: 1 1 200px;
-            min-width: 200px;
-        }
-
-        .psi-hero-foto {
-            flex: 0 0 120px;
-            width: 120px;
-            aspect-ratio: 3 / 4;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            border: 3px solid #2b2419;
-            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-        }
-
-        .psi-hero-foto.psi-hero-foto-vazio {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.68rem;
-            text-align: center;
-            padding: 0.4rem;
-            background-color: #131313;
-            color: var(--psi-detalhe);
-        }
-
-        .psi-hero-foto img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
             display: block;
+            pointer-events: none;
         }
+        .lists-page {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-        @media (max-width: 720px) {
-            .psi-hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            .psi-hero-texto {
-                text-align: center;
-            }
-            .psi-hero-top {
-                justify-content: center;
-            }
-            .psi-hero-foto {
-                margin: 0 auto;
-            }
-            .psi-cta-btns {
-                justify-content: center;
-            }
-        }
+.lists-title {
+    text-align: center;
+    color: #570000;
+    letter-spacing: 3px;
+    margin: 0 0 16px 0;
+    font-size: 1.4em;
+}
+
+.lists-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 24px;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.lists-details {
+    display: block;
+    min-width: 0;
+    overflow-wrap: break-word;
+    margin-bottom: 4px;
+}
+
+.lists-summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    color: #4b4b4b;
+    font-family: 'MinFont', monospace;
+    font-size: 1em;
+    cursor: pointer;
+    text-align: left;
+}
+
+.lists-details-body {
+    padding-left: 6px;
+}
+
+.lists-items {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    text-align: left;
+}
+
+.lists-items li {
+    color: #6b6b6b;
+    font-size: 0.92em;
+    line-height: 1.5;
+    padding-left: 2px;
+    text-align: left;
+}
+
     </style>
+</head>
 
-  
+<body>
+    <div class="layout-with-sidebars">
+        <main id="containerprincipal">
 
-    <div class="psi-wrap">
-
-
-        <div class="psi-hero">
-
-            <div class="psi-hero-texto">
-                <div class="psi-hero-top">
-                    <div class="psi-hero-titulo">
-                        <h1>yasmin cruz mauricio</h1>
-
-                        <div class="psi-crp">psicóloga — crp 05/87037</div>
-
-                        <svg class="psi-assinatura" viewBox="0 0 90 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M0.90 11.20 C 1.09 11.42, 1.14 13.29, 2.01 12.54 C 2.88 11.78, 4.23 7.99, 6.14 6.66 C 8.05 5.33, 11.05 4.50, 13.47 4.55 C 15.89 4.60, 18.81 5.58, 20.66 6.98 C 22.51 8.37, 23.54 10.73, 24.57 12.90 C 25.60 15.07, 27.27 17.82, 26.85 20.00 C 26.44 22.18, 24.05 24.68, 22.09 25.98 C 20.13 27.29, 17.52 27.33, 15.10 27.80 C 12.67 28.28, 9.79 29.51, 7.52 28.85 C 5.25 28.18, 2.44 25.87, 1.49 23.81 C 0.54 21.76, 0.91 17.24, 1.81 16.51 C 2.71 15.77, 5.20 18.24, 6.87 19.39 C 8.54 20.54, 10.04 22.60, 11.83 23.40 C 13.62 24.20, 15.65 24.14, 17.62 24.16 C 19.60 24.18, 21.86 24.39, 23.68 23.52 C 25.50 22.65, 27.84 20.82, 28.56 18.95 C 29.28 17.08, 28.60 14.32, 28.01 12.33 C 27.42 10.33, 26.39 8.43, 25.04 6.97 C 23.68 5.51, 21.76 4.02, 19.87 3.56 C 17.98 3.10, 15.40 3.40, 13.69 4.21 C 11.97 5.03, 10.71 6.90, 9.58 8.45 C 8.44 10.01, 6.94 13.93, 6.88 13.57 C 6.81 13.21, 8.07 7.81, 9.21 6.29 C 10.35 4.76, 12.16 4.50, 13.71 4.42 C 15.25 4.34, 17.18 5.00, 18.48 5.79 C 19.78 6.57, 20.60 7.92, 21.49 9.13 C 22.37 10.34, 23.65 11.67, 23.79 13.05 C 23.94 14.43, 23.20 16.17, 22.37 17.40 C 21.54 18.63, 20.18 19.86, 18.81 20.44 C 17.44 21.01, 15.70 20.82, 14.16 20.85 C 12.61 20.87, 10.98 21.06, 9.53 20.58 C 8.07 20.09, 6.10 19.14, 5.42 17.96 C 4.74 16.77, 4.09 12.11, 5.47 13.46 C 6.85 14.80, 11.57 23.92, 13.68 26.01 C 15.79 28.11, 16.76 26.29, 18.13 26.03 C 19.49 25.77, 20.58 25.11, 21.87 24.46 C 23.16 23.80, 25.30 23.28, 25.85 22.10 C 26.41 20.91, 25.64 18.69, 25.21 17.33 C 24.78 15.97, 23.92 15.14, 23.29 13.95 C 22.65 12.77, 22.41 11.28, 21.40 10.20 C 20.39 9.12, 18.62 7.45, 17.24 7.46 C 15.86 7.47, 14.07 9.08, 13.12 10.24 C 12.18 11.40, 12.12 13.10, 11.58 14.42 C 11.04 15.73, 9.66 18.98, 9.88 18.14 C 10.10 17.30, 11.84 10.87, 12.90 9.37 C 13.96 7.88, 15.19 9.00, 16.25 9.18 C 17.32 9.37, 18.43 9.84, 19.29 10.48 C 20.15 11.11, 20.87 12.04, 21.40 12.99 C 21.93 13.95, 22.44 15.12, 22.46 16.22 C 22.48 17.32, 22.15 18.70, 21.53 19.57 C 20.91 20.44, 19.68 20.99, 18.72 21.44 C 17.76 21.90, 16.80 22.13, 15.74 22.30 C 14.69 22.47, 13.44 22.79, 12.40 22.49 C 11.35 22.20, 10.03 21.43, 9.46 20.53 C 8.89 19.63, 7.86 17.70, 8.98 17.08 C 10.10 16.46, 13.18 16.99, 16.19 16.81 C 19.19 16.63, 25.20 16.14, 27.00 16.00 C 36 2, 44 29, 55 16 C 64 6, 70 24, 80 15" />
-                        </svg>
-                    </div>
-
-                    <div class="psi-hero-foto">
-                        <img src="imgs/site_imgs/psi.jpeg" alt="yasmin cruz mauricio" onerror="this.style.display='none'; this.parentElement.classList.add('psi-hero-foto-vazio'); this.nextElementSibling.style.display='block'">
-                        <span class="psi-hero-foto-placeholder" style="display:none;">sua foto aqui (3:4)</span>
-                    </div>
-                </div>
-
-         <p class="psi-tagline">
-  escuta e acompanhamento psicológico, com ética e sigilo, sem pressa e sem promessa de solução pronta.<br>
- pela psicologia histórico-cultural, segundo vigotski,
-   nos constituímos e nos transformamos no contato com o outro, atravessados pela história e contexto diferente de cada um, por isso, pra mim, entender alguém passa por conhecer sua história,
-    suas condições de vida e as relações que a formaram, não só o que se apresenta no momento presente.
-  acredito numa psicologia que não fecha os olhos pra injustiças em nome de uma "imparcialidade": acredito que a prática deve promover igualdade, equidade e justiça social.
-  proponho aqui um espaço pra compartilharmos experiência e construirmos, juntos, apoio na sua trajetória de vida e autoconhecimento.
-</p>
-                <div class="psi-cta-btns">
-                    <a href="https://instagram.com/psi.min" class="psi-btn secundario">
-                      meu instagram profissional
-                    </a>
-                    <a href="mailto:mincruzpsi@gmail.com" class="psi-btn secundario">
-                        mandar um e-mail
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="psi-faixa">
-            <span>psicologia histórico-cultural</span>
-            <span>atendimento online</span>
-            <span>escuta sensível</span>
-            <span>lgbtqia+</span>
-            <span>autenticidade</span>
-            <span>direitos humanos</span>
-            <span>justiça social</span>
-                        <span>neurodivergente</span>
-
-            <span>antifascista</span>
-        </div>
-
-        <div class="psi-secao">
-            <div>
-                <h2>sobre o atendimento</h2>
-                <p>
-                    sou psicóloga recém-formada pela UFF, ainda no comecinho de carreira
-                    (e prefiro dizer isso de cara, pela transparência e ética), trabalho
-                    a partir da psicologia histórico-cultural, principalmente acredito que
-                    ninguém sofre "por nada", sempre tem uma história, um contexto.
-                    por isso minha escuta não separa o
-                    que você sente do contexto, trabalhamos junto o que
-                    faz sentido pra sua vida, não uma fórmula pronta.
-                </p>
-
-                <p>
-                    por ser recém-formada, ainda estou construindo minha prática, e entendo
-                    que isso também é uma questão de experiência. não acho justo que preço seja a
-                    única barreira entre alguém e um espaço de escuta, então meus valores
-                    refletem esse momento.
-                </p>
-
-          
-
-                <p>
-                    acredito que a tomada de consciência dos nossos comportamentos e pensamentos é uma das partes fundamentais da psicoterapia.
-                    muito do que sentimos e pensamos foi construído nas relações que vivemos,
-                    não inventado do nada. isso faz parte da jornada de autoconhecimento,
-                    que também tem relação com a busca de autenticidade,
-                    já que pra existir do seu jeito, antes é preciso entender o que é seu e o que
-                    foi só aprendido ou imposto.
-                </p>
-      <p>
-                    nem todo processo precisa ter um formato fixo. às vezes o que alguém
-                    precisa é de um espaço pontual pra pensar sobre algo específico, não uma jornada de
-                    autodescobrimento. entendo plantão psicológico (consultas avulsas)
-                    como isso: um espaço que existe enquanto for necessário, sem forçar
-                    continuidade onde ela não faz sentido no contexto da pessoa.
-                </p>
-                <p>
-                    também atendo sobre supervisão, minha obrigação ética por enquanto,
-                    já que ainda vou fazer uma pós em clínica (atualmente faço em psicologia organizacional).
-                </p>
-            </div>
-        </div>
-
-        <div class="psi-secao">
-            <h2>um pouquinho sobre mim, além do crp</h2>
-            <p>
-                vínculo também se constrói com alguma e identificação, então breve resumo:
-                 gosto da subcultura alternativa, desenhar, videogame, cultura geek e anime. na minha
-                 jornada, me descobri lgbtq neurodivergente, e como pessoa com hipersensibilidade,
-                  pretendo usar isso a meu favor em uma escuta empática e sensível.
-            </p>
-            <p>
-                mas isso é só pra você me conhecer um pouco antes da primeira
-                sessão. minha escuta é voltada a você!
-            </p>
-        </div>
-
-        <div class="psi-secao">
-            <h2>o que acredito</h2>
-            <p>alguns princípios que levo pro consultório, mais como bússola do que como regra fechada.</p>
-            <ul class="psi-lista-valores">
-                <li>quem decide o rumo da própria vida é você; eu acompanho, não dirijo.</li>
-                <li>não tenho resposta pra tudo, e não finjo que tenho.</li>
-                <li>diferença não é desvio a corrigir.</li>
-                <li>sigilo e ética não são discurso, são o mínimo.</li>
-            </ul>
-        </div>
-
-        <div class="psi-secao">
-            <h2>áreas de atuação</h2>
-            <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
-            <div class="psi-servicos-tira">
-           
-                <div class="psi-servico-card">
-                    <h3>TOC</h3>
-                    <p>pensamentos intrusivos e rituais que tomam espaço no dia a dia, sem julgamento.</p>
-                </div>
-                <div class="psi-servico-card">
-                    <h3>relacionamentos</h3>
-                    <p>afeto, família, convivência, e os padrões que a gente repete sem perceber.</p>
-                </div>
-                <div class="psi-servico-card">
-                    <h3>autoestima</h3>
-                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
-                </div>
-             
-                <div class="psi-servico-card">
-                    <h3>identidade &amp; lgbtqia+</h3>
-                    <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="psi-secao">
-            <h2>galeria</h2>
-            <p>um pouco do que acredito :)</p>
-            <div class="psi-galeria-grid">
-              
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-1.jpg')">
-                    <span class="psi-galeria-label">imagem 1</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 1">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-2.jpg')">
-                    <span class="psi-galeria-label">imagem 2</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-2.jpg" alt="imagem 2" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 2">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-3.jpg')">
-                    <span class="psi-galeria-label">imagem 3</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-3.jpg" alt="imagem 3" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 3">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-4.jpg')">
-                    <span class="psi-galeria-label">imagem 4</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-4.jpg" alt="imagem 4" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 4">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-5.jpg')">
-                    <span class="psi-galeria-label">imagem 5</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-5.jpg" alt="imagem 5" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 5">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-                <div class="psi-galeria-item" onclick="expandCell(this, 'imgs/sua-foto-6.jpg')">
-                    <span class="psi-galeria-label">imagem 6</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-6.jpg" alt="imagem 6" loading="lazy" onerror="this.style.display='none'">
-                    <div class="psi-hover-hint">ampliar</div>
-                    <div class="psi-full-img-wrap" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">
-                        <img src="" alt="imagem 6">
-                        <button class="psi-close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.psi-galeria-item'))">&times;</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="psi-hero">
-            <div class="psi-hero-texto" style="flex: 1 1 100%;">
-                <h1 style="font-size: 1.3rem !important;">bora conversar?</h1>
-                <p class="psi-tagline">
-                    dar o primeiro passo já é de grande coragem, no
-                    seu tempo, sem pressa ou pressão.
-                    frequência e valores a gente combina.
-                </p>
         
-                <div class="psi-cta-btns">
-                    <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Vi%20seu%20site%20e%20gostaria%20de%20agendar%20uma%20sess%C3%A3o."
-                        class="psi-btn" target="_blank" rel="noopener noreferrer">
-                        chamar no whatsapp
-                    </a>
-                    <a href="https://instagram.com/psi.min" class="psi-btn secundario" target="_blank"
-                        rel="noopener noreferrer">
-                        ver instagram
-                    </a>
-                </div>
+
+            <div class="caixamaisclaraCenterSimple">
+                <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
+                    first language, so feel free to translate the page with the button on the sidebar on your left, if you're interested enough :)</h4>
+                    <br>
+                <div class="nav-item"></div>
+                <br>
+                <div id="google_translate_element"></div>
             </div>
-        </div>
 
-        <p class="psi-aviso">
-            atendimento psicológico realizado em conformidade com o código de ética profissional do psicólogo
-            (cfp), sempre em supervisão e formação contínua. este atendimento não substitui acompanhamento
-            psiquiátrico nem emergência médica. em caso de risco à vida, procure o cvv (188) ou o samu (192).
-        </p>
+            <hr>
 
+            <div id="posts-container">
+  <div class="blog-post">
+
+
+
+
+
+
+                    <div class="post-info-header">
+                        <span class="post-date">13/07/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">17:12</span>
+                    </div>
+                    <h2 class="post-title">jul 2026</h2>
+
+                    <div class="post-body-fixed">
+                        <div class="post-text-scroll">
+                            <div class="post-text">
+                           estou pensando em tentar postar mensalmente aqui<br>
+- estou animada com meu curso de protética, é mto bom se sentir empolgada em aprender algo novo :) <br>
+
+- estou viciada no jogo transformice, e fiz amizades legais la!!! <br>
+
+- tmb estou obcadissima com as midias recentes dos shows do mcr na europa, minha banda fav ta vivissima <3 <br>
+
+- também estou assistindo twin peaks com meu namorado e estou gostando bastante. me lembra um pouco arquivo x, pelos fenomenos sobrenaturais tipo premoniçao 
+ou visões e interpretaçao de sonhos, quem nos recomendou comentou que lembra a psicologia de carl jung. o clima e vegetaçao da região que foi gravada tem me 
+gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks também, a cidade que crepúsculo foi gravado.<br>
+
+- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham    <br>     
+                        <details class="lists-details">
+
+<summary class="lists-summary">- musicas do mes (clique para expandir)</summary>
+                            <div class="lists-details-body">
+                                <ul class="lists-items">
+                                    <li> <a src="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm?si=8ade56ac62784343">silvering blade - jazmin bean</a> <br></li>
+                                    <li> <a src="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5?si=1b8dd4fd4afc4f25">high enough blade - k.flay</a> <br></li>
+                                
+                                </ul>
+                            </div>
+
+                        </details>
+                            </div>
+                        </div>
+
+                        <div class="post-gallery-wrap">
+                            <input type="checkbox" id="show-more-jul" class="show-more-toggle" hidden>
+                            <div class="grid-feed post-gallery">
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-1" class="photo-toggle" hidden>
+                                    <label for="photo-jul-1" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd1.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd1.jpg" alt="">
+                                        <label for="photo-jul-1" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-2" class="photo-toggle" hidden>
+                                    <label for="photo-jul-2" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd2.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd2.jpg" alt="">
+                                        <label for="photo-jul-2" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-3" class="photo-toggle" hidden>
+                                    <label for="photo-jul-3" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd3.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd3.jpg" alt="">
+                                        <label for="photo-jul-3" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-4" class="photo-toggle" hidden>
+                                    <label for="photo-jul-4" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd4.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd4.jpg" alt="">
+                                        <label for="photo-jul-4" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-5" class="photo-toggle" hidden>
+                                    <label for="photo-jul-5" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd5.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd5.jpg" alt="">
+                                        <label for="photo-jul-5" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-6" class="photo-toggle" hidden>
+                                    <label for="photo-jul-6" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd6.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd6.jpg" alt="">
+                                        <label for="photo-jul-6" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                                <div class="feed-cell">
+                                    <input type="checkbox" id="photo-jul-7" class="photo-toggle" hidden>
+                                    <label for="photo-jul-7" class="thumb-label">
+                                        <img class="thumb-img" src="imgs/blog/tpd7.jpg" alt="" loading="lazy">
+                                        <span class="hover-hint"></span>
+                                    </label>
+                                    <div class="full-img-wrap">
+                                        <img src="imgs/blog/tpd7.jpg" alt="">
+                                        <label for="photo-jul-7" class="close-btn">&times;</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label for="show-more-jul" class="gallery-fade">
+                                <span class="gallery-expand-btn">+</span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <hr class="post-divider">
+                </div>
+
+
+                
+
+
+
+<hr>
+
+
+
+
+                <div class="blog-post">
+                    <div class="post-info-header">
+                        <span class="post-date">25/02/2026</span>
+                        <span class="post-separator">·</span>
+                        <span class="post-time">01:32</span>
+                    </div>
+                    <h2 class="post-title">hiperfocos alimentares</h2>
+
+                    <div class="post-body-fixed">
+                        <div class="post-text-scroll">
+                            <div class="post-text">
+                                <p>esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
+                                    <br> alguns dos outros "hiperfocos" e novas descobertas gastronômicas marcantes(também vou adicionando mais depois):<br>
+                                    <br>- chá de canela
+                                    <br>- macarrão carbonara
+                                    <br>- macarrão de legumes (cenoura e abobrinha cortadas finas igual macarrão)
+                                    <br>- cenoura fatiada na frigideira, com temperos
+                                    <br>- vitamina de abacate
+                                    <br>- geléia
+                                    <br>- tomate seco (assim, não fica crocante, muito gostoso)
+                                    <br>- morango. morango com chocolate. morango com açucar.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="post-divider">
+                </div>
+
+             
+
+               
+            </div>
+
+        </main>
     </div>
-
-    <script>
-        function expandCell(cell, fullSrc) {
-            const wrap = cell.querySelector('.psi-full-img-wrap');
-            const img = wrap.querySelector('img');
-            img.src = fullSrc;
-            cell.classList.add('expanded');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function collapseCell(cell) {
-            cell.classList.remove('expanded');
-            document.body.style.overflow = '';
-        }
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.psi-galeria-item.expanded').forEach(collapseCell);
-            }
-        });
-    </script>
-
 </body>
 
 </html>
