@@ -116,8 +116,9 @@
         }
 
         .psi-hero-texto {
-            flex: 1 1 0;
-            min-width: 260px;
+            flex: 1 1 240px;
+            max-width: 300px;
+            min-width: 200px;
         }
 
         .psi-hero h1 {
@@ -481,9 +482,12 @@
         }
 
         .psi-hero-foto {
-            flex: 1 1 0;
+            flex: 0 0 auto;
             border-radius: 0.5rem;
             overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
         }
 
         .psi-hero-foto.psi-hero-foto-vazio {
@@ -499,9 +503,10 @@
         }
 
         .psi-hero-foto img {
-            width: 100%;
+            width: auto;
             height: 100%;
-            object-fit: cover;
+            max-width: 420px;
+            object-fit: contain;
             display: block;
         }
 
@@ -669,10 +674,35 @@
             </div>
         </div>
 
+        <div class="psi-secao">
+            <h2>áreas de atuação</h2>
+            <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
+            <div class="psi-servicos-tira">
 
+                <div class="psi-servico-card">
+                    <h3>relacionamentos</h3>
+                    <p>afeto, família, convivência, e os padrões que a gente repete sem perceber.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>autoestima e identidade</h3>
+                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
+                </div>
+
+                <div class="psi-servico-card">
+                    <h3>lgbtqia+</h3>
+                    <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
+                </div>
+
+                <div class="psi-servico-card">
+                    <h3>pensamentos intrusivos</h3>
+                    <p>pensamentos distorcidos e repetitivos, rituais que tomam espaço no dia a dia, entendidos junto com seu contexto e historia.</p>
+                </div>
+            </div>
+        </div>
 
         <div class="psi-secao">
             <h2>galeria</h2>
+            <p>um pouco do que acredito :)</p>
             <div class="psi-galeria-grid">
 
                 <div class="psi-galeria-item com-instagram">
@@ -727,7 +757,17 @@
             </div>
         </div>
 
-    
+        <div class="psi-hero">
+            <div class="psi-hero-texto" style="flex: 1 1 100%;">
+                <h1 style="font-size: 1.3rem !important;">bora conversar?</h1>
+                <p class="psi-tagline">
+                    dar o primeiro passo já é de grande coragem, no
+                    seu tempo, sem pressa ou pressão.
+                    frequência e valores a gente combina.
+                </p>
+
+            </div>
+        </div>
 
         <p class="psi-aviso">
             atendimento psicológico realizado em conformidade com o código de ética profissional do psicólogo
