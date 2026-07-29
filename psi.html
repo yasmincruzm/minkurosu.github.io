@@ -313,7 +313,7 @@
 
         .psi-galeria-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 0.4rem;
             margin-top: 0.4rem;
         }
@@ -357,6 +357,36 @@
 
         .psi-galeria-item:hover .psi-thumb-img {
             transform: scale(1.06);
+        }
+
+        .psi-galeria-item.com-instagram {
+            aspect-ratio: 4 / 5;
+            min-height: 0;
+            border-style: solid;
+            overflow: hidden;
+        }
+
+        .psi-galeria-item.com-instagram:hover {
+            transform: none;
+        }
+
+        .psi-instagram-embed {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .psi-instagram-embed .instagram-media {
+            margin: -50px auto 0 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            transform: scale(1.1);
+            transform-origin: center;
+        }
+
+        .psi-instagram-embed .instagram-media iframe {
+            margin-top: -50px !important;
         }
 
         .psi-hover-hint {
@@ -605,9 +635,8 @@
 
         <div class="psi-secao">
             <h2>o que acredito</h2>
-            <p>alguns princípios que levo pro consultório, mais como bússola do que como regra fechada.</p>
             <ul class="psi-lista-valores">
-                <li>quem decide o rumo da própria vida é você; construímos juntos o sentido disso pra sua vida.</li>
+                <li>quem decide o rumo da própria vida é você, construímos juntos o sentido disso pra sua vida.</li>
                 <li>não tenho resposta pra tudo, e não finjo que tenho.</li>
                 <li>diferença não é desvio a corrigir.</li>
                 <li>sigilo e ética não são discurso, são o mínimo.</li>
@@ -621,10 +650,10 @@
                 <div class="psi-soundnaosun-coluna psi-sou">
                     <h3>sou</h3>
                     <ul class="psi-soundnaosun-lista">
-                        <li>alguém que escuta sem julgar sua história</li>
-                        <li>alguém em construção, honesta sobre isso</li>
-                        <li>alguém que respeita seu tempo e seu contexto</li>
-                        <li>edite aqui</li>
+                        <li>alguém em construção, e honesta sobre isso</li>
+                     <li>justiceira social</li>
+                     <li>constantemente online, infelizmente estou antenada sempre</li>
+                     <li>ser humano!!! todos nós erramos</li>
                     </ul>
                 </div>
                 <div class="psi-soundnaosun-coluna psi-nao-sou">
@@ -640,69 +669,61 @@
             </div>
         </div>
 
-        <div class="psi-secao">
-            <h2>áreas de atuação</h2>
-            <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
-            <div class="psi-servicos-tira">
 
-                <div class="psi-servico-card">
-                    <h3>pensamentos intrusivos</h3>
-                    <p>pensamentos repetitivos e rituais que tomam espaço no dia a dia, entendidos junto com a história de cada um, sem julgamento.</p>
-                </div>
-                <div class="psi-servico-card">
-                    <h3>relacionamentos</h3>
-                    <p>afeto, família, convivência, e os padrões que a gente repete sem perceber.</p>
-                </div>
-                <div class="psi-servico-card">
-                    <h3>autoestima</h3>
-                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
-                </div>
-
-                <div class="psi-servico-card">
-                    <h3>identidade &amp; lgbtqia+</h3>
-                    <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
-                </div>
-            </div>
-        </div>
 
         <div class="psi-secao">
             <h2>galeria</h2>
-            <p>um pouco do que acredito :)</p>
             <div class="psi-galeria-grid">
 
-                <!-- cada imagem agora é um link direto: clicar abre o arquivo em tamanho real numa nova aba
-                     (sem JS pra lightbox). se preferir linkar pra um post do instagram em vez da imagem,
-                     troque o href por ex.: https://www.instagram.com/p/ABC123/ -->
-                <a class="psi-galeria-item" href="imgs/sua-foto-1.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 1</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-1.jpg" alt="imagem 1" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
-                <a class="psi-galeria-item" href="imgs/sua-foto-2.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 2</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-2.jpg" alt="imagem 2" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
-                <a class="psi-galeria-item" href="imgs/sua-foto-3.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 3</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-3.jpg" alt="imagem 3" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
-                <a class="psi-galeria-item" href="imgs/sua-foto-4.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 4</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-4.jpg" alt="imagem 4" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
-                <a class="psi-galeria-item" href="imgs/sua-foto-5.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 5</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-5.jpg" alt="imagem 5" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
-                <a class="psi-galeria-item" href="imgs/sua-foto-6.jpg" target="_blank" rel="noopener noreferrer">
-                    <span class="psi-galeria-label">imagem 6</span>
-                    <img class="psi-thumb-img" src="imgs/sua-foto-6.jpg" alt="imagem 6" loading="lazy">
-                    <div class="psi-hover-hint">ampliar</div>
-                </a>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZDPvTgOPF8/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZDPvTgOPF8/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZP0WsJADVX/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZP0WsJADVX/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZ07hB5jmC-/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZ07hB5jmC-/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Dau03rplidK/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Dau03rplidK/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Da27zZclX1P/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Da27zZclX1P/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DbCGMSyFgzR/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DbCGMSyFgzR/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Da47KLrCvWd/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Da47KLrCvWd/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -725,6 +746,8 @@
         </p>
 
     </div>
+
+    <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
 
