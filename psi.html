@@ -314,9 +314,15 @@
 
         .psi-galeria-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 0.4rem;
             margin-top: 0.4rem;
+        }
+
+        @media (max-width: 560px) {
+            .psi-galeria-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .psi-galeria-item {
@@ -410,27 +416,27 @@
             opacity: 1;
         }
 
-        .psi-soundnaosun {
+        .psi-sou-nao-sou {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.8rem 1.2rem;
             margin-top: 0.3rem;
         }
 
-        .psi-soundnaosun-coluna h3 {
+        .psi-sou-nao-sou-coluna h3 {
             margin: 0 0 0.4rem;
             font-size: 0.85rem;
             color: var(--psi-texto);
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
 
-        .psi-soundnaosun-lista {
+        .psi-sou-nao-sou-lista {
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
-        .psi-soundnaosun-lista li {
+        .psi-sou-nao-sou-lista li {
             font-size: 0.82rem;
             line-height: 1.5;
             color: var(--psi-texto);
@@ -439,18 +445,18 @@
             position: relative;
         }
 
-        .psi-soundnaosun-lista li:last-child {
+        .psi-sou-nao-sou-lista li:last-child {
             border-bottom: none;
         }
 
-        .psi-soundnaosun-coluna.psi-sou .psi-soundnaosun-lista li::before {
+        .psi-sou-nao-sou-coluna.psi-sou .psi-sou-nao-sou-lista li::before {
             content: "+";
             position: absolute;
             left: 0;
             color: var(--psi-detalhe);
         }
 
-        .psi-soundnaosun-coluna.psi-nao-sou .psi-soundnaosun-lista li::before {
+        .psi-sou-nao-sou-coluna.psi-nao-sou .psi-sou-nao-sou-lista li::before {
             content: "–";
             position: absolute;
             left: 0;
@@ -458,7 +464,7 @@
         }
 
         @media (max-width: 560px) {
-            .psi-soundnaosun {
+            .psi-sou-nao-sou {
                 grid-template-columns: 1fr;
             }
         }
@@ -652,19 +658,19 @@
         <div class="psi-secao">
             <h2>sou / não sou</h2>
             <p>pra alinhar expectativa antes de qualquer coisa.</p>
-            <div class="psi-soundnaosun">
-                <div class="psi-soundnaosun-coluna psi-sou">
+            <div class="psi-sou-nao-sou">
+                <div class="psi-sou-nao-sou-coluna psi-sou">
                     <h3>sou</h3>
-                    <ul class="psi-soundnaosun-lista">
+                    <ul class="psi-sou-nao-sou-lista">
                         <li>alguém em construção, e honesta sobre isso</li>
                      <li>justiceira social</li>
                      <li>constantemente online, infelizmente estou antenada sempre</li>
                      <li>ser humano!!! todos nós erramos</li>
                     </ul>
                 </div>
-                <div class="psi-soundnaosun-coluna psi-nao-sou">
+                <div class="psi-sou-nao-sou-coluna psi-nao-sou">
                     <h3>não sou</h3>
-                    <ul class="psi-soundnaosun-lista">
+                    <ul class="psi-sou-nao-sou-lista">
                         <li>alguém com fórmula pronta ou resposta certa, assumimos a postura do não saber</li>
                         <li>não sou certinha, afinal também sou gente!</li>
                         <li>não sou conservadora, meu sangue é vermelho e o coração fica no lado esquerdo do peito :) </li>

@@ -65,12 +65,6 @@
              margin-right:auto;
         }
 
-        /* ===== galeria dos posts =====
-           Caixa de post com comprimento fixo + texto scrollável
-           + subcaixa de galeria (3 colunas) com esmaecer/expandir.
-           As classes .feed-cell / .thumb-img / .full-img-wrap / .caption-text /
-           .close-btn / .grid-feed já existem no emo.css (mesmas do portfolio),
-           então o "click pra expandir a foto" fica idêntico ao do portfolio. */
 
         .post-body-fixed {
             display: flex;
@@ -80,7 +74,7 @@
         }
 
         .post-text-scroll {
-            height: 340px;               /* <- ajuste aqui a altura fixa do texto */
+            height: 450px;               
             overflow-y: auto;
             padding-right: 8px;
             scrollbar-width: thin;
@@ -101,9 +95,6 @@
             position: relative;
         }
 
-        /* quando qualquer foto é aberta, ou o "ver mais" é clicado, a galeria
-           cresce pra baixo (empurrando o resto da página) em vez de espremer
-           o texto, que tem altura própria e não é afetado */
         .post-gallery-wrap:has(input:checked) .post-gallery {
             max-height: none;
         }
@@ -111,15 +102,12 @@
         .post-gallery-wrap:has(input:checked) .gallery-fade {
             display: none;
         }
-
-        /* flex em vez de grid: assim, com 1 ou 2 fotos, elas ficam centralizadas
-           ao invés de coladas na esquerda */
         .post-gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 6px;
-            max-height: 168px;          /* ~2 fileiras visíveis antes do "ver mais" */
+            max-height: 168px;         
             overflow: hidden;
             transition: max-height 0.35s ease;
         }
@@ -133,7 +121,6 @@
             border-radius: 2px;
         }
 
-        /* foto expandida ocupa a fileira toda */
         .post-gallery .feed-cell:has(.photo-toggle:checked) {
             flex: 0 0 100%;
             max-width: 100%;
@@ -166,7 +153,6 @@
             pointer-events: none;
         }
 
-        /* a foto grande só aparece quando o checkbox escondido está marcado */
         .feed-cell .full-img-wrap {
             display: none;
             position: relative;
@@ -207,8 +193,7 @@
             display: block;
         }
 
-        /* botão de "ver mais fotos" (esmaecer). só aparece se você
-           colocar o input#show-more-... + label.gallery-fade no HTML */
+      
         .gallery-fade {
             position: absolute;
             left: 0;
@@ -318,7 +303,7 @@
         <main id="containerprincipal">
 
         
-
+<h2>monthly blog</h2>
             <div class="caixamaisclaraCenterSimple">
                 <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
                     first language, so feel free to translate the page with the button on the sidebar on your left, if you're interested enough :)</h4>
@@ -349,9 +334,10 @@
                         <div class="post-text-scroll">
                             <div class="post-text">
                            estou pensando em tentar postar mensalmente aqui<br>
+                           - adivinha quem recebeu laudo pra Audhd?<br> 
 - estou animada com meu curso de protética, é mto bom se sentir empolgada em aprender algo novo :) <br>
 
-- estou viciada no jogo transformice, e fiz amizades legais la!!! <br>
+- estou viciada dnv no jogo transformice, que jogo desde 2011, e fiz mais amizades legais la!!! <br>
 
 - tmb estou obcadissima com as midias recentes dos shows do mcr na europa, minha banda fav ta vivissima <3 <br>
 
@@ -359,7 +345,11 @@
 ou visões e interpretaçao de sonhos, quem nos recomendou comentou que lembra a psicologia de carl jung. o clima e vegetaçao da região que foi gravada tem me 
 gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks também, a cidade que crepúsculo foi gravado.<br>
 
-- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham    <br>     
+- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham.<br>
+- ganhei um prêmio no curso por ter tirado primeiro lugar na prova feita por kahoot kkkk ganhei um aspirador portatil q vai me quebrar um galho nesse trabalho.
+- criei também uma pagina para minha clínica psi, mas to super ansiosa e insegura k
+
+<br>     
                         <details class="lists-details">
 
 <summary class="lists-summary">- musicas do mes (clique para expandir)</summary>
@@ -389,72 +379,7 @@ gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks tamb�
                                         <label for="photo-jul-1" class="close-btn">&times;</label>
                                     </div>
                                 </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-2" class="photo-toggle" hidden>
-                                    <label for="photo-jul-2" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd2.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd2.jpg" alt="">
-                                        <label for="photo-jul-2" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-3" class="photo-toggle" hidden>
-                                    <label for="photo-jul-3" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd3.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd3.jpg" alt="">
-                                        <label for="photo-jul-3" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-4" class="photo-toggle" hidden>
-                                    <label for="photo-jul-4" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd4.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd4.jpg" alt="">
-                                        <label for="photo-jul-4" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-5" class="photo-toggle" hidden>
-                                    <label for="photo-jul-5" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd5.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd5.jpg" alt="">
-                                        <label for="photo-jul-5" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-6" class="photo-toggle" hidden>
-                                    <label for="photo-jul-6" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd6.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd6.jpg" alt="">
-                                        <label for="photo-jul-6" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-jul-7" class="photo-toggle" hidden>
-                                    <label for="photo-jul-7" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd7.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd7.jpg" alt="">
-                                        <label for="photo-jul-7" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
+                               
                             </div>
 
                             <label for="show-more-jul" class="gallery-fade">
@@ -464,7 +389,7 @@ gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks tamb�
                     </div>
 
 
-                    <hr class="post-divider">
+                   
                 </div>
 
 
