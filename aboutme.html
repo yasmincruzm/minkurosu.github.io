@@ -478,19 +478,13 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/1203175380211538352_229670069.jpg',
         'imgs/feed/1205327510594722794_229670069.jpg',
         'imgs/feed/1207477661291583782_229670069.jpg',
-      
-        
         'imgs/feed/1228493012934400904_229670069.jpg',
-       
         'imgs/feed/1235745637291596473_229670069.jpg',
-       
-       
         'imgs/feed/1252410218990606766_229670069.jpg',
         'imgs/feed/1255308473718085846_229670069.jpg',
         'imgs/feed/1256035947435333901_229670069.jpg',
         'imgs/feed/1256760835246725728_229670069.jpg',
         'imgs/feed/1258932933159360789_229670069.jpg',
-      
         'imgs/feed/1260383556140604312_229670069.jpg',
         'imgs/feed/1264732926923316093_229670069.jpg',
         'imgs/feed/1271253954856033075_229670069.jpg',
@@ -509,7 +503,6 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/1288647979012324810_229670069.jpg',
         'imgs/feed/1297346016102473319_229670069.jpg',
         'imgs/feed/1299520499021334479_229670069.jpg',
-    
         'imgs/feed/1303144535736381820_229670069.jpg',
         'imgs/feed/1305321323501674666_229670069.jpg',
         'imgs/feed/1306043085323484228_229670069.jpg',
@@ -520,17 +513,11 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/1314015807613535455_229670069.jpg',
         'imgs/feed/1316186678172168351_229670069.jpg',
         'imgs/feed/1317639233914010165_229670069.jpg',
-      
-       
         'imgs/feed/1333584469903149245_229670069.jpg',
-      
         'imgs/feed/1336455284151603893_229670069.jpg',
-  
         'imgs/feed/1350245852606450167_229670069.jpg',
         'imgs/feed/1366169677965745213_229670069.jpg',
         'imgs/feed/1368343675537455785_229670069.jpg',
-        'imgs/feed/1374141466058525687_229670069.jpg',
-     
         'imgs/feed/1380664764275718027_229670069.jpg',
         'imgs/feed/1387911964038975795_229670069.jpg',
         'imgs/feed/1390086703524312204_229670069.jpg',
@@ -557,9 +544,7 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/1535794490169615622_229670069.jpg',
         'imgs/feed/1537968634197705001_229670069.jpg',
         'imgs/feed/1540867786154151360_229670069.jpg',
-     
         'imgs/feed/1548115507336236630_229670069.jpg',
-        
         'imgs/feed/1569134094532303922_229670069.jpg',
         'imgs/feed/1574932464924489549_229670069.jpg',
         'imgs/feed/1577831788880713287_229670069.jpg',
@@ -765,6 +750,10 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         });
     }
 
+    function scheduleNext() {
+        setTimeout(nextSlide, SLIDE_SECONDS * 1000);
+    }
+
     function nextSlide() {
         index = (index + 1) % orderedSrcs.length;
         var nextSrc = orderedSrcs[index];
@@ -775,9 +764,10 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
             var tmp = front;
             front = back;
             back = tmp;
+            scheduleNext();
         });
     }
 
-    setInterval(nextSlide, SLIDE_SECONDS * 1000);
+    scheduleNext();
 })();
 </script>
