@@ -716,16 +716,29 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/icon.jpeg'
     ];
 
-    var rest = FEED_IMAGES.filter(function (src) {
-        return FIXED_FIRST.indexOf(src) === -1;
-    });
-
-    for (var j = rest.length - 1; j > 0; j--) {
-        var k = Math.floor(Math.random() * (j + 1));
-        var tmp = rest[j]; rest[j] = rest[k]; rest[k] = tmp;
+    function shuffle(arr) {
+        var a = arr.slice();
+        for (var j = a.length - 1; j > 0; j--) {
+            var k = Math.floor(Math.random() * (j + 1));
+            var tmp = a[j]; a[j] = a[k]; a[k] = tmp;
+        }
+        return a;
     }
 
-    var orderedSrcs = FIXED_FIRST.concat(rest);
+    function buildCycle(lastSrc) {
+        var rest = shuffle(FEED_IMAGES.filter(function (src) {
+            return FIXED_FIRST.indexOf(src) === -1;
+        }));
+        var ordered = FIXED_FIRST.concat(rest);
+
+        if (lastSrc && ordered[0] === lastSrc && ordered.length > 1) {
+            var swapWith = 1 + Math.floor(Math.random() * (ordered.length - 1));
+            var tmp = ordered[0]; ordered[0] = ordered[swapWith]; ordered[swapWith] = tmp;
+        }
+        return ordered;
+    }
+
+    var orderedSrcs = buildCycle(null);
     if (!orderedSrcs.length) return;
 
     container.innerHTML = '';
@@ -755,7 +768,12 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
     }
 
     function nextSlide() {
-        index = (index + 1) % orderedSrcs.length;
+        index++;
+        if (index >= orderedSrcs.length) {
+    
+            orderedSrcs = buildCycle(orderedSrcs[orderedSrcs.length - 1]);
+            index = 0;
+        }
         var nextSrc = orderedSrcs[index];
         preload(nextSrc).then(function () {
             back.src = nextSrc;
