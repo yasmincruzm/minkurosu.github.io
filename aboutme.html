@@ -451,7 +451,7 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
     var container = document.getElementById('slideshow-area');
     if (!container) return;
 
-    var SLIDE_SECONDS = 2;
+    var SLIDE_SECONDS = 4;
 
     var FEED_IMAGES = [
         'imgs/feed/05022026.jpg',
@@ -757,8 +757,8 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
     function preload(src) {
         return new Promise(function (resolve) {
             var pre = new Image();
-            pre.onload = resolve;
-            pre.onerror = resolve;
+            pre.onload = function () { resolve(true); };
+            pre.onerror = function () { resolve(false); };
             pre.src = src;
         });
     }
@@ -767,15 +767,24 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         setTimeout(nextSlide, SLIDE_SECONDS * 1000);
     }
 
-    function nextSlide() {
+    function nextSlide(attemptsLeft) {
+        if (attemptsLeft === undefined) attemptsLeft = orderedSrcs.length;
+        if (attemptsLeft <= 0) {
+            scheduleNext();
+            return;
+        }
+
         index++;
         if (index >= orderedSrcs.length) {
-    
             orderedSrcs = buildCycle(orderedSrcs[orderedSrcs.length - 1]);
             index = 0;
         }
         var nextSrc = orderedSrcs[index];
-        preload(nextSrc).then(function () {
+        preload(nextSrc).then(function (loadedOk) {
+            if (!loadedOk) {
+                nextSlide(attemptsLeft - 1);
+                return;
+            }
             back.src = nextSrc;
             back.classList.add('active');
             front.classList.remove('active');
