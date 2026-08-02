@@ -1,114 +1,130 @@
 <style>
     table {
         width: 100%;
-        border-collapse: separate;
-        /* Muda para separate para permitir border-spacing */
-        border-spacing: 0 10px;
-        /* Adiciona espaçamento vertical entre as linhas */
+        max-height: 80%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-radius: 3px;
+        overflow: hidden;
+        color: #64625e;
+        border: none;
+        border-width: 0px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        margin-bottom: 30px;
     }
 
-    /* Estilo do cabeçalho da tabela */
+    table,
+    th,
+    td {
+        font-size: 0.95rem;
+    }
+
+    /* Title column stays narrower, description takes the rest */
+    th:first-child,
+    td:first-child {
+        width: 30%;
+    }
+
     th {
-        background-color: transparent !important;
-        /* Mantém o fundo transparente */
-        color: inherit;
-        /* Mantém a cor do texto padrão */
+        background-color: rgba(255, 255, 255, 0.1);
         font-weight: bold;
-        /* Deixa o texto do cabeçalho em negrito */
         text-transform: uppercase;
+        text-align: left;
         padding: 10px;
-        /* Adiciona um bom espaçamento interno */
-        border: ;
-
+        border-width: 0px;
     }
-
 
     td {
         padding: 10px;
-
-        border: none;
-
         background-color: rgba(255, 255, 255, 0.05);
-
+        border-width: 0px;
         vertical-align: top;
     }
 
-
-    tr {
-        border-radius: 8px;
-
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+    tr:hover td {
+        background-color: rgba(255, 255, 255, 0.08);
     }
-
-    tr:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transform: translateY(-2px);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
 
     td a {
         text-decoration: none;
         font-weight: bold;
+        color: #5a5a5a;
+        cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
+    }
+
+    td a:hover {
+        color: #a7a7a7;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+        table,
+        th,
+        td {
+            font-size: 1.05rem;
+        }
     }
 </style>
 </head>
 
 <body>
 
-
     <h3>saved links</h3>
     <table>
         <thead>
             <tr>
-                <th>links</th>
+                <th>title</th>
                 <th>description</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><a href="https://daliwali.neocities.org/a/decline-of-usa/">daliwali > decline of usa</a></td>
-                <td> </td>
+                <td><a href="https://daliwali.neocities.org/a/decline-of-usa/">decline of usa</a></td>
+                <td>daliwali</td>
             </tr>
             <tr>
-                <td><a href="https://lupinus.neocities.org/ecology">lupinus > guerrila ecology</a></td>
-                <td>guerrila ecology</td>
+                <td><a href="https://lupinus.neocities.org/ecology">guerrilla ecology</a></td>
+                <td>lupinus</td>
             </tr>
             <tr>
-                <td><a href="https://psycnet.apa.org/fulltext/2025-44166-001.html">https://psycnet.apa.org/fulltext/2025-44166-001.html </a></td>
-                <td>It Takes Two to Empathize: Interbrain Coupling Contributes to Distress Regulation (article) </td>
+                <td><a href="https://www.youtube.com/watch?v=hw_ynwySdC4">[title here]</a></td>
+                <td>[description here]</td>
             </tr>
-           
+            <tr>
+                <td><a href="https://youtu.be/NYjhd5I7kOE?si=9Dn7aiKLkoMwDza6">shinzou wo sasageyo</a></td>
+                <td>Brazilian Portuguese translation</td>
+            </tr>
+            <tr>
+                <td><a href="https://www.facebook.com/photo?fbid=1308962855976086&set=esta-%C3%A9-uma-famosa-frase-do-psicanalista-sigmund-freud-ao-falar-sobre-proje%C3%A7%C3%A3oas-&locale=pt_BR">Freud on projection</a></td>
+                <td>post with a famous Freud quote about projection</td>
+            </tr>
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=1lVARWfDeYo">Žižek: Israel, Palantir and antisemitism</a></td>
+                <td>Palantir / antisemitism / Lacan / master signifier / Rick and Morty / smoking</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>study links</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>title</th>
+                <th>description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="https://psycnet.apa.org/fulltext/2025-44166-001.html">It Takes Two to Empathize</a></td>
+                <td>Interbrain Coupling Contributes to Distress Regulation (article)</td>
+            </tr>
+            <tr>
+                <td><a href="https://www.cell.com/cell/fulltext/S0092-8674(25)01305-4">psilocybin triggers activity-dependent rewiring</a></td>
+                <td>psilocybin triggers an activity-dependent rewiring of large-scale cortical networks</td>
+            </tr>
             <tr>
                 <td><a href="https://letslearntogether.neocities.org/">letslearntogether</a></td>
-                <td>learning material</td>
-            </tr>
-
-             <tr>
-                <td><a href="https://www.cell.com/cell/fulltext/S0092-8674(25)01305-4"> https://www.cell.com/cell/fulltext/S0092-8674(25)01305-4</a></td>
-                <td>"psilocybin triggers an activity-dependent rewiring of large-scale cortical networks" </td>
-            </tr>
-
-             <tr>
-                <td><a href="https://www.youtube.com/watch?v=hw_ynwySdC4">https://www.youtube.com/watch?v=hw_ynwySdC4 </a></td>
-                <td> </td>
-            </tr>
-
-            
-             <tr>
-                <td><a href="https://youtu.be/NYjhd5I7kOE?si=9Dn7aiKLkoMwDza6"> https://youtu.be/NYjhd5I7kOE?si=9Dn7aiKLkoMwDza6</a></td>
-                <td> shinzou wo sasageyo - português brasileiro</td>
-            </tr>
-
-             <tr>
-                <td><a href="https://www.facebook.com/photo?fbid=1308962855976086&set=esta-%C3%A9-uma-famosa-frase-do-psicanalista-sigmund-freud-ao-falar-sobre-proje%C3%A7%C3%A3oas-&locale=pt_BR"> </a></td>
-                <td> </td>
-            </tr>
-
-              <tr>
-                <td><a href="https://www.youtube.com/watch?v=1lVARWfDeYo"> </a></td>
-                <td>Israel/Palantir/Anti-Semitism/Žižek/Lacan/Master Signifier/Rick and Morty/Smoking </td>
+                <td>study material</td>
             </tr>
         </tbody>
     </table>
