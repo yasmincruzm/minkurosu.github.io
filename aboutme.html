@@ -451,189 +451,77 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
     var container = document.getElementById('slideshow-area');
     if (!container) return;
 
-    var SLIDE_SECONDS = 2;
+    var SLIDE_SECONDS = 4;
 
     var FEED_IMAGES = [
-        'imgs/feed/05022026.jpg',
         'imgs/feed/0805.png',
-        'imgs/feed/1142902247605213698_229670069.jpg',
         'imgs/feed/1142908618459388611_229670069.jpg',
-        'imgs/feed/1144413569866079117_229670069.jpg',
-        'imgs/feed/1148060702540372185_229670069.jpg',
         'imgs/feed/1151654111138093907_229670069.jpg',
-        'imgs/feed/1152565129494207312_229670069.jpg',
-        'imgs/feed/1156686937407429494_229670069.jpg',
-        'imgs/feed/1161076654483774372_229670069.jpg',
         'imgs/feed/1164688187289836187_229670069.jpg',
         'imgs/feed/1164692387105151786_229670069.jpg',
-        'imgs/feed/1169065241519135725_229670069.jpg',
-        'imgs/feed/1172664161138710611_229670069.jpg',
-        'imgs/feed/1175564468466292928_229670069.jpg',
-        'imgs/feed/1184273991037163995_229670069.jpg',
-        'imgs/feed/1190837814619609181_229670069.jpg',
-        'imgs/feed/1195907677029472337_229670069.jpg',
-        'imgs/feed/1195912230466558194_229670069.jpg',
-        'imgs/feed/1201700233101252682_229670069.jpg',
         'imgs/feed/1202420252592380192_229670069.jpg',
-        'imgs/feed/1203175380211538352_229670069.jpg',
-        'imgs/feed/1205327510594722794_229670069.jpg',
-        'imgs/feed/1207477661291583782_229670069.jpg',
         'imgs/feed/1228493012934400904_229670069.jpg',
-        'imgs/feed/1235745637291596473_229670069.jpg',
-        'imgs/feed/1252410218990606766_229670069.jpg',
         'imgs/feed/1255308473718085846_229670069.jpg',
-        'imgs/feed/1256035947435333901_229670069.jpg',
-        'imgs/feed/1256760835246725728_229670069.jpg',
-        'imgs/feed/1258932933159360789_229670069.jpg',
-        'imgs/feed/1260383556140604312_229670069.jpg',
-        'imgs/feed/1264732926923316093_229670069.jpg',
-        'imgs/feed/1271253954856033075_229670069.jpg',
         'imgs/feed/1272710102087964840_229670069.jpg',
-        'imgs/feed/1273428874763508344_229670069.jpg',
-        'imgs/feed/1274877415927126379_229670069.jpg',
-        'imgs/feed/1277052252946766168_229670069.jpg',
-        'imgs/feed/1277776497486142422_229670069.jpg',
-        'imgs/feed/1280675399731180347_229670069.jpg',
-        'imgs/feed/1281400302985813268_229670069.jpg',
-        'imgs/feed/1282124973826036846_229670069.jpg',
-        'imgs/feed/1282132815303916296_229670069.jpg',
-        'imgs/feed/1282850140432728051_229670069.jpg',
-        'imgs/feed/1284299583119963305_229670069.jpg',
-        'imgs/feed/1285749861933505150_229670069.jpg',
-        'imgs/feed/1288647979012324810_229670069.jpg',
         'imgs/feed/1297346016102473319_229670069.jpg',
-        'imgs/feed/1299520499021334479_229670069.jpg',
-        'imgs/feed/1303144535736381820_229670069.jpg',
-        'imgs/feed/1305321323501674666_229670069.jpg',
         'imgs/feed/1306043085323484228_229670069.jpg',
-        'imgs/feed/1309665561538458784_229670069.jpg',
         'imgs/feed/1311843327809431250_229670069.jpg',
-        'imgs/feed/1312566277381925705_229670069.jpg',
-        'imgs/feed/1313290428926029179_229670069.jpg',
-        'imgs/feed/1314015807613535455_229670069.jpg',
-        'imgs/feed/1316186678172168351_229670069.jpg',
         'imgs/feed/1317639233914010165_229670069.jpg',
-        'imgs/feed/1333584469903149245_229670069.jpg',
         'imgs/feed/1336455284151603893_229670069.jpg',
-        'imgs/feed/1350245852606450167_229670069.jpg',
-        'imgs/feed/1366169677965745213_229670069.jpg',
-        'imgs/feed/1368343675537455785_229670069.jpg',
-        'imgs/feed/1380664764275718027_229670069.jpg',
-        'imgs/feed/1387911964038975795_229670069.jpg',
-        'imgs/feed/1390086703524312204_229670069.jpg',
-        'imgs/feed/1393710553155548456_229670069.jpg',
-        'imgs/feed/1399508678088681589_229670069.jpg',
-        'imgs/feed/1407481270691116241_229670069.jpg',
-        'imgs/feed/1414000776821171027_229670069.jpg',
-        'imgs/feed/1420524977988235320_229670069.jpg',
-        'imgs/feed/1429222624143936642_229670069.jpg',
         'imgs/feed/1431397578436354714_229670069.jpg',
         'imgs/feed/1440095459204764334_229670069.jpg',
-        'imgs/feed/1453140169183843880_229670069.jpg',
-        'imgs/feed/1456793822566411169_229670069.jpg',
-        'imgs/feed/1459694587190457247_229670069.jpg',
-        'imgs/feed/1461868942880177637_229670069.jpg',
-        'imgs/feed/1467665514276824982_229670069.jpg',
         'imgs/feed/1483620479423991031_229670069.jpg',
-        'imgs/feed/1494482444970940412_229670069.jpg',
-        'imgs/feed/1502454687751727711_229670069.jpg',
-        'imgs/feed/1507528540941012838_229670069.jpg',
-        'imgs/feed/1517675495541232277_229670069.jpg',
         'imgs/feed/1524922613398240955_229670069.jpg',
-        'imgs/feed/1530719187084602138_229670069.jpg',
-        'imgs/feed/1535794490169615622_229670069.jpg',
-        'imgs/feed/1537968634197705001_229670069.jpg',
-        'imgs/feed/1540867786154151360_229670069.jpg',
-        'imgs/feed/1548115507336236630_229670069.jpg',
         'imgs/feed/1569134094532303922_229670069.jpg',
         'imgs/feed/1574932464924489549_229670069.jpg',
         'imgs/feed/1577831788880713287_229670069.jpg',
-        'imgs/feed/1584354275558781607_229670069.jpg',
         'imgs/feed/1589427585669804634_229670069.jpg',
         'imgs/feed/1606091639415485189_229670069.jpg',
-        'imgs/feed/1634333558225786870_229670069.jpg',
-        'imgs/feed/1642303887875268601_229670069.jpg',
         'imgs/feed/1654627968603741409_229670069.jpg',
-        'imgs/feed/1663336342094737628_229670069.jpg',
         'imgs/feed/1674197125049388611_229670069.jpg',
         'imgs/feed/1676370760258448823_229670069.jpg',
-        'imgs/feed/1677820093348467399_229670069.jpg',
         'imgs/feed/1682171255140996947_229670069.jpg',
         'imgs/feed/1689416963116108364_229670069.jpg',
-        'imgs/feed/1695215429910206456_229670069.jpg',
-        'imgs/feed/1697389491704994537_229670069.jpg',
         'imgs/feed/1701015269415991616_229670069.jpg',
         'imgs/feed/1711156366234358660_229670069.jpg',
-        'imgs/feed/1714057300123913014_229670069.jpg',
         'imgs/feed/1720610058268459586_229670069.jpg',
         'imgs/feed/1726412266549399440_229670069.jpg',
         'imgs/feed/1735817527509843067_229670069.jpg',
         'imgs/feed/1749604018344440073_229670069.jpg',
-        'imgs/feed/1761958342101740917_229670069.jpg',
-        'imgs/feed/1957587702195107601_229670069.jpg',
-        'imgs/feed/1969193545885587335_229670069.jpg',
-        'imgs/feed/1990985942273537967_229670069.jpg',
-        'imgs/feed/2006906624421145274_229670069.jpg',
-        'imgs/feed/2012725017682579879_229670069.jpg',
-        'imgs/feed/2026539976484852476_229670069_1.jpg',
         'imgs/feed/2096018120270552890_229670069.jpg',
         'imgs/feed/2096824735445945639_229670069.jpg',
         'imgs/feed/2099578756204222410_229670069.jpg',
         'imgs/feed/2116279690649095171_229670069.jpg',
         'imgs/feed/2118412932915395776_229670069.jpg',
-        'imgs/feed/2121995117496819209_229670069.jpg',
         'imgs/feed/2133015944430198813_229670069.jpg',
         'imgs/feed/2159695734637762049_229670069.jpg',
         'imgs/feed/2163411379699094360_229670069.jpg',
         'imgs/feed/2168410577649652325_229670069.jpg',
         'imgs/feed/2177182701927452542_229670069.jpg',
-        'imgs/feed/2182296688935495063_229670069.jpg',
-        'imgs/feed/2190955108760643578_229670069.jpg',
-        'imgs/feed/2204728105709669994_229670069.jpg',
         'imgs/feed/2217815860882763409_229670069.jpg',
-        'imgs/feed/2222238334231983722_229670069.jpg',
-        'imgs/feed/2231477107092173992_229670069.jpg',
-        'imgs/feed/2238120111777323118_229670069.jpg',
-        'imgs/feed/2247256234902424006_229670069.jpg',
-        'imgs/feed/2280704070125884805_229670069.jpg',
-        'imgs/feed/2293050206761258322_229670069.jpg',
-        'imgs/feed/2317820058315117230_229670069.jpg',
         'imgs/feed/2330767824902150017_229670069.jpg',
-        'imgs/feed/2336708340902620782_229670069.jpg',
         'imgs/feed/2351842030456514862_229670069.jpg',
-        'imgs/feed/2356179677002007717_229670069.jpg',
         'imgs/feed/2362782108473106694_229670069.jpg',
-        'imgs/feed/2368519439813480444_229670069.jpg',
-        'imgs/feed/2371447107601151919_229670069.jpg',
         'imgs/feed/2376362111777633560_229670069.jpg',
         'imgs/feed/2383073029299357114_229670069.jpg',
         'imgs/feed/2392479720474162475_229670069.jpg',
         'imgs/feed/2397571539495068068_229670069.jpg',
         'imgs/feed/2432312693155315138_229670069.jpg',
         'imgs/feed/2448925616640126939_229670069.jpg',
-        'imgs/feed/2461338154342427705_229670069.jpg',
         'imgs/feed/2465640621095973624_229670069.jpg',
-        'imgs/feed/2476452850426871174_229670069.jpg',
         'imgs/feed/2492410878867095122_229670069.jpg',
-        'imgs/feed/2496839806268548467_229670069.jpg',
         'imgs/feed/2606164064085223411_229670069.jpg',
-        'imgs/feed/2625899155627881240_229670069.jpg',
-        'imgs/feed/2654118497331445825_229670069.jpg',
         'imgs/feed/2662859113753723303_229670069.jpg',
-        'imgs/feed/2711421198318608648_229670069.jpg',
         'imgs/feed/2743286696488408378_229670069.jpg',
         'imgs/feed/2770073873754817204_229670069.jpg',
         'imgs/feed/2780994255512764384_229670069.jpg',
         'imgs/feed/2815037059779985354_229670069.jpg',
         'imgs/feed/2843270150327465836_229670069.jpg',
-        'imgs/feed/2861413434438691269_229670069.jpg',
         'imgs/feed/2873002387490808537_229670069.jpg',
         'imgs/feed/2874990278316121087_229670069.jpg',
         'imgs/feed/2877357867637945566_229670069.jpg',
         'imgs/feed/2882826697176595796_229670069.jpg',
-        'imgs/feed/2887241385368944188_229670069.jpg',
         'imgs/feed/2891759499838296923_229670069.jpg',
-        'imgs/feed/2905634027547344227_229670069.jpg',
         'imgs/feed/2917234270810324686_229670069.jpg',
         'imgs/feed/2948206959959115735_229670069_1.jpg',
         'imgs/feed/2948206959959115735_229670069_3.jpg',
@@ -643,68 +531,45 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         'imgs/feed/2954954501087138821_229670069_5.jpg',
         'imgs/feed/2966518785088693869_229670069.jpg',
         'imgs/feed/2980181345977254386_229670069.jpg',
-        'imgs/feed/3006368725751172135_229670069.jpg',
         'imgs/feed/3008520498268011937_229670069.jpg',
         'imgs/feed/3046893447517381064_229670069_1.jpg',
         'imgs/feed/343568498_936194974360160_2433552058836292256_n_17959784015324754.png',
-        'imgs/feed/3438317599266122590_229670069.jpg',
         'imgs/feed/3463858598439963487_229670069.jpg',
-        'imgs/feed/3463858598448261199_229670069.jpg',
         'imgs/feed/3471666579232484651_229670069.jpg',
-        'imgs/feed/347335333_1551580995370922_4900515948033609105_n_17921674961706180.png',
-        'imgs/feed/3479649688146091081_229670069.jpg',
-        'imgs/feed/3479649688146141195_229670069.jpg',
         'imgs/feed/3479649688154517773_229670069.jpg',
         'imgs/feed/3479649688406064191_229670069.jpg',
         'imgs/feed/348592528_158441930365298_7747974649611648834_n_18291445408128725.png',
         'imgs/feed/351458387_603312831770766_8700257408493077192_n_17992145362876247.png',
         'imgs/feed/352742044_1277184593201910_1116441006859171930_n_18025301965554649.png',
         'imgs/feed/352813613_1778060222614022_3453599044081414371_n_17976573269112644.png',
-        'imgs/feed/354411400_934499944514330_5914957932245925851_n_18007738657812607.png',
         'imgs/feed/354690656_990819811942464_73347386362552945_n_17985432605004574.png',
         'imgs/feed/354801412_646262653717498_1848050448632852524_n_17977021157143910.png',
         'imgs/feed/356108452_864271168461032_8828755740101118722_n_17981619872198561.png',
         'imgs/feed/359676570_1281671176051603_6240681789574852749_n_17844844440017402.png',
-        'imgs/feed/369169957_825105262622668_4370557693006365516_n_17891050607876844.png',
         'imgs/feed/381311821_1418716338709565_1325100872889950868_n_18196048540284845.png',
-        'imgs/feed/397355970_1262357671097700_4520818507332411667_n_18027563284668819.png',
-        'imgs/feed/401982850_1005626103838246_4493612367282585875_n_18115621003334274.png',
         'imgs/feed/409224427_374549895085404_8735905788697766129_n_17977704635479745.png',
         'imgs/feed/419032011_729156312513499_9214248630835624547_n_18055395166523540.png',
         'imgs/feed/420836652_1495135711055866_4179943012179118039_n_17902313054927649.png',
-        'imgs/feed/426034603_1596774571155413_8612716624682538407_n_18023676499986757.png',
         'imgs/feed/426092047_1552982525487744_5257432832356080158_n_17991144203565018.png',
         'imgs/feed/DSCN3057.JPG',
-        'imgs/feed/DSCN3068.JPG',
         'imgs/feed/Screenshot_20260207_174513_Gallery.jpg',
         'imgs/feed/a.jpg',
         'imgs/feed/am.png',
         'imgs/feed/bluehair.jpg',
-        'imgs/feed/buzi-us.JPG',
         'imgs/feed/bz.JPG',
-        'imgs/feed/bz2.JPG',
         'imgs/feed/bz4.jpg',
-        'imgs/feed/bz5.jpg',
-        'imgs/feed/bz6.jpg',
         'imgs/feed/bz7.jpg',
         'imgs/feed/bz9.jpg',
         'imgs/feed/carnaval2025.jpg',
-        'imgs/feed/eubuzios.JPG',
         'imgs/feed/fairy.jpeg',
         'imgs/feed/gabmin.jpg',
         'imgs/feed/gardenpsychedelia.png',
-        'imgs/feed/jun20262.jpg',
-        'imgs/feed/kemonomimi.jpg',
-        'imgs/feed/kungfu.jpg',
         'imgs/feed/mcrshow1.jpg',
         'imgs/feed/mcrshow2.jpg',
-        'imgs/feed/mcrshow3.jpg',
-        'imgs/feed/mcrshow4.jpg',
         'imgs/feed/mcrshow5.jpg',
         'imgs/feed/mcrshow6.jpg',
         'imgs/feed/mcrshow7.jpg',
         'imgs/feed/morcego.png',
-        'imgs/feed/psiuff.jpeg',
         'imgs/feed/ritalee.jpg',
         'imgs/feed/setlistjun2026.jpg',
         'imgs/feed/us.png'
@@ -725,67 +590,82 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         return a;
     }
 
-    function buildCycle(lastSrc) {
-        var rest = shuffle(FEED_IMAGES.filter(function (src) {
+    function buildCycle(validImages, lastSrc) {
+        var fixedValid = FIXED_FIRST.filter(function (src) {
+            return validImages.indexOf(src) !== -1;
+        });
+        var rest = shuffle(validImages.filter(function (src) {
             return FIXED_FIRST.indexOf(src) === -1;
         }));
-        var ordered = FIXED_FIRST.concat(rest);
+        var ordered = fixedValid.concat(rest);
 
-        if (lastSrc && ordered[0] === lastSrc && ordered.length > 1) {
+        if (lastSrc && ordered.length > 1 && ordered[0] === lastSrc) {
             var swapWith = 1 + Math.floor(Math.random() * (ordered.length - 1));
             var tmp = ordered[0]; ordered[0] = ordered[swapWith]; ordered[swapWith] = tmp;
         }
         return ordered;
     }
 
-    var orderedSrcs = buildCycle(null);
-    if (!orderedSrcs.length) return;
-
-    container.innerHTML = '';
-    var imgA = document.createElement('img');
-    var imgB = document.createElement('img');
-    container.appendChild(imgA);
-    container.appendChild(imgB);
-
-    var front = imgA;
-    var back = imgB;
-    var index = 0;
-
-    front.src = orderedSrcs[index];
-    front.classList.add('active');
-
-    function preload(src) {
+    function checkImage(src) {
         return new Promise(function (resolve) {
+            var done = false;
+            function finish(result) {
+                if (done) return;
+                done = true;
+                resolve(result);
+            }
             var pre = new Image();
-            pre.onload = resolve;
-            pre.onerror = resolve;
+            pre.onload = function () { finish(src); };
+            pre.onerror = function () { finish(null); };
             pre.src = src;
+            setTimeout(function () { finish(null); }, 8000);
         });
     }
 
-    function scheduleNext() {
-        setTimeout(nextSlide, SLIDE_SECONDS * 1000);
-    }
+    Promise.all(FEED_IMAGES.map(checkImage)).then(function (results) {
+        var validImages = results.filter(Boolean);
+        if (!validImages.length) return;
 
-    function nextSlide() {
-        index++;
-        if (index >= orderedSrcs.length) {
-    
-            orderedSrcs = buildCycle(orderedSrcs[orderedSrcs.length - 1]);
-            index = 0;
+        var orderedSrcs = buildCycle(validImages, null);
+
+        container.innerHTML = '';
+        var imgA = document.createElement('img');
+        var imgB = document.createElement('img');
+        container.appendChild(imgA);
+        container.appendChild(imgB);
+
+        var front = imgA;
+        var back = imgB;
+        var index = 0;
+
+        front.src = orderedSrcs[index];
+        front.classList.add('active');
+
+        function scheduleNext() {
+            setTimeout(nextSlide, SLIDE_SECONDS * 1000);
         }
-        var nextSrc = orderedSrcs[index];
-        preload(nextSrc).then(function () {
-            back.src = nextSrc;
-            back.classList.add('active');
-            front.classList.remove('active');
-            var tmp = front;
-            front = back;
-            back = tmp;
-            scheduleNext();
-        });
-    }
 
-    scheduleNext();
+        function nextSlide() {
+            index++;
+            if (index >= orderedSrcs.length) {
+                orderedSrcs = buildCycle(validImages, orderedSrcs[orderedSrcs.length - 1]);
+                index = 0;
+            }
+            back.src = orderedSrcs[index];
+
+            void back.offsetWidth;
+
+            requestAnimationFrame(function () {
+                back.classList.add('active');
+                front.classList.remove('active');
+                var tmp = front;
+                front = back;
+                back = tmp;
+                scheduleNext();
+            });
+        }
+
+        scheduleNext();
+    });
 })();
 </script>
