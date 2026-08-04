@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="atendimento psicológico - @minkurosu">
+
+    <meta property="og:title" content="min kurosu - psicologia">
+    <meta property="og:description" content="atendimento psicológico, olhar histórico-cultural, sem julgamento.">
+    <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
+    <meta property="og:url" content="https://minkurosu.site/psicologia.html">
+    <meta property="og:type" content="website">
+
+    <title>psicologia</title>
+
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="/emo.css" id="theme-stylesheet">
+</head>
+
+<body class="psi-standalone">
+
+    <style>
+
+        .psi-wrap, .psi-wrap *, .psi-wrap *::before, .psi-wrap *::after {
+            box-sizing: border-box;
+        }
+
+
+        body.psi-standalone {
+            background-color: #0a0a0a;
+            margin: 0;
+        }
+
+        .psi-wrap {
+
+            --psi-texto: #8a8172;
+            --psi-detalhe: #3d382e;
+
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0.8rem 1rem 2rem;
+            text-align: left !important;
+            background-color: #0a0a0a;
+            color: var(--psi-texto);
+            font-family: "MinFont", sans-serif;
+            text-transform: lowercase;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .psi-wrap p, .psi-wrap h1, .psi-wrap h2, .psi-wrap h3, .psi-wrap div {
+            text-align: left;
+        }
+
+
+.psi-faixa {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.3rem 0;
+    font-size: 1rem;
+}
+
+.psi-faixa span {
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 0.15rem solid #1c1914;
+    background-color: #0a0a0a;
+    color: var(--psi-detalhe);
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+        .psi-hero {
+            position: relative;
+            border: 3px solid #2b2419;
+            background-color: #0a0a0a;
+            border-radius: 0.5rem;
+            padding: 1.1rem 1.3rem;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            gap: 1.2rem;
+        }
+
+        .psi-decoracao {
+            position: absolute;
+            width: 54px;
+            height: auto;
+            pointer-events: none;
+            z-index: 3;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+        }
+
+        .psi-decoracao.psi-decoracao-hero {
+            top: -22px;
+            right: -18px;
+            transform: rotate(8deg);
+        }
+
+        .psi-decoracao.psi-decoracao-sobre {
+            width: 42px;
+            bottom: -16px;
+            left: -14px;
+            transform: rotate(-10deg);
+        }
+
+        @media (max-width: 720px) {
+            .psi-decoracao {
+                display: none;
+            }
+        }
+
+        .psi-hero-texto {
+            flex: 1 1 240px;
+            max-width: 300px;
+            min-width: 200px;
+        }
+
+        .psi-hero h1 {
+            font-size: 1.5rem !important;
+            margin: 0 0 0.15rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            letter-spacing: 0.01em;
+        }
+
+        .psi-hero .psi-crp {
+            font-size: 0.8rem;
+            color: var(--psi-texto);
+            margin-bottom: 0.4rem;
+        }
+
+
+        .psi-assinatura {
+            display: block;
+            width: 113px;
+            height: 40px;
+            margin: 0.1rem 0 0.6rem -3px;
+        }
+
+        .psi-assinatura path {
+            fill: none;
+            stroke: var(--psi-detalhe);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+
+            animation: psi-assinar 2.6s 0.2s cubic-bezier(.4,.1,.2,1) forwards,
+                       psi-respirar 3.8s ease-in-out 2.9s infinite;
+        }
+
+        @keyframes psi-assinar {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes psi-respirar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.78; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .psi-assinatura path {
+                animation: none;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .psi-hero p.psi-tagline {
+            font-size: 0.9rem;
+            color: var(--psi-texto);
+            max-width: 460px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .psi-cta-btns {
+            margin-top: 0.7rem;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.3rem;
+            max-width: 470px;
+        }
+
+        .psi-btn {
+            display: block;
+            padding: 5px 7px;
+            border-radius: 2px;
+            font-size: 0.68rem;
+            line-height: 1.25;
+            text-align: center;
+            text-decoration: none;
+            border: 0.15rem solid #1c1914;
+            color: var(--psi-detalhe) !important;
+            background-color: #0a0a0a;
+            box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .psi-btn:hover {
+            color: var(--psi-texto) !important;
+            border-color: var(--psi-detalhe);
+            transform: scale(1.08);
+        }
+
+        .psi-btn.secundario {
+            background-color: #0a0a0a;
+            color: var(--psi-detalhe) !important;
+            border: 0.15rem solid #1c1914;
+        }
+
+        .psi-btn-contato {
+            font-size: 0.8rem;
+        }
+
+        .psi-secao {
+            position: relative;
+            border: 1px solid #201f1f;
+            background-color: #0f0f0f;
+            border-radius: 0.5rem;
+            padding: 0.9rem;
+
+        }
+
+        .psi-secao h2 {
+            color: var(--psi-texto);
+            font-size: 0.98rem !important;
+            border-bottom: 1px solid var(--psi-detalhe);
+            padding-bottom: 0.3rem;
+            margin: 0 0 0.5rem;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-secao p {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            margin: 0 0 0.6rem;
+        }
+
+        .psi-secao p:last-child {
+            margin-bottom: 0;
+        }
+
+        .psi-lista-valores {
+            list-style: none;
+            margin: 0.6rem 0 0;
+            padding: 0;
+        }
+
+        .psi-lista-valores li {
+            font-size: 0.86rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            padding: 0.45rem 0 0.45rem 1rem;
+            border-bottom: 1px dashed #262626;
+            position: relative;
+        }
+
+        .psi-lista-valores li:last-child {
+            border-bottom: none;
+        }
+
+        .psi-lista-valores li::before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        .psi-servicos-tira {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.6rem;
+            margin-top: 0.3rem;
+        }
+
+        .psi-servico-card {
+            flex: 1 1 170px;
+            max-width: 220px;
+            border: 1px solid var(--psi-detalhe);
+            border-radius: 3px;
+            padding: 0.6rem 0.7rem;
+            background-color: #0a0a0a;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-servico-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .psi-servico-card h3 {
+            margin: 0 0 0.25rem;
+            font-size: 0.85rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-servico-card p {
+            font-size: 0.74rem;
+            margin: 0;
+            color: var(--psi-texto);
+            line-height: 1.4;
+        }
+
+        .psi-galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        @media (max-width: 560px) {
+            .psi-galeria-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .psi-galeria-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border: 2px dashed #262626;
+            border-radius: 2px;
+            overflow: hidden;
+            display: block;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-galeria-item:hover {
+            transform: scale(1.03);
+        }
+
+        .psi-galeria-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--psi-texto);
+            padding: 0.4rem;
+            z-index: 0;
+        }
+
+        .psi-thumb-img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .psi-galeria-item:hover .psi-thumb-img {
+            transform: scale(1.06);
+        }
+
+        .psi-galeria-item.com-instagram {
+            aspect-ratio: 4 / 5;
+            min-height: 0;
+            border-style: solid;
+            overflow: hidden;
+        }
+
+        .psi-galeria-item.com-instagram:hover {
+            transform: none;
+        }
+
+        .psi-instagram-embed {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .psi-instagram-embed .instagram-media {
+            margin: -50px auto 0 !important;
+            min-width: 0 !important;
+            width: 100% !important;
+            transform: scale(1.1);
+            transform-origin: center;
+        }
+
+        .psi-instagram-embed .instagram-media iframe {
+            margin-top: -50px !important;
+        }
+
+        .psi-hover-hint {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 0.4rem;
+            font-size: 0.65rem;
+            color: var(--psi-texto);
+            background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .psi-galeria-item:hover .psi-hover-hint {
+            opacity: 1;
+        }
+
+        .psi-sou-nao-sou {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .psi-sou-nao-sou-coluna h3 {
+            margin: 0 0 0.4rem;
+            font-size: 0.85rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .psi-sou-nao-sou-lista {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .psi-sou-nao-sou-lista li {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--psi-texto);
+            padding: 0.35rem 0 0.35rem 1rem;
+            border-bottom: 1px dashed #262626;
+            position: relative;
+        }
+
+        .psi-sou-nao-sou-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .psi-sou-nao-sou-coluna.psi-sou .psi-sou-nao-sou-lista li::before {
+            content: "+";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        .psi-sou-nao-sou-coluna.psi-nao-sou .psi-sou-nao-sou-lista li::before {
+            content: "–";
+            position: absolute;
+            left: 0;
+            color: var(--psi-detalhe);
+        }
+
+        @media (max-width: 560px) {
+            .psi-sou-nao-sou {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .psi-aviso {
+            font-size: 0.68rem;
+            color: var(--psi-texto);
+            text-align: center;
+            margin-top: 1.2rem;
+            line-height: 1.4;
+            text-transform: none;
+        }
+
+        .psi-footer {
+            text-align: center;
+            padding: 6px;
+            font-size: 0.8rem;
+            color: var(--psi-texto);
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin-top: 0.8rem;
+        }
+
+        .psi-hero-foto {
+            flex: 0 0 auto;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .psi-hero-foto.psi-hero-foto-vazio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            text-align: center;
+            padding: 0.4rem;
+            background-color: #131313;
+            color: var(--psi-detalhe);
+            min-height: 220px;
+        }
+
+        .psi-hero-foto img {
+            width: auto;
+            height: 100%;
+            max-width: 420px;
+            object-fit: contain;
+            display: block;
+        }
+
+        @media (max-width: 720px) {
+            .psi-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .psi-hero-texto {
+                text-align: center;
+            }
+            .psi-hero-foto {
+                margin: 0 auto;
+                width: 100%;
+                max-width: 260px;
+            }
+            .psi-cta-btns {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+
+    <div class="psi-wrap">
+
+
+        <div class="psi-hero">
+
+            <div class="psi-hero-texto">
+                <h1>yasmin cruz mauricio</h1>
+
+                <div class="psi-crp">psicóloga — crp 05/87037</div>
+
+                <svg class="psi-assinatura" viewBox="0 0 90 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M0.90 11.20 C 1.09 11.42, 1.14 13.29, 2.01 12.54 C 2.88 11.78, 4.23 7.99, 6.14 6.66 C 8.05 5.33, 11.05 4.50, 13.47 4.55 C 15.89 4.60, 18.81 5.58, 20.66 6.98 C 22.51 8.37, 23.54 10.73, 24.57 12.90 C 25.60 15.07, 27.27 17.82, 26.85 20.00 C 26.44 22.18, 24.05 24.68, 22.09 25.98 C 20.13 27.29, 17.52 27.33, 15.10 27.80 C 12.67 28.28, 9.79 29.51, 7.52 28.85 C 5.25 28.18, 2.44 25.87, 1.49 23.81 C 0.54 21.76, 0.91 17.24, 1.81 16.51 C 2.71 15.77, 5.20 18.24, 6.87 19.39 C 8.54 20.54, 10.04 22.60, 11.83 23.40 C 13.62 24.20, 15.65 24.14, 17.62 24.16 C 19.60 24.18, 21.86 24.39, 23.68 23.52 C 25.50 22.65, 27.84 20.82, 28.56 18.95 C 29.28 17.08, 28.60 14.32, 28.01 12.33 C 27.42 10.33, 26.39 8.43, 25.04 6.97 C 23.68 5.51, 21.76 4.02, 19.87 3.56 C 17.98 3.10, 15.40 3.40, 13.69 4.21 C 11.97 5.03, 10.71 6.90, 9.58 8.45 C 8.44 10.01, 6.94 13.93, 6.88 13.57 C 6.81 13.21, 8.07 7.81, 9.21 6.29 C 10.35 4.76, 12.16 4.50, 13.71 4.42 C 15.25 4.34, 17.18 5.00, 18.48 5.79 C 19.78 6.57, 20.60 7.92, 21.49 9.13 C 22.37 10.34, 23.65 11.67, 23.79 13.05 C 23.94 14.43, 23.20 16.17, 22.37 17.40 C 21.54 18.63, 20.18 19.86, 18.81 20.44 C 17.44 21.01, 15.70 20.82, 14.16 20.85 C 12.61 20.87, 10.98 21.06, 9.53 20.58 C 8.07 20.09, 6.10 19.14, 5.42 17.96 C 4.74 16.77, 4.09 12.11, 5.47 13.46 C 6.85 14.80, 11.57 23.92, 13.68 26.01 C 15.79 28.11, 16.76 26.29, 18.13 26.03 C 19.49 25.77, 20.58 25.11, 21.87 24.46 C 23.16 23.80, 25.30 23.28, 25.85 22.10 C 26.41 20.91, 25.64 18.69, 25.21 17.33 C 24.78 15.97, 23.92 15.14, 23.29 13.95 C 22.65 12.77, 22.41 11.28, 21.40 10.20 C 20.39 9.12, 18.62 7.45, 17.24 7.46 C 15.86 7.47, 14.07 9.08, 13.12 10.24 C 12.18 11.40, 12.12 13.10, 11.58 14.42 C 11.04 15.73, 9.66 18.98, 9.88 18.14 C 10.10 17.30, 11.84 10.87, 12.90 9.37 C 13.96 7.88, 15.19 9.00, 16.25 9.18 C 17.32 9.37, 18.43 9.84, 19.29 10.48 C 20.15 11.11, 20.87 12.04, 21.40 12.99 C 21.93 13.95, 22.44 15.12, 22.46 16.22 C 22.48 17.32, 22.15 18.70, 21.53 19.57 C 20.91 20.44, 19.68 20.99, 18.72 21.44 C 17.76 21.90, 16.80 22.13, 15.74 22.30 C 14.69 22.47, 13.44 22.79, 12.40 22.49 C 11.35 22.20, 10.03 21.43, 9.46 20.53 C 8.89 19.63, 7.86 17.70, 8.98 17.08 C 10.10 16.46, 13.18 16.99, 16.19 16.81 C 19.19 16.63, 25.20 16.14, 27.00 16.00 C 36 2, 44 29, 55 16 C 64 6, 70 24, 80 15" />
+                </svg>
+
+         <p class="psi-tagline">
+  escuta e acompanhamento psicológico clinico online, com ética e sigilo, 
+ pela psicologia histórico-cultural, para mulheres e lgbtqia+. 
+ <br>segundo vigotski,
+   nos constituímos e nos transformamos no contato com o outro, atravessados pelas histórias e perspectivas diferente de cada um. por isso, pra mim, entender alguém passa por conhecer sua história,
+    seu contexto e as relações que o formaram, não só o que se apresenta no momento presente.
+  acredito numa psicologia que não fecha os olhos pra injustiças em nome de uma "imparcialidade": acredito que a prática deve promover igualdade, equidade e justiça social.
+  aqui proponho construirmos juntos, ao longo do processo, um espaço de apoio à sua trajetória de autoconhecimento e de vida.
+</p>
+                <div class="psi-cta-btns">
+                    <a href="https://instagram.com/psi.min" class="psi-btn secundario psi-btn-contato" target="_blank" rel="noopener noreferrer">
+                    instagram profissional
+                    </a>
+                    <a href="mailto:mincruzpsi@gmail.com" class="psi-btn secundario psi-btn-contato">
+                        mandar um<br> e-mail
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="psi-hero-foto">
+                <img src="imgs/site_imgs/psi.jpeg" alt="yasmin cruz mauricio">
+            </div>
+        </div>
+        <div class="psi-faixa">
+            <span>psicologia histórico-cultural</span>
+            <span>atendimento online</span>
+            <span>escuta sensível</span>
+            <span>lgbtqia+</span>
+            <span>autenticidade</span>
+            <span>direitos humanos</span>
+            <span>justiça social</span>
+                        <span>neurodivergente</span>
+
+            <span>antifascista</span>
+        </div>
+
+        <div class="psi-secao">
+            <div>
+                <h2>sobre o atendimento</h2>
+                <p>
+                    sou psicóloga recém-formada pela UFF, ainda no comecinho de carreira
+                    (e prefiro dizer isso de cara, pela transparência e ética), trabalho
+                    a partir da psicologia histórico-cultural. acredito que
+                   todo sofrimento tem uma história por trás, minha escuta não separa o
+                    que você sente do seu contexto. trabalhamos junto o que
+                    faz sentido pra sua vida, não uma fórmula pronta.
+                </p>
+
+                <p>
+                    por ser recém-formada, ainda estou construindo minha prática, e entendo
+                    que isso também é uma questão de experiência, não só estudo teórico. também não acho justo que preço seja uma
+                     barreira entre alguém e um espaço de escuta e acolhimento, então meus valores
+                    refletem esse momento e meu ideal por uma psicologia acessível.
+                </p>
+
+
+
+                <p>
+                    acredito que a tomada de consciência dos nossos comportamentos e pensamentos são partes fundamentais da psicoterapia.
+                    muito do que sentimos e pensamos foi construído nas relações que vivemos,
+                    não inventado do nada. isso faz parte da jornada de autoconhecimento,
+                    que também tem relação com a busca de autenticidade,
+                    já que pra existir do seu jeito, antes é preciso entender o que é seu e o que
+                  foi imposto pelo outro.
+                </p>
+      <p>
+                    nem todo processo precisa ter um formato fixo. às vezes o que alguém
+                    precisa é de um espaço pontual pra pensar sobre algo específico, não uma jornada de
+                    autodescobrimento. entendo plantão psicológico (consultas avulsas)
+                    como isso: um espaço que existe enquanto for necessário, sem forçar
+                    continuidade onde ela não faz sentido no contexto da pessoa.
+                </p>
+                <p>
+                    também atendo sob supervisão, um dos requisitos mínimos para estar de acordo com a ética profissional,
+                    já que ainda vou fazer uma pós em clínica (atualmente faço em outra área).
+                </p>
+            </div>
+        </div>
+
+        <div class="psi-secao">
+            <h2>um pouquinho sobre mim, além do crp</h2>
+            <p>
+                vínculo também se constrói com alguma identificação, então breve resumo:
+                 gosto da subcultura alternativa, desenhar, videogame, cultura geek e anime. na minha
+                 jornada, me descobri lgbtq neurodivergente, e como pessoa com hipersensibilidade,
+                  pretendo usar isso a meu favor em uma escuta empática e sensível.
+            </p>
+            <p>
+                mas isso é só pra você me conhecer um pouco antes da primeira
+                sessão. minha escuta é voltada a você!
+            </p>
+        </div>
+
+        <div class="psi-secao">
+            <h2>o que acredito</h2>
+            <ul class="psi-lista-valores">
+                <li>quem decide o rumo da própria vida é você, construímos juntos o sentido disso pra sua vida.</li>
+                <li>não tenho resposta pra tudo, e não finjo que tenho.</li>
+                <li>diferença não é desvio a corrigir.</li>
+                <li>sigilo e ética não são discurso, são o mínimo.</li>
+            </ul>
+        </div>
+
+        <div class="psi-secao">
+            <h2>sou / não sou</h2>
+            <p>pra alinhar expectativa antes de qualquer coisa.</p>
+            <div class="psi-sou-nao-sou">
+                <div class="psi-sou-nao-sou-coluna psi-sou">
+                    <h3>sou</h3>
+                    <ul class="psi-sou-nao-sou-lista">
+                        <li>alguém em construção, e honesta sobre isso</li>
+                     <li>justiceira social</li>
+                     <li>constantemente online, infelizmente estou antenada sempre</li>
+                     <li>ser humano!!! todos nós erramos</li>
+                    </ul>
+                </div>
+                <div class="psi-sou-nao-sou-coluna psi-nao-sou">
+                    <h3>não sou</h3>
+                    <ul class="psi-sou-nao-sou-lista">
+                        <li>alguém com fórmula pronta ou resposta certa, assumimos a postura do não saber</li>
+                        <li>não sou certinha, afinal também sou gente!</li>
+                        <li>não sou conservadora, meu sangue é vermelho e o coração fica no lado esquerdo do peito :) </li>
+                        <li>não quero bancar de intelectual, sou a favor das relações horizontais, e também com psicoeducação!!</li>
+                   <li>definitivamente não curto positividade forçada, aprendemos que reprimir emoções não leva a lugar nenhum</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="psi-secao">
+            <h2>áreas de atuação</h2>
+            <p>alguns temas que venho acompanhando e estudo com mais frequência, cada processo é único, e essa lista não é exaustiva nem uma promessa de solução.</p>
+            <div class="psi-servicos-tira">
+
+                <div class="psi-servico-card">
+                    <h3>relacionamentos</h3>
+                    <p>afeto, família, convivência, e os padrões que a gente repete sem perceber.</p>
+                </div>
+                <div class="psi-servico-card">
+                    <h3>autoestima e identidade</h3>
+                    <p>reconstruir a relação com o próprio corpo e a própria história.</p>
+                </div>
+
+                <div class="psi-servico-card">
+                    <h3>lgbtqia+</h3>
+                    <p>espaço afirmativo para pensar sobre sua identidade, orientação, e desejo.</p>
+                </div>
+
+                <div class="psi-servico-card">
+                    <h3>pensamentos intrusivos</h3>
+                    <p>pensamentos distorcidos e repetitivos, rituais que tomam espaço no dia a dia, entendidos junto com seu contexto e historia.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="psi-secao">
+            <h2>galeria</h2>
+            <p>um pouco do que acredito :)</p>
+            <div class="psi-galeria-grid">
+
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZDPvTgOPF8/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZDPvTgOPF8/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZP0WsJADVX/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZP0WsJADVX/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZ07hB5jmC-/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DZ07hB5jmC-/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Dau03rplidK/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Dau03rplidK/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Da27zZclX1P/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Da27zZclX1P/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DbCGMSyFgzR/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/DbCGMSyFgzR/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="psi-galeria-item com-instagram">
+                    <div class="psi-instagram-embed">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Da47KLrCvWd/" data-instgrm-version="14">
+                            <a href="https://www.instagram.com/p/Da47KLrCvWd/" target="_blank" rel="noopener noreferrer">ver post no instagram</a>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="psi-hero">
+            <div class="psi-hero-texto" style="flex: 1 1 100%;">
+                <h1 style="font-size: 1.3rem !important;">bora conversar?</h1>
+                <p class="psi-tagline">
+                    dar o primeiro passo já é de grande coragem, no
+                    seu tempo, sem pressa ou pressão.
+                    frequência e valores a gente combina.
+                </p>
+
+            </div>
+        </div>
+
+        <p class="psi-aviso">
+            atendimento psicológico realizado em conformidade com o código de ética profissional do psicólogo
+            (cfp), sempre em supervisão e formação contínua. este atendimento não substitui acompanhamento
+            psiquiátrico nem emergência médica. em caso de risco à vida, procure o cvv (188) ou o samu (192).
+        </p>
+
+    </div>
+
+    <script async src="https://www.instagram.com/embed.js"></script>
+
+</body>
+
+</html>
