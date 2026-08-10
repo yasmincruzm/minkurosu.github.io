@@ -1,4 +1,4 @@
-import { getFirestore, collection, query, orderBy, limit, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, collection, query, orderBy, limit, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const CITY_STATS_COLLECTION = 'city_stats';
 
@@ -216,6 +216,59 @@ export async function loadCityList(app) {
     }, err => {
         console.warn('loadCityList:', err);
         container.innerHTML = `<p class="tracker-empty">erro ao carregar cidades.</p>`;
+    });
+}
+
+function renderDrawingCard(meta, id) {
+    const flag = countryFlag(meta.cc || '');
+    const ts   = meta.timestamp?.toDate ? meta.timestamp.toDate() : null;
+    const ago  = timeAgo(ts);
+    const location = [meta.city, meta.region, meta.country]
+        .filter(v => v && v !== 'unknown' && v !== '')
+        .join(', ') || 'localização desconhecida';
+
+    return `
+    <div class="dw-card" data-id="${id}">
+        <img class="dw-img" src="${meta.imageUrl}" alt="desenho" loading="lazy">
+        <div class="dw-body">
+            <div class="vc-row"><span class="vc-key">local</span><span class="vc-val">${flag} ${location}</span></div>
+            <div class="vc-row"><span class="vc-key">ip</span><span class="vc-val vc-mono">${meta.ip || 'unknown'}</span></div>
+            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(meta.device)} ${meta.device || '—'} · ${browserIcon(meta.browser)} ${meta.browser || '—'} · ${meta.os || '—'}</span></div>
+            <div class="vc-row"><span class="vc-key">quando</span><span class="vc-val">${ago}</span></div>
+        </div>
+        <button class="dw-delete" data-id="${id}">deletar</button>
+    </div>`;
+}
+
+export async function loadDrawings(app) {
+    const db        = getFirestore(app);
+    const container = document.getElementById('drawings-list');
+    if (!container) return;
+
+    const q = query(collection(db, 'drawings_meta'), orderBy('timestamp', 'desc'), limit(300));
+
+    onSnapshot(q, snapshot => {
+        if (snapshot.empty) {
+            container.innerHTML = `<p class="tracker-empty">nenhum desenho ainda.</p>`;
+            return;
+        }
+
+        container.innerHTML = snapshot.docs.map(d => renderDrawingCard(d.data(), d.id)).join('');
+
+        container.querySelectorAll('.dw-delete').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('deletar esse desenho? isso não apaga o arquivo do Storage, só o registro.')) return;
+                try {
+                    await deleteDoc(doc(db, 'drawings_meta', btn.dataset.id));
+                    await deleteDoc(doc(db, 'drawings', btn.dataset.id));
+                } catch (err) {
+                    alert('erro ao deletar: ' + err.message);
+                }
+            });
+        });
+    }, err => {
+        console.warn('loadDrawings:', err);
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar desenhos.</p>`;
     });
 }
 
