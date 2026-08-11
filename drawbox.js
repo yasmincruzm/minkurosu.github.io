@@ -79,7 +79,7 @@
 
 
     <div id="jspaint-wrap">
-        <iframe id="jspaint-iframe" data-src="jspaint/index.html?theme=retro-dark.css" title="jsPaint"></iframe>
+        <iframe id="jspaint-iframe" data-src="jspaint/index.html?theme=retro-dark.css&autosave=off" title="jsPaint"></iframe>
     </div>
 
     <h2>art by you &lt;3</h2>

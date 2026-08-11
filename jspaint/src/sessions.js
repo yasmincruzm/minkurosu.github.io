@@ -15,6 +15,7 @@ const log = (...args) => {
 };
 
 let localStorageAvailable = false;
+const autosave_enabled = new URLSearchParams(location.search).get("autosave") !== "off";
 try {
 	localStorage._available = true;
 	localStorageAvailable = localStorage._available;
@@ -112,6 +113,12 @@ function handle_data_loss() {
 class LocalSession {
 	constructor(session_id) {
 		this.id = session_id;
+		if (!autosave_enabled) {
+			this.save_image_to_storage_immediately = () => {};
+			this.save_image_to_storage_soon = () => {};
+			this.save_image_to_storage_soon.cancel = () => {};
+			return;
+		}
 		const ls_key = `image#${session_id}`;
 		log(`Local storage key: ${ls_key}`);
 		// save image to storage
@@ -1057,4 +1064,3 @@ if (is_discord_embed) {
 export { new_local_session };
 // Temporary globals until all dependent code is converted to ES Modules
 window.new_local_session = new_local_session; // used by functions.js
-
