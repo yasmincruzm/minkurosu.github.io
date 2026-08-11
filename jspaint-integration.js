@@ -1,26 +1,4 @@
-/*
-  jspaint-integration.js — minkurosu.site
-
-  VERSÃO COMPAT (sem "import"/type=module) — de propósito, pra funcionar
-  mesmo se o seu router client-side reinjeta a página via innerHTML, o
-  que impede scripts type="module" de rodar em alguns casos.
-
-  Requer, ANTES desta tag, os scripts compat do Firebase carregados como
-  scripts normais (veja o HTML de exemplo em drawbox-jspaint-block.html):
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="jspaint-integration.js"></script>
-
-  espera o jsPaint (iframe #jspaint-iframe, same-origin) carregar e
-  sobrescreve o hook systemHooks.showSaveFileDialog: em vez de abrir
-  "salvar como" do sistema, manda o desenho pro Firestore (coleção
-  pública "drawings" + coleção privada "drawings_meta" com info de quem
-  enviou, lida pelo admin-tracker.js no /admin). Também injeta tema
-  escuro + botão SAVE dentro do próprio jsPaint, e alimenta a galeria
-  dinâmica (#gallery-dynamic) com os desenhos mais recentes.
-*/
-
-console.log("[drawbox] script jspaint-integration.js iniciado.");
+console.log("[drawbox] started");
 
 (function () {
   const firebaseConfig = {
@@ -34,16 +12,14 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
   };
 
   if (typeof firebase === "undefined") {
-    console.error("[drawbox] `firebase` não existe — os scripts compat (firebase-app-compat.js / firebase-firestore-compat.js) não foram carregados antes deste arquivo.");
+    console.error("[drawbox] Missing");
     return;
   }
 
   const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore(app);
 
-  const MAX_IMAGE_BYTES = 700 * 1024; // margem abaixo do limite de 1MB por doc do Firestore
-
-  // ---------- info de quem tá desenhando ----------
+  const MAX_IMAGE_BYTES = 700 * 1024;
 
   function detectDevice() {
     const ua = navigator.userAgent;
@@ -81,7 +57,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
         ip = data.query; city = data.city; region = data.regionName;
         country = data.country; cc = data.countryCode;
       }
-    } catch { /* segue sem geo */ }
+    } catch { }
 
     return {
       ip, city, region, country, cc,
@@ -93,8 +69,6 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
       lang: navigator.language || null,
     };
   }
-
-  // ---------- blob -> base64, com fallback pra JPEG comprimido ----------
 
   function blobToDataURL(blob) {
     return new Promise((resolve, reject) => {
@@ -125,13 +99,11 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
     return null;
   }
 
-  // ---------- envio pro Firestore ----------
-
   async function submitDrawing(blob) {
-    console.log("[drawbox] submitDrawing chamado, blob:", blob);
+    console.log("[drawbox] submitDrawing", blob);
     const imageData = await blobToStoredImage(blob);
     if (!imageData) {
-      alert("esse desenho ficou grande demais pra salvar. tenta uma tela menor ou menos áreas preenchidas.");
+      alert("TooLarge");
       return false;
     }
 
@@ -148,17 +120,15 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
         ...meta,
       });
 
-      console.log("[drawbox] desenho enviado com sucesso, doc id:", publicDoc.id);
-      alert("desenho enviado com sucesso ☻");
+      console.log("[drawbox] submitted", publicDoc.id);
+      alert("Sent");
       return true;
     } catch (error) {
-      console.error("[drawbox] erro ao enviar desenho:", error);
-      alert("erro ao enviar o desenho, tenta de novo. (" + error.message + ")");
+      console.error("[drawbox] Failed", error);
+      alert("Failed");
       return false;
     }
   }
-
-  // ---------- espera uma condição ficar verdadeira ----------
 
   function waitUntil(conditionFn, intervalMs = 50, timeoutMs = 15000) {
     return new Promise((resolve, reject) => {
@@ -167,7 +137,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
         const value = conditionFn();
         if (value) return resolve(value);
         if (Date.now() - startedAt > timeoutMs) {
-          return reject(new Error("timeout esperando condição"));
+          return reject(new Error("Timeout"));
         }
         setTimeout(check, intervalMs);
       };
@@ -175,12 +145,8 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
     });
   }
 
-  // ---------- controle de tamanho do pincel (usa o atalho nativo +/- do
-  // numpad que o jsPaint já escuta pra "Brush Scaling") ----------
-
   const BRUSH_MIN_LEVEL = 0;
   const BRUSH_MAX_LEVEL = 15;
-  const BRUSH_INITIAL_LEVEL = 5; // não usada mais automaticamente (ver nota em injectControls) — mantida só de referência
 
   function dispatchBrushKey(doc, jspaintWindow, isPlus) {
     const evt = new jspaintWindow.KeyboardEvent("keydown", {
@@ -195,7 +161,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
 
   function makeBrushSizeController(jspaintWindow) {
     const doc = jspaintWindow.document;
-    let currentLevel = 0; // nível relativo ao tamanho padrão do jsPaint no load (1px)
+    let currentLevel = 0;
 
     function setLevel(target) {
       target = Math.max(BRUSH_MIN_LEVEL, Math.min(BRUSH_MAX_LEVEL, target));
@@ -205,20 +171,12 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
         dispatchBrushKey(doc, jspaintWindow, isPlus);
       }
       currentLevel = target;
-      console.log("[drawbox] brush level ajustado pra", currentLevel);
+      console.log("[drawbox] brush", currentLevel);
     }
 
     return { setLevel, getLevel: () => currentLevel };
   }
 
-  // ---------- color picker universal + slider de brush size + SAVE,
-  // injetados na barra de cores do topo, ao lado da paleta nativa de tons
-  // básicos/dessaturados (que continua visível), em vez do rodapé
-  // (.status-area) ----------
-
-  // nomes de classe "conhecidos" da estrutura padrão do jsPaint. Se a versão
-  // usada aqui tiver marcação diferente, ajusta esses seletores olhando o
-  // DOM real pelo devtools (clique direito dentro do iframe > inspecionar).
   const COLORS_COMPONENT_SELECTORS = [".colors-component.wide", ".colors-component"];
 
   function findFirst(doc, selectors) {
@@ -232,13 +190,10 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
   async function injectControls(jspaintWindow) {
     try {
       const doc = jspaintWindow.document;
-      if (doc.getElementById("drawbox-controls")) return; // já existe, não duplica
+      if (doc.getElementById("drawbox-controls")) return;
 
       const brush = makeBrushSizeController(jspaintWindow);
 
-      // a UI (colors-component) pode ainda não ter montado no exato momento
-      // em que systemHooks aparece — espera de verdade em vez de checar só
-      // uma vez, senão a busca falha silenciosamente e nada é injetado.
       let colorsComponent = null;
       let statusArea = null;
       try {
@@ -248,15 +203,15 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
           return colorsComponent || statusArea;
         }, 100, 8000);
       } catch (err) {
-        console.warn("[drawbox] nem .colors-component nem .status-area apareceram depois de 8s — controles não injetados.", err);
+        console.warn("[drawbox] Timeout", err);
         return;
       }
 
       const host = colorsComponent || statusArea;
       if (!colorsComponent) {
-        console.warn("[drawbox] .colors-component não encontrado, caindo pro rodapé (.status-area) como antes.");
+        console.warn("[drawbox] Missing");
       }
-      console.log("[drawbox] host encontrado pra injeção:", colorsComponent ? "colors-component" : "status-area", host);
+      console.log("[drawbox] host", colorsComponent ? "colors-component" : "status-area", host);
 
       const wrap = doc.createElement("div");
       wrap.id = "drawbox-controls";
@@ -265,15 +220,12 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
       wrap.style.gap = "6px";
       wrap.style.overflow = "visible";
       if (colorsComponent) {
-        // não fica preso dentro da caixa de tamanho fixo da colors-component;
-        // ocupa o espaço que sobrar do lado dela.
         wrap.style.flex = "1 1 auto";
         wrap.style.minWidth = "80px";
       } else {
         wrap.className = "status-field inset-shallow";
       }
 
-      // --- color picker universal, no lugar do quadrado de paleta ---
       const colorPicker = doc.createElement("input");
       colorPicker.type = "color";
       colorPicker.id = "drawbox-color-picker";
@@ -292,28 +244,23 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
         jspaintWindow.$G?.trigger("option-changed");
       });
 
-      // a paleta nativa (tons básicos/dessaturados) fica intocada e visível;
-      // não precisamos mais referenciá-la aqui.
-
-      // --- slider de brush, "na linha", ocupando o espaço que sobrar ---
       const slider = doc.createElement("input");
       slider.type = "range";
       slider.id = "drawbox-brush-slider";
       slider.min = String(BRUSH_MIN_LEVEL);
       slider.max = String(BRUSH_MAX_LEVEL);
-      slider.value = "0"; // reflete o tamanho real do pincel no load (padrão do jsPaint) — sem disparar nada sozinho
+      slider.value = "0";
       slider.title = "Tamanho do pincel";
       slider.style.flex = "1 1 auto";
       slider.style.minWidth = "40px";
       slider.addEventListener("input", () => brush.setLevel(Number(slider.value)));
 
-      // --- SAVE, do lado ---
       const btn = doc.createElement("button");
       btn.id = "drawbox-save-btn";
       btn.textContent = "save";
       btn.style.flex = "0 0 auto";
       btn.addEventListener("click", () => {
-        console.log("[drawbox] botão SAVE clicado, disparando Ctrl+S no jsPaint.");
+        console.log("[drawbox] save");
         const evt = new jspaintWindow.KeyboardEvent("keydown", {
           key: "s", code: "KeyS", keyCode: 83, ctrlKey: true, metaKey: true, bubbles: true,
         });
@@ -325,97 +272,105 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
       wrap.appendChild(btn);
 
       if (colorsComponent && colorsComponent.parentElement) {
-        // insere DEPOIS da colors-component inteira, como irmã dela — não
-        // dentro da caixa (que tem tamanho fixo / overflow e cortava os
-        // controles antes).
         colorsComponent.insertAdjacentElement("afterend", wrap);
       } else if (colorsComponent) {
-        // sem pai acessível por algum motivo — melhor dentro do que sumir
         colorsComponent.appendChild(wrap);
       } else {
         statusArea.appendChild(wrap);
       }
-      console.log("[drawbox] wrap inserido, ainda no DOM?", doc.getElementById("drawbox-controls") === wrap, "pai:", wrap.parentElement);
+      console.log("[drawbox] inserted", doc.getElementById("drawbox-controls") === wrap, wrap.parentElement);
 
-      // NÃO aplica mais o tamanho inicial automaticamente aqui — disparar
-      // esses eventos sintéticos de tecla assim que a página carrega (sem
-      // o usuário ter mexido em nada ainda) é o que provavelmente estava
-      // causando o "Recover Document" / canvas esvaziando sozinho no load.
-      // O pincel real do jsPaint fica no tamanho padrão dele (nível 0) até
-      // você mexer no slider de verdade — o slider já começa mostrando 0,
-      // então não tem descompasso entre o que aparece e o tamanho real.
-
-      console.log("[drawbox] controles (color picker + brush size + save) injetados no jsPaint.");
+      console.log("[drawbox] ready");
     } catch (err) {
-      console.warn("[drawbox] não consegui injetar os controles:", err);
+      console.warn("[drawbox] Failed", err);
     }
   }
 
-  // ---------- hook principal ----------
+  function suppressRecoverDialog(jspaintWindow) {
+    const doc = jspaintWindow.document;
+    const observer = new jspaintWindow.MutationObserver(() => {
+      const dialogs = doc.querySelectorAll(".window");
+      dialogs.forEach(win => {
+        const text = win.textContent || "";
+        if (!text.includes("canvas became empty")) return;
+        const buttons = win.querySelectorAll("button");
+        let closed = false;
+        buttons.forEach(btn => {
+          if (closed) return;
+          if (/fechar|close/i.test(btn.textContent || "")) {
+            btn.click();
+            closed = true;
+          }
+        });
+        if (!closed) win.remove();
+        console.log("[drawbox] dismissed");
+      });
+    });
+    observer.observe(doc.body, { childList: true, subtree: true });
+  }
 
   function hookJsPaintSave() {
     const iframe = document.getElementById("jspaint-iframe");
     if (!iframe) {
-      console.error("[drawbox] #jspaint-iframe não encontrado no DOM. Verifique se o HTML do drawbox foi realmente inserido na página.");
+      console.error("[drawbox] Missing");
       return;
     }
-    console.log("[drawbox] #jspaint-iframe encontrado.");
+    console.log("[drawbox] iframe");
 
     const setup = async () => {
-      console.log("[drawbox] iframe carregado (readyState:", iframe.contentDocument?.readyState, "). Esperando systemHooks do jsPaint...");
+      console.log("[drawbox] loaded", iframe.contentDocument?.readyState);
       const jspaintWindow = iframe.contentWindow;
 
       let hooks;
       try {
         hooks = await waitUntil(() => jspaintWindow.systemHooks);
       } catch (err) {
-        console.error("[drawbox] systemHooks nunca apareceu depois de 15s. Isso normalmente significa que o jsPaint carregado nesse iframe não expõe window.systemHooks (versão diferente, ou o iframe não carregou o jsPaint de verdade — confira visualmente se o Paint aparece dentro da caixa).", err);
+        console.error("[drawbox] Timeout", err);
         return;
       }
 
-      console.log("[drawbox] systemHooks encontrado:", hooks);
+      console.log("[drawbox] hooks", hooks);
       await injectControls(jspaintWindow);
+      suppressRecoverDialog(jspaintWindow);
 
       const originalShowSaveFileDialog = hooks.showSaveFileDialog;
 
       jspaintWindow.systemHooks.showSaveFileDialog = async ({ getBlob }) => {
-        console.log("[drawbox] showSaveFileDialog interceptado.");
+        console.log("[drawbox] intercepted");
         try {
           const blob = await getBlob("image/png");
           const ok = await submitDrawing(blob);
           return ok ? { newFileName: "desenho.png", newFileFormatID: "image/png" } : undefined;
         } catch (err) {
-          console.error("[drawbox] erro ao capturar desenho do jsPaint:", err);
+          console.error("[drawbox] Failed", err);
           return originalShowSaveFileDialog?.({ getBlob });
         }
       };
 
-      console.log("[drawbox] hook de salvar instalado com sucesso.");
+      console.log("[drawbox] hooked");
     };
 
     try {
       if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
-        console.log("[drawbox] iframe já estava carregado, rodando setup imediatamente.");
+        console.log("[drawbox] ready");
         setup();
       } else {
-        console.log("[drawbox] iframe ainda carregando, aguardando evento load.");
+        console.log("[drawbox] loading");
         iframe.addEventListener("load", setup);
       }
     } catch (err) {
-      console.warn("[drawbox] erro checando estado do iframe (possível cross-origin), usando fallback de load:", err);
+      console.warn("[drawbox] Failed", err);
       iframe.addEventListener("load", setup);
     }
   }
 
-  // ---------- galeria dinâmica ----------
-
   function renderDynamicGallery(snapshot) {
     const container = document.getElementById("gallery-dynamic");
     if (!container) {
-      console.warn('[drawbox] #gallery-dynamic não encontrado — adicione <div id="gallery-dynamic"></div> dentro do seu #gallery.');
+      console.warn("[drawbox] Missing");
       return;
     }
-    console.log("[drawbox] galeria atualizada, docs:", snapshot.size);
+    console.log("[drawbox] gallery", snapshot.size);
 
     if (snapshot.empty) {
       container.innerHTML = "";
@@ -431,7 +386,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
   function watchGallery() {
     db.collection("drawings").orderBy("timestamp", "desc").limit(60)
       .onSnapshot(renderDynamicGallery, err => {
-        console.error("[drawbox] erro ao carregar galeria:", err);
+        console.error("[drawbox] Failed", err);
       });
   }
 
