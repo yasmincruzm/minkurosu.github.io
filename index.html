@@ -58,6 +58,10 @@
     <script type="module" src="session-utils.js"></script>
     <script src="load-pages.js"></script>
     <script src="script.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script defer src="jspaint-integration.js"></script>
+    <script defer src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         bindGalleryFancybox();
@@ -316,6 +320,39 @@ div#goog-gt- {
 
         .slideshow-area img.active {
             opacity: 1;
+        }
+
+        #gallery {
+            width: min(700px, 100%);
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            column-count: 3;
+            column-gap: 15px;
+        }
+
+        #gallery .image-container {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 5px;
+            text-align: center;
+            break-inside: avoid;
+            border-radius: 0;
+            transition: transform 0.2s ease;
+        }
+
+        #gallery .image-container:hover {
+            transform: scale(1.05);
+            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+        }
+
+        #gallery .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
 

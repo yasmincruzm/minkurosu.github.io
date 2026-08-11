@@ -103,7 +103,7 @@ console.log("[drawbox] started");
     console.log("[drawbox] submitDrawing", blob);
     const imageData = await blobToStoredImage(blob);
     if (!imageData) {
-      alert("TooLarge");
+      alert("error");
       return false;
     }
 
@@ -121,11 +121,11 @@ console.log("[drawbox] started");
       });
 
       console.log("[drawbox] submitted", publicDoc.id);
-      alert("Sent");
+      alert("success");
       return true;
     } catch (error) {
       console.error("[drawbox] Failed", error);
-      alert("Failed");
+      alert("error");
       return false;
     }
   }
@@ -178,6 +178,7 @@ console.log("[drawbox] started");
 
   const BRUSH_MIN_LEVEL = 0;
   const BRUSH_MAX_LEVEL = 15;
+  const DEFAULT_BRUSH_LEVEL = 6;
 
   function dispatchBrushKey(doc, jspaintWindow, isPlus) {
     const evt = new jspaintWindow.KeyboardEvent("keydown", {
@@ -280,7 +281,7 @@ console.log("[drawbox] started");
       slider.id = "drawbox-brush-slider";
       slider.min = String(BRUSH_MIN_LEVEL);
       slider.max = String(BRUSH_MAX_LEVEL);
-      slider.value = "0";
+      slider.value = String(DEFAULT_BRUSH_LEVEL);
       slider.title = "Tamanho do pincel";
       slider.style.flex = "1 1 auto";
       slider.style.minWidth = "40px";
@@ -309,6 +310,7 @@ console.log("[drawbox] started");
       } else {
         statusArea.appendChild(wrap);
       }
+      brush.setLevel(DEFAULT_BRUSH_LEVEL);
       console.log("[drawbox] inserted", doc.getElementById("drawbox-controls") === wrap, wrap.parentElement);
 
       console.log("[drawbox] ready");
@@ -397,6 +399,20 @@ console.log("[drawbox] started");
       });
   }
 
-  hookJsPaintSave();
-  watchGallery();
+  let initializedIframe = null;
+  let galleryWatcherStarted = false;
+
+  window.initializeDrawbox = function () {
+    const iframe = document.getElementById("jspaint-iframe");
+    if (!iframe || iframe === initializedIframe) return;
+
+    initializedIframe = iframe;
+    hookJsPaintSave();
+    if (!galleryWatcherStarted) {
+      galleryWatcherStarted = true;
+      watchGallery();
+    }
+  };
+
+  window.initializeDrawbox();
 })();

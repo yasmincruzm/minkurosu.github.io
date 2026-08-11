@@ -127,7 +127,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      slides.forEach(img => { img.style.display = 'none'; });
+      slides.forEach(img => {
+        img.style.display = 'none';
+        img.style.opacity = '0';
+        img.classList.remove('active');
+      });
 
       let nextIndex = Math.floor(Math.random() * slides.length);
       if (slides.length > 1) {
@@ -137,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       slides[nextIndex].style.display = 'block';
+      slides[nextIndex].style.opacity = '1';
+      slides[nextIndex].classList.add('active');
       lastIndex = nextIndex;
 
       window.slideshowTimeout = setTimeout(showRandomSlide, 2000);
@@ -175,6 +181,10 @@ document.addEventListener('DOMContentLoaded', function () {
           setTimeout(() => {
             initializeSlideshow();
 
+            if (typeof window.initializeDrawbox === 'function') {
+              window.initializeDrawbox();
+            }
+
             if (typeof Fancybox !== 'undefined') {
               
               Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
@@ -188,12 +198,12 @@ document.addEventListener('DOMContentLoaded', function () {
           }, 200);
 
         } else {
-          mainContainer.innerHTML = '<p>content not found. please click the button again to try reloading the content.</p>';
+          mainContainer.innerHTML = '<p>error</p>';
         }
       })
       .catch(error => {
         console.error('error loading content:', error);
-        mainContainer.innerHTML = '<p>an error occurred while loading the page. please click the button again to try reloading the content.</p>';
+        mainContainer.innerHTML = '<p>error</p>';
       });
   }
 
