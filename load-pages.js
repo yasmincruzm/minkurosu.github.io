@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fetchPromise
             .then(html => {
+               
                 const doc = new DOMParser().parseFromString(html, 'text/html');
 
                 const thoughts = doc.querySelector('#thoughts-root');
@@ -148,42 +149,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     mainContainer.innerHTML = doc.body ? styles + doc.body.innerHTML : html;
                 }
 
-                fixViewport(pageName);
-                rehydrateScripts(mainContainer, pageName);
+                try {
+                    fixViewport(pageName);
+                    rehydrateScripts(mainContainer, pageName);
 
-                setTimeout(() => {
-                    if (typeof window.initializeSlideshow === 'function') {
-                        window.initializeSlideshow();
-                    } else {
-                        initSlideshowIfNeeded();
-                    }
+                    setTimeout(() => {
+                        try {
+                            if (typeof window.initializeSlideshow === 'function') {
+                                window.initializeSlideshow();
+                            } else {
+                                initSlideshowIfNeeded();
+                            }
+                            if (typeof window.initializeDrawbox === 'function') window.initializeDrawbox();
+                            if (typeof Fancybox !== 'undefined') Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
+                            if (typeof inicializarLastFmWidget === 'function') inicializarLastFmWidget();
+                            if (typeof window.loadDreams === 'function') window.loadDreams();
+                            if (typeof window.initializeDrag === 'function' && mainContainer.querySelector('.draggable')) window.initializeDrag();
+                        } catch (e) {
+                            console.error('[load-pages] widget init falhou:', e);
+                        }
+                    }, 200);
 
-                    if (typeof window.initializeDrawbox === 'function') {
-                        window.initializeDrawbox();
-                    }
+                    notifySession(pageName);
 
-                    if (typeof Fancybox !== 'undefined') {
-                        Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
-                    }
-
-                    if (typeof inicializarLastFmWidget === 'function') {
-                        inicializarLastFmWidget();
-                    }
-
-                    if (typeof window.loadDreams === 'function') {
-                        window.loadDreams();
-                    }
-
-                    if (typeof window.initializeDrag === 'function' && mainContainer.querySelector('.draggable')) {
-                        window.initializeDrag();
-                    }
-                }, 200);
-
-                notifySession(pageName);
-
-                document.querySelectorAll('.nav-link').forEach(l => {
-                    l.classList.toggle('active', l.getAttribute('data-page') === pageName);
-                });
+                    document.querySelectorAll('.nav-link').forEach(l => {
+                        l.classList.toggle('active', l.getAttribute('data-page') === pageName);
+                    });
+                } catch (e) {
+                    console.error('[load-pages] pós-processamento falhou:', e);
+                }
 
                 if (pushState) {
                     history.pushState({ page: pageName }, '', urlFor(pageName));
@@ -191,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(err => {
                 if (err.name === 'AbortError') return;
-                console.error('page load failed:', err);
+                console.error('page load failed (fetch/parse):', err);
                 mainContainer.innerHTML = '<p>error</p>';
             });
     }
