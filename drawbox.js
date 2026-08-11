@@ -1,17 +1,116 @@
-/*
-  drawbox.js — minkurosu.site
-  v2: salva no Firestore (sem Cloud Storage, que agora exige plano pago Blaze).
-  o desenho vira base64 e fica direto no campo "imageUrl" do documento — cabe tranquilo
-  no limite de 1MB por doc do Firestore, que continua 100% grátis no plano Spark.
+<!DOCTYPE html>
+<html lang="pt-br">
 
-  coleções usadas:
-  - "drawings"      → pública (leitura), { imageUrl (base64), timestamp }. é o que a galeria do site lê.
-  - "drawings_meta" → privada (leitura só admin), { imageUrl (base64), timestamp, ip, city, region,
-                       country, cc, device, browser, os, page, referrer, lang }. aparece no /admin.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>drawbox</title>
+    <link rel="stylesheet" href="emo.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-  IMPORTANTE: as regras de segurança do Firestore precisam permitir "create" público
-  nessas coleções, mas só permitir "read" de drawings_meta pro seu email de admin.
-*/
+        body {
+            padding: 20px;
+        }
+
+        #jspaint-wrap {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            border: 0.2rem solid #310000;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        #jspaint-iframe {
+            display: block;
+            width: 100%;
+            height: 640px;
+            border: none;
+            background: white;
+        }
+
+        #jspaint-note {
+            text-align: center;
+            font-size: 0.8em;
+            color: #5a5a5a;
+            max-width: 900px;
+            margin: 0 auto 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        #gallery-static,
+        #gallery-dynamic {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .image-container {
+            border: 1px solid #310000;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-container p {
+            font-size: 0.7em;
+            color: #5a5a5a;
+            text-align: center;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="jspaint-wrap">
+        <iframe id="jspaint-iframe" data-src="jspaint/index.html?theme=retro-dark.css" title="jsPaint"></iframe>
+    </div>
+
+    <h2>art by you &lt;3</h2>
+    <div id="gallery-static">
+        <div class="image-container">
+            <img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/brasilsilsil.webp" alt="straw.page" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram" loading="lazy">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/a.jpg" alt="sent by instagram" loading="lazy">
+        </div>
+    </div>
+
+    <h2>enviados recentemente</h2>
+    <div id="gallery-dynamic">loading...</div>
+
+    <script type="module">
 
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import {
@@ -33,286 +132,8 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const MAX_GALLERY_ITEMS = 60;
-const MAX_IMAGE_BYTES = 700 * 1024; // margem de segurança abaixo do limite de 1MB por doc do Firestore
+const MAX_IMAGE_BYTES = 700 * 1024; 
 
-let canvas = document.getElementById("drawboxcanvas");
-let context = canvas.getContext("2d");
-context.fillStyle = "white";
-context.fillRect(0, 0, canvas.width, canvas.height);
-
-let restore_array = [];
-let start_index = -1;
-let stroke_color = "#610000";
-let stroke_width = "2";
-let is_drawing = false;
-
-function change_color(hex) {
-  stroke_color = hex;
-  updateActiveSwatch(hex);
-  updateBrushPreview();
-}
-
-// ---------- paleta de cores básicas/desaturadas ----------
-
-const PALETTE = [
-  "#610000", // vermelho escuro (assinatura do site)
-  "#3A3330", // charcoal
-  "#E6E0DD", // off-white
-  "#B08A8A", // dusty rose
-  "#8A9A8A", // sage
-  "#8A96A8", // slate blue
-  "#A89A7C", // khaki
-  "#9A7C96", // mauve
-  "#C4A47C", // dusty ochre
-  "#7C8A96", // steel blue-gray
-  "#A87C7C", // terracotta muted
-  "#000000", // preto
-];
-
-function renderPalette() {
-  const container = document.getElementById("palette");
-  if (!container) return;
-  container.innerHTML = "";
-  PALETTE.forEach((hex, i) => {
-    const swatch = document.createElement("div");
-    swatch.className = "stroke-color";
-    swatch.style.background = hex;
-    swatch.dataset.hex = hex;
-    swatch.title = hex;
-    swatch.addEventListener("click", () => change_color(hex));
-    if (i === 0) swatch.classList.add("active");
-    container.appendChild(swatch);
-  });
-}
-
-function updateActiveSwatch(hex) {
-  document.querySelectorAll(".stroke-color").forEach(el => {
-    el.classList.toggle("active", el.dataset.hex?.toLowerCase() === hex.toLowerCase());
-  });
-}
-
-// ---------- tamanho do pincel ----------
-
-function updateBrushPreview() {
-  const dot = document.getElementById("brush-preview-dot");
-  if (!dot) return;
-  const size = Math.min(Number(stroke_width), 20); // limita visualmente, o traço real pode ser maior
-  dot.style.width = `${size}px`;
-  dot.style.height = `${size}px`;
-  dot.style.background = stroke_color;
-}
-
-function setupBrushControl() {
-  const slider = document.getElementById("brush-size");
-  const label = document.getElementById("brush-size-label");
-  if (!slider) return;
-  slider.addEventListener("input", () => {
-    stroke_width = slider.value;
-    if (label) label.textContent = `${slider.value}px`;
-    updateBrushPreview();
-  });
-  if (label) label.textContent = `${slider.value}px`;
-  updateBrushPreview();
-}
-
-// ---------- roda cromática (hue = ângulo, saturação = distância do centro) ----------
-
-function hslToHex(h, s, l) {
-  s /= 100; l /= 100;
-  const k = n => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
-  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-  const toHex = x => Math.round(255 * x).toString(16).padStart(2, "0");
-  return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`;
-}
-
-let pickedHue = 0;
-let pickedSat = 100;
-
-function drawColorWheel() {
-  const wheelCanvas = document.getElementById("cp-wheel");
-  if (!wheelCanvas) return;
-  const wCtx = wheelCanvas.getContext("2d");
-  const size = wheelCanvas.width;
-  const radius = size / 2;
-  const lightness = Number(document.getElementById("cp-lightness")?.value || 45);
-
-  const imageData = wCtx.createImageData(size, size);
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const dx = x - radius;
-      const dy = y - radius;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const idx = (y * size + x) * 4;
-      if (dist <= radius) {
-        const angle = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
-        const sat = Math.min(100, (dist / radius) * 100);
-        const hex = hslToHex(angle, sat, lightness);
-        imageData.data[idx]     = parseInt(hex.slice(1, 3), 16);
-        imageData.data[idx + 1] = parseInt(hex.slice(3, 5), 16);
-        imageData.data[idx + 2] = parseInt(hex.slice(5, 7), 16);
-        imageData.data[idx + 3] = 255;
-      }
-    }
-  }
-  wCtx.putImageData(imageData, 0, 0);
-}
-
-function pickFromWheelEvent(event) {
-  const wheelCanvas = document.getElementById("cp-wheel");
-  const rect = wheelCanvas.getBoundingClientRect();
-  const scaleX = wheelCanvas.width / rect.width;
-  const scaleY = wheelCanvas.height / rect.height;
-  const x = (event.clientX - rect.left) * scaleX;
-  const y = (event.clientY - rect.top) * scaleY;
-  const radius = wheelCanvas.width / 2;
-  const dx = x - radius;
-  const dy = y - radius;
-  const dist = Math.sqrt(dx * dx + dy * dy);
-  if (dist > radius) return;
-
-  pickedHue = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
-  pickedSat = Math.min(100, (dist / radius) * 100);
-  applyPickedColor();
-}
-
-function applyPickedColor() {
-  const lightness = Number(document.getElementById("cp-lightness")?.value || 45);
-  const hex = hslToHex(pickedHue, pickedSat, lightness);
-  const preview = document.getElementById("cp-preview");
-  const hexInput = document.getElementById("cp-hex");
-  if (preview) preview.style.background = hex;
-  if (hexInput) hexInput.value = hex;
-  change_color(hex);
-}
-
-function setupColorPicker() {
-  const modal = document.getElementById("color-picker-modal");
-  const openBtn = document.getElementById("open-picker-btn");
-  const closeBtn = document.getElementById("cp-close");
-  const wheelCanvas = document.getElementById("cp-wheel");
-  const lightnessSlider = document.getElementById("cp-lightness");
-  const hexInput = document.getElementById("cp-hex");
-  if (!modal || !openBtn || !wheelCanvas) return;
-
-  openBtn.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-    drawColorWheel();
-  });
-
-  closeBtn?.addEventListener("click", () => modal.classList.add("hidden"));
-  modal.addEventListener("click", e => {
-    if (e.target === modal) modal.classList.add("hidden");
-  });
-
-  let dragging = false;
-  wheelCanvas.addEventListener("mousedown", e => { dragging = true; pickFromWheelEvent(e); });
-  window.addEventListener("mousemove", e => { if (dragging) pickFromWheelEvent(e); });
-  window.addEventListener("mouseup", () => { dragging = false; });
-  wheelCanvas.addEventListener("touchstart", e => { pickFromWheelEvent(e.touches[0]); e.preventDefault(); }, { passive: false });
-  wheelCanvas.addEventListener("touchmove", e => { pickFromWheelEvent(e.touches[0]); e.preventDefault(); }, { passive: false });
-
-  lightnessSlider?.addEventListener("input", () => {
-    drawColorWheel();
-    applyPickedColor();
-  });
-
-  hexInput?.addEventListener("change", () => {
-    let hex = hexInput.value.trim();
-    if (!/^#?[0-9a-fA-F]{6}$/.test(hex)) return;
-    if (!hex.startsWith("#")) hex = `#${hex}`;
-    hexInput.value = hex;
-    const preview = document.getElementById("cp-preview");
-    if (preview) preview.style.background = hex;
-    change_color(hex);
-  });
-}
-
-renderPalette();
-setupBrushControl();
-setupColorPicker();
-
-
-function getCanvasPoint(event) {
-  const rect = canvas.getBoundingClientRect();
-  const touch = (event.touches && event.touches[0]) || (event.targetTouches && event.targetTouches[0]);
-  const clientX = touch ? touch.clientX : event.clientX;
-  const clientY = touch ? touch.clientY : event.clientY;
-
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-
-  return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top) * scaleY,
-  };
-}
-
-function getX(event) { return getCanvasPoint(event).x; }
-function getY(event) { return getCanvasPoint(event).y; }
-
-function start(event) {
-  is_drawing = true;
-  context.beginPath();
-  context.moveTo(getX(event), getY(event));
-  event.preventDefault();
-}
-
-function draw(event) {
-  if (!is_drawing) return;
-  context.lineTo(getX(event), getY(event));
-  context.strokeStyle = stroke_color;
-  context.lineWidth = stroke_width;
-  context.lineCap = "round";
-  context.lineJoin = "round";
-  context.stroke();
-  event.preventDefault();
-}
-
-function stop(event) {
-  if (!is_drawing) return;
-  context.stroke();
-  context.closePath();
-  is_drawing = false;
-  restore_array.push(context.getImageData(0, 0, canvas.width, canvas.height));
-  start_index++;
-  event.preventDefault();
-}
-
-canvas.addEventListener("touchstart", start, false);
-canvas.addEventListener("touchmove", draw, false);
-canvas.addEventListener("touchend", stop, false);
-canvas.addEventListener("mousedown", start, false);
-canvas.addEventListener("mousemove", draw, false);
-canvas.addEventListener("mouseup", stop, false);
-canvas.addEventListener("mouseout", stop, false);
-
-window.change_color = change_color;
-
-window.Restore = function () {
-  if (start_index <= 0) {
-    window.Clear();
-  } else {
-    start_index--;
-    restore_array.pop();
-    context.putImageData(restore_array[start_index], 0, 0);
-  }
-};
-
-window.Clear = function () {
-  context.fillStyle = "white";
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  restore_array = [];
-  start_index = -1;
-};
-
-// impede que alguém injete uma imagem externa no canvas via devtools
-context.drawImage = function () {
-  console.warn("noo >:(");
-};
-
-// ---------- coleta de info de quem tá desenhando (mesmo padrão do visitor tracker) ----------
 
 function detectDevice() {
   const ua = navigator.userAgent;
@@ -347,20 +168,13 @@ async function collectVisitorMeta() {
     const res = await fetch("https://ip-api.com/json/?fields=status,country,countryCode,regionName,city,query");
     const data = await res.json();
     if (data.status === "success") {
-      ip = data.query;
-      city = data.city;
-      region = data.regionName;
-      country = data.country;
-      cc = data.countryCode;
+      ip = data.query; city = data.city; region = data.regionName;
+      country = data.country; cc = data.countryCode;
     }
-  } catch { /* sem sorte, segue sem geo */ }
+  } catch {  }
 
   return {
-    ip,
-    city,
-    region,
-    country,
-    cc,
+    ip, city, region, country, cc,
     device: detectDevice(),
     browser: detectBrowser(),
     os: detectOS(),
@@ -370,43 +184,49 @@ async function collectVisitorMeta() {
   };
 }
 
-// ---------- envio ----------
 
-// converte o canvas pra uma dataURL que caiba no limite de 1MB por doc do Firestore.
-// tenta PNG primeiro (melhor pra traços simples); se ficar grande demais, cai pra JPEG comprimido.
-function canvasToStoredImage() {
-  let dataUrl = canvas.toDataURL("image/png");
-  if (dataUrl.length <= MAX_IMAGE_BYTES) return dataUrl;
-
-  for (const quality of [0.8, 0.6, 0.4]) {
-    dataUrl = canvas.toDataURL("image/jpeg", quality);
-    if (dataUrl.length <= MAX_IMAGE_BYTES) return dataUrl;
-  }
-  return null; // nem comprimindo coube
+function blobToDataURL(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
-document.getElementById("submit").addEventListener("click", async function () {
-  const submitButton = document.getElementById("submit");
-  const statusText = document.getElementById("status");
+async function blobToStoredImage(blob) {
+  let dataUrl = await blobToDataURL(blob);
+  if (dataUrl.length <= MAX_IMAGE_BYTES) return dataUrl;
 
-  const imageData = canvasToStoredImage();
+  const bitmap = await createImageBitmap(blob);
+  const tempCanvas = document.createElement("canvas");
+  tempCanvas.width = bitmap.width;
+  tempCanvas.height = bitmap.height;
+  const tctx = tempCanvas.getContext("2d");
+  tctx.fillStyle = "white"; 
+  tctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+  tctx.drawImage(bitmap, 0, 0);
+
+  for (const quality of [0.85, 0.7, 0.5, 0.35]) {
+    dataUrl = tempCanvas.toDataURL("image/jpeg", quality);
+    if (dataUrl.length <= MAX_IMAGE_BYTES) return dataUrl;
+  }
+  return null;
+}
+
+async function submitDrawing(blob) {
+  const imageData = await blobToStoredImage(blob);
   if (!imageData) {
-    statusText.textContent = "desenho grande demais, simplifica um pouco e tenta de novo.";
-    alert("esse desenho ficou grande demais pra salvar. tenta usar menos áreas preenchidas ou menos cores.");
-    return;
+    alert("file too big.");
+    return false;
   }
 
-  submitButton.disabled = true;
-  statusText.textContent = "enviando...";
-
   try {
-    // doc público (é o que a galeria do site vai ler)
     const publicDoc = await addDoc(collection(db, "drawings"), {
       imageUrl: imageData,
       timestamp: serverTimestamp(),
     });
 
-    // doc privado com a info de quem desenhou, mesmo id do doc público
     const meta = await collectVisitorMeta();
     await setDoc(doc(db, "drawings_meta", publicDoc.id), {
       imageUrl: imageData,
@@ -414,26 +234,146 @@ document.getElementById("submit").addEventListener("click", async function () {
       ...meta,
     });
 
-    statusText.textContent = "enviado com sucesso!";
-    alert("desenho enviado com sucesso ☻");
-    window.Clear();
+    alert("sent");
+    return true;
   } catch (error) {
     console.error(error);
-    statusText.textContent = "erro ao enviar o desenho.";
-    alert("erro ao enviar o desenho, tenta de novo.");
-  } finally {
-    submitButton.disabled = false;
+    alert("error");
+    return false;
   }
-});
+}
 
-// ---------- galeria dinâmica (tempo real, só toca em #gallery-dynamic) ----------
+
+async function clearJsPaintCache() {
+  try {
+    Object.keys(localStorage).forEach(key => {
+      if (!/firebase/i.test(key)) {
+        try { localStorage.removeItem(key); } catch { }
+      }
+    });
+  } catch (err) {
+    console.warn("error:", err);
+  }
+
+  try {
+    if (indexedDB.databases) {
+      const dbs = await indexedDB.databases();
+      await Promise.all(dbs.map(({ name }) => {
+        if (!name || /firebase/i.test(name)) return Promise.resolve();
+        return new Promise(resolve => {
+          const req = indexedDB.deleteDatabase(name);
+          req.onsuccess = () => resolve();
+          req.onerror = () => resolve();
+          req.onblocked = () => resolve();
+        });
+      }));
+    }
+  } catch (err) {
+    console.warn("erro ao limpar indexedDB:", err);
+  }
+}
+
+function waitUntil(conditionFn, intervalMs = 50) {
+  return new Promise(resolve => {
+    const check = () => {
+      const value = conditionFn();
+      if (value) resolve(value);
+      else setTimeout(check, intervalMs);
+    };
+    check();
+  });
+}
+
+function injectBrushSizeSlider(jspaintWindow) {
+  const doc = jspaintWindow.document;
+  if (doc.getElementById("drawbox-controls")) return;
+
+  const colorsComponent = doc.querySelector(".colors-component.wide");
+  if (!colorsComponent) return;
+
+  let currentLevel = 0;
+  const slider = doc.createElement("input");
+  slider.type = "range";
+  slider.min = "0";
+  slider.max = "15";
+  slider.value = "5";
+  slider.setAttribute("aria-label", "brush size");
+  slider.addEventListener("input", () => {
+    const targetLevel = Number(slider.value);
+    const isPlus = targetLevel > currentLevel;
+    for (let i = 0; i < Math.abs(targetLevel - currentLevel); i++) {
+      doc.dispatchEvent(new jspaintWindow.KeyboardEvent("keydown", {
+        key: isPlus ? "+" : "-",
+        code: isPlus ? "NumpadAdd" : "NumpadSubtract",
+        keyCode: isPlus ? 107 : 109,
+        which: isPlus ? 107 : 109,
+        bubbles: true,
+      }));
+    }
+    currentLevel = targetLevel;
+  });
+
+  const colorPicker = doc.createElement("input");
+  colorPicker.type = "color";
+  colorPicker.value = "#000000";
+  colorPicker.setAttribute("aria-label", "Escolher cor");
+  colorPicker.title = "color";
+  colorPicker.addEventListener("input", () => {
+    const paintApi = jspaintWindow.api_for_cypress_tests;
+    if (!paintApi) return;
+    paintApi.selected_colors.foreground = colorPicker.value;
+    jspaintWindow.$G?.trigger("option-changed");
+  });
+
+  const wrap = doc.createElement("div");
+  wrap.id = "drawbox-controls";
+  wrap.appendChild(slider);
+  wrap.appendChild(colorPicker);
+  colorsComponent.appendChild(wrap);
+
+  slider.dispatchEvent(new jspaintWindow.Event("input"));
+}
+
+function hookJsPaintSave() {
+  const iframe = document.getElementById("jspaint-iframe");
+  if (!iframe) return;
+
+  const targetSrc = iframe.dataset.src || iframe.getAttribute("src");
+
+  iframe.addEventListener("load", async () => {
+    const jspaintWindow = iframe.contentWindow;
+    await waitUntil(() => jspaintWindow.systemHooks);
+    injectBrushSizeSlider(jspaintWindow);
+
+  
+    const originalShowSaveFileDialog = jspaintWindow.systemHooks.showSaveFileDialog;
+
+    jspaintWindow.systemHooks.showSaveFileDialog = async ({ getBlob }) => {
+      try {
+        const blob = await getBlob("image/png");
+        const ok = await submitDrawing(blob);
+        return ok ? { newFileName: "desenho.png", newFileFormatID: "image/png" } : undefined;
+      } catch (err) {
+        console.error("erro ao capturar desenho do jsPaint:", err);
+        return originalShowSaveFileDialog?.({ getBlob });
+      }
+    };
+  });
+
+  if (targetSrc) {
+    clearJsPaintCache().finally(() => {
+      iframe.src = targetSrc;
+    });
+  }
+}
+
 
 function renderGallery(snapshot) {
   const gallery = document.getElementById("gallery-dynamic");
   if (!gallery) return;
 
   if (snapshot.empty) {
-    gallery.innerHTML = `<p style="text-align:center;color:#b5aca5;">nenhum desenho ainda, seja a primeira pessoa! ☻</p>`;
+    gallery.innerHTML = `<p style="text-align:center;color:#5a5a5a;">nenhum desenho ainda, seja a primeira pessoa! ☻</p>`;
     return;
   }
 
@@ -443,15 +383,27 @@ function renderGallery(snapshot) {
     const dateStr = ts ? ts.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }) : "";
     return `
       <div class="image-container">
-        <img src="${d.imageUrl}" alt="desenho enviado" loading="lazy">
+        <img src="${d.imageUrl}" alt="sent" loading="lazy">
         <p>${dateStr}</p>
       </div>`;
   }).join("");
 }
 
+hookJsPaintSave();
+
+if (typeof window.__drawboxUnsubscribe === "function") {
+  window.__drawboxUnsubscribe();
+}
+
 const galleryQuery = query(collection(db, "drawings"), orderBy("timestamp", "desc"), limit(MAX_GALLERY_ITEMS));
-onSnapshot(galleryQuery, renderGallery, err => {
+window.__drawboxUnsubscribe = onSnapshot(galleryQuery, renderGallery, err => {
   console.error("erro ao carregar galeria:", err);
   const gallery = document.getElementById("gallery-dynamic");
-  if (gallery) gallery.textContent = "não consegui carregar os desenhos agora ;;";
+  if (gallery) gallery.textContent = "error";
 });
+
+    </script>
+
+</body>
+
+</html>

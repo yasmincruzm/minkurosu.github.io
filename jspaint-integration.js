@@ -130,6 +130,37 @@ console.log("[drawbox] started");
     }
   }
 
+  async function clearJsPaintCache() {
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (!/firebase/i.test(key)) {
+          try { localStorage.removeItem(key); } catch { }
+        }
+      });
+    } catch (err) {
+      console.warn("[drawbox] localStorage clear failed", err);
+    }
+
+    try {
+      if (indexedDB.databases) {
+        const dbs = await indexedDB.databases();
+        await Promise.all(dbs.map(({ name }) => {
+          if (!name || /firebase/i.test(name)) return Promise.resolve();
+          return new Promise(resolve => {
+            const req = indexedDB.deleteDatabase(name);
+            req.onsuccess = () => resolve();
+            req.onerror = () => resolve();
+            req.onblocked = () => resolve();
+          });
+        }));
+      }
+    } catch (err) {
+      console.warn("[drawbox] indexedDB clear failed", err);
+    }
+
+    console.log("[drawbox] cache cleared");
+  }
+
   function waitUntil(conditionFn, intervalMs = 50, timeoutMs = 15000) {
     return new Promise((resolve, reject) => {
       const startedAt = Date.now();
@@ -286,29 +317,6 @@ console.log("[drawbox] started");
     }
   }
 
-  function suppressRecoverDialog(jspaintWindow) {
-    const doc = jspaintWindow.document;
-    const observer = new jspaintWindow.MutationObserver(() => {
-      const dialogs = doc.querySelectorAll(".window");
-      dialogs.forEach(win => {
-        const text = win.textContent || "";
-        if (!text.includes("canvas became empty")) return;
-        const buttons = win.querySelectorAll("button");
-        let closed = false;
-        buttons.forEach(btn => {
-          if (closed) return;
-          if (/fechar|close/i.test(btn.textContent || "")) {
-            btn.click();
-            closed = true;
-          }
-        });
-        if (!closed) win.remove();
-        console.log("[drawbox] dismissed");
-      });
-    });
-    observer.observe(doc.body, { childList: true, subtree: true });
-  }
-
   function hookJsPaintSave() {
     const iframe = document.getElementById("jspaint-iframe");
     if (!iframe) {
@@ -331,7 +339,6 @@ console.log("[drawbox] started");
 
       console.log("[drawbox] hooks", hooks);
       await injectControls(jspaintWindow);
-      suppressRecoverDialog(jspaintWindow);
 
       const originalShowSaveFileDialog = hooks.showSaveFileDialog;
 
@@ -350,18 +357,18 @@ console.log("[drawbox] started");
       console.log("[drawbox] hooked");
     };
 
-    try {
-      if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
-        console.log("[drawbox] ready");
-        setup();
-      } else {
-        console.log("[drawbox] loading");
-        iframe.addEventListener("load", setup);
-      }
-    } catch (err) {
-      console.warn("[drawbox] Failed", err);
-      iframe.addEventListener("load", setup);
+    iframe.addEventListener("load", setup);
+
+    const targetSrc = iframe.dataset.src || iframe.getAttribute("src");
+    if (!targetSrc) {
+      console.error("[drawbox] Missing data-src");
+      return;
     }
+
+    clearJsPaintCache().finally(() => {
+      console.log("[drawbox] loading", targetSrc);
+      iframe.src = targetSrc;
+    });
   }
 
   function renderDynamicGallery(snapshot) {
