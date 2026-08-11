@@ -63,13 +63,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
-
-.slideshow-area img.active {
-    opacity: 1;
-    z-index: 1;
+    display: none;
 }
 
         #gallery {
@@ -386,7 +380,7 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         </div>
     <hr>
     <p style="text-align:center; font-size:0.8em; color:#5a5a5a;">
- </p>
+draw anything (respectful) here!! and click save to post    </p>
     <div id="jspaint-wrap" style="border:0.2rem solid #310000; border-radius:3px; overflow:hidden;">
         <iframe id="jspaint-iframe" src="jspaint/index.html?theme=retro-dark.css" title="jsPaint"
             style="display:block; width:100%; height:500px; border:none; background:#0d0d0d;"></iframe>
@@ -423,16 +417,20 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
             <img src="imgs/artbyyou/a.jpg" alt="sent by instagram">
         </div>
 
-      
+       
         <div id="gallery-dynamic" style="display:contents;"></div>
     </div>
 </div>
 <script>
+console.log("[slideshow] script rodou");
 (function () {
     var container = document.getElementById('slideshow-area');
-    if (!container) return;
+    if (!container) {
+        console.warn("[slideshow] #slideshow-area não encontrado");
+        return;
+    }
+    console.log("[slideshow] container encontrado", container);
 
-  
     var ALL_IMAGES = [
         'imgs/feed/359676570_1281671176051603_6240681789574852749_n_17844844440017402.png',
         'imgs/feed/gabmin.jpg',
@@ -520,53 +518,33 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
         var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
     }
 
-    container.innerHTML = shuffled.map(function (src, i) {
-        return '<img src="' + src + '" loading="lazy" alt=""' + (i === 0 ? ' class="active"' : '') + '>';
+    container.innerHTML = shuffled.map(function (src) {
+        return '<img src="' + src + '" loading="lazy" alt="">';
     }).join('');
 
-    var SLIDE_INTERVAL_MS = 4000;
     var slides = Array.prototype.slice.call(container.querySelectorAll('img'));
-    var currentIndex = 0;
-    var timer = null;
-
-    function showSlide(index) {
-        if (!slides.length) return;
-        slides.forEach(function (img, i) {
-            img.classList.toggle('active', i === index);
-        });
-        currentIndex = index;
-    }
-
-    function goToNextSlide() {
-        if (slides.length < 2) return;
-        var next = (currentIndex + 1) % slides.length;
-        showSlide(next);
-    }
-
-    function startRotation() {
-        if (timer) clearInterval(timer);
-        if (slides.length < 2) return;
-        timer = setInterval(goToNextSlide, SLIDE_INTERVAL_MS);
-    }
 
     slides.forEach(function (img) {
         img.addEventListener('error', function () {
-            var wasActive = img.classList.contains('active');
-            var brokenIndex = slides.indexOf(img);
             img.remove();
             slides = slides.filter(function (s) { return s !== img; });
-            if (!slides.length) return; 
-            if (wasActive) {
-                var fallbackIndex = brokenIndex % slides.length;
-                showSlide(fallbackIndex);
-            } else if (brokenIndex < currentIndex) {
-                currentIndex -= 1; 
-            }
-            startRotation(); 
         });
     });
 
-    showSlide(0);
-    startRotation();
+    function showSlides() {
+        if (!slides.length) {
+            setTimeout(showSlides, 2000);
+            return;
+        }
+        slides.forEach(function (img) {
+            img.style.display = "none";
+        });
+        var rand = Math.floor(Math.random() * slides.length);
+        slides[rand].style.display = "block";
+        setTimeout(showSlides, 2000);
+    }
+
+    showSlides();
+    console.log("[slideshow] pronto, slides:", slides.length);
 })();
 </script>

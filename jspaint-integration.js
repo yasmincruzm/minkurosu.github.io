@@ -180,7 +180,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
 
   const BRUSH_MIN_LEVEL = 0;
   const BRUSH_MAX_LEVEL = 15;
-  const BRUSH_INITIAL_LEVEL = 5; // começa mais grossinho, tipo caneta, em vez do 1px padrão
+  const BRUSH_INITIAL_LEVEL = 5; // não usada mais automaticamente (ver nota em injectControls) — mantida só de referência
 
   function dispatchBrushKey(doc, jspaintWindow, isPlus) {
     const evt = new jspaintWindow.KeyboardEvent("keydown", {
@@ -301,7 +301,7 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
       slider.id = "drawbox-brush-slider";
       slider.min = String(BRUSH_MIN_LEVEL);
       slider.max = String(BRUSH_MAX_LEVEL);
-      slider.value = String(BRUSH_INITIAL_LEVEL);
+      slider.value = "0"; // reflete o tamanho real do pincel no load (padrão do jsPaint) — sem disparar nada sozinho
       slider.title = "Tamanho do pincel";
       slider.style.flex = "1 1 auto";
       slider.style.minWidth = "40px";
@@ -337,8 +337,13 @@ console.log("[drawbox] script jspaint-integration.js iniciado.");
       }
       console.log("[drawbox] wrap inserido, ainda no DOM?", doc.getElementById("drawbox-controls") === wrap, "pai:", wrap.parentElement);
 
-      // aplica o tamanho inicial mais grosso assim que os controles entram
-      brush.setLevel(BRUSH_INITIAL_LEVEL);
+      // NÃO aplica mais o tamanho inicial automaticamente aqui — disparar
+      // esses eventos sintéticos de tecla assim que a página carrega (sem
+      // o usuário ter mexido em nada ainda) é o que provavelmente estava
+      // causando o "Recover Document" / canvas esvaziando sozinho no load.
+      // O pincel real do jsPaint fica no tamanho padrão dele (nível 0) até
+      // você mexer no slider de verdade — o slider já começa mostrando 0,
+      // então não tem descompasso entre o que aparece e o tamanho real.
 
       console.log("[drawbox] controles (color picker + brush size + save) injetados no jsPaint.");
     } catch (err) {
