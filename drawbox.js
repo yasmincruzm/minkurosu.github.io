@@ -255,6 +255,14 @@ async function clearJsPaintCache() {
     console.warn("error:", err);
   }
 
+  // jsPaint keeps an autosave of the in-progress drawing in sessionStorage too,
+  // which is what makes the canvas come back gray/broken after closing. Clear it.
+  try {
+    sessionStorage.clear();
+  } catch (err) {
+    console.warn("erro ao limpar sessionStorage:", err);
+  }
+
   try {
     if (indexedDB.databases) {
       const dbs = await indexedDB.databases();
