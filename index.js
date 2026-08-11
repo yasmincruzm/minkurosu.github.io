@@ -15,10 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
       window.slideshowTimeout = null;
     }
 
-    // Lista de imagens do feed (antes vivia num <script> solto dentro do
-    // aboutme.html — foi movida pra cá porque aquele script nunca rodava:
-    // ele é inserido via innerHTML pelo loadContent(), e scripts inseridos
-    // assim não são executados pelo navegador).
     const ALL_IMAGES = [
       'imgs/feed/359676570_1281671176051603_6240681789574852749_n_17844844440017402.png',
       'imgs/feed/gabmin.jpg',
@@ -100,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function () {
       'imgs/feed/us.png'
     ];
 
-    // Embaralha a ordem (Fisher-Yates)
     const shuffled = ALL_IMAGES.slice();
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -115,8 +110,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     slides.forEach(img => {
       img.addEventListener('error', () => {
+        console.warn('[slideshow] falhou ao carregar:', img.src);
         img.remove();
         slides = slides.filter(s => s !== img);
+        if (!slides.length) {
+          slideshowArea.innerHTML = '<p style="color:#888; font-size:0.8em; text-align:center; padding:1rem;">nenhuma imagem do slideshow carregou — confere o caminho imgs/feed/ no servidor.</p>';
+        }
       });
     });
 
@@ -177,9 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
             initializeSlideshow();
 
             if (typeof Fancybox !== 'undefined') {
-              // Hash: false evita que o fancybox empurre um estado no histórico
-              // do navegador — era isso que fazia voltar pra página principal
-              // depois de fechar o visualizador.
+              
               Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
               console.log('✅ fancybox initialized in index.js');
             }
