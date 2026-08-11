@@ -152,7 +152,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 rehydrateScripts(mainContainer, pageName);
 
                 setTimeout(() => {
-                    initSlideshowIfNeeded();
+                    if (typeof window.initializeSlideshow === 'function') {
+                        window.initializeSlideshow();
+                    } else {
+                        initSlideshowIfNeeded();
+                    }
+
+                    if (typeof window.initializeDrawbox === 'function') {
+                        window.initializeDrawbox();
+                    }
 
                     if (typeof Fancybox !== 'undefined') {
                         Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
