@@ -120,8 +120,6 @@ window.initializeSlideshow = function initializeSlideshow() {
     });
   });
 
-  let nextIndex = 0;
-  let lastSlide = null;
   let activeSlide = null;
 
   function showRandomSlide() {
@@ -130,25 +128,14 @@ window.initializeSlideshow = function initializeSlideshow() {
       return;
     }
 
-    const slide = slides[nextIndex % slides.length];
-    slide.style.opacity = '1';
-    slide.classList.add('active');
+    const availableSlides = slides.filter(slide => slide !== activeSlide);
+    const slide = availableSlides[Math.floor(Math.random() * availableSlides.length)] || slides[0];
 
     if (activeSlide && activeSlide !== slide) {
-      activeSlide.style.opacity = '0';
       activeSlide.classList.remove('active');
     }
+    slide.classList.add('active');
     activeSlide = slide;
-    lastSlide = slide;
-    nextIndex += 1;
-
-    if (nextIndex >= slides.length) {
-      shuffle(slides);
-      if (slides.length > 1 && slides[0] === lastSlide) {
-        [slides[0], slides[1]] = [slides[1], slides[0]];
-      }
-      nextIndex = 0;
-    }
 
     window.slideshowTimeout = setTimeout(showRandomSlide, 2000);
   }
