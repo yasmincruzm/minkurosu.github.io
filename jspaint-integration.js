@@ -130,55 +130,6 @@ console.log("[drawbox] started");
     }
   }
 
-  async function clearJsPaintCache() {
-    try {
-      Object.keys(localStorage).forEach(key => {
-        if (!/firebase/i.test(key)) {
-          try { localStorage.removeItem(key); } catch { }
-        }
-      });
-    } catch (err) {
-      console.warn("[drawbox] localStorage clear failed", err);
-    }
-
-    // jsPaint autosaves the in-progress drawing to sessionStorage too, which is
-    // exactly what makes it come back gray/broken after closing and reopening.
-    // Wipe it every time so each visit always starts from a clean canvas.
-    try {
-      sessionStorage.clear();
-    } catch (err) {
-      console.warn("[drawbox] sessionStorage clear failed", err);
-    }
-
-    try {
-      if (indexedDB.databases) {
-        const dbs = await indexedDB.databases();
-        await Promise.all(dbs.map(({ name }) => {
-          if (!name || /firebase/i.test(name)) return Promise.resolve();
-          return new Promise(resolve => {
-            const req = indexedDB.deleteDatabase(name);
-            req.onsuccess = () => resolve();
-            req.onerror = () => { console.warn("[drawbox] failed to delete db", name); resolve(); };
-            req.onblocked = () => { console.warn("[drawbox] delete blocked for db", name); resolve(); };
-          });
-        }));
-      }
-    } catch (err) {
-      console.warn("[drawbox] indexedDB clear failed", err);
-    }
-
-    try {
-      if (window.caches && caches.keys) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
-      }
-    } catch (err) {
-      console.warn("[drawbox] caches clear failed", err);
-    }
-
-    console.log("[drawbox] cache cleared");
-  }
-
   function waitUntil(conditionFn, intervalMs = 50, timeoutMs = 15000) {
     return new Promise((resolve, reject) => {
       const startedAt = Date.now();
@@ -385,10 +336,8 @@ console.log("[drawbox] started");
       return;
     }
 
-    clearJsPaintCache().finally(() => {
-      console.log("[drawbox] loading", targetSrc);
-      iframe.src = targetSrc;
-    });
+    console.log("[drawbox] loading", targetSrc);
+    iframe.src = targetSrc;
   }
 
   function renderDynamicGallery(snapshot) {
