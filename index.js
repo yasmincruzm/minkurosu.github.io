@@ -96,11 +96,16 @@ document.addEventListener('DOMContentLoaded', function () {
       'imgs/feed/us.png'
     ];
 
-    const shuffled = ALL_IMAGES.slice();
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
+    const shuffle = (items) => {
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+      return items;
+    };
+
+    // Cada rodada usa todas as fotos uma vez, em uma ordem nova.
+    const shuffled = shuffle([...new Set(ALL_IMAGES)]);
 
     slideshowArea.innerHTML = shuffled
       .map(src => `<img src="${src}" loading="lazy" alt="">`)
@@ -119,7 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    let lastIndex = -1;
+    let nextIndex = 0;
+    let lastSlide = null;
 
     function showRandomSlide() {
       if (!slides.length) {
@@ -133,17 +139,21 @@ document.addEventListener('DOMContentLoaded', function () {
         img.classList.remove('active');
       });
 
-      let nextIndex = Math.floor(Math.random() * slides.length);
-      if (slides.length > 1) {
-        while (nextIndex === lastIndex) {
-          nextIndex = Math.floor(Math.random() * slides.length);
-        }
-      }
+      const slide = slides[nextIndex % slides.length];
+      slide.style.display = 'block';
+      slide.style.opacity = '1';
+      slide.classList.add('active');
+      lastSlide = slide;
+      nextIndex += 1;
 
-      slides[nextIndex].style.display = 'block';
-      slides[nextIndex].style.opacity = '1';
-      slides[nextIndex].classList.add('active');
-      lastIndex = nextIndex;
+      // Ao terminar, embaralha de novo e evita repetir a última logo em seguida.
+      if (nextIndex >= slides.length) {
+        shuffle(slides);
+        if (slides.length > 1 && slides[0] === lastSlide) {
+          [slides[0], slides[1]] = [slides[1], slides[0]];
+        }
+        nextIndex = 0;
+      }
 
       window.slideshowTimeout = setTimeout(showRandomSlide, 2000);
     }
