@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let nextIndex = 0;
     let lastSlide = null;
+    let activeSlide = null;
 
     function showRandomSlide() {
       if (!slides.length) {
@@ -133,16 +134,16 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      slides.forEach(img => {
-        img.style.display = 'none';
-        img.style.opacity = '0';
-        img.classList.remove('active');
-      });
-
       const slide = slides[nextIndex % slides.length];
-      slide.style.display = 'block';
       slide.style.opacity = '1';
       slide.classList.add('active');
+
+      // Mostra a próxima antes de ocultar a anterior, evitando um frame vazio.
+      if (activeSlide && activeSlide !== slide) {
+        activeSlide.style.opacity = '0';
+        activeSlide.classList.remove('active');
+      }
+      activeSlide = slide;
       lastSlide = slide;
       nextIndex += 1;
 
