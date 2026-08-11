@@ -48,31 +48,37 @@
 	height: 14px;
 	margin: 0;
 	background: transparent;
+	display: block;
 }
 
 #drawbox-controls input[type="range"]::-webkit-slider-runnable-track {
-	height: 3px;
+	box-sizing: border-box;
+	height: 4px;
 	border: 1px solid #111;
 	background: #e6e6e6;
 }
 
 #drawbox-controls input[type="range"]::-webkit-slider-thumb {
 	appearance: none;
+	box-sizing: border-box;
 	width: 8px;
 	height: 12px;
-	margin-top: -5px;
+	/* (4px track - 12px thumb) / 2: keeps the handle on the track. */
+	margin-top: -4px;
 	border: 1px solid #f0f0f0;
 	outline: 1px solid #111;
 	background: #5a5a5a;
 }
 
 #drawbox-controls input[type="range"]::-moz-range-track {
-	height: 3px;
+	box-sizing: border-box;
+	height: 4px;
 	border: 1px solid #111;
 	background: #e6e6e6;
 }
 
 #drawbox-controls input[type="range"]::-moz-range-thumb {
+	box-sizing: border-box;
 	width: 8px;
 	height: 12px;
 	border: 1px solid #f0f0f0;

@@ -141,6 +141,15 @@ console.log("[drawbox] started");
       console.warn("[drawbox] localStorage clear failed", err);
     }
 
+    // jsPaint autosaves the in-progress drawing to sessionStorage too, which is
+    // exactly what makes it come back gray/broken after closing and reopening.
+    // Wipe it every time so each visit always starts from a clean canvas.
+    try {
+      sessionStorage.clear();
+    } catch (err) {
+      console.warn("[drawbox] sessionStorage clear failed", err);
+    }
+
     try {
       if (indexedDB.databases) {
         const dbs = await indexedDB.databases();
@@ -149,13 +158,22 @@ console.log("[drawbox] started");
           return new Promise(resolve => {
             const req = indexedDB.deleteDatabase(name);
             req.onsuccess = () => resolve();
-            req.onerror = () => resolve();
-            req.onblocked = () => resolve();
+            req.onerror = () => { console.warn("[drawbox] failed to delete db", name); resolve(); };
+            req.onblocked = () => { console.warn("[drawbox] delete blocked for db", name); resolve(); };
           });
         }));
       }
     } catch (err) {
       console.warn("[drawbox] indexedDB clear failed", err);
+    }
+
+    try {
+      if (window.caches && caches.keys) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
+      }
+    } catch (err) {
+      console.warn("[drawbox] caches clear failed", err);
     }
 
     console.log("[drawbox] cache cleared");

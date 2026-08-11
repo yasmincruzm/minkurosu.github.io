@@ -79,7 +79,7 @@
 
 
     <div id="jspaint-wrap">
-        <iframe id="jspaint-iframe" src="jspaint/index.html?theme=retro-dark.css" title="jsPaint"></iframe>
+        <iframe id="jspaint-iframe" data-src="jspaint/index.html?theme=retro-dark.css" title="jsPaint"></iframe>
     </div>
 
     <h2>art by you &lt;3</h2>
@@ -305,9 +305,48 @@ function injectBrushSizeSlider(jspaintWindow) {
   slider.dispatchEvent(new jspaintWindow.Event("input"));
 }
 
+async function clearJsPaintCache() {
+  try {
+    Object.keys(localStorage).forEach(key => {
+      if (!/firebase/i.test(key)) {
+        try { localStorage.removeItem(key); } catch { }
+      }
+    });
+  } catch (err) {
+    console.warn("erro ao limpar localStorage:", err);
+  }
+
+  // jsPaint guarda um autosave do desenho em andamento (sessionStorage/indexedDB).
+  // é isso que faz o canvas voltar cinza/quebrado ao reabrir. limpa tudo sempre.
+  try {
+    sessionStorage.clear();
+  } catch (err) {
+    console.warn("erro ao limpar sessionStorage:", err);
+  }
+
+  try {
+    if (indexedDB.databases) {
+      const dbs = await indexedDB.databases();
+      await Promise.all(dbs.map(({ name }) => {
+        if (!name || /firebase/i.test(name)) return Promise.resolve();
+        return new Promise(resolve => {
+          const req = indexedDB.deleteDatabase(name);
+          req.onsuccess = () => resolve();
+          req.onerror = () => resolve();
+          req.onblocked = () => resolve();
+        });
+      }));
+    }
+  } catch (err) {
+    console.warn("erro ao limpar indexedDB:", err);
+  }
+}
+
 function hookJsPaintSave() {
   const iframe = document.getElementById("jspaint-iframe");
   if (!iframe) return;
+
+  const targetSrc = iframe.dataset.src || iframe.getAttribute("src");
 
   iframe.addEventListener("load", async () => {
     const jspaintWindow = iframe.contentWindow;
@@ -328,6 +367,12 @@ function hookJsPaintSave() {
       }
     };
   });
+
+  if (targetSrc) {
+    clearJsPaintCache().finally(() => {
+      iframe.src = targetSrc;
+    });
+  }
 }
 
 
