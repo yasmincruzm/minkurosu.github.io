@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         img.remove();
         slides = slides.filter(s => s !== img);
         if (!slides.length) {
-          slideshowArea.innerHTML = '<p style="color:#888; font-size:0.8em; text-align:center; padding:1rem;">nenhuma imagem do slideshow carregou — confere o caminho imgs/feed/ no servidor.</p>';
+          slideshowArea.innerHTML = '<p style="color:#888; font-size:0.8em; text-align:center; padding:1rem;">error</p>';
         }
       });
     });
