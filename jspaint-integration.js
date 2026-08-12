@@ -130,41 +130,6 @@ console.log("[drawbox] started");
     }
   }
 
-  async function clearJsPaintCache() {
-    try {
-      Object.keys(localStorage).forEach(key => {
-        if (!/firebase/i.test(key)) {
-          try { localStorage.removeItem(key); } catch { }
-        }
-      });
-    } catch (err) {
-      console.warn("[drawbox] Error clearing localStorage:", err);
-    }
-
-    try {
-      sessionStorage.clear();
-    } catch (err) {
-      console.warn("[drawbox] Error clearing sessionStorage:", err);
-    }
-
-    try {
-      if (indexedDB.databases) {
-        const dbs = await indexedDB.databases();
-        await Promise.all(dbs.map(({ name }) => {
-          if (!name || /firebase/i.test(name)) return Promise.resolve();
-          return new Promise(resolve => {
-            const req = indexedDB.deleteDatabase(name);
-            req.onsuccess = () => resolve();
-            req.onerror = () => resolve();
-            req.onblocked = () => resolve();
-          });
-        }));
-      }
-    } catch (err) {
-      console.warn("[drawbox] Error clearing indexedDB:", err);
-    }
-  }
-
   function waitUntil(conditionFn, intervalMs = 50, timeoutMs = 15000) {
     return new Promise((resolve, reject) => {
       const startedAt = Date.now();
@@ -368,10 +333,8 @@ console.log("[drawbox] started");
       return;
     }
 
-    clearJsPaintCache().finally(() => {
-      console.log("[drawbox] loading targetSrc:", targetSrc);
-      iframe.src = targetSrc;
-    });
+    console.log("[drawbox] loading targetSrc:", targetSrc);
+    iframe.src = targetSrc;
   }
 
   function renderDynamicGallery(snapshot) {
@@ -413,6 +376,7 @@ console.log("[drawbox] started");
 
   window.initializeDrawbox();
 
+  
   if (!initializedIframe) {
     const observer = new MutationObserver(() => {
       const iframe = document.getElementById("jspaint-iframe");
