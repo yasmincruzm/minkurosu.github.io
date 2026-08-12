@@ -329,7 +329,6 @@ console.log("[drawbox] started");
       console.log("[drawbox] loaded", iframe.contentDocument?.readyState);
       const jspaintWindow = iframe.contentWindow;
 
-      // Garantir fundo branco no iframe e na canvas
       if (jspaintWindow?.document?.body) {
         jspaintWindow.document.body.style.backgroundColor = "#ffffff";
       }
@@ -413,4 +412,18 @@ console.log("[drawbox] started");
   };
 
   window.initializeDrawbox();
+
+  if (!initializedIframe) {
+    const observer = new MutationObserver(() => {
+      const iframe = document.getElementById("jspaint-iframe");
+      if (iframe && iframe !== initializedIframe) {
+        console.log("[drawbox] iframe detectado via MutationObserver");
+        window.initializeDrawbox();
+      }
+      if (initializedIframe) {
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
 })();
