@@ -12,7 +12,7 @@ console.log("[drawbox] started");
   };
 
   if (typeof firebase === "undefined") {
-    console.error("[drawbox] Missing");
+    console.error("[drawbox] Missing Firebase");
     return;
   }
 
@@ -103,7 +103,7 @@ console.log("[drawbox] started");
     console.log("[drawbox] submitDrawing", blob);
     const imageData = await blobToStoredImage(blob);
     if (!imageData) {
-      alert("error");
+      alert("file too big.");
       return false;
     }
 
@@ -121,12 +121,47 @@ console.log("[drawbox] started");
       });
 
       console.log("[drawbox] submitted", publicDoc.id);
-      alert("success");
+      alert("sent!");
       return true;
     } catch (error) {
       console.error("[drawbox] Failed", error);
       alert("error");
       return false;
+    }
+  }
+
+  async function clearJsPaintCache() {
+    try {
+      Object.keys(localStorage).forEach(key => {
+        if (!/firebase/i.test(key)) {
+          try { localStorage.removeItem(key); } catch { }
+        }
+      });
+    } catch (err) {
+      console.warn("[drawbox] Error clearing localStorage:", err);
+    }
+
+    try {
+      sessionStorage.clear();
+    } catch (err) {
+      console.warn("[drawbox] Error clearing sessionStorage:", err);
+    }
+
+    try {
+      if (indexedDB.databases) {
+        const dbs = await indexedDB.databases();
+        await Promise.all(dbs.map(({ name }) => {
+          if (!name || /firebase/i.test(name)) return Promise.resolve();
+          return new Promise(resolve => {
+            const req = indexedDB.deleteDatabase(name);
+            req.onsuccess = () => resolve();
+            req.onerror = () => resolve();
+            req.onblocked = () => resolve();
+          });
+        }));
+      }
+    } catch (err) {
+      console.warn("[drawbox] Error clearing indexedDB:", err);
     }
   }
 
@@ -204,14 +239,11 @@ console.log("[drawbox] started");
           return colorsComponent || statusArea;
         }, 100, 8000);
       } catch (err) {
-        console.warn("[drawbox] Timeout", err);
+        console.warn("[drawbox] Timeout waiting for UI controls host", err);
         return;
       }
 
       const host = colorsComponent || statusArea;
-      if (!colorsComponent) {
-        console.warn("[drawbox] Missing");
-      }
       console.log("[drawbox] host", colorsComponent ? "colors-component" : "status-area", host);
 
       const wrap = doc.createElement("div");
@@ -280,52 +312,53 @@ console.log("[drawbox] started");
         statusArea.appendChild(wrap);
       }
       brush.setLevel(DEFAULT_BRUSH_LEVEL);
-      console.log("[drawbox] inserted", doc.getElementById("drawbox-controls") === wrap, wrap.parentElement);
-
       console.log("[drawbox] ready");
     } catch (err) {
-      console.warn("[drawbox] Failed", err);
+      console.warn("[drawbox] Failed during control injection", err);
     }
   }
 
   function hookJsPaintSave() {
     const iframe = document.getElementById("jspaint-iframe");
     if (!iframe) {
-      console.error("[drawbox] Missing");
+      console.error("[drawbox] Missing iframe");
       return;
     }
-    console.log("[drawbox] iframe");
 
     const setup = async () => {
       console.log("[drawbox] loaded", iframe.contentDocument?.readyState);
       const jspaintWindow = iframe.contentWindow;
 
+      // Garantir fundo branco no iframe e na canvas
+      if (jspaintWindow?.document?.body) {
+        jspaintWindow.document.body.style.backgroundColor = "#ffffff";
+      }
+
       let hooks;
       try {
         hooks = await waitUntil(() => jspaintWindow.systemHooks);
       } catch (err) {
-        console.error("[drawbox] Timeout", err);
+        console.error("[drawbox] Timeout waiting for systemHooks", err);
         return;
       }
 
-      console.log("[drawbox] hooks", hooks);
       await injectControls(jspaintWindow);
 
       const originalShowSaveFileDialog = hooks.showSaveFileDialog;
 
       jspaintWindow.systemHooks.showSaveFileDialog = async ({ getBlob }) => {
-        console.log("[drawbox] intercepted");
+        console.log("[drawbox] intercepted save");
         try {
           const blob = await getBlob("image/png");
           const ok = await submitDrawing(blob);
           return ok ? { newFileName: "desenho.png", newFileFormatID: "image/png" } : undefined;
         } catch (err) {
-          console.error("[drawbox] Failed", err);
+          console.error("[drawbox] Failed during save hook", err);
           return originalShowSaveFileDialog?.({ getBlob });
         }
       };
 
-      console.log("[drawbox] hooked");
+      console.log("[drawbox] hooked successfully");
     };
 
     iframe.addEventListener("load", setup);
@@ -336,20 +369,18 @@ console.log("[drawbox] started");
       return;
     }
 
-    console.log("[drawbox] loading", targetSrc);
-    iframe.src = targetSrc;
+    clearJsPaintCache().finally(() => {
+      console.log("[drawbox] loading targetSrc:", targetSrc);
+      iframe.src = targetSrc;
+    });
   }
 
   function renderDynamicGallery(snapshot) {
     const container = document.getElementById("gallery-dynamic");
-    if (!container) {
-      console.warn("[drawbox] Missing");
-      return;
-    }
-    console.log("[drawbox] gallery", snapshot.size);
+    if (!container) return;
 
     if (snapshot.empty) {
-      container.innerHTML = "";
+      container.innerHTML = `<p style="text-align:center;color:#5a5a5a;grid-column:1/-1;">nenhum desenho ainda, seja a primeira pessoa! ☻</p>`;
       return;
     }
 
@@ -362,7 +393,7 @@ console.log("[drawbox] started");
   function watchGallery() {
     db.collection("drawings").orderBy("timestamp", "desc").limit(60)
       .onSnapshot(renderDynamicGallery, err => {
-        console.error("[drawbox] Failed", err);
+        console.error("[drawbox] Failed to watch gallery", err);
       });
   }
 
