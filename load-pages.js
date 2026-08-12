@@ -160,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             } else {
                                 initSlideshowIfNeeded();
                             }
-                            if (typeof window.initializeDrawbox === 'function') window.initializeDrawbox();
                             if (typeof Fancybox !== 'undefined') Fancybox.bind('[data-fancybox="gallery"]', { Hash: false });
                             if (typeof inicializarLastFmWidget === 'function') inicializarLastFmWidget();
                             if (typeof window.loadDreams === 'function') window.loadDreams();
