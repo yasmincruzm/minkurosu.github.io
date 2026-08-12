@@ -362,7 +362,7 @@ function hookJsPaintSave() {
         const ok = await submitDrawing(blob);
         return ok ? { newFileName: "desenho.png", newFileFormatID: "image/png" } : undefined;
       } catch (err) {
-        console.error("erro ao capturar desenho do jsPaint:", err);
+        console.error("error jsPaint:", err);
         return originalShowSaveFileDialog?.({ getBlob });
       }
     };
