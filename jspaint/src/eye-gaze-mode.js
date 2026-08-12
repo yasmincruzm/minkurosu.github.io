@@ -197,6 +197,10 @@ async function init_dwell_clicker() {
 var tracky_mouse_deps_promise;
 
 async function init_tracky_mouse_ui() {
+	if (!window.TrackyMouse) {
+		console.warn("Tracky Mouse is unavailable in this deployment; skipping head-tracker UI.");
+		return;
+	}
 	await new Promise((resolve) => $(resolve)); // wait for document ready... maybe not needed here?
 	// block for indentation to avoid confusing git diff
 	{

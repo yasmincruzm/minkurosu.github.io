@@ -3997,6 +3997,10 @@ function read_image_file(blob, callback) {
 			file_format = "application/pdf";
 
 			const pdfjs = window["pdfjs-dist/build/pdf"];
+			if (!pdfjs) {
+				callback(new Error("PDF support is unavailable in this deployment."));
+				return;
+			}
 
 			pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.js/build/pdf.worker.js";
 
