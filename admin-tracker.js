@@ -257,7 +257,7 @@ export async function loadDrawings(app) {
 
         container.querySelectorAll('.dw-delete').forEach(btn => {
             btn.addEventListener('click', async () => {
-                if (!confirm('deletar esse desenho? isso não apaga o arquivo do Storage, só o registro.')) return;
+                if (!confirm('deletar esse desenho?')) return;
                 try {
                     await deleteDoc(doc(db, 'drawings_meta', btn.dataset.id));
                     await deleteDoc(doc(db, 'drawings', btn.dataset.id));

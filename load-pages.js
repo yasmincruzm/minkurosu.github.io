@@ -53,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     function rehydrateScripts(container, pageName) {
-  
-        
         document.querySelectorAll(`script[data-page-script="${pageName}"]`).forEach(s => s.remove());
 
         container.querySelectorAll('script').forEach(old => {
@@ -126,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fetchPromise
             .then(html => {
-               
                 const doc = new DOMParser().parseFromString(html, 'text/html');
 
                 const thoughts = doc.querySelector('#thoughts-root');

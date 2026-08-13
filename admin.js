@@ -2,7 +2,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-import { loadVisitorTracker } from './admin-tracker.js';
+import { loadVisitorTracker, loadCityList, loadDrawings } from './admin-tracker.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -65,13 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
             loadVisitorTracker(app);
+            loadCityList(app);
+            loadDrawings(app);
             loadMailbox(db);
         } else {
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
         }
     });
-
 
     loginEmailForm?.addEventListener('submit', async e => {
         e.preventDefault();
@@ -88,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
             msg(loginMessage, `erro: ${err.message}`, 'error');
         }
     });
-
 
     googleLoginBtn?.addEventListener('click', async () => {
         msg(loginMessage, 'abrindo login do google...', 'info');
@@ -243,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 function loadMailbox(db) {
     const container = document.getElementById('mailbox-list');
     if (!container) return;
