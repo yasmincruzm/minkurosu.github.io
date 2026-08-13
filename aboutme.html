@@ -644,6 +644,8 @@ function renderGallery(snapshot) {
   }).join("");
 }
 
+
+
 if (typeof window.__drawboxUnsubscribe === "function") {
   window.__drawboxUnsubscribe();
 }
@@ -655,3 +657,4 @@ window.__drawboxUnsubscribe = onSnapshot(galleryQuery, renderGallery, err => {
   if (gallery) gallery.textContent = "error";
 });
 </script>
+
