@@ -1,11 +1,5 @@
 <script src="lastfm-widget.js"></script>
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
-    /* Remove bloqueio de cliques do efeito CRT */
-    .crt {
-        pointer-events: none !important;
-    }
-
     .table-container {
         overflow-x: auto;
         border-radius: 8px;
@@ -27,9 +21,10 @@
         color: #ffffff;
         text-align: center;
     }
-    tr:nth-of-type(odd) {
+   tr:nth-of-type(odd) {
       background-color:#72727217;
     }
+
 
     .styled-table th,
     .styled-table td {
@@ -52,522 +47,76 @@
     .styled-table td:nth-child(3) {
         text-align: center;
     }
+.slideshow-area {
+    position: relative;
+    width: 100%;
+    max-width: 270px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #000;
+}
 
-    .slideshow-area {
-        position: relative;
-        width: 100%;
-        max-width: 270px;
-        aspect-ratio: 3 / 4;
-        overflow: hidden;
-        border-radius: 8px;
-        background: #000;
-    }
+.slideshow-area img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity 450ms ease-in-out;
+}
 
-    .slideshow-area img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        opacity: 0;
-        transition: opacity 450ms ease-in-out;
-    }
+.slideshow-area img.active {
+    opacity: 1;
+}
 
-    .slideshow-area img.active {
-        opacity: 1;
-    }
-
-    #gallery {
-        width: 700px;
-        max-width: 100%;
-        overflow: auto;
-        padding: 10px;
-        box-sizing: border-box;
-        margin-left: auto;
-        margin-right: auto;
-        column-count: 3;
-        column-gap: 15px;
-    }
-
-    .image-container {
-        display: inline-block;
-        width: 100%;
-        margin-bottom: 15px;
-        padding: 5px;
-        text-align: center;
-        break-inside: avoid;
-        border-radius: 0px;
-        transition: transform 0.2s ease;
-    }
-
-    .image-container:hover {
-        transform: scale(1.05);
-        cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
-    }
-
-    .image-container img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    /* =========================================
-       CSS JSPAINT RETRÔ - TOTALMENTE PRETO E CINZA
-       ========================================= */
-    .paint-window {
-        margin: 20px auto;
-        max-width: 920px;
-        width: 100%;
-        background: #282828;
-        border: 2px solid;
-        border-color: #555555 #111111 #111111 #555555;
-        box-shadow: 2px 2px 0px #000000;
-        font-family: 'Tahoma', 'MS Sans Serif', Arial, sans-serif;
-        user-select: none;
-        box-sizing: border-box;
-    }
-
-    /* Barra de Título em Preto Retrô (Sem Azul) */
-    .paint-titlebar {
-        background: #111111;
-        color: #cccccc;
-        padding: 3px 5px;
-        height: 18px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: bold;
-        font-size: 11px;
-        border-bottom: 2px solid #000000;
-    }
-
-    .paint-title-left {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .paint-window-controls {
-        display: flex;
-        gap: 2px;
-    }
-
-    .paint-ctrl-btn {
-        width: 16px;
-        height: 14px;
-        background: #2e2e2e;
-        border: 2px solid;
-        border-color: #555555 #111111 #111111 #555555;
-        box-shadow: inset -1px -1px #000000, inset 1px 1px #444444;
-        color: #ffffff;
-        font-size: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        line-height: 1;
-        font-weight: bold;
-    }
-
-    .paint-ctrl-btn:active {
-        border-color: #111111 #555555 #555555 #111111;
-        box-shadow: inset 1px 1px #000000;
-    }
-
-    .paint-body {
-        display: flex;
-        padding: 3px;
-        gap: 3px;
-        background: #242424;
-        align-items: stretch;
-    }
-
-    @media (max-width: 600px) {
-        .paint-body {
-            flex-direction: column;
+        #gallery {
+            width: 700px;
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+            column-count: 3;
+            column-gap: 15px;
         }
-    }
 
-    /* Barra Lateral de Ferramentas JSPaint Dark */
-    .paint-tools-sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        background: #282828;
-        padding: 3px;
-        border: 2px solid;
-        border-color: #444444 #111111 #111111 #444444;
-        width: 58px;
-        flex-shrink: 0;
-        align-items: center;
-        justify-content: flex-start;
-        box-sizing: border-box;
-    }
-
-    @media (max-width: 600px) {
-        .paint-tools-sidebar {
+        .image-container {
+            display: inline-block;
             width: 100%;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-bottom: 15px;
+            padding: 5px;
+            text-align: center;
+            break-inside: avoid;
+            border-radius: 0px;
+            transition: transform 0.2s ease;
         }
-    }
 
-    .paint-tools-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 25px);
-        gap: 1px;
-    }
+        .image-container:hover {
+            transform: scale(1.05);
+   cursor: url('imgs/cursor/ROCKcursorselect.cur') !important
 
-    @media (max-width: 600px) {
-        .paint-tools-grid {
-            display: flex;
-            flex-wrap: wrap;
         }
-    }
 
-    .paint-tool-btn, .paint-action-btn {
-        width: 25px;
-        height: 25px;
-        background: #2c2c2c;
-        border: 2px solid;
-        border-color: #555555 #111111 #111111 #555555;
-        box-shadow: inset -1px -1px #000000, inset 1px 1px #444444;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-        box-sizing: border-box;
-        color: #ffffff;
-        font-size: 11px;
-        touch-action: manipulation;
-    }
-
-    .paint-tool-btn svg, .paint-action-btn svg {
-        width: 16px;
-        height: 16px;
-        fill: #e5e5e5;
-        pointer-events: none;
-    }
-
-    .paint-tool-btn:hover, .paint-action-btn:hover {
-        background: #363636;
-    }
-
-    .paint-tool-btn:active, .paint-action-btn:active {
-        border-color: #111111 #555555 #555555 #111111;
-        box-shadow: inset 1px 1px #000000;
-    }
-
-    .paint-tool-btn.active {
-        border-color: #111111 #555555 #555555 #111111;
-        box-shadow: inset 1px 1px #000000;
-        background: #151515;
-    }
-
-    .paint-tool-btn.active svg {
-        fill: #ffffff;
-    }
-
-    /* Viewport do Canvas JSPaint Dark */
-    .paint-canvas-viewport {
-        flex: 1;
-        background: #181818;
-        border: 2px solid;
-        border-color: #111111 #444444 #444444 #111111;
-        box-shadow: inset 1px 1px #000000;
-        padding: 0;
-        overflow: auto;
-        position: relative;
-        min-height: 400px;
-        max-height: 520px;
-        -webkit-overflow-scrolling: touch;
-        touch-action: pan-x pan-y;
-        box-sizing: border-box;
-    }
-
-    .paint-canvas-holder {
-        position: relative;
-        background-color: #121212;
-        box-shadow: 2px 2px 6px rgba(0,0,0,0.8);
-        touch-action: none !important;
-        pointer-events: auto !important;
-        z-index: 10 !important;
-        transform-origin: 0 0;
-    }
-
-    .paint-canvas-holder.light-mode {
-        background-color: #ffffff !important;
-    }
-
-    #bg-layer-canvas, #drawbox-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        touch-action: none !important;
-        pointer-events: auto !important;
-        image-rendering: pixelated;
-    }
-
-    #drawbox-canvas {
-        z-index: 12;
-        cursor: crosshair;
-    }
-
-    /* Lixeiras de Admin */
-    #admin-layers-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 20;
-        display: none;
-    }
-
-    .admin-layer-box {
-        position: absolute;
-        border: 1px dashed #ff4444;
-        pointer-events: auto;
-    }
-
-    .admin-layer-box:hover {
-        background: rgba(255, 68, 68, 0.15);
-    }
-
-    .admin-delete-btn {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 16px;
-        height: 16px;
-        background: #1e1e1e;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 50%;
-        font-size: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        padding: 0;
-        line-height: 1;
-        font-weight: bold;
-    }
-
-    #cursors-layer {
-        position: absolute;
-        inset: 0;
-        pointer-events: none !important;
-        overflow: hidden;
-        z-index: 25;
-    }
-
-    .remote-cursor {
-        position: absolute;
-        pointer-events: none;
-        transform: translate(-1px, -1px);
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        z-index: 30;
-    }
-
-    .cursor-tag {
-        font-size: 9px;
-        padding: 1px 3px;
-        border-radius: 1px;
-        color: #ffffff;
-        font-family: monospace;
-        white-space: nowrap;
-        margin-top: -2px;
-        margin-left: 8px;
-        background: #2b2b2b;
-        border: 1px solid #555555;
-    }
-
-    /* Paleta de Cores JSPaint Dark */
-    .paint-palette-bar {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 5px;
-        background: #282828;
-        border-top: 2px solid;
-        border-color: #444444 #111111 #111111 #444444;
-        flex-wrap: wrap;
-    }
-
-    .paint-active-colors {
-        position: relative;
-        width: 30px;
-        height: 30px;
-        background: #242424;
-        border: 2px solid;
-        border-color: #111111 #555555 #555555 #111111;
-        box-shadow: inset 1px 1px #000000;
-        flex-shrink: 0;
-    }
-
-    .paint-fg-color {
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        width: 15px;
-        height: 15px;
-        background: #ffffff;
-        border: 1px solid #000000;
-        box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
-        z-index: 2;
-    }
-
-    .paint-bg-color {
-        position: absolute;
-        bottom: 3px;
-        right: 3px;
-        width: 15px;
-        height: 15px;
-        background: #121212;
-        border: 1px solid #000000;
-        box-shadow: inset 1px 1px #ffffff, inset -1px -1px #808080;
-        z-index: 1;
-    }
-
-    .paint-palette-grid {
-        display: grid;
-        grid-template-columns: repeat(14, 15px);
-        grid-template-rows: repeat(2, 15px);
-        gap: 1px;
-        background: #181818;
-        padding: 2px;
-        border: 2px solid;
-        border-color: #111111 #555555 #555555 #111111;
-        box-shadow: inset 1px 1px #000000;
-    }
-
-    @media (max-width: 600px) {
-        .paint-palette-grid {
-            grid-template-columns: repeat(7, 18px);
-            grid-template-rows: repeat(4, 18px);
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
+
+        br {
+
+
+               tr:nth-of-type(odd) {
+      background-color:#ccc;
     }
 
-    .paint-color-box {
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-        border: 1px solid #111;
-        cursor: pointer;
-        touch-action: manipulation;
-    }
+}
 
-    .paint-color-picker-wrap {
-        position: relative;
-        width: 26px;
-        height: 26px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid;
-        border-color: #555555 #111111 #111111 #555555;
-        box-shadow: inset -1px -1px #000000, inset 1px 1px #444444;
-        background: #2c2c2c;
-        cursor: pointer;
-    }
 
-    .paint-color-picker-wrap input[type="color"] {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-
-    /* Slider Horizontal JSPaint Dark */
-    .paint-slider-horizontal-wrap {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-left: 6px;
-        padding-left: 6px;
-        border-left: 2px solid;
-        border-color: #111111 #444444 #444444 #111111;
-    }
-
-    .paint-horizontal-slider {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 75px;
-        height: 5px;
-        background: #141414;
-        border: 1px solid;
-        border-color: #111111 #444444 #444444 #111111;
-        box-shadow: inset 1px 1px #000000;
-        outline: none;
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
-    }
-
-    .paint-horizontal-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 11px;
-        height: 18px;
-        background: #3a3a3a;
-        border: 2px solid;
-        border-color: #666666 #111111 #111111 #666666;
-        box-shadow: inset -1px -1px #000000, inset 1px 1px #555555;
-        cursor: pointer;
-    }
-
-    .paint-horizontal-slider::-moz-range-thumb {
-        width: 11px;
-        height: 18px;
-        background: #3a3a3a;
-        border: 2px solid;
-        border-color: #666666 #111111 #111111 #666666;
-        box-shadow: inset -1px -1px #000000, inset 1px 1px #555555;
-        cursor: pointer;
-    }
-
-    /* Barra de Status JSPaint Dark */
-    .paint-statusbar {
-        display: flex;
-        background: #242424;
-        border-top: 1px solid #111111;
-        padding: 2px;
-        font-size: 11px;
-        color: #cccccc;
-        gap: 2px;
-    }
-
-    .paint-status-panel {
-        border: 2px solid;
-        border-color: #111111 #444444 #444444 #111111;
-        box-shadow: inset 1px 1px #000000;
-        padding: 1px 6px;
-        background: #202020;
-        white-space: nowrap;
-    }
-
-    .paint-status-main {
-        flex: 1;
-    }
-
-    .wb-live-dot {
-        width: 6px;
-        height: 6px;
-        background-color: #55ff55;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 4px;
-    }
 </style>
-
 <div id="container">
     <div class="caixamaisclara">
         <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
@@ -582,24 +131,29 @@
                     <h2 class="nomeSide likes" style="display: inline;">welcome</h2>
                     <img src="imgs/webgraphics/pixels/hipaw.gif" style="vertical-align: middle;"><br>
                 </div>
-                <h4 style="font-size: 1rem;">hii! welcome to my PERSONAL page, and <span style="font-size: 1.4rem;">thank you for visiting!! :3</span>
-                this is my attempt to have a corner on the internet without depending on social media (im trying to be less on it).
-                here, i can keep my art, memories, portfolio, etc, all in one place (with some cautions with privacy).</h4>
+             <h4 style="font-size: 1rem;">hii! welcome to my PERSONAL page, and <span style="font-size: 1.4rem;">thank you for visiting!! :3</span>
+    this is my attempt to have a
+    corner on the internet without depending on social media (im trying to be less on it).
+    i think its awful how we gotta have lots of different social apps for different reasons, and how we depend on them for socializing nowadays. here, i can
+    keep my art, memories, portfolio, etc, all in one place (with some cautions with privacy).
+</h4>
                 <h4 style="font-size: 1rem;">this page's content can involve themes that can be considered uncomfortable, cringe, taboo or nsfw, so please avoid exploring more if you have problems with that.</h4>
             </div>
             <div class="column">
-                <div class="welcome">
-                    <h3 style="font-weight: bold;">PLEASE DO NOT INTERACT/PROCEED if you're: <img src="imgs/webgraphics/pixels/hiss.gif"></h3>
-                </div>
-                <h4 style="font-size: 1rem;">b1got / alt-right / 1nc3l / r4cist / z1onist / n4zi / h0mophobic / tr4nsphobic / psych0phobic / any hate-based phobic.<br>
-                also, know that have a boyfriend, so if you're here to harass me or push my boundaries of closeness, this isn't the place for you.<br>
-                just try to be a good person. at all times.</h4>
-                <h4 style="font-size: 1rem;">i also highly advise not visiting my site if you're my family member or know me from work or something alike, and the content of this site doesn't reflect my professional capabilities. psychologists are human being too, y'know?</h4>
+                 <div class="welcome">
+                <h3 style="font-weight: bold;">PLEASE DO NOT INTERACT/PROCEED if you're: <img src="imgs/webgraphics/pixels/hiss.gif" > </h3>
+               </div>
+                 <h4 style="font-size: 1rem;">b1got/ alt-right / 1nc3l / r4cist / z1onist / n4zi / h0mophobic / tr4nsphobic / psych0phobic / any hate-based phobic. 
+                    <br>
+also, know that have a boyfriend, so if you're here to harass me or push my boundaries of closeness, this isn't the place for you.
+                    <br>just try to be a good person. at all times.</h4>
+                <h4 style="font-size: 1rem;">i also highly advise not visiting my site if you're my family member or know me from
+                    work or something alike, and the content of this site doesn't reflect my professional capabilities. psychologists are human being too, y'know?</h4>
             </div>
         </div>
         <hd></hd>
     </div>
-    
+    <div class="maincollums"></div>
     <hr>
     <div class="spotify">
         <iframe style="border-radius:12px"
@@ -608,9 +162,8 @@
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     <hr>
-
     <div class="caixamaisclara" style="margin: 20px;">
-        <div class="about-me-container">
+        <div class="about-me-container" style="min-width: ;">
             <div class="slideshow-area" id="slideshow-area">
                 <img src="imgs/feed/gabmin.jpg" alt="" class="active" fetchpriority="high" style="display:block; opacity:1;">
             </div>
@@ -628,7 +181,8 @@
                         <img src="imgs/webgraphics/identitybuttons/punk.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/art.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/pc.png" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/Roller-Skating.png" class="badge-img">
+                                                <img src="imgs/webgraphics/identitybuttons/Roller-Skating.png" class="badge-img">
+
                         <img src="imgs/webgraphics/identitybuttons/taken.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/vampirekin.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/veg.png" class="badge-img">
@@ -643,16 +197,17 @@
                         <img src="imgs/webgraphics/identitybuttons/Highly_Sensitive_Person.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/hSzgn50.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/ypcKWM0.png" class="badge-img">
+
                         <img src="imgs/webgraphics/identitybuttons/infp.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/agWlVws.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/iJL1j5x.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/minecraft.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/My_Little_Pony.png" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/Baldur's_Gate_3_Full.png" class="badge-img">
+                                                <img src="imgs/webgraphics/identitybuttons/Baldur's_Gate_3_Full.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/anime.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/iykyk.png" class="badge-img">
+
                         <img src="imgs/webgraphics/identitybuttons/v50Ipgt.png" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/righthand.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/righthand.png" class="badge-img">
                         <img src="imgs/webgraphics/identitybuttons/+18.png" class="badge-img">
                     </div>
@@ -660,19 +215,35 @@
             </div>
 
             <div class="content-area">
-                <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 8rem; overflow-y: auto; padding: 0rem; text-transform: lowercase;">
+                <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 8rem;  overflow-y: auto; padding: 0rem; text-transform: lowercase;">
                     <h3 style="color: rgb(85, 3, 3);">about me</h3>
-                    <h4 style="text-justify: auto; text-align: justify; font-size: 1rem; padding:0px; margin:0px; color: #5a5a5a;">
+                    <h4 style="text-justify: auto; text-align: justify; font-size: 1rem; padd: ; padding:0px; margin:0px; color: #5a5a5a;">
                       sinto vergonha em me apresentar mas na internet é mais tranquilo, entao aí vai :3 sou a Min, tenho 23 anos, 
-                      e desde que me entendo por gente gosto muito de arte, internet, jogos online, animais e natureza (mesmo gostando mto de ficar no meu quarto tmb hehe).<br>    
-                      nesse site vc consegue encontrar um pouco das coisas q eu gosto e faço. as vezes penso que se definir com rótulos pode ser um pouco limitante, mas é o que temos pra definir nossos interesses, que acabam também nos definindo como pessoa.
-                      gosto da subcultura alternativa, principalmente de punk e emo, que mais se alinham com meus sentimentos, ideais éticos, políticos, musicais, e estéticos.<br>
-                      por mais q eu varie mto entre exposiçao e isolamento, acho que esse site pode me trazer coisas boas, tipo descentralizar redes sociais e me ajudar com meu senso de self?? se isso faz sentido...
-                      pode não parecer mas sou meio timida ao ponto de eu não ter muitas fotos de certa epoca da minha adolescencia, por muito tempo, luto uma batalha pela minha autoestima, muito tempo de terapia, então qualquer coisa que você ache vergonhoso ou exagerado, pra mim esse site é uma evolução e um ato de autocuidado :))
-                      sobre minha personalidade, sempre fui bem introvertida, mas consigo me abrir e falar besteira com pessoas que sou mais proxima, mas minha bateria social tem estado bem limitada também, e pela minha jornada de terapia, descobri que também sou hipersensível , muito estimulo me sobrecarrega e me cansa, se eu não saio com você não significa que tenho algo contra você!!<br>
-                      outra coisa muito importante, tenho 2 gatos, apollo e jupiter.<br>
-                      enfim, com o tempo vou adicionando mais coisa que eu pensar aqui!
+                      e desde que me entendo por gente gosto muito de arte, internet,
+                       jogos online, animais e natureza (mesmo gostando mto de ficar no meu quarto tmb hehe).<br>    
+                                           nesse site vc consegue encontrar um pouco das coisas q eu gosto e faço.
+ as vezes penso que se definir com rótulos pode ser um pouco limitante, mas é o que temos pra definir nossos interesses, 
+ que acabam também nos definindo como pessoa.
+                         gosto da subcultura alternativa, principalmente de punk e emo, que mais se alinham com meus sentimentos, 
+                         ideais éticos, políticos, musicais, e estéticos.<br>
+            
+                        por mais q eu varie mto entre exposiçao e isolamento, acho que esse site pode me trazer coisas boas, 
+                        tipo descentralizar redes sociais e me ajudar com meu senso de self?? se isso faz sentido... 
+                        pode não parecer mas sou meio timida ao ponto de eu não ter muitas fotos de certa epoca da minha adolescencia, 
+                        por muito tempo, luto uma batalha pela minha autoestima, muito tempo de terapia, então qualquer coisa que você 
+                        ache vergonhoso ou exagerado,
+                         pra mim esse site é uma evolução e um ato de autocuidado :))
+                         sobre minha personalidade, sempre fui bem introvertida, mas consigo me abrir e falar besteira com pessoas 
+                         que sou mais proxima, mas minha bateria social tem estado bem limitada também, e pela minha jornada de terapia, 
+                         descobri que também sou hipersensível , muito estimulo me sobrecarrega e me cansa, se eu não saio com você não 
+                         significa que tenho algo contra você!!
+                         <br>
+                                                  outra coisa muito importante, tenho 2 gatos, apollo e jupiter. <br>
+
+                         enfim, com o tempo vou adicionando mais coisa que eu pensar aqui
+
                     </h4> 
+                    
                 </div>
             </div>
         </div>
@@ -684,7 +255,7 @@
             <H2 class="likes">LIKES</H2>
             <H4>cats, psychology, dark clothes, my chemical romance, art, gaming, PEACE AND QUIET, rain and cold weather,
                 my boyfriend, my family, photography, nature, sleeping, quiet, HUMBLENESS, empathy, my bedroom, anime, piercings, tattoos, black nail polish,
-                quad rollerskates, sweets, anime</H4>
+                quad rollerskates, sweets, anime  </H4>
         </div>
         <div class="divider"></div>
         <div class="column">
@@ -693,868 +264,158 @@
                 positivity, closed minds, littering, egotistical people, gender roles, going out, busy schedules, ppl that brag about themselves</H4>
         </div>
     </div>
-    
-    <!-- QUADRO ONLINEBOARD ORIGINAL (RESTAURADO) -->
     <hr>
     <div class="caixa-iframe-onlnbrd">
         <h3>draw me anything, or write your name,<br> leave your mark here! just be nice</h3>
-        <br><h3 style="font-size: 1rem;">( btw i loooove seeing updates here &lt;3 ) </h3>
+        <br><h3 style="font-size: 1rem;">( btw i loooove seeing updates here <3 ) </h3>
         <br>
         <iframe src="https://onlnbrd.com/b/JLeicUoP" class="desaturatepics" style="border:0px #161616 none;" name="myiFrame" scrolling="no"
-                frameborder="0" marginheight="0px" marginwidth="0px" height="500px" width="100%"
-                allowfullscreen></iframe>
+                        frameborder="0" marginheight="0px" marginwidth="0px" height="500px" width="100%"
+                        allowfullscreen></iframe>
     </div>
-    <hr>
 
+    <hr>
     <div class="caixamaisclaraInterests">
         <div class="column">
-            <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">music</td>
-                    <td style="border: 1px solid black; padding: 8px;">my chemical romance & their solo work, melanie martinez, muse, avanged sevenfold, type o negative, westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="marked-link">garden psychedelia</a>, <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="marked-link">sign steelers</a>, <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="marked-link">pusher174</a>, ghost, korn, linkin park, rita lee, mitski, ls dunes, lady gaga, chappel roan, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down, ptv, ls dunes, pitty, the hives, crystal castles, pinkpantheress, green day, HIM, garbage, tv girl, lil peep</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">games</td>
-                    <td style="border: 1px solid black; padding: 8px;">minecraft, stardew valley, baldurs gate 3, transformice, cs2, lol, the sims, animal crossing, overwatch, rhythm heaven, keep driving, project zomboid, skate., needy girl overdose, oxygen not included (im terrible), cult of the lamb, nintendogs, tomodachi life, cooking mama</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">hobbies i've had</td>
-                    <td style="border: 1px solid black; padding: 8px;">drawing, gaming, webdesign, live2d animation, quad rollerskates, reading, painting (acrylics & watercolor), wool felting, kung fu (saudade)</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">movies and shows</td>
-                    <td style="border: 1px solid black; padding: 8px;">attack on titan, the x files, studio ghibli, matrix, steven universe, twilight, poor things, arcane, the haunting series, black mirror, yuri on ice, my little pony, the orphan, edward scissorhands, hellraiser, gone girl, e.t, hannibal, fleabag, nope, pluribus, severence, rick n morty, solar opposites, interstellar, mickey 17, the lovely bones, death note</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">foods</td>
-                    <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds candy!!!!, avocado vitamin, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE, carrots, cinnamon candy and gum, carbonara w/ no bacon, milk with coffee and chocolate powder, strawberry jam, strawberries with chocolate, hommus, smashed potatoes, ice cream, pasta with tomato sauce and pesto.</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">kins</td>
-                    <td style="border: 1px solid black; padding: 8px;">fluttershy twilight (mlp), pearl and lapis lazuli (steven universe), jinx, vex</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">ships</td>
-                    <td style="border: 1px solid black; padding: 8px;">frerard, eruri, bloodweave, vikturi, reibert, eremika, timebomb, jayvik</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">colors</td>
-                    <td style="border: 1px solid black; padding: 8px;">black, gray, brown, red, low saturated and dark tones</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">smells</td>
-                    <td style="border: 1px solid black; padding: 8px;">rain, good herbs, ocean, home, my cats bellies, my bf, chocolate, cinnamon, matchsticks</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">actress</td>
-                    <td style="border: 1px solid black; padding: 8px;">kristen stewart, keanu reeves, mads mikkelsen, sophie tatcher, robert pattinson, gillian anderson</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; padding: 8px;">people said i look like:</td>
-                    <td style="border: 1px solid black; padding: 8px;">rita lee, billie eilish (when i was younger), doarda</td>
-                </tr>
-            </table>
+          <table style="border-collapse: collapse; width: 100%; background-color: transparent; ">
+    <tr>
+       
+        </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">music</td>
+        <td style="border: 1px solid black; padding: 8px;">my chemical romance & their solo work, melanie martinez, muse, avanged sevenfold, type o negative, 
+             westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="marked-link">garden psychedelia</a>,
+              <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="marked-link">sign steelers</a>,
+               <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="marked-link">pusher174</a>, ghost, 
+               korn, linkin park, rita lee, mitski, ls dunes, lady gaga, chappel roan, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down,
+                ptv, ls dunes, pitty, the hives, crystal castles, pinkpantheress, green day, HIM, garbage, tv girl, lil peep</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">games</td>
+        <td style="border: 1px solid black; padding: 8px;">minecraft, stardew valley, baldurs gate 3, transformice, cs2, lol, the sims, 
+            animal crossing, overwatch, rhythm heaven, keep driving, project zomboid, skate., needy girl overdose, oxygen not included (im terrible)
+            cult of the lamb, nintendogs, tomodachi life, cooking mama, </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">hobbies i've had</td>
+        <td style="border: 1px solid black; padding: 8px;">drawing, gaming, webdesign, live2d animation, quad rollerskates, 
+            reading, painting (acrylics & watercolor), wool felting, kung fu (saudade)</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">movies and shows</td>
+        <td style="border: 1px solid black; padding: 8px;">attack on titan, the x files, studio ghibli, matrix, steven universe, twilight, poor things, arcane, the haunting series, black mirror, yuri on ice, my little pony, the orphan, edward scissorhands, hellraiser, gone girl, e.t, hannibal, fleabag, nope, pluribus, severence, rick n morty, solar opposites, interstellar, mickey 17, the lovely bones, death note</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">foods</td>
+        <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds candy!!!!, avocado vitamin, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE, carrots, cinnamon candy and gum, carbonara w/ no bacon, milk with coffee and chocolate powder, strawberry jam, strawberries with chocolate, hommus, smashed potatoes, ice cream, pasta with tomato sauce and pesto.</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">kins</td>
+        <td style="border: 1px solid black; padding: 8px;">fluttershy twilight (mlp), pearl and lapis lazuli (steven universe), jinx, vex, </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">ships</td>
+        <td style="border: 1px solid black; padding: 8px;"> frerard, eruri, bloodweave, vikturi, reibert, eremika, timebomb, jayvik,</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">colors</td>
+        <td style="border: 1px solid black; padding: 8px;">black, gray, brown, red, low saturated and dark tones</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">smells</td>
+        <td style="border: 1px solid black; padding: 8px;">rain, good herbs, ocean, home, my cats bellies, my bf, chocolate, cinnamon, matchsticks</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">actress</td>
+        <td style="border: 1px solid black; padding: 8px;">kristen stewart, keanu reeves, mads mikkelsen, sophie tatcher, robert pattinson, gillian anderson</td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid black; padding: 8px;">people said i look like:</td>
+        <td style="border: 1px solid black; padding: 8px;">rita lee, billie eilish (when i was younger), doarda</td>
+    </tr>
+</table>
         </div>
     </div>
-
     <hr>
     <div class="caixamaisclaraInterests" style="display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap;">
-        <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 260px; max-height: 230px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
-            <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
-            <p>
-              my first contact with the internet was through social network games (orkut, facebook) and the sims, when i was little i didn't have much access to the wider internet, just my circle of people i knew. i remember playing games like happy farm, pet mania, simcity? and especially the sims. i have this memory of using a cr4cked disc from my neighbors. i made my family and built this entirely rectangular house with no room divisions or any architectural sense whatsoever lmaooo, at some point the kitchen caught fire, and i remember just closing the game and never opening it again, because i was scared my family would die in real life. that's me in a nutshell, gaming/internet addiction and obsessive compulsive disorder :D
-              even though i didn't really catch the tumblr era (i was more of an instagram and twitter person), i remember seeing the most gorgeous pages on tumblr and always wanting to make one like that. around 2024, i was encouraged by my bf to take some programming courses, and my first steps were through the classics, html and css. i watched some classes from santander academy, ada tech, and another site i got borrowed logins for lol. my first project was a landing page with my main links, kind of like a "linktree", and over time i kept adding more sections, like my 2d animation and photography portfolios, and then i discovered neocities :3 i started thinking about ways to help myself use social media less (instagram, the late twitter now known as x), and the psychological impact is pretty noticeable, society must really be compromised, given how normalized it all is and how even small businesses depend entirely on instagram for exposure. unfortunately i can't quit completely, since most of my clients are on twitter (and i've been there since before it got bought and ruined), and most of the people i know are on instagram.
-            </p>
-        </div>
-        <div class="divider"></div>
 
-        <div class="mrn-wrap" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
-            <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
-                <h3 style="color:rgb(85,3,3); font-size:16px; margin:0;">me rn</h3>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-                <a href="#mrn-2" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">←</a>
-                <div class="mrn-viewport" style="overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; flex:1; -webkit-overflow-scrolling:touch;">
-                    <div style="display:flex;">
-                        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
-                            <img src="https://i.pinimg.com/1200x/c4/3b/da/c43bda2f334e302d8f6f06747d766e32.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-                            <p style="font-size:12px; color:#888; margin:6px 0 0;">07/07/2026</p>
-                        </div>
-                        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
-                            <img src="https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-                            <p style="font-size:12px; color:#888; margin:6px 0 0;">29/06/2026</p>
-                        </div>
-                        <div id="mrn-2" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
-                            <img src="https://minkurosu.site/imgs/memes/txf.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-                            <p style="font-size:12px; color:#888; margin:6px 0 0;">02/06/2026</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="#mrn-1" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">→</a>
-            </div>
+      <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 260px; max-height: 230px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
+        <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
+        <p>
+          my first contact with the internet was through social network games (orkut, facebook) and the sims, when i was little i didn't have much access to the wider internet, just my circle of people i knew. i remember playing games like happy farm, pet mania, simcity? and especially the sims. i have this memory of using a cr4cked disc from my neighbors. i made my family and built this entirely rectangular house with no room divisions or any architectural sense whatsoever lmaooo, at some point the kitchen caught fire, and i remember just closing the game and never opening it again, because i was scared my family would die in real life. that's me in a nutshell, gaming/internet addiction and obsessive compulsive disorder :D
+          even though i didn't really catch the tumblr era (i was more of an instagram and twitter person), i remember seeing the most gorgeous pages on tumblr and always wanting to make one like that. around 2024, i was encouraged by my bf to take some programming courses, and my first steps were through the classics, html and css. i watched some classes from santander academy, ada tech, and another site i got borrowed logins for lol. my first project was a landing page with my main links, kind of like a "linktree", and over time i kept adding more sections, like my 2d animation and photography portfolios, and then i discovered neocities :3 i started thinking about ways to help myself use social media less (instagram, the late twitter now known as x), and the psychological impact is pretty noticeable, society must really be compromised, given how normalized it all is and how even small businesses depend entirely on instagram for exposure. unfortunately i can't quit completely, since most of my clients are on twitter (and i've been there since before it got bought and ruined), and most of the people i know are on instagram.
+        </p>
+      </div>
+      <div class="divider"></div>
+
+    
+<div class="mrn-wrap" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
+
+ <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
+    <h3 style="color:rgb(85,3,3); font-size:16px; margin:0;">me rn</h3>
+  </div>
+
+  <div style="display:flex; align-items:center; gap:8px;">
+    <a href="#mrn-2" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">←</a>
+    <div class="mrn-viewport" style="overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; flex:1; -webkit-overflow-scrolling:touch;">
+      <div style="display:flex;">
+
+        
+        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://i.pinimg.com/1200x/c4/3b/da/c43bda2f334e302d8f6f06747d766e32.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">07/07/2026</p>
         </div>
+
+
+
+
+        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">29/06/2026</p>
+        </div>
+
+        <div id="mrn-2" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+          <img src="https://minkurosu.site/imgs/memes/txf.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
+          <p style="font-size:12px; color:#888; margin:6px 0 0;">02/06/2026</p>
+        </div>
+
+      </div>
     </div>
+    <a href="#mrn-1" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">→</a>
+  </div>
 
+</div>
+
+        </div>
     <hr>
-    <br><br>
+ 
+
+    <br>
+    <br>
 
     <div id="gallery">
-        <h2>art by you sz</h2>
-        <div class="image-container"><img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker"></div>
-        <div class="image-container"><img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page"></div>
-        <div class="image-container"><img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires"></div>
-        <div class="image-container"><img src="imgs/artbyyou/brasilsilsil.webp" alt="straw.page"></div>
-        <div class="image-container"><img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram"></div>
-        <div class="image-container"><img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram"></div>
-        <div class="image-container"><img src="imgs/artbyyou/a.jpg" alt="sent by instagram"></div>
-        
-        <div id="gallery-dynamic" style="display:contents;"></div>
+        <h2>art by you sz </h2>
+        <div class="image-container">
+            <img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/brasilsilsil.webp" alt="straw.page">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram">
+        </div>
+        <div class="image-container">
+            <img src="imgs/artbyyou/a.jpg" alt="sent by instagram">
+        </div>
+
     </div>
-
-    <hr>
-    <div style="text-align: center; margin: 25px 0 6px 0;">
-    </div>
-
-    <div class="paint-window">
-        <div class="paint-titlebar">
-            <div class="paint-title-left">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#ffffff">
-                    <path d="M12 2C6.49 2 2 6.49 2 12c0 2.88 1.22 5.48 3.19 7.31.52.48 1.3.16 1.37-.55.07-.64.6-1.16 1.25-1.16h1.79c3.31 0 6-2.69 6-6 0-.34-.03-.68-.08-1.01C15.89 10.23 16 9.87 16 9.5 16 8.12 14.88 7 13.5 7h-2C10.67 7 10 6.33 10 5.5S10.67 4 11.5 4h1C15.54 4 18 6.46 18 9.5c0 .35-.04.69-.11 1.02.57.17 1.1.44 1.57.8C20.35 10.42 21 9.04 21 7.5 21 4.46 16.97 2 12 2z"/>
-                </svg>
-                <span></span>
-            </div>
-            <div class="paint-window-controls">
-                <div class="paint-ctrl-btn">_</div>
-                <div class="paint-ctrl-btn">□</div>
-                <div class="paint-ctrl-btn">✕</div>
-            </div>
-        </div>
-
-        <div class="paint-body">
-            <div class="paint-tools-sidebar">
-                <div class="paint-tools-grid">
-                    <button type="button" class="paint-tool-btn" id="tool-pan" title="Arrastar">
-                        <svg viewBox="0 0 24 24"><path d="M10 9V5a1 1 0 0 1 2 0v4h1V3a1 1 0 0 1 2 0v6h1V4a1 1 0 0 1 2 0v7.5c0 4.14-3.36 7.5-7.5 7.5S3 15.64 3 11.5V8a1 1 0 0 1 2 0v3.5h1V7a1 1 0 0 1 2 0v4h1V9a1 1 0 0 1 1-1z"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-zoom" title="Zoom">
-                        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn active" id="tool-pencil" title="Lápis">
-                        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-brush" title="Pincel Redondo">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn" id="tool-eraser" title="Borracha">
-                        <svg viewBox="0 0 24 24"><path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.78-.78 2.05 0 2.83L6.44 21.4c.78.78 2.05.78 2.83 0l11.14-11.14c.79-.78.79-2.05 0-2.83l-3.86-3.84c-.39-.39-.9-.59-1.41-.59z"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-bucket" title="Balde">
-                        <svg viewBox="0 0 24 24"><path d="M19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5zM2.85 14.63l7.52 7.52c.78.78 2.05.78 2.83 0l6.83-6.83c.78-.78.78-2.05 0-2.83L12.51 5.01 2.85 14.63zM11.1 6.42l6.12 6.12-5.74 5.74-6.12-6.12 5.74-5.74z"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn" id="tool-spray" title="Spray">
-                        <svg viewBox="0 0 24 24"><circle cx="6" cy="10" r="1.5"/><circle cx="12" cy="6" r="1.5"/><circle cx="18" cy="8" r="1.5"/><circle cx="15" cy="14" r="1.5"/><circle cx="8" cy="16" r="1.5"/><circle cx="12" cy="18" r="1.5"/><circle cx="12" cy="12" r="2"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-pipette" title="Conta-gotas">
-                        <svg viewBox="0 0 24 24"><path d="M20.71 5.63l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-3.12 3.12-1.93-1.91-1.41 1.41 1.42 1.42L3 16.25V21h4.75l8.92-8.92 1.42 1.42 1.41-1.41-1.92-1.92 3.12-3.12c.4-.4.4-1.03.01-1.42zM6.92 19L5 17.08l8.06-8.06 1.92 1.92L6.92 19z"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn" id="tool-line" title="Linha">
-                        <svg viewBox="0 0 24 24"><line x1="4" y1="20" x2="20" y2="4" stroke="#ffffff" stroke-width="2.5"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-curve" title="Pincel Quadrado">
-                        <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn" id="tool-rect" title="Retângulo">
-                        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" fill="none" stroke="#ffffff" stroke-width="2"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-calligraphy" title="Caligrafia">
-                        <svg viewBox="0 0 24 24"><path d="M4 20L20 4l-2-2L2 18z"/></svg>
-                    </button>
-
-                    <button type="button" class="paint-tool-btn" id="tool-ellipse" title="Elipse">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="#ffffff" stroke-width="2"/></svg>
-                    </button>
-                    <button type="button" class="paint-tool-btn" id="tool-roundrect" title="Retângulo Arredondado">
-                        <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="4" fill="none" stroke="#ffffff" stroke-width="2"/></svg>
-                    </button>
-                </div>
-
-                <div class="paint-tools-grid">
-                    <button type="button" class="paint-action-btn" id="undo-btn" title="Desfazer">↩</button>
-                    <button type="button" class="paint-action-btn" id="redo-btn" title="Refazer">↪</button>
-                    <button type="button" class="paint-action-btn" id="btn-zoom-in" title="Zoom +">+</button>
-                    <button type="button" class="paint-action-btn" id="btn-zoom-out" title="Zoom -">-</button>
-                    <button type="button" class="paint-action-btn" id="btn-zoom-reset" style="font-size:8px;" title="Reset">1:1</button>
-                    <button type="button" class="paint-action-btn" id="btn-import-img" title="Importar Desenho/Imagem">📁</button>
-                    <button type="button" class="paint-action-btn" id="btn-toggle-dark" title="Tema">◐</button>
-                    <button type="button" class="paint-action-btn" id="clear-btn" title="Limpar">✕</button>
-                    <button type="button" class="paint-action-btn" id="btn-admin-mode" style="display:none; color:#fff;" title="Admin">★</button>
-                </div>
-
-                <input type="file" id="img-upload-input" accept="image/*" style="display: none;">
-            </div>
-
-            <div class="paint-canvas-viewport" id="canvas-viewport">
-                <div class="paint-canvas-holder" id="canvas-holder" style="width: 2400px; height: 1500px;">
-                    <canvas id="bg-layer-canvas" width="2400" height="1500"></canvas>
-                    <canvas id="drawbox-canvas" width="2400" height="1500"></canvas>
-                    <div id="cursors-layer"></div>
-                    <div id="admin-layers-overlay"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="paint-palette-bar">
-            <div class="paint-active-colors">
-                <div class="paint-fg-color" id="active-color-indicator"></div>
-                <div class="paint-bg-color" id="secondary-color-indicator"></div>
-            </div>
-
-            <div class="paint-palette-grid">
-                <div class="paint-color-box" data-color="#000000" style="background:#000000;"></div>
-                <div class="paint-color-box" data-color="#7f7f7f" style="background:#7f7f7f;"></div>
-                <div class="paint-color-box" data-color="#880015" style="background:#880015;"></div>
-                <div class="paint-color-box" data-color="#ed1c24" style="background:#ed1c24;"></div>
-                <div class="paint-color-box" data-color="#ff7f27" style="background:#ff7f27;"></div>
-                <div class="paint-color-box" data-color="#fff200" style="background:#fff200;"></div>
-                <div class="paint-color-box" data-color="#22b14c" style="background:#22b14c;"></div>
-                <div class="paint-color-box" data-color="#00a2e8" style="background:#00a2e8;"></div>
-                <div class="paint-color-box" data-color="#3f48cc" style="background:#3f48cc;"></div>
-                <div class="paint-color-box" data-color="#a349a4" style="background:#a349a4;"></div>
-                <div class="paint-color-box" data-color="#550303" style="background:#550303;"></div>
-                <div class="paint-color-box" data-color="#005b66" style="background:#005b66;"></div>
-                <div class="paint-color-box" data-color="#1a3365" style="background:#1a3365;"></div>
-                <div class="paint-color-box" data-color="#603913" style="background:#603913;"></div>
-
-                <div class="paint-color-box" data-color="#ffffff" style="background:#ffffff;"></div>
-                <div class="paint-color-box" data-color="#c3c3c3" style="background:#c3c3c3;"></div>
-                <div class="paint-color-box" data-color="#b97a57" style="background:#b97a57;"></div>
-                <div class="paint-color-box" data-color="#ffaec9" style="background:#ffaec9;"></div>
-                <div class="paint-color-box" data-color="#ffc90e" style="background:#ffc90e;"></div>
-                <div class="paint-color-box" data-color="#efe4b0" style="background:#efe4b0;"></div>
-                <div class="paint-color-box" data-color="#b5e61d" style="background:#b5e61d;"></div>
-                <div class="paint-color-box" data-color="#99d9ea" style="background:#99d9ea;"></div>
-                <div class="paint-color-box" data-color="#7092be" style="background:#7092be;"></div>
-                <div class="paint-color-box" data-color="#c8bfe7" style="background:#c8bfe7;"></div>
-                <div class="paint-color-box" data-color="#ff5252" style="background:#ff5252;"></div>
-                <div class="paint-color-box" data-color="#00e5ff" style="background:#00e5ff;"></div>
-                <div class="paint-color-box" data-color="#80ff00" style="background:#80ff00;"></div>
-                <div class="paint-color-box" data-color="#ff80df" style="background:#ff80df;"></div>
-            </div>
-
-            <div class="paint-color-picker-wrap" title="pick a color">
-                <span style="font-size:12px;">🎨</span>
-                <input type="color" id="brush-color" value="#ffffff">
-            </div>
-
-            <div class="paint-slider-horizontal-wrap">
-                <input type="range" class="paint-horizontal-slider" id="brush-slider" min="1" max="40" value="4">
-                <span style="font-size:9px; color:#cccccc; font-family:monospace; min-width:14px; font-weight:bold;" id="slider-val">4</span>
-            </div>
-        </div>
-
-        <div class="paint-statusbar">
-            <div class="paint-status-panel paint-status-main" id="status-zoom-display">
-                100%
-            </div>
-            <div class="paint-status-panel" id="cursor-coords-display">
-                X: 0, Y: 0
-            </div>
-            <div class="paint-status-panel">
-                2400 x 1500 px
-            </div>
-            <div class="paint-status-panel">
-                <span class="wb-live-dot"></span>
-                <span id="wb-peers-count">1</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-    (function () {
-        if (typeof window.__whiteboardCleanup === 'function') {
-            try { window.__whiteboardCleanup(); } catch(e){}
-        }
-
-        const canvas = document.getElementById("drawbox-canvas");
-        const bgCanvas = document.getElementById("bg-layer-canvas");
-        const canvasHolder = document.getElementById("canvas-holder");
-        const cursorsLayer = document.getElementById("cursors-layer");
-        const canvasViewport = document.getElementById("canvas-viewport");
-        const adminOverlay = document.getElementById("admin-layers-overlay");
-        if (!canvas || !cursorsLayer || !canvasHolder) return;
-
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
-        const bgCtx = bgCanvas.getContext("2d");
-
-        const coordsDisplay = document.getElementById("cursor-coords-display");
-        const zoomDisplay = document.getElementById("status-zoom-display");
-
-        const activeColorIndicator = document.getElementById("active-color-indicator");
-        const brushColorInput = document.getElementById("brush-color");
-        const brushSlider = document.getElementById("brush-slider");
-        const sliderVal = document.getElementById("slider-val");
-
-        const darkToggleBtn = document.getElementById("btn-toggle-dark");
-        const clearBtn = document.getElementById("clear-btn");
-        const undoBtn = document.getElementById("undo-btn");
-        const redoBtn = document.getElementById("redo-btn");
-        const adminBtn = document.getElementById("btn-admin-mode");
-        const importBtn = document.getElementById("btn-import-img");
-        const imgUploadInput = document.getElementById("img-upload-input");
-
-        const zoomInBtn = document.getElementById("btn-zoom-in");
-        const zoomOutBtn = document.getElementById("btn-zoom-out");
-        const zoomResetBtn = document.getElementById("btn-zoom-reset");
-
-        const colorBoxes = document.querySelectorAll(".paint-color-box");
-        const toolButtons = document.querySelectorAll(".paint-tool-btn");
-
-        let isDrawing = false;
-        let isPanning = false;
-        let isDarkMode = true;
-        let isAdmin = false;
-        let currentTool = "pencil";
-        let currentColor = "#ffffff";
-        let currentSize = 4;
-        let zoomLevel = 1.0;
-
-        let startX = 0, startY = 0;
-        let lastX = 0, lastY = 0;
-        let panStartX = 0, panStartY = 0;
-        let panScrollLeft = 0, panScrollTop = 0;
-        let previewSnapshot = null;
-        let sprayInterval = null;
-
-        // Histórico Ultraleve
-        const undoStack = [];
-        const redoStack = [];
-
-        function saveUndoState() {
-            if (undoStack.length >= 10) undoStack.shift();
-            undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-            redoStack.length = 0;
-        }
-
-        function applyUndo() {
-            if (undoStack.length > 0) {
-                redoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-                const prev = undoStack.pop();
-                ctx.putImageData(prev, 0, 0);
-            }
-        }
-
-        function applyRedo() {
-            if (redoStack.length > 0) {
-                undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-                const next = redoStack.pop();
-                ctx.putImageData(next, 0, 0);
-            }
-        }
-
-        undoBtn?.addEventListener("click", applyUndo);
-        redoBtn?.addEventListener("click", applyRedo);
-
-      
-        importBtn?.addEventListener("click", () => {
-            imgUploadInput?.click();
-        });
-
-        imgUploadInput?.addEventListener("change", (e) => {
-            const file = e.target.files && e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                const img = new Image();
-                img.onload = () => {
-                    saveUndoState();
-
-                    const posX = Math.max(0, Math.floor((canvas.width - img.width) / 2));
-                    const posY = Math.max(0, Math.floor((canvas.height - img.height) / 2));
-
-                    ctx.drawImage(img, posX, posY, img.width, img.height);
-
-                    autoSaveLayer(posX, posY, img.width, img.height);
-                    alert("desenho importado e salvo com sucesso!");
-                };
-                img.src = evt.target.result;
-            };
-            reader.readAsDataURL(file);
-            imgUploadInput.value = ""; // Reseta para permitir reimportar se necessário
-        });
-
-        let strokeBounds = { minX: Infinity, minY: Infinity, maxX: -Infinity, maxY: -Infinity };
-
-        function updateAdminUI() {
-            if (adminBtn) adminBtn.style.display = isAdmin ? "flex" : "none";
-            if (adminOverlay) adminOverlay.style.display = isAdmin ? "block" : "none";
-        }
-
-       
-        function drawBackground() {
-            bgCtx.fillStyle = isDarkMode ? "#121212" : "#ffffff";
-            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-        }
-        drawBackground();
-
-        function setZoom(newZoom) {
-            zoomLevel = Math.max(0.4, Math.min(3.0, Number(newZoom.toFixed(2))));
-            if (zoomDisplay) zoomDisplay.textContent = `${Math.round(zoomLevel * 100)}%`;
-            
-            canvasHolder.style.transform = `scale(${zoomLevel})`;
-            adminOverlay.style.width = (canvas.width * zoomLevel) + "px";
-            adminOverlay.style.height = (canvas.height * zoomLevel) + "px";
-        }
-
-        zoomInBtn?.addEventListener("click", () => setZoom(zoomLevel * 1.3));
-        zoomOutBtn?.addEventListener("click", () => setZoom(zoomLevel / 1.3));
-        zoomResetBtn?.addEventListener("click", () => setZoom(1.0));
-
-        canvasViewport?.addEventListener("wheel", (e) => {
-            if (e.ctrlKey || currentTool === "zoom") {
-                e.preventDefault();
-                const delta = e.deltaY < 0 ? 1.15 : 0.85;
-                setZoom(zoomLevel * delta);
-            }
-        }, { passive: false });
-
-      
-        function getCoords(e) {
-            const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            } else if (e.changedTouches && e.changedTouches.length > 0) {
-                clientX = e.changedTouches[0].clientX;
-                clientY = e.changedTouches[0].clientY;
-            }
-
-            const x = ((clientX - rect.left) / rect.width) * canvas.width;
-            const y = ((clientY - rect.top) / rect.height) * canvas.height;
-
-            return {
-                x: Math.max(0, Math.min(canvas.width, x)),
-                y: Math.max(0, Math.min(canvas.height, y)),
-                clientX,
-                clientY
-            };
-        }
-
-        function trackBounds(x, y, radius = 5) {
-            strokeBounds.minX = Math.min(strokeBounds.minX, x - radius);
-            strokeBounds.minY = Math.min(strokeBounds.minY, y - radius);
-            strokeBounds.maxX = Math.max(strokeBounds.maxX, x + radius);
-            strokeBounds.maxY = Math.max(strokeBounds.maxY, y + radius);
-        }
-
-        function drawStroke(tool, x0, y0, x1, y1, color, size) {
-            ctx.save();
-            ctx.strokeStyle = (tool === "eraser") ? (isDarkMode ? "#121212" : "#ffffff") : color;
-            ctx.fillStyle = (tool === "eraser") ? (isDarkMode ? "#121212" : "#ffffff") : color;
-
-            if (tool === "pencil") {
-                ctx.lineWidth = Math.max(1, size);
-                ctx.lineCap = "butt";
-                ctx.lineJoin = "miter";
-                ctx.beginPath();
-                ctx.moveTo(x0, y0);
-                ctx.lineTo(x1, y1);
-                ctx.stroke();
-            } else if (tool === "brush" || tool === "eraser") {
-                ctx.lineWidth = Number(size);
-                ctx.lineCap = "round";
-                ctx.lineJoin = "round";
-                ctx.beginPath();
-                ctx.moveTo(x0, y0);
-                ctx.lineTo(x1, y1);
-                ctx.stroke();
-            } else if (tool === "curve") {
-                ctx.lineWidth = Number(size);
-                ctx.lineCap = "square";
-                ctx.lineJoin = "miter";
-                ctx.beginPath();
-                ctx.moveTo(x0, y0);
-                ctx.lineTo(x1, y1);
-                ctx.stroke();
-            } else if (tool === "calligraphy") {
-                const dist = Math.hypot(x1 - x0, y1 - y0);
-                const steps = Math.max(1, Math.floor(dist));
-                const angle = Math.PI / 4;
-                const w = size * 1.5;
-                const dx = (Math.cos(angle) * w) / 2;
-                const dy = (Math.sin(angle) * w) / 2;
-
-                for (let i = 0; i <= steps; i++) {
-                    const cx = x0 + (x1 - x0) * (i / steps);
-                    const cy = y0 + (y1 - y0) * (i / steps);
-                    ctx.beginPath();
-                    ctx.moveTo(cx - dx, cy - dy);
-                    ctx.lineTo(cx + dx, cy + dy);
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
-            }
-            ctx.restore();
-            trackBounds(x0, y0, Number(size));
-            trackBounds(x1, y1, Number(size));
-        }
-
-        function drawSpray(x, y, color, size) {
-            ctx.save();
-            ctx.fillStyle = color;
-            const radius = Number(size) * 2.5;
-            const dotCount = Math.max(6, Number(size) * 2);
-
-            for (let i = 0; i < dotCount; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const r = Math.random() * radius;
-                ctx.fillRect(x + Math.cos(angle) * r, y + Math.sin(angle) * r, 1, 1);
-            }
-            ctx.restore();
-            trackBounds(x, y, radius);
-        }
-
-        function drawShape(shape, x0, y0, x1, y1, color, size) {
-            ctx.save();
-            ctx.strokeStyle = color;
-            ctx.lineWidth = Number(size);
-            ctx.lineCap = "round";
-            ctx.beginPath();
-
-            if (shape === "line") {
-                ctx.moveTo(x0, y0);
-                ctx.lineTo(x1, y1);
-            } else if (shape === "rect") {
-                ctx.strokeRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0));
-                ctx.restore();
-                trackBounds(x0, y0); trackBounds(x1, y1);
-                return;
-            } else if (shape === "roundrect") {
-                const rx = Math.min(x0, x1), ry = Math.min(y0, y1), w = Math.abs(x1 - x0), h = Math.abs(y1 - y0);
-                ctx.roundRect ? ctx.roundRect(rx, ry, w, h, 6) : ctx.strokeRect(rx, ry, w, h);
-            } else if (shape === "ellipse") {
-                const rx = Math.abs(x1 - x0) / 2;
-                const ry = Math.abs(y1 - y0) / 2;
-                const cx = Math.min(x0, x1) + rx;
-                const cy = Math.min(y0, y1) + ry;
-                ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-            }
-            ctx.stroke();
-            ctx.restore();
-            trackBounds(x0, y0); trackBounds(x1, y1);
-        }
-
-        toolButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                toolButtons.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentTool = btn.id.replace("tool-", "");
-                canvas.style.cursor = (currentTool === "pan") ? "grab" : "crosshair";
-            });
-        });
-
-        brushSlider?.addEventListener("input", (e) => {
-            currentSize = Number(e.target.value);
-            if (sliderVal) sliderVal.textContent = currentSize;
-        });
-
-        function setColor(hex) {
-            currentColor = hex;
-            if (activeColorIndicator) activeColorIndicator.style.background = hex;
-            if (brushColorInput) brushColorInput.value = hex;
-        }
-
-        colorBoxes.forEach(box => {
-            box.addEventListener("click", () => setColor(box.dataset.color));
-        });
-
-        brushColorInput?.addEventListener("input", (e) => setColor(e.target.value));
-
-        darkToggleBtn?.addEventListener("click", () => {
-            isDarkMode = !isDarkMode;
-            canvasHolder.classList.toggle("light-mode", !isDarkMode);
-            drawBackground();
-            if (isDarkMode && currentColor === "#000000") setColor("#ffffff");
-            else if (!isDarkMode && currentColor === "#ffffff") setColor("#000000");
-        });
-
-        clearBtn?.addEventListener("click", () => {
-            if (confirm("limpar os traços do quadro?")) {
-                saveUndoState();
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-        });
-
-        function startDrawing(e) {
-            const pos = getCoords(e);
-
-            if (currentTool === "pan" || e.button === 1 || e.altKey) {
-                isPanning = true;
-                panStartX = pos.clientX;
-                panStartY = pos.clientY;
-                panScrollLeft = canvasViewport.scrollLeft;
-                panScrollTop = canvasViewport.scrollTop;
-                canvas.style.cursor = "grabbing";
-                return;
-            }
-
-            e.preventDefault();
-            e.stopPropagation();
-            try { canvas.setPointerCapture?.(e.pointerId); } catch(err){}
-
-            saveUndoState();
-            isDrawing = true;
-            startX = pos.x;
-            startY = pos.y;
-            lastX = pos.x;
-            lastY = pos.y;
-            strokeBounds = { minX: pos.x, minY: pos.y, maxX: pos.x, maxY: pos.y };
-
-            if (currentTool === "zoom") {
-                setZoom(zoomLevel >= 2 ? 1.0 : zoomLevel * 1.5);
-                isDrawing = false;
-                return;
-            }
-
-            if (currentTool === "pipette") {
-                const p = ctx.getImageData(pos.x, pos.y, 1, 1).data;
-                const hex = "#" + ((1 << 24) + (p[0] << 16) + (p[1] << 8) + p[2]).toString(16).slice(1);
-                setColor(hex);
-                isDrawing = false;
-                return;
-            }
-
-            if (currentTool === "bucket") {
-                ctx.fillStyle = currentColor;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                isDrawing = false;
-                autoSaveLayer(0, 0, canvas.width, canvas.height);
-                return;
-            }
-
-            if (currentTool === "spray") {
-                drawSpray(pos.x, pos.y, currentColor, currentSize);
-                sprayInterval = setInterval(() => {
-                    if (isDrawing) drawSpray(lastX, lastY, currentColor, currentSize);
-                }, 35);
-                return;
-            }
-
-            if (["line", "rect", "roundrect", "ellipse"].includes(currentTool)) {
-                previewSnapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                return;
-            }
-
-            drawStroke(currentTool, lastX, lastY, lastX, lastY, currentColor, currentSize);
-        }
-
-        function moveDrawing(e) {
-            const pos = getCoords(e);
-
-            if (isPanning) {
-                const dx = pos.clientX - panStartX;
-                const dy = pos.clientY - panStartY;
-                canvasViewport.scrollLeft = panScrollLeft - dx;
-                canvasViewport.scrollTop = panScrollTop - dy;
-                return;
-            }
-
-            if (coordsDisplay) coordsDisplay.textContent = `X: ${Math.round(pos.x)}, Y: ${Math.round(pos.y)}`;
-
-            if (!isDrawing) return;
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (currentTool === "spray") {
-                lastX = pos.x;
-                lastY = pos.y;
-                return;
-            }
-
-            if (["line", "rect", "roundrect", "ellipse"].includes(currentTool)) {
-                if (previewSnapshot) ctx.putImageData(previewSnapshot, 0, 0);
-                drawShape(currentTool, startX, startY, pos.x, pos.y, currentColor, currentSize);
-                return;
-            }
-
-            drawStroke(currentTool, lastX, lastY, pos.x, pos.y, currentColor, currentSize);
-            lastX = pos.x;
-            lastY = pos.y;
-        }
-
-        function endDrawing() {
-            if (isPanning) {
-                isPanning = false;
-                canvas.style.cursor = (currentTool === "pan") ? "grab" : "crosshair";
-            }
-
-            if (!isDrawing) return;
-            if (sprayInterval) {
-                clearInterval(sprayInterval);
-                sprayInterval = null;
-            }
-
-            isDrawing = false;
-            previewSnapshot = null;
-
-            // Auto-save leve da camada
-            const pad = 10;
-            const x = Math.max(0, Math.floor(strokeBounds.minX - pad));
-            const y = Math.max(0, Math.floor(strokeBounds.minY - pad));
-            const w = Math.min(canvas.width - x, Math.ceil(strokeBounds.maxX - strokeBounds.minX + pad * 2));
-            const h = Math.min(canvas.height - y, Math.ceil(strokeBounds.maxY - strokeBounds.minY + pad * 2));
-
-            if (w > 0 && h > 0) {
-                autoSaveLayer(x, y, w, h);
-            }
-        }
-
-        canvas.addEventListener("pointerdown", startDrawing, { passive: false });
-        window.addEventListener("pointermove", moveDrawing, { passive: false });
-        window.addEventListener("pointerup", endDrawing);
-        window.addEventListener("pointercancel", endDrawing);
-
-        // ==========================================
-        // AUTO-SAVE E GERENCIAMENTO DE CAMADAS FIREBASE
-        // ==========================================
-        let loadedLayers = new Map();
-        let firestoreDb = null;
-        let deleteDocFn = null;
-
-        async function initFirebaseLayers() {
-            try {
-                const { initializeApp, getApps, getApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-                const { getFirestore, collection, addDoc, doc, deleteDoc, onSnapshot, query, orderBy, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-                const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-
-                const firebaseConfig = {
-                    apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
-                    authDomain: "minkurosu.firebaseapp.com",
-                    projectId: "minkurosu",
-                    storageBucket: "minkurosu.firebasestorage.app",
-                    messagingSenderId: "290821725607",
-                    appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
-                    measurementId: "G-M7PWC6DDRH"
-                };
-
-                const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-                firestoreDb = getFirestore(app);
-                deleteDocFn = deleteDoc;
-
-                // Verificação de Admin Autenticado
-                const auth = getAuth(app);
-                onAuthStateChanged(auth, user => {
-                    const isAuthAdmin = user && user.email === 'mincruzm@gmail.com';
-                    const isLocalAdmin = localStorage.getItem('admin_authenticated') === 'true' || localStorage.getItem('minkurosu_admin') === 'true';
-                    isAdmin = Boolean(isAuthAdmin || isLocalAdmin);
-                    updateAdminUI();
-                    rebuildAdminOverlays();
-                });
-
-                // Listener em Tempo Real
-                const layersQ = query(collection(firestoreDb, "board_layers"), orderBy("timestamp", "asc"));
-                onSnapshot(layersQ, snapshot => {
-                    snapshot.docChanges().forEach(change => {
-                        const id = change.doc.id;
-                        const data = change.doc.data();
-
-                        if (change.type === "added") {
-                            loadedLayers.set(id, data);
-                            renderLayerToCanvas(data);
-                        } else if (change.type === "removed") {
-                            loadedLayers.delete(id);
-                            redrawAllLayers();
-                        }
-                    });
-                    rebuildAdminOverlays();
-                });
-            } catch(e) {
-                console.warn("firebase bg:", e);
-            }
-        }
-
-        function renderLayerToCanvas(layer) {
-            if (!layer.image) return;
-            const img = new Image();
-            img.onload = () => {
-                ctx.drawImage(img, layer.x, layer.y, layer.w, layer.h);
-            };
-            img.src = layer.image;
-        }
-
-        function redrawAllLayers() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            loadedLayers.forEach(layer => renderLayerToCanvas(layer));
-        }
-
-        async function autoSaveLayer(x, y, w, h) {
-            if (!firestoreDb) return;
-            try {
-                const { collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-
-                const snippetCanvas = document.createElement("canvas");
-                snippetCanvas.width = w;
-                snippetCanvas.height = h;
-                const sctx = snippetCanvas.getContext("2d");
-                sctx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
-
-                const dataUrl = snippetCanvas.toDataURL("image/png");
-
-                await addDoc(collection(firestoreDb, "board_layers"), {
-                    x, y, w, h,
-                    image: dataUrl,
-                    timestamp: serverTimestamp()
-                });
-            } catch(e) {
-                console.warn("auto-save:", e);
-            }
-        }
-
-        // Lixeiras Individuais (Apenas Admin)
-        function rebuildAdminOverlays() {
-            if (!adminOverlay) return;
-            adminOverlay.innerHTML = "";
-            if (!isAdmin) return;
-
-            loadedLayers.forEach((layer, id) => {
-                const box = document.createElement("div");
-                box.className = "admin-layer-box";
-                box.style.left = layer.x + "px";
-                box.style.top = layer.y + "px";
-                box.style.width = layer.w + "px";
-                box.style.height = layer.h + "px";
-
-                const delBtn = document.createElement("button");
-                delBtn.className = "admin-delete-btn";
-                delBtn.innerHTML = "🗑";
-                delBtn.title = "Apagar";
-
-                delBtn.addEventListener("click", async (e) => {
-                    e.stopPropagation();
-                    if (confirm("apagar este desenho?")) {
-                        try {
-                            const { doc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-                            await deleteDocFn(doc(firestoreDb, "board_layers", id));
-                        } catch(err) {
-                            alert("erro: " + err.message);
-                        }
-                    }
-                });
-
-                box.appendChild(delBtn);
-                adminOverlay.appendChild(box);
-            });
-        }
-
-        initFirebaseLayers();
-    })();
-    </script>
 </div>
