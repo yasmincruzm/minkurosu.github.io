@@ -670,5 +670,19 @@ segundo vigotski, nos constituímos e nos transformamos no contato com o outro, 
     <script async src="https://www.instagram.com/embed.js"></script>
 
 </body>
-
+<script type="module" src="coleta.js"></script>
+<script>
+    (function () {
+        function startTracking() {
+            if (typeof window.trackPage === 'function') {
+                window.trackPage('psi');
+            }
+        }
+        if (window._trackerReadyFired) {
+            startTracking();
+        } else {
+            window.addEventListener('tracker:ready', startTracking, { once: true });
+        }
+    })();
+</script>
 </html>
