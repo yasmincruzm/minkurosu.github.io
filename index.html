@@ -71,7 +71,7 @@
 
 
     <meta charset="UTF-8">
-<meta name="viewport" content="width=1920px, initial-scale=0.4, maximum-scale=3.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
 
 <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
 
@@ -185,14 +185,14 @@ div#goog-gt- {
             margin-top: 0.25rem;
             text-decoration: none;
             transition: color 0.2s ease;
-            color: #4b4b4b;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            color: var(--emo-text-muted);
+            text-shadow: var(--emo-text-shadow);
         }
 
         a:hover {
-            color: #570000;
+            color: var(--emo-text-hover);
             text-decoration: none;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-shadow: var(--emo-text-shadow);
         }
 
 
@@ -200,26 +200,25 @@ div#goog-gt- {
             border-radius: 1.25rem;
             text-align: center;
             margin: 0 auto;
-            width: 50rem;
-            min-width: 50rem;
+            width: 100%;
             max-width: 50rem;
             box-sizing: border-box;
 
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-shadow: var(--emo-text-shadow);
         }
 
         #container {
 
             padding: 1.25rem;
             border-radius: 1.25rem;
-            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+            box-shadow: var(--emo-shadow-lg);
             text-align: center;
             margin: 0 auto;
             width: 100%;
             max-width: 50rem;
             box-sizing: border-box;
 
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-shadow: var(--emo-text-shadow);
         }
 
 
@@ -614,7 +613,7 @@ div#goog-gt- {
     align-items: center;
     gap: 6px;
     font-size: 0.8rem;
-    color: #4b4b4b;
+    color: var(--emo-text-muted);
     margin-bottom: 2px;
 }
 .blog-post .post-title {
@@ -677,6 +676,66 @@ div#goog-gt- {
     height: 100%;
     border: none;
     display: block;
+}
+
+/* ---------------------------------------------------
+   mobile — mesmo estilo, só reorganizando o que era
+   fixo em px/colunas de desktop pro viewport real
+--------------------------------------------------- */
+@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+    #containerprincipal,
+    #container {
+        max-width: 100%;
+    }
+    .about-me-container {
+        flex-direction: column;
+        height: auto;
+    }
+    .slideshow-area {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+    }
+    #gallery {
+        column-count: 2;
+    }
+    .galeria-pin {
+        column-count: 2 !important;
+    }
+    .image-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .picrew-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .playlist-section-item {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .playlist-text {
+        flex: 1 1 auto;
+        max-width: 100%;
+        text-align: center;
+    }
+    .avatar-ring {
+        width: 160px;
+        height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    #gallery {
+        column-count: 1;
+    }
+    .galeria-pin {
+        column-count: 1 !important;
+    }
+    .image-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .picrew-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
     </style>
 </head>
