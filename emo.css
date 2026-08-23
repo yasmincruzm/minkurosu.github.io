@@ -7,10 +7,7 @@
   src: url(fonts/minFont.ttf) format('truetype');
 }
 
-/* ---------------------------------------------------
-   paleta de cores (organizada a partir das cores já
-   usadas no site — nenhuma cor nova foi adicionada)
---------------------------------------------------- */
+
 :root {
   --emo-bg-dark: #0a0a0a;
   --emo-bg-box: #141414;
@@ -1548,11 +1545,7 @@ th {
   .caption-text { font-size: 1rem; }
 }
 
-/* ---------------------------------------------------
-   otimização mobile — mesmo estilo, apenas ajustando
-   larguras fixas e organização do layout para telas
-   pequenas (sem efeitos novos)
---------------------------------------------------- */
+
 @media (max-width: 900px) {
   body > .layout-with-sidebars {
     grid-template-columns: 1fr !important;
