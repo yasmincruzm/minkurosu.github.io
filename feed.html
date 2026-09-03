@@ -161,6 +161,18 @@
 
 
 
+
+  <div class="feed-cell" onclick="expandCell(this, 'imgs/feed/yoga.jpg', 'imgs/feed/yoga.jpg')">
+          <img class="thumb-img" src="imgs/feed/yoga.jpg" alt="first yoga session" loading="lazy" />
+          <div class="hover-hint"></div>
+          <div class="full-img-wrap">
+            <img alt="first yoga session" />
+            <button class="close-btn" onclick="event.stopPropagation(); collapseCell(this.closest('.feed-cell'))">&times;</button>
+          </div>
+          <div class="caption-text">first yoga session</div>
+        </div>
+
+
   <div class="feed-cell" onclick="expandCell(this, 'imgs/feed/bacardi.jpg', 'imgs/feed/bacardi.jpg')">
           <img class="thumb-img" src="imgs/feed/bacardi.jpg" alt="bf's concert - @signsteelers" loading="lazy" />
           <div class="hover-hint"></div>

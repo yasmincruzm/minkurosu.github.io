@@ -81,14 +81,14 @@
             margin-left: auto;
             margin-right: auto;
             column-count: 3;
-            column-gap: 15px;
+            column-gap: 8px;
         }
 
         .image-container {
             display: inline-block;
             width: 100%;
-            margin-bottom: 15px;
-            padding: 5px;
+            margin-bottom: 6px;
+            padding: 2px;
             text-align: center;
             break-inside: avoid;
             border-radius: 0px;
@@ -107,6 +107,58 @@
             display: block;
         }
 
+/*
+	IMAGE CREDITS
+	Map from: http://www.davidrumsey.com/maps3700.html
+	Digital images and descriptive data © 2000 by Cartography Associates.
+	'Images may be reproduced or transmitted, but not for commercial use. For commercial use or commercial republication, contact carto@luna-img.com. This work is licensed under a Creative Commons License. By downloading any images from this site, you agree to the terms of that license.'
+*/
+.frame-figure {
+	width:						100%;
+	max-width:				545px;
+	margin:						0.2em auto;
+	break-inside:			avoid;
+	}
+.frame-figure,
+.frame-figure * {
+	box-sizing:				border-box;
+	}
+.frame-figure .outerBevel { /* of frame */
+	box-shadow:				4px 6px 12px 0 black;
+	border-width:			5px;
+	border-style:			solid;
+	border-color:			rgb(109, 84, 58) rgb(24, 19, 13) rgb(24, 19, 13) rgb(109, 84, 58);
+	}
+.frame-figure .flatSurface { /* of frame */
+	border:						12px solid rgb(65, 40, 16);
+	}
+.frame-figure .innerBevel { /* of frame */
+	border-width:			5px;
+	border-style:			solid;
+	border-color:			rgb(24, 19, 13)	rgb(109, 84, 58) rgb(109, 84, 58) rgb(24, 19, 13);
+	}
+.frame-figure .innerBevel a[data-fancybox="gallery"] {
+	display:					block;
+	width:						auto;
+	height:						auto;
+	overflow:					visible;
+	border-radius:		0;
+	line-height:			0;
+	}
+.frame-figure .innerBevel a[data-fancybox="gallery"] img {
+	width:						100%;
+	height:						auto;
+	object-fit:				unset;
+	}
+.frame-figure .map { /* including mat and gold beveled edge of mat */
+	display:					block;
+	width:						100%;
+	padding:					7.5% 7.5% 10% 7.5%; /* Mat width */
+	background-color:	rgb(255,249,224); 	/* Mat color */
+	border-width:			3px;	/* Gold edge of mat */
+	border-style:			solid;
+	border-color:			rgb(207, 166, 0) rgb(207, 166, 0) rgb(145, 110, 0) rgb(145, 110, 0);
+	}
 
 </style>
 <div id="container">
@@ -304,8 +356,8 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
              westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="marked-link">garden psychedelia</a>,
               <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="marked-link">sign steelers</a>,
                <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="marked-link">pusher174</a>, ghost, 
-               korn, linkin park, rita lee, mitski, ls dunes, lady gaga, chappel roan, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down,
-                ptv, ls dunes, pitty, the hives, crystal castles, pinkpantheress, green day, HIM, garbage, tv girl, lil peep</td>
+               korn, linkin park, rita lee, mitski, ls dunes, destroy boys, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down,
+                ptv, pitty, the hives, crystal castles, pinkpantheress, green day, HIM, garbage, tv girl, lil peep</td>
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">games</td>
@@ -412,26 +464,97 @@ also, know that have a boyfriend, so if you're here to harass me or push my boun
 
     <div id="gallery">
         <h2>art by you sz </h2>
+        
         <div class="image-container">
-            <img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/byAllanHiker.jpg" data-caption="by @allanhiker">
+                                <img src="imgs/artbyyou/byAllanHiker.jpg" alt="by @allanhiker" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/gatoemo.webp" data-caption="sent by straw.page">
+                                <img src="imgs/artbyyou/gatoemo.webp" alt="sent by straw.page" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/h_wallacepires.jpg" data-caption="by @h_wallacepires">
+                                <img src="imgs/artbyyou/h_wallacepires.jpg" alt="by @h_wallacepires" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/brasilsilsil.webp" alt="straw.page">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/games/transformice/saki.png" data-caption="straw.page">
+                                <img src="imgs/games/transformice/saki.png" alt="straw.page" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" data-caption="sent by instagram">
+                                <img src="imgs/artbyyou/Screenshot_20250718_175121_Gallery.jpg" alt="sent by instagram" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" data-caption="sent by instagram">
+                                <img src="imgs/artbyyou/Screenshot_20250718_175137_Gallery.jpg" alt="sent by instagram" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
         <div class="image-container">
-            <img src="imgs/artbyyou/a.jpg" alt="sent by instagram">
+            <figure class="frame-figure desaturatepics">
+                <div class="outerBevel">
+                    <div class="flatSurface">
+                        <div class="innerBevel">
+                            <a data-fancybox="gallery" href="imgs/artbyyou/a.jpg" data-caption="sent by instagram">
+                                <img src="imgs/artbyyou/a.jpg" alt="sent by instagram" class="map">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </figure>
         </div>
 
     </div>
