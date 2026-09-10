@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, collection, query, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-
+import { mountReactions } from './reactions.js';
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
     authDomain: "minkurosu.firebaseapp.com",
@@ -75,10 +75,10 @@ async function loadDreams() {
             `;
             dreamsContainer.appendChild(dreamElement);
 
-            const reactionsBox = dreamElement.querySelector('.dream-reactions-box');
-            if (reactionsBox) {
-                reactionsBox.innerHTML = `<ws-widget type="reactions" name="dream_${dreamId}" wid="11" auto></ws-widget>`;
-            }
+       const reactionsBox = dreamElement.querySelector('.dream-reactions-box');
+if (reactionsBox) {
+  mountReactions(reactionsBox, { targetId: "dream_" + dreamId });
+}
 
             dreamNumber--;
         });

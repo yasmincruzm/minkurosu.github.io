@@ -20,6 +20,8 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+import { mountReactions } from './reactions.js';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -200,7 +202,6 @@ style.textContent = `
     width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; flex-shrink: 0;
   }
 
-  /* inline edit form */
   #thoughts-root .edit-form { margin-top: 5px; }
   #thoughts-root .edit-form textarea {
     width: 100%; background: #252525; border: 1px solid #3A3A3A;
@@ -258,7 +259,7 @@ style.textContent = `
   #thoughts-root #compose-post button:hover { background: #2da0c7; }
   #thoughts-root #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
-  #thoughts-root .post-actions { display: flex; gap: 20px; margin: 4px 15px; align-items: center; }
+  #thoughts-root .post-actions { display: flex; gap: 20px; margin: 4px 15px; align-items: center; flex-wrap: wrap; }
   #thoughts-root .action-button {
     display: flex; align-items: center; gap: 6px;
     color: #E1E8ED; cursor: pointer; font-size: 13px; font-weight: 500;
@@ -270,11 +271,6 @@ style.textContent = `
   #thoughts-root .action-button.liked svg { fill: currentColor; stroke: currentColor; }
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box {
     display: flex; align-items: center; margin: 0;
-  }
-  #thoughts-root #tweets-container li .post-actions .twt-reactions-box,
-  #thoughts-root #tweets-container li .post-actions .twt-reactions-box ws-widget {
-    border: none !important;
-    box-shadow: none !important;
   }
 `;
 document.head.appendChild(style);
@@ -654,16 +650,20 @@ function buildPostEl(id, data) {
   });
   actionsDiv.appendChild(likeBtn);
 
+  // ── Reações (novo sistema) ──────────────────────────────
   const reactionsBox = document.createElement("div");
   reactionsBox.className = "twt-reactions-box";
-  reactionsBox.innerHTML = `<ws-widget type="reactions" name="twt_${id}" wid="11" auto></ws-widget>`;
   actionsDiv.appendChild(reactionsBox);
 
   li.querySelector(".info").appendChild(actionsDiv);
 
+  // monta o sistema novo de reações
+  mountReactions(reactionsBox, { targetId: "twt_" + id });
+  // ────────────────────────────────────────────────────────
+
   li.addEventListener("click", e => {
     if (e.target.closest(
-      "a, button, .twt-menu-btn, .twt-dropdown, .edit-form, input, textarea, .action-button, .twt-reactions-box, ws-widget"
+      "a, button, .twt-menu-btn, .twt-dropdown, .edit-form, input, textarea, .action-button, .twt-reactions-box, .mink-reactions-wrapper"
     )) return;
     li.classList.toggle("expanded");
   });
@@ -693,7 +693,7 @@ if (!container) {
   onSnapshot(q, snapshot => {
     cachedDocs = [];
     container.innerHTML = "";
-
+ind
     if (snapshot.empty) {
       container.innerHTML = `
         <li style="justify-content:center;padding:20px;color:#667580;">

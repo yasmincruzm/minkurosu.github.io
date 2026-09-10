@@ -15,7 +15,6 @@
 <script type="text/javascript" 
   src="//livetrafficfeed.com/static/v5/livetrafficfeed.js">
 </script>
-<script src="https://u.widget.st/ar.js"></script>
 <meta name="kicya-site-verification" content="9a3a144838a941cfdaeb9cfcd023280e1d83a4c8d6069f5dbd42dbcb6ba21791">
     <script type="module" src="firebase-config.js"></script>
     <script src="lastfm-widget.js"></script>
@@ -105,6 +104,32 @@ body{
   text-align: center;
 }
 
+.sidebar-reactions-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.sidebar-reactions-inline .mink-reactions-wrapper {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.sidebar-reactions-inline .mink-reactions-list {
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.sidebar-reactions-inline .mink-reaction-add-btn {
+  flex-shrink: 0;
+}
+
 
 #google_translate_element .goog-te-gadget-simple {
   background-color: #1a1a1a !important;
@@ -150,11 +175,6 @@ div#goog-gt- {
   overflow: hidden !important;
 }
 
-.profile-rating-box,
-.profile-rating-box ws-widget {
-  border: none !important;
-  box-shadow: none !important;
-}
 
         .social-links {
             display: flex;
@@ -827,7 +847,6 @@ div#goog-gt- {
 <div id="google_translate_element"></div>
 
 <div class="profile-rating-box" style="margin-top: 10px; border: none; box-shadow: none;">
-  <ws-widget type="rating" name="profile" wid="SEU_WID_AQUI" auto></ws-widget>
 </div>
 
 <script>
@@ -962,7 +981,18 @@ mrnGoTo(0);
   setInterval(fetchDiscordActivity, 30000);
 </script>
 
-                    </div>
+    <div class="sidebar-reactions-box" data-reactions="sidebar_home"></div>
+<div class="sidebar-reactions-box sidebar-reactions-inline" data-reactions="sidebar_home"></div>
+<script type="module">
+  import { mountReactions } from './reactions.js';
+
+  const sidebarReactBox = document.querySelector('.sidebar-reactions-box[data-reactions="sidebar_home"]');
+  if (sidebarReactBox) {
+    mountReactions(sidebarReactBox, { targetId: "sidebar_home" });
+  }
+</script>
+
+     <hr>
 <div style="
   color: #b30f0f;
   font-weight: bold;

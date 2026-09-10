@@ -598,39 +598,40 @@ gatilhado muito tambem, morro de vontade de viajar pra l√° e visitar forks tamb√
             </div>
 
 <script type="module">
-        function setupBlogReactions() {
-            document.querySelectorAll(".blog-post").forEach((postEl, index) => {
-                const titleEl = postEl.querySelector(".post-title");
-                const rawTitle = titleEl ? titleEl.textContent.trim() : ("entry_" + index);
-                const targetId = "blog_" + rawTitle.toLowerCase().replace(/[^a-z0-9]/g, "_");
+  import { mountReactions } from './reactions.js';
 
-                let reactBox = postEl.querySelector(".blog-reactions-box");
-                if (!reactBox) {
-                    reactBox = document.createElement("div");
-                    reactBox.className = "blog-reactions-box";
-                    reactBox.style.cssText = "margin-top: 14px; margin-bottom: 8px; border: none;";
-                    
-                    const divider = postEl.querySelector(".post-divider");
-                    if (divider) {
-                        postEl.insertBefore(reactBox, divider);
-                    } else {
-                        postEl.appendChild(reactBox);
-                    }
-                }
+  function setupBlogReactions() {
+    document.querySelectorAll(".blog-post").forEach((postEl, index) => {
+      const titleEl = postEl.querySelector(".post-title");
+      const rawTitle = titleEl ? titleEl.textContent.trim() : ("entry_" + index);
+      const targetId = "blog_" + rawTitle.toLowerCase().replace(/[^a-z0-9]/g, "_");
 
-                if (!reactBox._mounted) {
-                    reactBox.innerHTML = `<ws-widget type="reactions" name="${targetId}" wid="11" auto></ws-widget>`;
-                    reactBox._mounted = true;
-                }
-            });
-        }
+      let reactBox = postEl.querySelector(".blog-reactions-box");
+      if (!reactBox) {
+        reactBox = document.createElement("div");
+        reactBox.className = "blog-reactions-box";
+        reactBox.style.cssText = "margin-top: 14px; margin-bottom: 8px;";
 
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", setupBlogReactions);
+        const divider = postEl.querySelector(".post-divider");
+        if (divider) {
+          postEl.insertBefore(reactBox, divider);
         } else {
-            setupBlogReactions();
+          postEl.appendChild(reactBox);
         }
-    </script>
+      }
+      if (!reactBox._mounted) {
+        reactBox._mounted = true;
+        mountReactions(reactBox, { targetId });
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupBlogReactions);
+  } else {
+    setupBlogReactions();
+  }
+</script>
 
         </main>
     </div>
