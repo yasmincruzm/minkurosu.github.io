@@ -7,15 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-(function () {
-    sessionStorage.redirect = location.pathname + location.search + location.hash;
-    location.replace('/');
-})();
- 
 
-
-
-
+function initializeDrag() {
     interact('.draggable')
         .draggable({
             inertia: false,

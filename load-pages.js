@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const PAGE_ALIASES = {
         'comissions': 'commission',
         'commissions': 'commission',
-        'comission': 'commission'
+        'comission': 'commission',
+        'posts': 'posts'
     };
 
     function resolvePage(pageName) {
@@ -161,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (typeof inicializarLastFmWidget === 'function') inicializarLastFmWidget();
                             if (typeof window.loadDreams === 'function') window.loadDreams();
                             if (typeof window.initializeDrag === 'function' && mainContainer.querySelector('.draggable')) window.initializeDrag();
+                            if (typeof window.initAutoReactions === 'function') window.initAutoReactions();
                         } catch (e) {
                             console.error('[load-pages] widget init falhou:', e);
                         }
@@ -169,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     notifySession(pageName);
 
                     document.querySelectorAll('.nav-link').forEach(l => {
-                        l.classList.toggle('active', l.getAttribute('data-page') === pageName);
+                        l.classList.toggle('active', resolvePage(l.getAttribute('data-page')) === pageName);
                     });
                 } catch (e) {
                     console.error('[load-pages] pós-processamento falhou:', e);

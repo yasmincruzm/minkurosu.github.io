@@ -53,8 +53,9 @@ async function loadDreams() {
 
         let dreamNumber = querySnapshot.size;
 
-        querySnapshot.forEach(doc => {
-            const dream = doc.data();
+        querySnapshot.forEach(docSnap => {
+            const dreamId = docSnap.id;
+            const dream = docSnap.data();
             const dreamElement = document.createElement('div');
             dreamElement.classList.add('blog-post');
 
@@ -69,9 +70,16 @@ async function loadDreams() {
             dreamElement.innerHTML = `
                <h1>${escapeHtml(title)}</h1>
                <p>${safeContent}</p>
+               <div class="dream-reactions-box"></div>
                <hr class="post-divider">
             `;
             dreamsContainer.appendChild(dreamElement);
+
+            const reactionsBox = dreamElement.querySelector('.dream-reactions-box');
+            if (reactionsBox) {
+                reactionsBox.innerHTML = `<ws-widget type="reactions" name="dream_${dreamId}" wid="11" auto></ws-widget>`;
+            }
+
             dreamNumber--;
         });
 

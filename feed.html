@@ -48,7 +48,7 @@
   .feed-cell.expanded {
     grid-column: 1 / -1;
     aspect-ratio: unset;
-    overflow: hidden;
+    overflow: visible;
     cursor: default;
     display: flex;
     flex-direction: column;
@@ -59,6 +59,8 @@
     max-width: 100%;
     box-sizing: border-box;
     animation: expandIn 0.2s ease;
+    position: relative;
+    z-index: 3;
   }
   @keyframes expandIn {
     from { opacity: 0.6; transform: scaleY(0.95); }
@@ -116,12 +118,31 @@
     padding: 0.75rem 0.25rem 0;
     box-sizing: border-box;
     color: inherit;
-    text-align: center;
+    text-align: left;
   }
   .feed-cell.expanded .caption-text { display: block; }
+
+  .feed-reactions-box {
+    display: none;
+    width: 100%;
+    margin-top: 0.1rem;
+  }
+  .feed-cell.expanded .feed-reactions-box { display: block; }
+  .feed-reactions-box ws-widget,
+  .feed-reactions-box { border: none !important; box-shadow: none !important; }
+
+  .feed-expand-divider {
+    display: none;
+    width: 100%;
+    margin: 0.9rem 0 0;
+    border: none;
+    border-top: 1px solid currentColor;
+    opacity: 0.15;
+  }
+  .feed-cell.expanded .feed-expand-divider { display: block; }
 </style>
 
-<div class="grid-feed">
+<div class="grid-feed" data-expand-grid>
 
 
         <div class="feed-cell" onclick="expandCell(this, 'imgs/feed/morcego.png', 'imgs/feed/morcego.png')">
@@ -3426,35 +3447,65 @@ hey, babe, your hair's alright, hey, babe, let's go out tonight</div>
 </div>
 
 <script>
+  (function () {
+    function slugify(src) {
+      return (src || "")
+        .replace(/^.*\//, "")
+        .replace(/\.[a-z0-9]+$/i, "")
+        .replace(/[^a-zA-Z0-9]/g, "_");
+    }
 
-   var expandedCell = null;
+    function loadWidgetScript() {
+      if (window.__wsWidgetReady) return window.__wsWidgetReady;
+      window.__wsWidgetReady = new Promise(resolve => {
+        const s = document.createElement("script");
+        s.src = "https://u.widget.st/ar.js";
+        s.onload = () => resolve();
+        s.onerror = () => resolve(); // não trava a caixa mesmo se o widget falhar
+        document.head.appendChild(s);
+      });
+      return window.__wsWidgetReady;
+    }
 
-function expandCell(cell, href, src) {
-  if (cell.classList.contains('expanded')) {
-    collapseCell(cell);
-    return;
-  }
-  if (expandedCell && expandedCell !== cell) collapseCell(expandedCell);
-  var fullImg = cell.querySelector('.full-img-wrap img');
-  fullImg.src = href;
-  cell.classList.add('expanded');
-  expandedCell = cell;
-  setTimeout(function() {
-    cell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, 30);
-}
+    function ensureReactionBox(cell) {
+      if (cell.querySelector(".feed-reactions-box")) return;
+      const img = cell.querySelector(".thumb-img");
+      const slug = slugify(img && img.getAttribute("src"));
+      const name = "feed_" + (slug || Math.random().toString(36).slice(2));
 
-function collapseCell(cell) {
-  var fullImg = cell.querySelector('.full-img-wrap img');
-  fullImg.src = '';
-  cell.classList.remove('expanded');
-  if (expandedCell === cell) expandedCell = null;
-}
+      const box = document.createElement("div");
+      box.className = "feed-reactions-box";
 
-document.addEventListener('click', function(e) {
-  if (expandedCell && !expandedCell.contains(e.target) && !e.target.closest('.grid-feed')) {
-    collapseCell(expandedCell);
-  }
-});
-  
+      const caption = cell.querySelector(".caption-text");
+      if (caption) {
+        caption.insertAdjacentElement("afterend", box);
+      } else {
+        cell.appendChild(box);
+      }
+
+      const divider = document.createElement("hr");
+      divider.className = "feed-expand-divider";
+      box.insertAdjacentElement("afterend", divider);
+
+      loadWidgetScript().then(() => {
+        box.innerHTML = `<ws-widget type="reactions" name="${name}" wid="11" auto></ws-widget>`;
+      });
+    }
+
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(m => {
+        if (m.type === "attributes" && m.attributeName === "class") {
+          const cell = m.target;
+          if (cell.classList.contains("feed-cell") && cell.classList.contains("expanded")) {
+            ensureReactionBox(cell);
+          }
+        }
+      });
+    });
+
+    document.querySelectorAll(".feed-cell").forEach(cell => {
+      observer.observe(cell, { attributes: true, attributeFilter: ["class"] });
+    });
+  })();
 </script>
+<script type="module" src="expand-cells.js"></script>

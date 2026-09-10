@@ -1,4 +1,4 @@
-import { initializeApp, getApps }     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, getApps }      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getStorage,
@@ -20,289 +20,270 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 const firebaseConfig = {
-    apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
-    authDomain: "minkurosu.firebaseapp.com",
-    projectId: "minkurosu",
-    storageBucket: "minkurosu.firebasestorage.app",
-    messagingSenderId: "290821725607",
-    appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
-    measurementId: "G-M7PWC6DDRH"
+  apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+  authDomain: "minkurosu.firebaseapp.com",
+  projectId: "minkurosu",
+  storageBucket: "minkurosu.firebasestorage.app",
+  messagingSenderId: "290821725607",
+  appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
+  measurementId: "G-M7PWC6DDRH"
 };
 
-const ADMIN_EMAIL = "mincruzm@gmail.com"; 
+const ADMIN_EMAIL = "mincruzm@gmail.com";
 
-const app  = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const app     = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
 const storage = getStorage(app);
 
 let isAdmin = false;
 
 onAuthStateChanged(auth, user => {
   isAdmin = !!(user && user.email === ADMIN_EMAIL);
-
   const composeBox = document.getElementById("compose-post");
   if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";
-
   rerenderAll();
 });
 
+
 const style = document.createElement("style");
 style.textContent = `
-  #thoughts-root #tweets-container li { position: relative; }
-
-  .twt-menu-btn {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    background: transparent;
-    border: none;
-    color: #555;
-    cursor: pointer;
-    font-size: 20px;
-    line-height: 1;
-    padding: 2px 8px;
-    border-radius: 6px;
-    transition: background 0.15s, color 0.15s;
-    z-index: 10;
-  }
-  .twt-menu-btn:hover { background: #2a2a2a; color: #E1E8ED; }
-
-  .twt-dropdown {
-    display: none;
-    position: absolute;
-    top: 34px;
-    right: 12px;
-    background: #252525;
-    border: 1px solid #3A3A3A;
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
-    z-index: 20;
-    min-width: 140px;
+  #thoughts-root {
+    background: #1A1A1A;
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 100px;
     overflow: hidden;
-    animation: ddIn 0.15s ease;
+    max-width: 100%;
+  }
+  #thoughts-root *, #thoughts-root *::before, #thoughts-root *::after {
+    box-sizing: border-box;
+  }
+  #thoughts-root .container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 30px;
+    justify-content: space-between;
+    background-color: #1A1A1A;
+    box-sizing: border-box;
+  }
+  #thoughts-root div.banner {
+    width: 100%;
+    height: 380px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #3BB9E3;
+  }
+  #thoughts-root div.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #thoughts-root .bar {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    background-color: #1A1A1A;
+    box-shadow: 0 1px 1px #000000B0;
+  }
+  #thoughts-root .bar .container { align-items: center; padding-left: 285px; }
+  #thoughts-root .bar .container ul { display: flex; height: 100%; list-style: none; }
+  #thoughts-root .bar .container ul li {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; padding: 0 15px; margin: 0 15px; position: relative;
+  }
+  #thoughts-root .bar .container ul li.active::after {
+    content: ''; left: 0; width: 100%; height: 3px;
+    bottom: 0; position: absolute; background: #3BB9E3;
+  }
+  #thoughts-root .bar .container ul li span { color: #B3B3B3; font-size: 12px; font-weight: bold; }
+  #thoughts-root .bar .container ul li strong { color: #E1E8ED; font-size: 18px; margin-top: 2px; font-weight: bold; }
+  #thoughts-root .bar .container ul li.active strong { color: #3BB9E3; }
+  #thoughts-root .bar .container .actions button {
+    width: 90px; height: 34px; display: flex; align-items: center; justify-content: center;
+    margin-right: 20px; border: 0px; color: #E1E8ED; font-size: 14px; font-weight: bold;
+    border-radius: 16px; border: 1px solid #E1E8ED; background-color: #1A1A1A;
+  }
+  #thoughts-root .bar .container .actions { display: flex; }
+  #thoughts-root .wrapper-content { display: flex; justify-content: center; }
+  #thoughts-root .wrapper-content aside.profile { width: 260px; }
+  #thoughts-root .wrapper-content aside.profile img.avatar {
+    width: 200px; height: 200px; border-radius: 50%;
+    margin-top: -130px; border: 5px solid #1A1A1A;
+  }
+  #thoughts-root .wrapper-content aside.profile h1 { font-size: 21px; margin-top: 10px; color: #E1E8ED; }
+  #thoughts-root .wrapper-content aside.profile span { font-size: 14px; color: #B3B3B3; }
+  #thoughts-root .wrapper-content aside.profile p { font-size: 14px; color: #E1E8ED; margin-top: 15px; }
+  #thoughts-root .wrapper-content aside.profile ul { margin-top: 20px; list-style: none; }
+  #thoughts-root .wrapper-content aside.profile ul.list li {
+    font-size: 14px; color: #B3B3B3; display: flex; margin-top: 5px; align-items: center;
+  }
+  #thoughts-root .wrapper-content aside.profile li:first-child { margin: 0; }
+  #thoughts-root .wrapper-content aside.profile ul.list img { margin-right: 10px; filter: invert(100%); }
+  #thoughts-root .wrapper-content aside.profile .widget { margin-top: 20px; }
+  #thoughts-root .wrapper-content aside.profile .widget strong {
+    font-weight: normal; color: #3BB9E3; font-size: 14px; display: flex; align-items: center;
+  }
+  #thoughts-root .wrapper-content aside.profile .widget strong img { margin-right: 5px; filter: invert(100%); }
+  #thoughts-root .wrapper-content aside.profile .followers ul {
+    display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; list-style: none;
+  }
+  #thoughts-root .wrapper-content aside.profile .followers ul li {
+    height: 45px; width: 45px; flex: 1 0 auto; border-radius: 50%; background: #252525; margin: 0 5px 10px 0px;
+  }
+  #thoughts-root .wrapper-content aside.profile .images ul {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; list-style: none;
+  }
+  #thoughts-root .wrapper-content aside.profile .images li {
+    width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; background: #252525;
+  }
+  #thoughts-root .wrapper-content aside.profile .images li img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 8px;
+  }
+  #thoughts-root .wrapper-content .timeline {
+    flex: 1; background: #1A1A1A; margin: 10px 20px 0px; min-width: 0;
+  }
+  #thoughts-root .wrapper-content .timeline .timeline-divider {
+    border-bottom: 1px solid #3A3A3A; margin-bottom: 0;
+  }
+  #thoughts-root #tweets-container { list-style: none; padding: 0; margin: 0; }
+  #thoughts-root #tweets-container li {
+    border-bottom: 1px solid #3A3A3A; padding: 10px 15px; display: flex;
+    position: relative; cursor: pointer; transition: background-color 0.15s ease;
+  }
+  #thoughts-root #tweets-container li:hover { background-color: #202020; }
+  #thoughts-root #tweets-container li > img { width: 48px; height: 48px; border-radius: 50%; }
+  #thoughts-root #tweets-container li .info {
+    margin-left: 10px; display: flex; flex-direction: column; width: 100%; min-width: 0;
+  }
+  #thoughts-root #tweets-container li .info strong {
+    font-size: 14px; color: #E1E8ED; display: flex; align-items: center; flex-wrap: wrap; gap: 0.25em;
+  }
+  #thoughts-root #tweets-container li .info strong span { font-size: 13px; color: #B3B3B3; font-weight: normal; }
+  #thoughts-root #tweets-container li .info p {
+    font-size: 14px; color: #E1E8ED; margin-top: 5px; word-wrap: break-word;
+  }
+
+  #thoughts-root .twt-menu-btn {
+    position: absolute; top: 10px; right: 12px;
+    background: transparent; border: none; color: #555;
+    cursor: pointer; font-size: 20px; line-height: 1;
+    padding: 2px 8px; border-radius: 6px;
+    transition: background 0.15s, color 0.15s; z-index: 10;
+  }
+  #thoughts-root .twt-menu-btn:hover { background: #2a2a2a; color: #E1E8ED; }
+  #thoughts-root .twt-dropdown {
+    display: none; position: absolute; top: 34px; right: 12px;
+    background: #252525; border: 1px solid #3A3A3A; border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6); z-index: 20;
+    min-width: 140px; overflow: hidden; animation: ddIn 0.15s ease;
   }
   @keyframes ddIn {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-  .twt-dropdown.open { display: block; }
-
-  .twt-dropdown-btn {
-    width: 100%;
-    padding: 10px 14px;
-    background: transparent;
-    border: none;
-    color: #bf6a6a;
-    font-size: 13px;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  #thoughts-root .twt-dropdown.open { display: block; }
+  #thoughts-root .twt-dropdown-btn {
+    width: 100%; padding: 10px 14px; background: transparent; border: none;
+    color: #bf6a6a; font-size: 13px; font-family: "Helvetica Neue", Arial, sans-serif;
+    text-align: left; cursor: pointer; display: flex; align-items: center; gap: 8px;
     transition: background 0.15s;
   }
-  .twt-dropdown-btn:hover { background: #2a2020; }
-  .twt-dropdown-btn svg {
-    width: 14px; height: 14px;
-    fill: none; stroke: currentColor; stroke-width: 2;
-    flex-shrink: 0;
+  #thoughts-root .twt-dropdown-btn:hover { background: #2a2020; }
+  #thoughts-root .twt-dropdown-btn svg {
+    width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; flex-shrink: 0;
   }
 
-  #compose-post {
-    display: none;
-    background: #1A1A1A;
-    border-bottom: 1px solid #3A3A3A;
-    padding: 15px;
+  /* inline edit form */
+  #thoughts-root .edit-form { margin-top: 5px; }
+  #thoughts-root .edit-form textarea {
+    width: 100%; background: #252525; border: 1px solid #3A3A3A;
+    border-radius: 8px; padding: 10px; color: #E1E8ED; font-size: 14px;
+    resize: vertical; min-height: 60px; margin-bottom: 8px; box-sizing: border-box;
   }
-  #compose-post .compose-body {
-    display: flex;
-    gap: 10px;
+  #thoughts-root .edit-form .edit-actions { display: flex; justify-content: flex-end; gap: 10px; }
+  #thoughts-root .edit-form .edit-save {
+    background: #3BB9E3; color: #FFF; border: none; border-radius: 16px;
+    padding: 6px 14px; font-weight: bold; cursor: pointer; font-size: 13px;
   }
-  #compose-post .compose-body img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    flex-shrink: 0;
+  #thoughts-root .edit-form .edit-cancel {
+    background: transparent; color: #B3B3B3; border: 1px solid #3A3A3A;
+    border-radius: 16px; padding: 6px 14px; cursor: pointer; font-size: 13px;
   }
-  #compose-post .compose-fields {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+
+  #thoughts-root #compose-post {
+    display: none; background: #1A1A1A; border-bottom: 1px solid #3A3A3A; padding: 15px;
   }
-  #compose-post textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    resize: vertical;
-    min-height: 60px;
-    color: #E1E8ED;
-    font-size: 15px;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    outline: none;
+  #thoughts-root #compose-post .compose-body { display: flex; gap: 10px; }
+  #thoughts-root #compose-post .compose-body img { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
+  #thoughts-root #compose-post .compose-fields { display: flex; flex-direction: column; width: 100%; }
+  #thoughts-root #compose-post textarea {
+    width: 100%; background: transparent; border: none; resize: vertical; min-height: 60px;
+    color: #E1E8ED; font-size: 15px; font-family: "Helvetica Neue", Arial, sans-serif; outline: none;
   }
-  #compose-post input[type="text"] {
-    background: #252525;
-    border: 1px solid #3A3A3A;
-    border-radius: 8px;
-    padding: 8px 10px;
-    color: #E1E8ED;
-    font-size: 13px;
-    margin-top: 8px;
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
+  #thoughts-root #compose-post input[type="text"] {
+    background: #252525; border: 1px solid #3A3A3A; border-radius: 8px;
+    padding: 8px 10px; color: #E1E8ED; font-size: 13px; margin-top: 8px; outline: none;
+    width: 100%; box-sizing: border-box;
   }
-  #compose-post .compose-image-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    align-items: center;
-  }
-  #compose-post .compose-image-row input[type="text"] {
-    margin-top: 0;
-    flex: 1;
-  }
-  #compose-post .compose-upload-btn {
-    flex-shrink: 0;
-    background: #252525;
-    border: 1px solid #3A3A3A;
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: #B3B3B3;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
+  #thoughts-root #compose-post .compose-image-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  #thoughts-root #compose-post .compose-image-row input[type="text"] { margin-top: 0; flex: 1; }
+  #thoughts-root #compose-post .compose-upload-btn {
+    flex-shrink: 0; background: #252525; border: 1px solid #3A3A3A; border-radius: 8px;
+    padding: 8px 12px; color: #B3B3B3; font-size: 13px; cursor: pointer; white-space: nowrap;
     transition: background 0.15s, color 0.15s;
   }
-  #compose-post .compose-upload-btn:hover {
-    background: #2a2a2a;
-    color: #E1E8ED;
+  #thoughts-root #compose-post .compose-upload-btn:hover { background: #2a2a2a; color: #E1E8ED; }
+  #thoughts-root #compose-post .compose-image-preview { display: none; position: relative; margin-top: 10px; width: fit-content; }
+  #thoughts-root #compose-post .compose-image-preview.active { display: block; }
+  #thoughts-root #compose-post .compose-image-preview img { max-width: 160px; max-height: 160px; border-radius: 8px; display: block; }
+  #thoughts-root #compose-post .compose-image-remove {
+    position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%;
+    background: #1A1A1A; border: 1px solid #3A3A3A; color: #E1E8ED; font-size: 13px; line-height: 1;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
   }
-  #compose-post .compose-image-preview {
-    display: none;
-    position: relative;
-    margin-top: 10px;
-    width: fit-content;
+  #thoughts-root #compose-post .compose-image-remove:hover { background: #bf6a6a; }
+  #thoughts-root #compose-post .compose-upload-hint { font-size: 11px; color: #667580; margin-top: 4px; }
+  #thoughts-root #compose-post .compose-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
+  #thoughts-root #compose-post button {
+    background: #3BB9E3; color: #FFF; border: none; border-radius: 16px;
+    padding: 8px 18px; font-weight: bold; cursor: pointer;
   }
-  #compose-post .compose-image-preview.active {
-    display: block;
-  }
-  #compose-post .compose-image-preview img {
-    max-width: 160px;
-    max-height: 160px;
-    border-radius: 8px;
-    display: block;
-  }
-  #compose-post .compose-image-remove {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #1A1A1A;
-    border: 1px solid #3A3A3A;
-    color: #E1E8ED;
-    font-size: 13px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  #compose-post .compose-image-remove:hover { background: #bf6a6a; }
-  #compose-post .compose-upload-hint {
-    font-size: 11px;
-    color: #667580;
-    margin-top: 4px;
-  }
-  #compose-post .compose-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  #compose-post button {
-    background: #3BB9E3;
-    color: #FFF;
-    border: none;
-    border-radius: 16px;
-    padding: 8px 18px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  #compose-post button:hover { background: #2da0c7; }
-  #compose-post button:disabled { background: #2a4a56; cursor: default; }
+  #thoughts-root #compose-post button:hover { background: #2da0c7; }
+  #thoughts-root #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
-  .edit-form { margin-top: 5px; }
-  .edit-form textarea {
-    width: 100%;
-    background: #252525;
-    border: 1px solid #3A3A3A;
-    border-radius: 8px;
-    padding: 10px;
-    color: #E1E8ED;
-    font-size: 14px;
-    resize: vertical;
-    min-height: 60px;
-    margin-bottom: 8px;
-    box-sizing: border-box;
+  #thoughts-root .post-actions { display: flex; gap: 20px; margin: 4px 15px; align-items: center; }
+  #thoughts-root .action-button {
+    display: flex; align-items: center; gap: 6px;
+    color: #E1E8ED; cursor: pointer; font-size: 13px; font-weight: 500;
   }
-  .edit-form .edit-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  .edit-form .edit-save {
-    background: #3BB9E3;
-    color: #FFF;
-    border: none;
-    border-radius: 16px;
-    padding: 6px 14px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 13px;
-  }
-  .edit-form .edit-cancel {
-    background: transparent;
-    color: #B3B3B3;
-    border: 1px solid #3A3A3A;
-    border-radius: 16px;
-    padding: 6px 14px;
-    cursor: pointer;
-    font-size: 13px;
-  }
-
-  /* Post clicavel: clicar nele expande/recolhe e revela as reacoes.
-     So o .twt-reactions-box e afetado -- nada aqui toca .grid-feed nem
-     .feed-cell do feed.html, entao a grade de fotos do feed nao e afetada. */
-  #thoughts-root #tweets-container li {
-    cursor: pointer;
-    transition: background-color 0.15s ease;
-  }
-  #thoughts-root #tweets-container li:hover {
-    background-color: #202020;
-  }
+  #thoughts-root .action-button:hover { color: #ffffff; }
+  #thoughts-root .action-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  #thoughts-root .action-button.liked,
+  #thoughts-root .action-button.liked:hover { color: #E0245E; }
+  #thoughts-root .action-button.liked svg { fill: currentColor; stroke: currentColor; }
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box {
-    display: flex;
-    align-items: center;
-    margin: 0;
+    display: flex; align-items: center; margin: 0;
   }
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box,
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box ws-widget {
     border: none !important;
     box-shadow: none !important;
   }
-
 `;
 document.head.appendChild(style);
+
 
 function formatDate(ts) {
   if (!ts) return "";
   const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
+  return d.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
 }
 
 function escHtml(str) {
@@ -317,20 +298,16 @@ function stripTrailingPunctuation(url) {
   const trailChars = /[).,;:!?'"\]}]$/;
   let core = url;
   let trail = "";
-
   while (trailChars.test(core)) {
     const lastChar = core.slice(-1);
-
     if (lastChar === ")") {
       const opens = (core.match(/\(/g) || []).length;
       const closes = (core.match(/\)/g) || []).length;
       if (closes <= opens) break;
     }
-
     trail = lastChar + trail;
     core = core.slice(0, -1);
   }
-
   return { core, trail };
 }
 
@@ -345,9 +322,7 @@ function linkify(text) {
   return escHtml(text)
     .replace(/(https?:\/\/[^\s<]+)/g, raw => {
       const { core, trail } = stripTrailingPunctuation(raw);
-      if (isEmbeddableUrl(core)) {
-        return trail;
-      }
+      if (isEmbeddableUrl(core)) return trail;
       return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
     })
     .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
@@ -358,17 +333,15 @@ function buildEmbedHtml(url) {
     return `<img src="${escHtml(url)}" alt="" loading="lazy"
       style="max-width:100%;border-radius:10px;margin-top:10px;display:block;">`;
   }
-
   let m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/);
   if (m) {
     return `<div style="margin-top:10px;border-radius:10px;overflow:hidden;position:relative;padding-top:56.25%;">
-      <iframe src="https://www.youtube.com/embed/${m[1]}" title="YouTube video"
+      <iframe src="https://www.youtube.com/embed/${m[1]}" title="youtube video"
         style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen loading="lazy"></iframe>
     </div>`;
   }
-
   m = url.match(/open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/);
   if (m) {
     const height = m[1] === "track" || m[1] === "episode" ? 152 : 352;
@@ -378,7 +351,6 @@ function buildEmbedHtml(url) {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>`;
   }
-
   return "";
 }
 
@@ -397,7 +369,6 @@ function buildEmbeds(text) {
 
 async function createPost() {
   if (!isAdmin) return;
-
   const box = document.getElementById("compose-post");
   const textEl = document.getElementById("compose-text");
   const urlEl = document.getElementById("compose-image");
@@ -407,38 +378,30 @@ async function createPost() {
   const content = textEl.value.trim();
   const pastedUrl = urlEl.value.trim();
   const file = fileEl.files[0];
-
   if (!content && !pastedUrl && !file) return;
 
   submitBtn.disabled = true;
-
   try {
     let imageUrl = pastedUrl || "";
-
     if (file) {
-      submitBtn.textContent = "enviando imagem...";
+      submitBtn.textContent = "uploading image...";
       const path = `posts/${Date.now()}_${file.name}`;
       const fileRef = storageRef(storage, path);
       await uploadBytes(fileRef, file);
       imageUrl = await getDownloadURL(fileRef);
     }
-
-    submitBtn.textContent = "postando...";
-
+    submitBtn.textContent = "posting...";
     await addDoc(collection(db, "posts"), {
-      content,
-      imageUrl,
-      timestamp: serverTimestamp()
+      content, imageUrl, timestamp: serverTimestamp()
     });
-
     textEl.value = "";
     if (box && box._clearImageSelection) box._clearImageSelection();
   } catch (err) {
-    console.error("Erro ao postar:", err);
-    alert("Não foi possível criar o post.");
+    console.error("error:", err);
+    alert("error");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "postar";
+    submitBtn.textContent = "post";
   }
 }
 
@@ -453,21 +416,21 @@ function injectComposeBox() {
     <div class="compose-body">
       <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
       <div class="compose-fields">
-        <textarea id="compose-text" placeholder="o que você está pensando?"></textarea>
+        <textarea id="compose-text" placeholder="what's on your mind?"></textarea>
         <div class="compose-image-row">
-          <input type="text" id="compose-image" placeholder="URL da imagem (opcional)">
-          <label class="compose-upload-btn" for="compose-image-file">upar imagem</label>
+          <input type="text" id="compose-image" placeholder="image url (optional)">
+          <label class="compose-upload-btn" for="compose-image-file">upload image</label>
           <input type="file" id="compose-image-file" accept="image/*" hidden>
         </div>
-        <div class="compose-upload-hint">cole um link de imagem da internet ou envie uma imagem do seu dispositivo</div>
+        <div class="compose-upload-hint">upload</div>
         <div id="compose-image-preview" class="compose-image-preview">
           <img id="compose-image-preview-img" src="" alt="preview">
-          <button type="button" class="compose-image-remove" id="compose-image-remove" title="remover imagem">×</button>
+          <button type="button" class="compose-image-remove" id="compose-image-remove" title="remove image">×</button>
         </div>
       </div>
     </div>
     <div class="compose-actions">
-      <button id="compose-submit">postar</button>
+      <button id="compose-submit">post</button>
     </div>
   `;
   container.parentNode.insertBefore(box, container);
@@ -482,7 +445,6 @@ function injectComposeBox() {
     previewImg.src = src;
     preview.classList.add("active");
   }
-
   function clearImageSelection() {
     fileInput.value = "";
     urlInput.value = "";
@@ -512,8 +474,6 @@ function injectComposeBox() {
   });
 
   removeBtn.addEventListener("click", () => clearImageSelection());
-
-  box.dataset.clearImage = "true";
   box._clearImageSelection = clearImageSelection;
 
   document.getElementById("compose-submit").addEventListener("click", createPost);
@@ -521,15 +481,15 @@ function injectComposeBox() {
 }
 
 async function deletePost(id, liEl) {
-  if (!confirm("Apagar este post?")) return;
+  if (!confirm("delete this post?")) return;
   try {
     await deleteDoc(doc(db, "posts", id));
     liEl.style.transition = "opacity 0.3s";
     liEl.style.opacity = "0";
     setTimeout(() => liEl.remove(), 310);
   } catch (err) {
-    console.error("Erro ao deletar:", err);
-    alert("Não foi possível deletar o post.");
+    console.error("error:", err);
+    alert("error");
   }
 }
 
@@ -537,8 +497,8 @@ async function saveEdit(id, newContent) {
   try {
     await updateDoc(doc(db, "posts", id), { content: newContent });
   } catch (err) {
-    console.error("Erro ao editar:", err);
-    alert("Não foi possível editar o post.");
+    console.error("error:", err);
+    alert("error");
   }
 }
 
@@ -546,7 +506,6 @@ function enterEditMode(id, liEl, currentContent) {
   const infoDiv = liEl.querySelector(".info");
   const pEl = infoDiv.querySelector("p");
   if (!pEl) return;
-
   pEl.style.display = "none";
 
   const form = document.createElement("div");
@@ -554,11 +513,10 @@ function enterEditMode(id, liEl, currentContent) {
   form.innerHTML = `
     <textarea class="edit-textarea"></textarea>
     <div class="edit-actions">
-      <button class="edit-cancel">cancelar</button>
-      <button class="edit-save">salvar</button>
+      <button class="edit-cancel">cancel</button>
+      <button class="edit-save">save</button>
     </div>
   `;
-
   const textarea = form.querySelector(".edit-textarea");
   textarea.value = currentContent;
 
@@ -572,7 +530,6 @@ function enterEditMode(id, liEl, currentContent) {
     e.stopPropagation();
     const newContent = textarea.value.trim();
     if (!newContent) return;
-
     await saveEdit(id, newContent);
     pEl.innerHTML = linkify(newContent);
     const embedsEl = infoDiv.querySelector(".post-embeds");
@@ -584,6 +541,7 @@ function enterEditMode(id, liEl, currentContent) {
   infoDiv.appendChild(form);
 }
 
+
 function buildPostEl(id, data) {
   const li = document.createElement("li");
 
@@ -594,7 +552,7 @@ function buildPostEl(id, data) {
 
   const isImported = data.source === "twitter";
   const importedBadge = isImported
-    ? ` · <span title="importado do X" style="color:#3BB9E3;">𝕏</span>`
+    ? ` · <span title="imported from x" style="color:#3BB9E3;">𝕏</span>`
     : "";
 
   li.innerHTML = `
@@ -610,8 +568,8 @@ function buildPostEl(id, data) {
   if (isAdmin) {
     const menuBtn = document.createElement("button");
     menuBtn.className = "twt-menu-btn";
-    menuBtn.title = "opções";
-    menuBtn.setAttribute("aria-label", "opções do post");
+    menuBtn.title = "options";
+    menuBtn.setAttribute("aria-label", "post options");
     menuBtn.textContent = "⋯";
 
     const dropdown = document.createElement("div");
@@ -625,16 +583,14 @@ function buildPostEl(id, data) {
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
         </svg>
-        editar post
+        edit post
       `;
       editBtn.style.color = "#B3B3B3";
-
       editBtn.addEventListener("click", e => {
         e.stopPropagation();
         dropdown.classList.remove("open");
         enterEditMode(id, li, data.content || "");
       });
-
       dropdown.appendChild(editBtn);
     }
 
@@ -647,15 +603,13 @@ function buildPostEl(id, data) {
         <path d="M10 11v6"/><path d="M14 11v6"/>
         <path d="M9 6V4h6v2"/>
       </svg>
-      apagar post
+      delete post
     `;
-
     deleteBtn.addEventListener("click", e => {
       e.stopPropagation();
       dropdown.classList.remove("open");
       deletePost(id, li);
     });
-
     dropdown.appendChild(deleteBtn);
     menuBtn.appendChild(dropdown);
 
@@ -666,9 +620,7 @@ function buildPostEl(id, data) {
       });
       dropdown.classList.toggle("open");
     });
-
     document.addEventListener("click", () => dropdown.classList.remove("open"));
-
     li.appendChild(menuBtn);
   }
 
@@ -684,7 +636,6 @@ function buildPostEl(id, data) {
                a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
   `;
-
   const storageKey = `liked_${id}`;
   if (localStorage.getItem(storageKey)) likeBtn.classList.add("liked");
 
@@ -695,21 +646,18 @@ function buildPostEl(id, data) {
     alreadyLiked
       ? localStorage.removeItem(storageKey)
       : localStorage.setItem(storageKey, "1");
-
     try {
       await updateDoc(doc(db, "posts", id), { likes: increment(delta) });
     } catch {
       likeBtn.classList.toggle("liked");
     }
   });
-
   actionsDiv.appendChild(likeBtn);
 
   const reactionsBox = document.createElement("div");
   reactionsBox.className = "twt-reactions-box";
   reactionsBox.innerHTML = `<ws-widget type="reactions" name="twt_${id}" wid="11" auto></ws-widget>`;
   actionsDiv.appendChild(reactionsBox);
-  reactionsBox._minkMounted = true;
 
   li.querySelector(".info").appendChild(actionsDiv);
 
@@ -717,12 +665,12 @@ function buildPostEl(id, data) {
     if (e.target.closest(
       "a, button, .twt-menu-btn, .twt-dropdown, .edit-form, input, textarea, .action-button, .twt-reactions-box, ws-widget"
     )) return;
-
     li.classList.toggle("expanded");
   });
 
   return li;
 }
+
 
 injectComposeBox();
 
@@ -738,7 +686,7 @@ function rerenderAll() {
 }
 
 if (!container) {
-  console.warn("twt-loader: #tweets-container não encontrado");
+  console.warn("posts.js: #tweets-container not found");
 } else {
   const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
@@ -749,7 +697,7 @@ if (!container) {
     if (snapshot.empty) {
       container.innerHTML = `
         <li style="justify-content:center;padding:20px;color:#667580;">
-          nenhum post ainda.
+          no posts yet.
         </li>`;
       return;
     }
@@ -760,10 +708,10 @@ if (!container) {
       container.appendChild(buildPostEl(docSnap.id, data));
     });
   }, err => {
-    console.error("twt-loader snapshot error:", err);
+    console.error("posts.js snapshot error:", err);
     container.innerHTML = `
       <li style="justify-content:center;padding:20px;color:#bf6a6a;">
-        erro ao carregar posts.
+        error loading posts.
       </li>`;
   });
 }
