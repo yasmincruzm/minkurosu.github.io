@@ -3768,10 +3768,7 @@
   import { mountReactions } from './reactions.js';
 
   function slugify(src) {
-    return (src || "")
-      .replace(/^.*\//, "")
-      .replace(/\.[a-z0-9]+$/i, "")
-      .replace(/[^a-zA-Z0-9]/g, "_");
+    return (src || "").replace(/^.*\//, "").replace(/\.[a-z0-9]+$/i, "").replace(/[^a-zA-Z0-9]/g, "_");
   }
 
   function ensureReactionBox(cell) {
@@ -3782,13 +3779,9 @@
 
     const box = document.createElement("div");
     box.className = "feed-reactions-box";
-
     const caption = cell.querySelector(".caption-text");
-    if (caption) {
-      caption.insertAdjacentElement("afterend", box);
-    } else {
-      cell.appendChild(box);
-    }
+    if (caption) caption.insertAdjacentElement("afterend", box);
+    else cell.appendChild(box);
 
     const divider = document.createElement("hr");
     divider.className = "feed-expand-divider";
@@ -3801,9 +3794,8 @@
     mutations.forEach(m => {
       if (m.type === "attributes" && m.attributeName === "class") {
         const cell = m.target;
-        if (cell.classList.contains("feed-cell") && cell.classList.contains("expanded")) {
+        if (cell.classList.contains("feed-cell") && cell.classList.contains("expanded"))
           ensureReactionBox(cell);
-        }
       }
     });
   });

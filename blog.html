@@ -611,15 +611,10 @@ gatilhado muito tambem, morro de vontade de viajar pra l√° e visitar forks tamb√
         reactBox = document.createElement("div");
         reactBox.className = "blog-reactions-box";
         reactBox.style.cssText = "margin-top: 14px; margin-bottom: 8px;";
-
         const divider = postEl.querySelector(".post-divider");
-        if (divider) {
-          postEl.insertBefore(reactBox, divider);
-        } else {
-          postEl.appendChild(reactBox);
-        }
+        if (divider) postEl.insertBefore(reactBox, divider);
+        else postEl.appendChild(reactBox);
       }
-
       if (!reactBox._mounted) {
         reactBox._mounted = true;
         mountReactions(reactBox, { targetId });
@@ -627,11 +622,10 @@ gatilhado muito tambem, morro de vontade de viajar pra l√° e visitar forks tamb√
     });
   }
 
-  if (document.readyState === "loading") {
+  if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", setupBlogReactions);
-  } else {
+  else
     setupBlogReactions();
-  }
 </script>
 
         </main>

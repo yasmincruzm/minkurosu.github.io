@@ -31,25 +31,42 @@ export function setReactionsAdmin(value) {
     if (typeof w._rerender === "function") w._rerender();
   });
 }
-
 window.setReactionsAdmin = setReactionsAdmin;
 
-const UNICODE_EMOJIS = [
-  "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩",
-  "😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐",
-  "🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒",
-  "🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟",
-  "🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣",
-  "😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👻","👽",
-  "👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆",
-  "👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💅","🤳",
-  "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🙈",
-  "🍎","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🥑",
-  "🏠","🏡","🏢","🏥","🏦","🏨","🏫","🏭","🏰","💒","🗼","🗽","⛪","🕌","🕍","🛕",
-  "⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥊","🥋","⛳","⛸️","🎿","🛷",
-  "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖",
-  "⭐","🌟","✨","⚡","🔥","💥","❄️","🌈","☀️","🌙","☁️","☔","⛅","🌊","🌪️","🌫️"
-];
+const UNICODE_CATEGORIES = {
+  faces: [
+    "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩",
+    "😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐",
+    "🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒",
+    "🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟",
+    "🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣",
+    "😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👻","👽"
+  ],
+  hands: [
+    "👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆",
+    "👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💅","🤳"
+  ],
+  animals: [
+    "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🙈",
+    "🙉","🙊","🐒","🐔","🐧","🐦","🐤","🐣","🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄"
+  ],
+  food: [
+    "🍎","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🥑",
+    "🍆","🥔","🥕","🌽","🌶️","🥒","🥬","🥦","🍄","🥜","🍞","🥐","🥖","🥨","🧀","🍕"
+  ],
+  objects: [
+    "🏠","🏡","🏢","🏥","🏦","🏨","🏫","🏭","🏰","💒","🗼","🗽","⛪","🕌","🕍","🛕",
+    "⌚","📱","💻","⌨️","🖥️","🖨️","🖱️","💡","🔦","📷","📹","🎥","📺","📻","🎙️","🎧"
+  ],
+  symbols: [
+    "⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥊","🥋","⛳","⛸️","🎿","🛷",
+    "🎯","🎮","🕹️","🎲","♟️","🎰","🎳","🎪","🎭","🎨","🎬","🎤","🎼","🎵","🎶","🔔"
+  ],
+  hearts: [
+    "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖",
+    "💘","💝","💟","♥️","♦️","✨","⭐","🌟","💫","⚡","🔥","💥","❄️","🌈","☀️","🌙"
+  ]
+};
 
 let reactionImagesPromise = null;
 
@@ -86,18 +103,27 @@ export async function mountReactions(container, opts = {}) {
   if (!container || !opts.targetId) return null;
 
   const targetId = escId(opts.targetId);
+
   const imageReactions = await loadReactionImages();
-  const unicodeItems = UNICODE_EMOJIS.map(e => ({
-    id: "emoji_" + slug(e),
-    name: e,
-    emoji: e
-  }));
 
   const optionsById = new Map();
   imageReactions.forEach(o => optionsById.set(o.id, o));
-  unicodeItems.forEach(o => optionsById.set(o.id, o));
 
-  const allItems = [...imageReactions, ...unicodeItems];
+  const categories = {
+    brilho: imageReactions,
+    faces:    UNICODE_CATEGORIES.faces.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    hands:    UNICODE_CATEGORIES.hands.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    animals:  UNICODE_CATEGORIES.animals.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    food:     UNICODE_CATEGORIES.food.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    objects:  UNICODE_CATEGORIES.objects.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    symbols:  UNICODE_CATEGORIES.symbols.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e })),
+    hearts:   UNICODE_CATEGORIES.hearts.map(e => ({ id: "emoji_" + slug(e), name: e, emoji: e }))
+  };
+
+  Object.values(categories).forEach(list => {
+    list.forEach(o => { if (!optionsById.has(o.id)) optionsById.set(o.id, o); });
+  });
+
   const ADD_ICON = container.dataset.addIcon || "imgs/emotes/add-reaction.png";
 
   container.innerHTML = `
@@ -170,9 +196,7 @@ export async function mountReactions(container, opts = {}) {
         if (!confirm("Apagar essa reação para todo mundo?")) return;
         try {
           await setDoc(docRef, {}, { merge: true });
-          await updateDoc(docRef, {
-            [`counts.${reactionId}`]: deleteField()
-          });
+          await updateDoc(docRef, { [`counts.${reactionId}`]: deleteField() });
         } catch (err) {
           console.error("[reactions] erro ao apagar:", err);
           alert("erro ao apagar reação");
@@ -205,10 +229,20 @@ export async function mountReactions(container, opts = {}) {
 
   wrapper._rerender = () => renderList(lastCounts);
 
-  /* ── picker ── */
   picker.innerHTML = `
     <div class="picker-header">
       <input type="text" class="picker-search" placeholder="Search">
+      <span class="picker-handwave">👋</span>
+    </div>
+    <div class="picker-tabs">
+      <button type="button" class="picker-tab-btn active" data-cat="brilho" title="brilho">✨</button>
+      <button type="button" class="picker-tab-btn" data-cat="faces" title="faces">😀</button>
+      <button type="button" class="picker-tab-btn" data-cat="hands" title="hands">👋</button>
+      <button type="button" class="picker-tab-btn" data-cat="animals" title="animals">🐱</button>
+      <button type="button" class="picker-tab-btn" data-cat="food" title="food">🍎</button>
+      <button type="button" class="picker-tab-btn" data-cat="objects" title="objects">🏠</button>
+      <button type="button" class="picker-tab-btn" data-cat="symbols" title="symbols">⚽</button>
+      <button type="button" class="picker-tab-btn" data-cat="hearts" title="hearts">❤️</button>
     </div>
     <div class="picker-body"><div class="picker-grid"></div></div>
     <div class="picker-footer">
@@ -225,17 +259,24 @@ export async function mountReactions(container, opts = {}) {
 
   const searchEl = picker.querySelector(".picker-search");
   const gridEl   = picker.querySelector(".picker-grid");
+  const tabBtns  = [...picker.querySelectorAll(".picker-tab-btn")];
+  let currentCat = "brilho";
 
   function renderGrid() {
     const q = searchEl.value.trim().toLowerCase();
-    let items = allItems;
-    if (q) items = items.filter(it => (it.name || "").toLowerCase().includes(q));
+    let items = categories[currentCat] || [];
+
+    if (q) {
+      const all = [];
+      Object.values(categories).forEach(list => all.push(...list));
+      items = all.filter(it => (it.name || "").toLowerCase().includes(q));
+    }
 
     gridEl.innerHTML = "";
     if (!items.length) {
       gridEl.innerHTML = `<div class="picker-empty">${
-        imageReactions.length === 0 && unicodeItems.length === 0
-          ? "nenhum emote encontrado em emotes.json"
+        currentCat === "brilho" && (categories.brilho || []).length === 0 && !q
+          ? "nenhum emote customizado em emotes.json"
           : "nada encontrado"
       }</div>`;
       return;
@@ -258,6 +299,17 @@ export async function mountReactions(container, opts = {}) {
       gridEl.appendChild(btn);
     });
   }
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      tabBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentCat = btn.dataset.cat;
+      searchEl.value = "";
+      renderGrid();
+    });
+  });
 
   function positionPicker() {
     const btnRect = addBtn.getBoundingClientRect();

@@ -109,8 +109,7 @@
   background: #f44;
 }
 
-body.is-admin .reaction-chip:hover .reaction-delete,
-body.is-admin .reaction-chip .reaction-delete:hover {
+body.is-admin .reaction-chip:hover .reaction-delete {
   display: flex;
 }
 
@@ -183,11 +182,12 @@ body.is-admin .reaction-chip .reaction-delete:hover {
   background: #1e1f24;
   display: flex;
   align-items: center;
+  gap: 8px;
   border-bottom: 1px solid #2c2e33;
 }
 
 .picker-search {
-  width: 100%;
+  flex: 1;
   background: #15161a;
   border: 1.5px solid #3a3d44;
   border-radius: 6px;
@@ -205,6 +205,50 @@ body.is-admin .reaction-chip .reaction-delete:hover {
 
 .picker-search::placeholder {
   color: #6b6e75;
+}
+
+.picker-handwave {
+  font-size: 20px;
+  line-height: 1;
+  cursor: default;
+  user-select: none;
+  filter: saturate(1.1);
+}
+
+.picker-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  background: #1e1f24;
+  border-bottom: 1px solid #2c2e33;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.picker-tabs::-webkit-scrollbar { display: none; }
+
+.picker-tab-btn {
+  flex: 0 0 auto;
+  padding: 4px 6px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  filter: grayscale(0.25) brightness(0.85);
+  transition: background 0.12s, filter 0.12s;
+}
+
+.picker-tab-btn:hover {
+  background: rgba(120, 120, 130, 0.15);
+  filter: grayscale(0) brightness(1);
+}
+
+.picker-tab-btn.active {
+  background: rgba(120, 120, 130, 0.2);
+  filter: grayscale(0) brightness(1.1);
 }
 
 .picker-body {
@@ -268,6 +312,7 @@ body.is-admin .reaction-chip .reaction-delete:hover {
   color: #7a7d84;
   font-size: 12px;
 }
+
 .picker-footer {
   padding: 8px 10px 9px;
   text-align: center;
