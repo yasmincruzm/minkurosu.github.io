@@ -36,7 +36,6 @@
 <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
 <meta property="og:url" content="https://minkurosu.site/links.html">
 <meta property="og:type" content="website">
-<script type="module" src="reactions.js"></script>
 <link rel="stylesheet" href="reactions.css">
 <meta name="twitter:card" content="thumbnail.png>
 <meta name="twitter:image" content="https://minkurosu.site/imgs/site_imgs/thumbnail.png">
@@ -869,22 +868,31 @@ div#goog-gt- {
   });
 })();
 </script>
-                <div class="caixamaisclaraColumn">
-                  
-                    <br>
-<script src="oneko.js"></script>
-                    <div id="fc2-counter-container"></div>
+              <div class="caixamaisclaraColumn">
+  
+    <br>
+    <script src="oneko.js"></script>
+    <div id="fc2-counter-container"></div>
 
-                    <script language="javascript" type="text/javascript"
-                        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
-                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
+    <script language="javascript" type="text/javascript"
+        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
+            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
 
+    <div class="sidebar-reactions-box sidebar-reactions-inline" data-reactions="sidebar_home"></div>
+    <script type="module">
+      import { mountReactions } from './reactions.js';
 
-                    <div class="buttons">
+      const sidebarReactBox = document.querySelector('.sidebar-reactions-box[data-reactions="sidebar_home"]');
+      if (sidebarReactBox) {
+        mountReactions(sidebarReactBox, { targetId: "sidebar_home" });
+      }
+    </script>
 
-                    </div>
+    <div class="buttons">
 
-                </div>
+    </div>
+
+</div>
 
             
           

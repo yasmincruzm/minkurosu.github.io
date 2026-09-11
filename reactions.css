@@ -1,3 +1,4 @@
+/* ═══════════════ WRAPPER ═══════════════ */
 .mink-reactions-wrapper {
   display: flex;
   flex-direction: column;
@@ -25,12 +26,13 @@
   margin: 0;
 }
 
+/* ═══════════════ CHIP DE REAÇÃO ═══════════════ */
 .mink-reaction-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 3px 8px 3px 5px;
-  background: rgba(45, 47, 54, 0.85);
+  background: #2b2d31;                      /* mesmo fundo do botão de add */
   border: 1px solid rgba(120, 120, 130, 0.25);
   border-radius: 14px;
   color: #d5d8dd;
@@ -44,7 +46,7 @@
 }
 
 .mink-reaction-chip:hover {
-  background: rgba(60, 63, 72, 0.95);
+  background: #3a3d44;
   border-color: rgba(150, 150, 160, 0.5);
 }
 
@@ -53,13 +55,13 @@
 }
 
 .mink-reaction-chip.mink-reacted {
-  background: rgba(88, 101, 242, 0.22);
-  border-color: rgba(88, 101, 242, 0.85);
+  background: #3a3d44;
+  border-color: #5865f2;
   color: #ffffff;
 }
 
 .mink-reaction-chip.mink-reacted:hover {
-  background: rgba(88, 101, 242, 0.32);
+  background: #45484f;
 }
 
 .mink-reaction-icon {
@@ -82,6 +84,7 @@
   font-weight: 600;
 }
 
+/* ═══════════════ BOTÃO DE ADD ═══════════════ */
 .mink-reaction-add-btn {
   display: inline-flex;
   align-items: center;
@@ -121,11 +124,12 @@
   transform: scale(0.92);
 }
 
+/* ═══════════════ PICKER (fixed, acima de tudo) ═══════════════ */
 .mink-reaction-picker {
   position: fixed !important;
   top: auto;
   left: auto;
-  z-index: 2147483647 !important;   /* máximo possível */
+  z-index: 2147483647 !important;
   width: 380px;
   max-width: calc(100vw - 24px);
   background: #1e1f24;
@@ -145,6 +149,7 @@
 
 .mink-reaction-picker.mink-open { display: flex; }
 
+/* header */
 .mink-picker-header {
   padding: 10px 12px;
   background: #1e1f24;
@@ -182,6 +187,7 @@
   filter: saturate(1.1);
 }
 
+/* body */
 .mink-picker-body {
   max-height: 280px;
   overflow-y: auto;
@@ -242,6 +248,7 @@
   font-size: 12px;
 }
 
+/* footer */
 .mink-picker-footer {
   padding: 7px 10px;
   text-align: center;
@@ -255,4 +262,31 @@
 .mink-picker-footer b {
   color: #9a9da5;
   font-weight: 600;
+}
+
+/* ═══════════════ ESTILO ESPECÍFICO DO SIDEBAR (inline + centralizado) ═══════════════ */
+.sidebar-reactions-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.sidebar-reactions-inline .mink-reactions-wrapper {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.sidebar-reactions-inline .mink-reactions-list {
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.sidebar-reactions-inline .mink-reaction-add-btn {
+  flex-shrink: 0;
 }

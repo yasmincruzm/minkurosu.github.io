@@ -29,13 +29,17 @@ function loadReactionImages() {
       .then(r => (r.ok ? r.json() : { emotes: [] }))
       .then(data => {
         const files = Array.isArray(data.emotes) ? data.emotes : [];
+        console.log("[reactions] emotes.json carregado:", files);
         return files.map(filename => ({
           id: "react_" + slug(filename),
           name: filename.replace(/\.[^.]+$/, ""),
           url: "imgs/emotes/" + filename
         }));
       })
-      .catch(() => []);
+      .catch(err => {
+        console.error("[reactions] falha ao carregar emotes.json:", err);
+        return [];
+      });
   }
   return reactionImagesPromise;
 }
@@ -60,6 +64,8 @@ export async function mountReactions(container, opts = {}) {
   const optionsById = new Map();
   imageReactions.forEach(o => optionsById.set(o.id, o));
 
+  console.log("[reactions] montando para targetId:", targetId, "| emotes disponíveis:", imageReactions.length);
+
   const ADD_ICON = container.dataset.addIcon || "imgs/emotes/add-reaction.png";
 
   container.innerHTML = `
@@ -78,6 +84,7 @@ export async function mountReactions(container, opts = {}) {
   const picker  = wrapper.querySelector(".mink-reaction-picker");
   const docRef  = doc(db, "reactions", targetId);
 
+  // fallback se a imagem do ícone não existir
   addBtn.querySelector("img").addEventListener("error", () => {
     addBtn.innerHTML = `
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
@@ -94,10 +101,12 @@ export async function mountReactions(container, opts = {}) {
   function iconHtml(reactionId) {
     const opt = optionsById.get(reactionId);
     if (opt && opt.url) return `<img src="${opt.url}" alt="${opt.name || ""}" loading="lazy">`;
+    console.warn("[reactions] emote não encontrado para id:", reactionId);
     return reactionId;
   }
 
   function renderList(counts) {
+    console.log("[reactions] renderList", targetId, counts);
     listEl.innerHTML = "";
     const entries = Object.entries(counts || {}).filter(([, n]) => n > 0);
     entries.sort((a, b) => b[1] - a[1]);
@@ -118,12 +127,15 @@ export async function mountReactions(container, opts = {}) {
   }
 
   async function toggleReaction(reactionId) {
+    console.log("[reactions] toggleReaction", targetId, reactionId);
     const key = likedKey(targetId, reactionId);
     const already = !!localStorage.getItem(key);
     already ? localStorage.removeItem(key) : localStorage.setItem(key, "1");
     try {
       await setDoc(docRef, {}, { merge: true });
+      console.log("[reactions] setDoc ok");
       await updateDoc(docRef, { [`counts.${reactionId}`]: increment(already ? -1 : 1) });
+      console.log("[reactions] updateDoc ok, delta =", already ? -1 : 1);
     } catch (err) {
       console.error("[reactions] erro ao reagir:", err);
       already ? localStorage.setItem(key, "1") : localStorage.removeItem(key);
@@ -132,13 +144,17 @@ export async function mountReactions(container, opts = {}) {
 
   onSnapshot(
     docRef,
-    snap => renderList(snap.exists() ? snap.data().counts : {}),
+    snap => {
+      console.log("[reactions] onSnapshot recebeu:", snap.exists() ? snap.data() : "(vazio)");
+      renderList(snap.exists() ? snap.data().counts : {});
+    },
     err => console.error("[reactions] erro ao carregar:", err)
   );
 
   picker.innerHTML = `
     <div class="mink-picker-header">
       <input type="text" class="mink-picker-search" placeholder="Add reaction">
+      <span class="mink-picker-handwave">👋</span>
     </div>
     <div class="mink-picker-body"><div class="mink-picker-grid"></div></div>
     <div class="mink-picker-footer">powered by <b>Widget⭐Star</b></div>
@@ -193,11 +209,8 @@ export async function mountReactions(container, opts = {}) {
     let top = btnRect.bottom + 8;
     if (top + ph > window.innerHeight - margin) {
       const topAbove = btnRect.top - ph - 8;
-      if (topAbove > margin) {
-        top = topAbove;
-      } else {
-        top = margin;
-      }
+      if (topAbove > margin) top = topAbove;
+      else top = margin;
     }
 
     picker.style.left = left + "px";
@@ -211,7 +224,6 @@ export async function mountReactions(container, opts = {}) {
     renderGrid();
     picker.classList.add("mink-open");
     positionPicker();
-    // reposiciona em scroll/resize enquanto estiver aberto
     window.addEventListener("scroll", positionPicker, true);
     window.addEventListener("resize", positionPicker);
   }

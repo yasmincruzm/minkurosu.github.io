@@ -650,16 +650,14 @@ function buildPostEl(id, data) {
   });
   actionsDiv.appendChild(likeBtn);
 
-  // ── Reações (novo sistema) ──────────────────────────────
+  // ── Reações ──
   const reactionsBox = document.createElement("div");
   reactionsBox.className = "twt-reactions-box";
   actionsDiv.appendChild(reactionsBox);
 
   li.querySelector(".info").appendChild(actionsDiv);
 
-  // monta o sistema novo de reações
   mountReactions(reactionsBox, { targetId: "twt_" + id });
-  // ────────────────────────────────────────────────────────
 
   li.addEventListener("click", e => {
     if (e.target.closest(
@@ -693,7 +691,7 @@ if (!container) {
   onSnapshot(q, snapshot => {
     cachedDocs = [];
     container.innerHTML = "";
-ind
+
     if (snapshot.empty) {
       container.innerHTML = `
         <li style="justify-content:center;padding:20px;color:#667580;">
