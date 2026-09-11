@@ -1,4 +1,3 @@
-
 window.initializeSlideshow = function initializeSlideshow() {
   const slideshowArea = document.querySelector('.slideshow-area');
   if (!slideshowArea) return;

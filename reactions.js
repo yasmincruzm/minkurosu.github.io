@@ -66,8 +66,22 @@ function loadReactionImages() {
   return reactionImagesPromise;
 }
 
+/**
+ * Gera um id estável e único pra QUALQUER string,
+ * inclusive emojis unicode (que não têm letras/números).
+ */
 function slug(str) {
-  return String(str).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "x";
+  const s = String(str)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+  if (s) return s;
+
+  // fallback: usa codepoints hexadecimais (únicos por emoji)
+  return "u" + [...String(str)]
+    .map(c => c.codePointAt(0).toString(16))
+    .join("_");
 }
 
 function escId(id) {
@@ -140,8 +154,10 @@ export async function mountReactions(container, opts = {}) {
   function renderList(counts) {
     lastCounts = counts || {};
     listEl.innerHTML = "";
+
     Object.entries(lastCounts)
-      .filter(([, n]) => n > 0)
+      // filtra: só > 0 E que existam em optionsById (ignora ids órfãos)
+      .filter(([id, n]) => n > 0 && optionsById.has(id))
       .sort((a, b) => b[1] - a[1])
       .forEach(([reactionId, count]) => {
         const reacted = !!localStorage.getItem(likedKey(targetId, reactionId));
@@ -153,11 +169,13 @@ export async function mountReactions(container, opts = {}) {
           `<span class="reaction-icon">${iconHtml(reactionId)}</span>` +
           `<span class="reaction-count">${count}</span>` +
           `<button type="button" class="reaction-delete" title="delete">×</button>`;
+
         btn.addEventListener("click", e => {
           if (e.target.classList.contains("reaction-delete")) return;
           e.stopPropagation();
           toggleReaction(reactionId);
         });
+
         btn.querySelector(".reaction-delete").addEventListener("click", async e => {
           e.stopPropagation();
           e.preventDefault();
@@ -168,6 +186,7 @@ export async function mountReactions(container, opts = {}) {
             await updateDoc(docRef, { [`counts.${reactionId}`]: deleteField() });
           } catch (err) { console.error(err); }
         });
+
         li.appendChild(btn);
         listEl.appendChild(li);
       });
@@ -181,7 +200,7 @@ export async function mountReactions(container, opts = {}) {
     try {
       await setDoc(docRef, {}, { merge: true });
       await updateDoc(docRef, { [`counts.${reactionId}`]: increment(already ? -1 : 1) });
-      console.log("[reactions] salvo +", already ? -1 : 1);
+      console.log("[reactions] salvo", already ? -1 : 1);
     } catch (err) {
       console.error("[reactions] ERRO ao reagir:", err);
       already ? localStorage.setItem(key, "1") : localStorage.removeItem(key);
