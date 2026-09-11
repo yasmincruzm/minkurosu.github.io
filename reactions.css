@@ -1,22 +1,21 @@
-/* ═══════════════ WRAPPER ═══════════════ */
-.mink-reactions-wrapper {
+.reactions-wrapper {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin: 6px 0;
   position: relative;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
   user-select: none;
   box-sizing: border-box;
 }
 
-.mink-reactions-wrapper *,
-.mink-reactions-wrapper *::before,
-.mink-reactions-wrapper *::after {
+.reactions-wrapper *,
+.reactions-wrapper *::before,
+.reactions-wrapper *::after {
   box-sizing: border-box;
 }
 
-.mink-reactions-list {
+.reactions-list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -26,14 +25,13 @@
   margin: 0;
 }
 
-/* ═══════════════ CHIP DE REAÇÃO ═══════════════ */
-.mink-reaction-chip {
+.reaction-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 3px 8px 3px 5px;
-  background: #2b2d31;                      /* mesmo fundo do botão de add */
-  border: 1px solid rgba(120, 120, 130, 0.25);
+  background: #2b2d31;
+  border: 1px solid #3a3d44;
   border-radius: 14px;
   color: #d5d8dd;
   font-size: 12px;
@@ -43,35 +41,37 @@
   transition: background 0.12s, border-color 0.12s, transform 0.1s;
   outline: none;
   height: 26px;
+  font-family: inherit;
+  position: relative;
 }
 
-.mink-reaction-chip:hover {
+.reaction-chip:hover {
   background: #3a3d44;
-  border-color: rgba(150, 150, 160, 0.5);
+  border-color: #4a4d55;
 }
 
-.mink-reaction-chip:active {
+.reaction-chip:active {
   transform: scale(0.95);
 }
 
-.mink-reaction-chip.mink-reacted {
+.reaction-chip.reacted {
   background: #3a3d44;
-  border-color: #5865f2;
+  border-color: #5a5d65;
   color: #ffffff;
 }
 
-.mink-reaction-chip.mink-reacted:hover {
+.reaction-chip.reacted:hover {
   background: #45484f;
 }
 
-.mink-reaction-icon {
+.reaction-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
 }
 
-.mink-reaction-icon img {
+.reaction-icon img {
   width: 16px;
   height: 16px;
   object-fit: contain;
@@ -79,13 +79,42 @@
   image-rendering: pixelated;
 }
 
-.mink-reaction-count {
+.reaction-count {
   font-size: 12px;
   font-weight: 600;
 }
 
-/* ═══════════════ BOTÃO DE ADD ═══════════════ */
-.mink-reaction-add-btn {
+.reaction-chip .reaction-delete {
+  display: none;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d33;
+  border: 1.5px solid #1e1f24;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+}
+
+.reaction-chip .reaction-delete:hover {
+  background: #f44;
+}
+
+body.is-admin .reaction-chip:hover .reaction-delete,
+body.is-admin .reaction-chip .reaction-delete:hover {
+  display: flex;
+}
+
+.reaction-add-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -103,7 +132,7 @@
   overflow: hidden;
 }
 
-.mink-reaction-add-btn img {
+.reaction-add-btn img {
   width: 18px;
   height: 18px;
   object-fit: contain;
@@ -112,20 +141,19 @@
   transition: filter 0.12s;
 }
 
-.mink-reaction-add-btn:hover {
+.reaction-add-btn:hover {
   background: #3a3d44;
 }
 
-.mink-reaction-add-btn:hover img {
+.reaction-add-btn:hover img {
   filter: brightness(1.3) saturate(0.6);
 }
 
-.mink-reaction-add-btn:active {
+.reaction-add-btn:active {
   transform: scale(0.92);
 }
 
-/* ═══════════════ PICKER (fixed, acima de tudo) ═══════════════ */
-.mink-reaction-picker {
+.reaction-picker {
   position: fixed !important;
   top: auto;
   left: auto;
@@ -139,56 +167,47 @@
   display: none;
   flex-direction: column;
   overflow: hidden;
-  animation: minkFadeIn 0.14s ease;
+  animation: reactFadeIn 0.14s ease;
+  font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-@keyframes minkFadeIn {
+@keyframes reactFadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.mink-reaction-picker.mink-open { display: flex; }
+.reaction-picker.open { display: flex; }
 
-/* header */
-.mink-picker-header {
+.picker-header {
   padding: 10px 12px;
   background: #1e1f24;
   display: flex;
   align-items: center;
-  gap: 8px;
   border-bottom: 1px solid #2c2e33;
 }
 
-.mink-picker-search {
-  flex: 1;
+.picker-search {
+  width: 100%;
   background: #15161a;
   border: 1.5px solid #3a3d44;
   border-radius: 6px;
   padding: 7px 10px;
   color: #e6e6e6;
   font-size: 13px;
+  font-family: inherit;
   outline: none;
   transition: border-color 0.12s;
 }
 
-.mink-picker-search:focus {
-  border-color: #5865f2;
+.picker-search:focus {
+  border-color: #4a4d55;
 }
 
-.mink-picker-search::placeholder {
+.picker-search::placeholder {
   color: #6b6e75;
 }
 
-.mink-picker-handwave {
-  font-size: 20px;
-  line-height: 1;
-  cursor: default;
-  user-select: none;
-  filter: saturate(1.1);
-}
-
-/* body */
-.mink-picker-body {
+.picker-body {
   max-height: 280px;
   overflow-y: auto;
   padding: 10px 12px;
@@ -197,19 +216,19 @@
   scrollbar-color: #4a4d55 #1e1f24;
 }
 
-.mink-picker-body::-webkit-scrollbar { width: 6px; }
-.mink-picker-body::-webkit-scrollbar-thumb {
+.picker-body::-webkit-scrollbar { width: 6px; }
+.picker-body::-webkit-scrollbar-thumb {
   background: #4a4d55;
   border-radius: 3px;
 }
 
-.mink-picker-grid {
+.picker-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   gap: 4px;
 }
 
-.mink-picker-item-btn {
+.picker-item-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,18 +240,20 @@
   cursor: pointer;
   transition: background 0.1s, transform 0.1s;
   line-height: 1;
+  font-family: inherit;
+  font-size: 22px;
 }
 
-.mink-picker-item-btn:hover {
+.picker-item-btn:hover {
   background: rgba(120, 120, 130, 0.2);
-  transform: scale(1.15);
+  transform: scale(1.12);
 }
 
-.mink-picker-item-btn:active {
+.picker-item-btn:active {
   transform: scale(0.95);
 }
 
-.mink-picker-item-btn img {
+.picker-item-btn img {
   width: 26px;
   height: 26px;
   object-fit: contain;
@@ -240,31 +261,45 @@
   display: block;
 }
 
-.mink-picker-empty {
+.picker-empty {
   grid-column: 1 / -1;
   padding: 18px 10px;
   text-align: center;
   color: #7a7d84;
   font-size: 12px;
 }
-
-/* footer */
-.mink-picker-footer {
-  padding: 7px 10px;
+.picker-footer {
+  padding: 8px 10px 9px;
   text-align: center;
   font-size: 11px;
-  color: #6b6e75;
-  background: #191a1e;
+  color: #7a7d84;
+  background: #1e1f24;
   border-top: 1px solid #2c2e33;
   letter-spacing: 0.02em;
+  font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
-.mink-picker-footer b {
-  color: #9a9da5;
-  font-weight: 600;
+.picker-footer b {
+  color: #b5bac1;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
 
-/* ═══════════════ ESTILO ESPECÍFICO DO SIDEBAR (inline + centralizado) ═══════════════ */
+.picker-footer .star-icon {
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  vertical-align: -1px;
+  fill: #b5bac1;
+}
+
 .sidebar-reactions-box {
   width: 100%;
   display: flex;
@@ -273,7 +308,7 @@
   margin: 12px 0 8px;
 }
 
-.sidebar-reactions-inline .mink-reactions-wrapper {
+.sidebar-reactions-inline .reactions-wrapper {
   flex-direction: row !important;
   align-items: center;
   justify-content: center;
@@ -281,12 +316,12 @@
   margin: 0;
 }
 
-.sidebar-reactions-inline .mink-reactions-list {
+.sidebar-reactions-inline .reactions-list {
   justify-content: center;
   align-items: center;
   flex-direction: row;
 }
 
-.sidebar-reactions-inline .mink-reaction-add-btn {
+.sidebar-reactions-inline .reaction-add-btn {
   flex-shrink: 0;
 }

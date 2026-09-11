@@ -5,7 +5,8 @@ import {
   setDoc,
   updateDoc,
   onSnapshot,
-  increment
+  increment,
+  deleteField
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -21,6 +22,35 @@ const firebaseConfig = {
 const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+let isAdmin = false;
+
+export function setReactionsAdmin(value) {
+  isAdmin = !!value;
+  document.body.classList.toggle("is-admin", isAdmin);
+  document.querySelectorAll(".reactions-wrapper").forEach(w => {
+    if (typeof w._rerender === "function") w._rerender();
+  });
+}
+
+window.setReactionsAdmin = setReactionsAdmin;
+
+const UNICODE_EMOJIS = [
+  "😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩",
+  "😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐",
+  "🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒",
+  "🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟",
+  "🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣",
+  "😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👻","👽",
+  "👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆",
+  "👇","☝️","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💅","🤳",
+  "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🙈",
+  "🍎","🍊","🍋","🍌","🍉","🍇","🍓","🫐","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🥑",
+  "🏠","🏡","🏢","🏥","🏦","🏨","🏫","🏭","🏰","💒","🗼","🗽","⛪","🕌","🕍","🛕",
+  "⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥊","🥋","⛳","⛸️","🎿","🛷",
+  "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","❣️","💕","💞","💓","💗","💖",
+  "⭐","🌟","✨","⚡","🔥","💥","❄️","🌈","☀️","🌙","☁️","☔","⛅","🌊","🌪️","🌫️"
+];
+
 let reactionImagesPromise = null;
 
 function loadReactionImages() {
@@ -29,17 +59,13 @@ function loadReactionImages() {
       .then(r => (r.ok ? r.json() : { emotes: [] }))
       .then(data => {
         const files = Array.isArray(data.emotes) ? data.emotes : [];
-        console.log("[reactions] emotes.json carregado:", files);
         return files.map(filename => ({
           id: "react_" + slug(filename),
           name: filename.replace(/\.[^.]+$/, ""),
           url: "imgs/emotes/" + filename
         }));
       })
-      .catch(err => {
-        console.error("[reactions] falha ao carregar emotes.json:", err);
-        return [];
-      });
+      .catch(() => []);
   }
   return reactionImagesPromise;
 }
@@ -53,7 +79,7 @@ function escId(id) {
 }
 
 function likedKey(targetId, reactionId) {
-  return `mink_reacted_${targetId}_${reactionId}`;
+  return `reaction_${targetId}_${reactionId}`;
 }
 
 export async function mountReactions(container, opts = {}) {
@@ -61,30 +87,35 @@ export async function mountReactions(container, opts = {}) {
 
   const targetId = escId(opts.targetId);
   const imageReactions = await loadReactionImages();
+  const unicodeItems = UNICODE_EMOJIS.map(e => ({
+    id: "emoji_" + slug(e),
+    name: e,
+    emoji: e
+  }));
+
   const optionsById = new Map();
   imageReactions.forEach(o => optionsById.set(o.id, o));
+  unicodeItems.forEach(o => optionsById.set(o.id, o));
 
-  console.log("[reactions] montando para targetId:", targetId, "| emotes disponíveis:", imageReactions.length);
-
+  const allItems = [...imageReactions, ...unicodeItems];
   const ADD_ICON = container.dataset.addIcon || "imgs/emotes/add-reaction.png";
 
   container.innerHTML = `
-    <div class="mink-reactions-wrapper">
-      <ul class="mink-reactions-list"></ul>
-      <button type="button" class="mink-reaction-add-btn" title="Add reaction" aria-label="Add reaction">
+    <div class="reactions-wrapper">
+      <ul class="reactions-list"></ul>
+      <button type="button" class="reaction-add-btn" title="Add reaction" aria-label="Add reaction">
         <img src="${ADD_ICON}" alt="add reaction">
       </button>
-      <div class="mink-reaction-picker"></div>
+      <div class="reaction-picker"></div>
     </div>
   `;
 
-  const wrapper = container.querySelector(".mink-reactions-wrapper");
-  const listEl  = wrapper.querySelector(".mink-reactions-list");
-  const addBtn  = wrapper.querySelector(".mink-reaction-add-btn");
-  const picker  = wrapper.querySelector(".mink-reaction-picker");
+  const wrapper = container.querySelector(".reactions-wrapper");
+  const listEl  = wrapper.querySelector(".reactions-list");
+  const addBtn  = wrapper.querySelector(".reaction-add-btn");
+  const picker  = wrapper.querySelector(".reaction-picker");
   const docRef  = doc(db, "reactions", targetId);
 
-  // fallback se a imagem do ícone não existir
   addBtn.querySelector("img").addEventListener("error", () => {
     addBtn.innerHTML = `
       <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
@@ -100,42 +131,66 @@ export async function mountReactions(container, opts = {}) {
 
   function iconHtml(reactionId) {
     const opt = optionsById.get(reactionId);
-    if (opt && opt.url) return `<img src="${opt.url}" alt="${opt.name || ""}" loading="lazy">`;
-    console.warn("[reactions] emote não encontrado para id:", reactionId);
+    if (!opt) return reactionId;
+    if (opt.url) return `<img src="${opt.url}" alt="${opt.name || ""}" loading="lazy">`;
+    if (opt.emoji) return opt.emoji;
     return reactionId;
   }
 
+  let lastCounts = {};
+
   function renderList(counts) {
-    console.log("[reactions] renderList", targetId, counts);
+    lastCounts = counts || {};
     listEl.innerHTML = "";
-    const entries = Object.entries(counts || {}).filter(([, n]) => n > 0);
+    const entries = Object.entries(lastCounts).filter(([, n]) => n > 0);
     entries.sort((a, b) => b[1] - a[1]);
     entries.forEach(([reactionId, count]) => {
       const reacted = !!localStorage.getItem(likedKey(targetId, reactionId));
       const li = document.createElement("li");
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "mink-reaction-chip" + (reacted ? " mink-reacted" : "");
-      btn.innerHTML = `<span class="mink-reaction-icon">${iconHtml(reactionId)}</span><span class="mink-reaction-count">${count}</span>`;
+      btn.className = "reaction-chip" + (reacted ? " reacted" : "");
+      btn.dataset.reactionId = reactionId;
+      btn.innerHTML =
+        `<span class="reaction-icon">${iconHtml(reactionId)}</span>` +
+        `<span class="reaction-count">${count}</span>` +
+        `<button type="button" class="reaction-delete" title="delete reaction">×</button>`;
+
       btn.addEventListener("click", e => {
+        if (e.target.classList.contains("reaction-delete")) return;
         e.stopPropagation();
         toggleReaction(reactionId);
       });
+
+      const delBtn = btn.querySelector(".reaction-delete");
+      delBtn.addEventListener("click", async e => {
+        e.stopPropagation();
+        e.preventDefault();
+        if (!isAdmin) return;
+        if (!confirm("Apagar essa reação para todo mundo?")) return;
+        try {
+          await setDoc(docRef, {}, { merge: true });
+          await updateDoc(docRef, {
+            [`counts.${reactionId}`]: deleteField()
+          });
+        } catch (err) {
+          console.error("[reactions] erro ao apagar:", err);
+          alert("erro ao apagar reação");
+        }
+      });
+
       li.appendChild(btn);
       listEl.appendChild(li);
     });
   }
 
   async function toggleReaction(reactionId) {
-    console.log("[reactions] toggleReaction", targetId, reactionId);
     const key = likedKey(targetId, reactionId);
     const already = !!localStorage.getItem(key);
     already ? localStorage.removeItem(key) : localStorage.setItem(key, "1");
     try {
       await setDoc(docRef, {}, { merge: true });
-      console.log("[reactions] setDoc ok");
       await updateDoc(docRef, { [`counts.${reactionId}`]: increment(already ? -1 : 1) });
-      console.log("[reactions] updateDoc ok, delta =", already ? -1 : 1);
     } catch (err) {
       console.error("[reactions] erro ao reagir:", err);
       already ? localStorage.setItem(key, "1") : localStorage.removeItem(key);
@@ -144,34 +199,42 @@ export async function mountReactions(container, opts = {}) {
 
   onSnapshot(
     docRef,
-    snap => {
-      console.log("[reactions] onSnapshot recebeu:", snap.exists() ? snap.data() : "(vazio)");
-      renderList(snap.exists() ? snap.data().counts : {});
-    },
+    snap => renderList(snap.exists() ? snap.data().counts : {}),
     err => console.error("[reactions] erro ao carregar:", err)
   );
 
+  wrapper._rerender = () => renderList(lastCounts);
+
+  /* ── picker ── */
   picker.innerHTML = `
-    <div class="mink-picker-header">
-      <input type="text" class="mink-picker-search" placeholder="Add reaction">
-      <span class="mink-picker-handwave">👋</span>
+    <div class="picker-header">
+      <input type="text" class="picker-search" placeholder="Search">
     </div>
-    <div class="mink-picker-body"><div class="mink-picker-grid"></div></div>
-    <div class="mink-picker-footer">powered by <b>Widget⭐Star</b></div>
+    <div class="picker-body"><div class="picker-grid"></div></div>
+    <div class="picker-footer">
+      <span>powered by</span>
+      <b>
+        Widget
+        <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l2.9 6.26 6.85.6-5.18 4.55 1.55 6.7L12 16.77 5.88 20.1l1.55-6.7L2.25 8.86l6.85-.6L12 2z"/>
+        </svg>
+        Star
+      </b>
+    </div>
   `;
 
-  const searchEl = picker.querySelector(".mink-picker-search");
-  const gridEl   = picker.querySelector(".mink-picker-grid");
+  const searchEl = picker.querySelector(".picker-search");
+  const gridEl   = picker.querySelector(".picker-grid");
 
   function renderGrid() {
     const q = searchEl.value.trim().toLowerCase();
-    let items = imageReactions;
+    let items = allItems;
     if (q) items = items.filter(it => (it.name || "").toLowerCase().includes(q));
 
     gridEl.innerHTML = "";
     if (!items.length) {
-      gridEl.innerHTML = `<div class="mink-picker-empty">${
-        imageReactions.length === 0
+      gridEl.innerHTML = `<div class="picker-empty">${
+        imageReactions.length === 0 && unicodeItems.length === 0
           ? "nenhum emote encontrado em emotes.json"
           : "nada encontrado"
       }</div>`;
@@ -180,9 +243,13 @@ export async function mountReactions(container, opts = {}) {
     items.forEach(it => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "mink-picker-item-btn";
+      btn.className = "picker-item-btn";
       btn.title = it.name || "";
-      btn.innerHTML = `<img src="${it.url}" alt="${it.name || ""}" loading="lazy">`;
+      if (it.url) {
+        btn.innerHTML = `<img src="${it.url}" alt="${it.name || ""}" loading="lazy">`;
+      } else {
+        btn.textContent = it.emoji || it.name || "";
+      }
       btn.addEventListener("click", () => {
         optionsById.set(it.id, it);
         toggleReaction(it.id);
@@ -222,20 +289,20 @@ export async function mountReactions(container, opts = {}) {
 
   function openPicker() {
     renderGrid();
-    picker.classList.add("mink-open");
+    picker.classList.add("open");
     positionPicker();
     window.addEventListener("scroll", positionPicker, true);
     window.addEventListener("resize", positionPicker);
   }
   function closePicker() {
-    picker.classList.remove("mink-open");
+    picker.classList.remove("open");
     window.removeEventListener("scroll", positionPicker, true);
     window.removeEventListener("resize", positionPicker);
   }
 
   addBtn.addEventListener("click", e => {
     e.stopPropagation();
-    picker.classList.contains("mink-open") ? closePicker() : openPicker();
+    picker.classList.contains("open") ? closePicker() : openPicker();
   });
 
   document.addEventListener("click", e => {
