@@ -55,7 +55,7 @@ function loadReactionImages() {
       .then(r => (r.ok ? r.json() : { emotes: [] }))
       .then(data => {
         const files = Array.isArray(data.emotes) ? data.emotes : [];
-        console.log("[reactions] emotes.json carregado:", files.length, "arquivos");
+        console.log("[reactions] loaded:", files.length, "files");
         return files.map(filename => ({
           id: "react_" + slug(filename),
           name: filename.replace(/\.[^.]+$/, ""),
@@ -63,7 +63,7 @@ function loadReactionImages() {
         }));
       })
       .catch(err => {
-        console.error("[reactions] erro ao carregar emotes.json:", err);
+        console.error("[reactions] error", err);
         return [];
       });
   }
@@ -84,12 +84,11 @@ function likedKey(targetId, reactionId) {
 
 export async function mountReactions(container, opts = {}) {
   if (!container || !opts.targetId) {
-    console.warn("[reactions] mountReactions chamado sem container ou targetId", container, opts);
+    console.warn("[reactions] container error", container, opts);
     return null;
   }
 
   const targetId = escId(opts.targetId);
-  console.log("[reactions] montando para targetId =", targetId);
 
   const imageReactions = await loadReactionImages();
 
@@ -117,7 +116,7 @@ export async function mountReactions(container, opts = {}) {
   container.innerHTML = `
     <div class="reactions-wrapper">
       <ul class="reactions-list"></ul>
-      <button type="button" class="reaction-add-btn" title="Add reaction" aria-label="Add reaction">
+      <button type="button" class="reaction-add-btn" title="add reaction" aria-label="add reaction">
         <img src="${ADD_ICON}" alt="add reaction">
       </button>
       <div class="reaction-picker"></div>
@@ -181,12 +180,12 @@ export async function mountReactions(container, opts = {}) {
         e.stopPropagation();
         e.preventDefault();
         if (!isAdmin) return;
-        if (!confirm("Apagar essa reação para todo mundo?")) return;
+        if (!confirm("delete?")) return;
         try {
           await setDoc(docRef, {}, { merge: true });
           await updateDoc(docRef, { [`counts.${reactionId}`]: deleteField() });
         } catch (err) {
-          console.error("[reactions] erro ao apagar:", err);
+          console.error("[reactions] error deleting:", err);
           alert("erro ao apagar reação");
         }
       });
@@ -205,7 +204,7 @@ export async function mountReactions(container, opts = {}) {
       await setDoc(docRef, {}, { merge: true });
       await updateDoc(docRef, { [`counts.${reactionId}`]: increment(already ? -1 : 1) });
     } catch (err) {
-      console.error("[reactions] erro ao reagir:", err);
+      console.error("[reactions] error", err);
       already ? localStorage.setItem(key, "1") : localStorage.removeItem(key);
     }
   }
@@ -217,7 +216,7 @@ export async function mountReactions(container, opts = {}) {
       console.log("[reactions] snapshot", targetId, data.counts || {});
       renderList(data.counts || {});
     },
-    err => console.error("[reactions] erro no snapshot:", err)
+    err => console.error("[reactions]  snapshot error:", err)
   );
 
   wrapper._rerender = () => renderList(lastCounts);
@@ -267,7 +266,7 @@ export async function mountReactions(container, opts = {}) {
     console.log("[reactions] renderGrid cat =", currentCat, "itens =", items.length);
     gridEl.innerHTML = "";
     if (!items.length) {
-      gridEl.innerHTML = `<div class="picker-empty">nada encontrado</div>`;
+      gridEl.innerHTML = `<div class="picker-empty">error</div>`;
       return;
     }
     items.forEach(it => {
@@ -354,4 +353,4 @@ export async function mountReactions(container, opts = {}) {
   return { wrapper };
 }
 
-console.log("[reactions] módulo pronto");
+console.log("[reactions]ready");
