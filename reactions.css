@@ -1,6 +1,9 @@
+
 .reactions-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
   margin: 6px 0;
   position: relative;
@@ -129,6 +132,7 @@ body.is-admin .reaction-chip:hover .reaction-delete {
   outline: none;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .reaction-add-btn img {
@@ -266,9 +270,9 @@ body.is-admin .reaction-chip:hover .reaction-delete {
   scrollbar-width: thin;
   scrollbar-color: #4a4d55 #1e1f24;
   flex-shrink: 0;
-  display: block;              /* ← NÃO mais flex */
-  position: relative;          /* ← novo */
-  overscroll-behavior: contain;/* ← novo: trava o scroll dentro */
+  display: block;
+  position: relative;
+  overscroll-behavior: contain;
 }
 
 .picker-body::-webkit-scrollbar {
@@ -378,6 +382,7 @@ body.is-admin .reaction-chip:hover .reaction-delete {
 
 .sidebar-reactions-inline .reactions-wrapper {
   flex-direction: row !important;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 6px;
@@ -388,6 +393,7 @@ body.is-admin .reaction-chip:hover .reaction-delete {
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .sidebar-reactions-inline .reaction-add-btn {
