@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>test reactions</title>
+<script type="module" src="reactions.js"></script></head>
+<body style="background:#111; padding:40px; color:#fff;">
+  <div id="test-box"></div>
+
+  <script type="module">
+    import { mountReactions } from './reactions.js';
+
+    const box = document.getElementById('test-box');
+    mountReactions(box, { targetId: 'test_page' });
+  </script>
+</body>
+</html>
