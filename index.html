@@ -12,7 +12,6 @@
 
         gtag('config', 'G-M7PWC6DDRH');
     </script>
-    <meta name="kicya-site-verification" content="9a3a144838a941cfdaeb9cfcd023280e1d83a4c8d6069f5dbd42dbcb6ba21791">
 <script type="text/javascript" 
   src="//livetrafficfeed.com/static/v5/livetrafficfeed.js">
 </script>
@@ -85,7 +84,6 @@
   }, 200);
 </script>
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-    <link rel="stylesheet" href="reactions.css">
     <title></title>
 
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
@@ -361,13 +359,6 @@ div#goog-gt- {
             height: 380px;
             overflow-y: scroll;
             overflow: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .scrollSmaller, .scrollMedium {
-            max-height: 380px;
-            overflow-y: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -687,14 +678,10 @@ div#goog-gt- {
     display: block;
 }
 
-#chattable {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 250px !important;
-    border: none !important;
-    border-radius: 8px !important;
-}
-
+/* ---------------------------------------------------
+   mobile — mesmo estilo, só reorganizando o que era
+   fixo em px/colunas de desktop pro viewport real
+--------------------------------------------------- */
 @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
     #containerprincipal,
     #container {
@@ -780,7 +767,7 @@ div#goog-gt- {
                 <h3> 23yo • they/she • brasil</h3>
                 <h3>digital art & live2d &</h3>
                 <h3>psychology graduate &</h3>
-                 <h3>dental lab tech student</h3>
+                 <h3>prosthodontics student</h3>
                 <h3><a href="psi.html" target="_blank">Ψ</a> • ⚧</h3>
 
                 <hr>
@@ -848,21 +835,19 @@ div#goog-gt- {
   });
 })();
 </script>
-                <div class="caixamaisclaraColumn" style="text-align: center;">
+                <div class="caixamaisclaraColumn">
                   
                     <br>
+<script src="oneko.js"></script>
+                    <div id="fc2-counter-container"></div>
+
+                    <script language="javascript" type="text/javascript"
+                        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
+                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
+
 
                     <div class="buttons">
 
-                    </div>
-
-                    <!-- Counter FC2 — versão simplificada (apenas imagem, sem document.write) -->
-                    <div id="fc2-counter-container" style="margin: 10px 0;">
-                        <img id="fc2-counter-img"
-                             src="https://counter1.fc2.com/counter_img.php?id=40522267&main=1"
-                             alt="FC2 Counter"
-                             onload="console.log('[FC2 counter] carregou com sucesso.');"
-                             onerror="console.warn('[FC2 counter] FALHOU ao carregar. Provavelmente bloqueado por ad-block/extensão, ou o servidor da FC2 recusou a conexão. Veja a aba Network do DevTools filtrando por \'fc2\' para confirmar.'); this.style.display='none';">
                     </div>
 
                 </div>
@@ -902,11 +887,11 @@ div#goog-gt- {
 </tr>
     <tr>
                                 <td style="border: 1px solid black; padding: 8px;">reading</td>
-                                <td style="border: 1px solid black; padding: 8px;">piaget, vigotski, wallon: psychogenetic theories</td>
+                                <td style="border: 1px solid black; padding: 8px;">piaget, vigotski, wallon</td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">watching</td>
-                                <td style="border: 1px solid black; padding: 8px;">south park</td>
+                                <td style="border: 1px solid black; padding: 8px;">twin peaks</td>
                             </tr>
                         
                             <tr>
@@ -915,8 +900,6 @@ div#goog-gt- {
                             </tr>
                         </table>
                           <hr>
-
-                   
 
                         <script>
 let mrnCurrent = 0;
@@ -1024,8 +1007,7 @@ mrnGoTo(0);
 </div>
 <hr>
 
-                                                <!-- Iframe do chat restaurado com altura maior para acomodar o menu de emotes -->
-                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="width: 100%; height: 450px; border: none; border-radius: 8px;" id="chattable"></iframe>
+                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="max-width: 90%; height: 300px;" id="chattable"></iframe>
 
                 <hr>
 <a href="https://tamanotchi.world/24409c"><img src="https://tamanotchi.world/i/24409" alt="It's tamaNOTchi! Click to feed!" style="height: 70px;"></a>
@@ -1168,6 +1150,17 @@ mrnGoTo(0);
 
 
         <aside id="sidebar-direita-container" class="sidebar sidebar-right" style="overflow:visible !important; position:relative !important;">
+ <a href="psi.html" id="mc-sign-link"
+  onmouseover="this.style.transform='perspective(500px) rotateX(5deg)'"
+  onmouseout="this.style.transform='perspective(500px) rotateX(0deg)'"
+  style="display:block; width:210px; cursor:pointer; transform-origin:top center; transform:perspective(500px) rotateX(0deg); transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94); text-decoration:none; float:right; clear:right; margin-right:-208px; margin-bottom:-230px;">
+  <div style="position:relative; width:210px; line-height:0;">
+    <img src="imgs/webgraphics/pixels/sign_hanging.png" style="width:210px; image-rendering:pixelated; display:block;"/>
+    <div style="position:absolute; top:43%; left:48%; transform:translateX(-50%); width:78%; height:55%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; font-size:15px; color:#0a0a0a; text-shadow:none; line-height:1.5; pointer-events:none;">
+      <span>SERVICES OPEN:</span><span> LIVE2D RIG (worldwide) </span><span style="font-size:15px;">& ATENDIMENTO PSICOLOGICO CLÍNICO</span><span> (BRASILEIROS)</span>
+    </div>
+  </div>
+</a>
 
 
 
