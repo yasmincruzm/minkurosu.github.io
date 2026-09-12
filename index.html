@@ -839,11 +839,14 @@ div#goog-gt- {
                   
                     <br>
 <script src="oneko.js"></script>
-                    <div id="fc2-counter-container"></div>
-
-                    <script language="javascript" type="text/javascript"
-                        src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
-                            src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" /></noscript>
+                    <div id="fc2-counter-container" style="margin: 10px 0;">
+                        <img id="fc2-counter-img"
+                             src="https://counter1.fc2.com/counter_img.php?id=40522267&main=1"
+                             alt="FC2 Counter"
+                             referrerpolicy="unsafe-url"
+                             onload="console.log('[FC2 counter] carregou com sucesso.');"
+                             onerror="console.warn('[FC2 counter] FALHOU ao carregar. Veja a aba Network do DevTools filtrando por fc2 para confirmar o motivo.'); this.style.display='none';">
+                    </div>
 
 
                     <div class="buttons">
