@@ -205,7 +205,7 @@ export async function mountReactions(container, opts = {}) {
     list.forEach(o => { if (!optionsById.has(o.id)) optionsById.set(o.id, o); });
   });
 
-  const ADD_ICON = container.dataset.addIcon || "imgs/emotes/add-reaction.svg";
+  const ADD_ICON = container.dataset.addIcon || "imgs/emotes/+.svg";
 
   container.innerHTML = `
     <div class="reactions-wrapper">

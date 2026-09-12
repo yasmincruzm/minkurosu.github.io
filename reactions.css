@@ -52,13 +52,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-width: 32px;
-  height: 32px;
-  padding: 0 6px;
+  gap: 6px;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
   background: #2b2d31;
   border: 1px solid #3a3d44;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #d5d8dd;
   font-size: 13px;
   font-weight: 700;
@@ -98,11 +98,22 @@
 }
 
 .reaction-icon img {
-  width: 26px;  
-  height: 26px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   display: block;
+  /* 
+    WebP é um formato com perdas (lossy) -- o pixelated realça 
+    os artefatos de compressão deixando "sujo". 
+    -webkit-optimize-contrast / crisp-edges preserva melhor a nitidez.
+    Se você converter os emotes para .PNG no futuro, troque por:
+    image-rendering: pixelated;
+  */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   image-rendering: pixelated;
+  /* A linha acima é um fallback: navegadores que suportam 'pixelated'
+     vão usar ele por último, mas os que não suportam usam o crisp-edges. */
 }
 
 .reaction-count {
@@ -144,12 +155,12 @@ body.is-admin .reaction-chip:hover .reaction-delete {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   background: #2b2d31;
   border: 1px solid #3a3d44;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #b5bac1;
   cursor: pointer;
   transition: background 0.12s, transform 0.1s;
@@ -160,12 +171,15 @@ body.is-admin .reaction-chip:hover .reaction-delete {
 }
 
 .reaction-add-btn img {
-  width: 26px;  
-  height: 26px; 
+  width: 22px;
+  height: 22px;
   object-fit: contain;
   display: block;
   filter: brightness(1.1) saturate(0.4);
   transition: filter 0.12s;
+  /* Mesmo tratamento do ícone das reações */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   image-rendering: pixelated;
 }
 
@@ -365,7 +379,10 @@ body.is-admin .reaction-chip:hover .reaction-delete {
   object-fit: cover;
   object-position: center;
   border-radius: 6px;
-  image-rendering: pixelated; 
+  /* Mesmo tratamento: melhor para WebP do que pixelated */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
   display: block;
 }
 

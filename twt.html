@@ -74,8 +74,8 @@
     
     #thoughts-root .post-actions { 
       display: flex; 
-      gap: 8px; 
-      margin-top: 10px; 
+      gap: 10px; 
+      margin-top: 12px; 
       align-items: center; 
       flex-wrap: wrap;
     }
@@ -213,7 +213,7 @@
         <div class="timeline-divider"></div>
 
         <ul id="tweets-container" class="tweets">
-          <li style="justify-content: center; padding: 20px; font-weight: bold; color: #888888;">
+          <li style="justify-content: center; padding: 20px; font-weight: bold; color: #667580;">
             loading <thoughts class=""></thoughts>
           </li>
         </ul>
@@ -286,7 +286,7 @@ style.textContent = `
     right: 12px;
     background: transparent;
     border: none;
-    color: #888888;
+    color: #555;
     cursor: pointer;
     font-size: 20px;
     line-height: 1;
@@ -295,17 +295,17 @@ style.textContent = `
     transition: background 0.15s, color 0.15s;
     z-index: 10;
   }
-  .twt-menu-btn:hover { background: #333333; color: #FFFFFF; }
+  .twt-menu-btn:hover { background: #2a2a2a; color: #E1E8ED; }
 
   .twt-dropdown {
     display: none;
     position: absolute;
     top: 34px;
     right: 12px;
-    background: #111111;
-    border: 1px solid #333333;
+    background: #252525;
+    border: 1px solid #3A3A3A;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(255,255,255,0.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
     z-index: 20;
     min-width: 140px;
     overflow: hidden;
@@ -322,7 +322,7 @@ style.textContent = `
     padding: 10px 14px;
     background: transparent;
     border: none;
-    color: #AAAAAA;
+    color: #bf6a6a;
     font-size: 13px;
     font-family: "Helvetica Neue", Arial, sans-serif;
     text-align: left;
@@ -330,9 +330,9 @@ style.textContent = `
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s;
   }
-  .twt-dropdown-btn:hover { background: #333333; color: #FFFFFF; }
+  .twt-dropdown-btn:hover { background: #2a2020; }
   .twt-dropdown-btn svg {
     width: 14px; height: 14px;
     fill: none; stroke: currentColor; stroke-width: 2;
@@ -341,8 +341,8 @@ style.textContent = `
 
   #compose-post {
     display: none;
-    background: #000000;
-    border-bottom: 1px solid #333;
+    background: #1A1A1A;
+    border-bottom: 1px solid #3A3A3A;
     padding: 15px;
   }
   #compose-post .compose-body {
@@ -366,17 +366,17 @@ style.textContent = `
     border: none;
     resize: vertical;
     min-height: 60px;
-    color: #FFFFFF;
+    color: #E1E8ED;
     font-size: 15px;
     font-family: "Helvetica Neue", Arial, sans-serif;
     outline: none;
   }
   #compose-post input[type="text"] {
-    background: #111111;
-    border: 1px solid #333;
+    background: #252525;
+    border: 1px solid #3A3A3A;
     border-radius: 8px;
     padding: 8px 10px;
-    color: #FFFFFF;
+    color: #E1E8ED;
     font-size: 13px;
     margin-top: 8px;
     outline: none;
@@ -395,19 +395,19 @@ style.textContent = `
   }
   #compose-post .compose-upload-btn {
     flex-shrink: 0;
-    background: #111111;
-    border: 1px solid #333;
+    background: #252525;
+    border: 1px solid #3A3A3A;
     border-radius: 8px;
     padding: 8px 12px;
-    color: #AAAAAA;
+    color: #B3B3B3;
     font-size: 13px;
     cursor: pointer;
     white-space: nowrap;
     transition: background 0.15s, color 0.15s;
   }
   #compose-post .compose-upload-btn:hover {
-    background: #333333;
-    color: #FFFFFF;
+    background: #2a2a2a;
+    color: #E1E8ED;
   }
   #compose-post .compose-image-preview {
     display: none;
@@ -431,9 +431,9 @@ style.textContent = `
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: #000000;
-    border: 1px solid #333;
-    color: #FFFFFF;
+    background: #1A1A1A;
+    border: 1px solid #3A3A3A;
+    color: #E1E8ED;
     font-size: 13px;
     line-height: 1;
     cursor: pointer;
@@ -441,10 +441,10 @@ style.textContent = `
     align-items: center;
     justify-content: center;
   }
-  #compose-post .compose-image-remove:hover { background: #333333; }
+  #compose-post .compose-image-remove:hover { background: #bf6a6a; }
   #compose-post .compose-upload-hint {
     font-size: 11px;
-    color: #888888;
+    color: #667580;
     margin-top: 4px;
   }
   #compose-post .compose-actions {
@@ -453,25 +453,25 @@ style.textContent = `
     margin-top: 10px;
   }
   #compose-post button {
-    background: #FFFFFF;
-    color: #000000;
+    background: #3BB9E3;
+    color: #FFF;
     border: none;
     border-radius: 16px;
     padding: 8px 18px;
     font-weight: bold;
     cursor: pointer;
   }
-  #compose-post button:hover { background: #CCCCCC; }
-  #compose-post button:disabled { background: #444444; color: #888888; cursor: default; }
+  #compose-post button:hover { background: #2da0c7; }
+  #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
   .edit-form { margin-top: 5px; }
   .edit-form textarea {
     width: 100%;
-    background: #111111;
-    border: 1px solid #333;
+    background: #252525;
+    border: 1px solid #3A3A3A;
     border-radius: 8px;
     padding: 10px;
-    color: #FFFFFF;
+    color: #E1E8ED;
     font-size: 14px;
     resize: vertical;
     min-height: 60px;
@@ -484,8 +484,8 @@ style.textContent = `
     gap: 10px;
   }
   .edit-form .edit-save {
-    background: #FFFFFF;
-    color: #000000;
+    background: #3BB9E3;
+    color: #FFF;
     border: none;
     border-radius: 16px;
     padding: 6px 14px;
@@ -495,14 +495,13 @@ style.textContent = `
   }
   .edit-form .edit-cancel {
     background: transparent;
-    color: #888888;
-    border: 1px solid #333;
+    color: #B3B3B3;
+    border: 1px solid #3A3A3A;
     border-radius: 16px;
     padding: 6px 14px;
     cursor: pointer;
     font-size: 13px;
   }
-  .edit-form .edit-cancel:hover { border-color: #FFFFFF; color: #FFFFFF; }
   
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box {
     display: flex;
@@ -566,9 +565,9 @@ function linkify(text) {
       if (isEmbeddableUrl(core)) {
         return trail;
       }
-      return `<a href="${core}" target="_blank" rel="noopener" style="color:#FFFFFF; text-decoration: underline;">${core}</a>${trail}`;
+      return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
     })
-    .replace(/#(\w+)/g, '<span style="color:#FFFFFF; text-decoration: underline;">#$1</span>');
+    .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
 }
 
 function buildEmbedHtml(url) {
@@ -812,7 +811,7 @@ function buildPostEl(id, data) {
 
   const isImported = data.source === "twitter";
   const importedBadge = isImported
-    ? ` · <span title="importado do X" style="color:#FFFFFF;">𝕏</span>`
+    ? ` · <span title="importado do X" style="color:#3BB9E3;">𝕏</span>`
     : "";
 
   li.innerHTML = `
@@ -845,9 +844,7 @@ function buildPostEl(id, data) {
         </svg>
         editar post
       `;
-      editBtn.style.color = "#888888";
-      editBtn.addEventListener("mouseover", () => editBtn.style.color = "#FFFFFF");
-      editBtn.addEventListener("mouseout", () => editBtn.style.color = "#888888");
+      editBtn.style.color = "#B3B3B3";
 
       editBtn.addEventListener("click", e => {
         e.stopPropagation();
@@ -968,7 +965,7 @@ if (!container) {
 
     if (snapshot.empty) {
       container.innerHTML = `
-        <li style="justify-content:center;padding:20px;color:#888888;">
+        <li style="justify-content:center;padding:20px;color:#667580;">
           nenhum post ainda.
         </li>`;
       return;
@@ -982,7 +979,7 @@ if (!container) {
   }, err => {
     console.error("twt-loader snapshot error:", err);
     container.innerHTML = `
-      <li style="justify-content:center;padding:20px;color:#AAAAAA;">
+      <li style="justify-content:center;padding:20px;color:#bf6a6a;">
         erro ao carregar posts.
       </li>`;
   });

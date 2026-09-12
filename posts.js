@@ -260,11 +260,11 @@ style.textContent = `
   #thoughts-root #compose-post button:hover { background: #2da0c7; }
   #thoughts-root #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
-  /* Alinhamento compacto para o post */
+  /* Alinhamento com mais respiro */
   #thoughts-root .post-actions { 
     display: flex; 
-    gap: 8px;
-    margin: 10px 0 0 0; 
+    gap: 10px; /* Aumentado para 10px */
+    margin: 12px 0 0 0; /* Aumentado para 12px */
     padding-top: 6px; 
     align-items: center; 
     flex-wrap: wrap;
