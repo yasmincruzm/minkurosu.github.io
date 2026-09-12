@@ -59,7 +59,7 @@ style.textContent = `
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     padding-bottom: 100px;
-    overflow: hidden;
+    overflow-x: hidden;
     max-width: 100%;
   }
   #thoughts-root *, #thoughts-root *::before, #thoughts-root *::after {
@@ -260,7 +260,16 @@ style.textContent = `
   #thoughts-root #compose-post button:hover { background: #2da0c7; }
   #thoughts-root #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
-  #thoughts-root .post-actions { display: flex; gap: 20px; margin: 4px 15px; align-items: center; flex-wrap: wrap; }
+  /* Alinhamento compacto para o post */
+  #thoughts-root .post-actions { 
+    display: flex; 
+    gap: 8px;
+    margin: 10px 0 0 0; 
+    padding-top: 6px; 
+    align-items: center; 
+    flex-wrap: wrap;
+    width: 100%;
+  }
   #thoughts-root .action-button {
     display: flex; align-items: center; gap: 6px;
     color: #E1E8ED; cursor: pointer; font-size: 13px; font-weight: 500;
@@ -270,8 +279,16 @@ style.textContent = `
   #thoughts-root .action-button.liked,
   #thoughts-root .action-button.liked:hover { color: #E0245E; }
   #thoughts-root .action-button.liked svg { fill: currentColor; stroke: currentColor; }
+  
   #thoughts-root #tweets-container li .post-actions .twt-reactions-box {
-    display: flex; align-items: center; margin: 0;
+    display: flex; 
+    align-items: center; 
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  #thoughts-root #tweets-container li .post-actions .twt-reactions-box .reactions-wrapper {
+    margin: 0;
+    width: auto;
   }
 `;
 document.head.appendChild(style);

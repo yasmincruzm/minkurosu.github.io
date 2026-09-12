@@ -12,289 +12,109 @@
         gtag('js', new Date());
         gtag('config', 'G-4K5KDKEJ2E');
     </script>
-    <link rel="stylesheet" href="reactions.css">
     <meta charset="UTF-8">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <title>@minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="stylesheet" href="emo.css" />
-    <script src="https://u.widget.st/ar.js" defer></script>
-    <style>.blog-reactions-box, .blog-reactions-box ws-widget { border: none !important; box-shadow: none !important; }</style>
+    <link rel="stylesheet" href="reactions.css">
     <style>
-        .blog-post {
-            text-align: left;
-        }
-
+        .blog-post { text-align: left; }
         .blog-post .post-info-header {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-align: left;
-            font-size: 0.85rem;
-            color: #4b4b4b;
+            display: flex; align-items: center; gap: 6px; text-align: left;
+            font-size: 0.85rem; color: #4b4b4b;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
             margin-bottom: 4px;
         }
-
-        .blog-post .post-date,
-        .blog-post .post-time,
-        .blog-post .post-separator {
-            text-align: left;
-            font-size: 0.85rem;
+        .blog-post .post-date, .blog-post .post-time, .blog-post .post-separator {
+            text-align: left; font-size: 0.85rem;
         }
-
         .blog-post .post-title {
-            font-size: 1.6rem;
-            text-align: left;
-            margin: 0 0 8px 0;
+            font-size: 1.6rem; text-align: left; margin: 0 0 8px 0;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
-
         .blog-post .post-text {
-            text-align: left;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            text-align: left; font-size: 0.95rem; line-height: 1.6;
             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
         }
-
-        .blogimg{
-            height: 400px;
-            align-items: center;
-            display: block;
-             margin-left:auto; 
-             margin-right:auto;
-        }
-
-
-        .post-body-fixed {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-sizing: border-box;
-        }
-
-        .post-text-scroll {
-            height: auto;               
-            overflow-y: auto;
-            padding-right: 8px;
-            scrollbar-width: thin;
-        }
-
-        .post-text-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .post-text-scroll::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 3px;
-        }
-        .post-text-scroll::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.15);
-        }
-
-        .post-gallery-wrap {
-            position: relative;
-        }
-
-        .post-gallery-wrap:has(input:checked) .post-gallery {
-            max-height: none;
-        }
-
-        .post-gallery-wrap:has(input:checked) .gallery-fade {
-            display: none;
-        }
+        .blogimg{ height: 400px; align-items: center; display: block; margin-left:auto; margin-right:auto; }
+        .post-body-fixed { display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
+        .post-text-scroll { height: auto; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; }
+        .post-text-scroll::-webkit-scrollbar { width: 6px; }
+        .post-text-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.5); border-radius: 3px; }
+        .post-text-scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.15); }
+        .post-gallery-wrap { position: relative; }
+        .post-gallery-wrap:has(input:checked) .post-gallery { max-height: none; }
+        .post-gallery-wrap:has(input:checked) .gallery-fade { display: none; }
         .post-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-            max-height: 168px;         
-            overflow: hidden;
-            transition: max-height 0.35s ease;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
+            max-height: 168px; overflow: hidden; transition: max-height 0.35s ease;
         }
-
         .post-gallery .feed-cell {
-            position: relative;
-            flex: 0 0 calc(33.333% - 4px);
-            max-width: calc(33.333% - 4px);
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            border-radius: 2px;
+            position: relative; flex: 0 0 calc(33.333% - 4px); max-width: calc(33.333% - 4px);
+            aspect-ratio: 1 / 1; overflow: hidden; border-radius: 2px;
         }
-
         .post-gallery .feed-cell:has(.photo-toggle:checked) {
-            flex: 0 0 100%;
-            max-width: 100%;
-            aspect-ratio: unset;
+            flex: 0 0 100%; max-width: 100%; aspect-ratio: unset;
         }
-
-        .feed-cell .thumb-label {
-            display: block;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
+        .feed-cell .thumb-label { display: block; width: 100%; height: 100%; cursor: pointer; }
         .feed-cell .thumb-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            width: 100%; height: 100%; object-fit: cover; display: block;
             transition: transform 0.2s ease, filter 0.2s ease;
         }
-
-        .feed-cell .thumb-label:hover .thumb-img {
-            transform: scale(1.04);
-            filter: brightness(0.85);
-        }
-
-        .feed-cell .hover-hint {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-        }
-
-        .feed-cell .full-img-wrap {
-            display: none;
-            position: relative;
-            width: 100%;
-        }
-
-        .feed-cell .photo-toggle:checked ~ .full-img-wrap {
-            display: block;
-        }
-
-        .feed-cell .photo-toggle:checked ~ .thumb-label {
-            display: none;
-        }
-
+        .feed-cell .thumb-label:hover .thumb-img { transform: scale(1.04); filter: brightness(0.85); }
+        .feed-cell .hover-hint { position: absolute; inset: 0; pointer-events: none; }
+        .feed-cell .full-img-wrap { display: none; position: relative; width: 100%; }
+        .feed-cell .photo-toggle:checked ~ .full-img-wrap { display: block; }
+        .feed-cell .photo-toggle:checked ~ .thumb-label { display: none; }
         .feed-cell .full-img-wrap img {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            max-height: 75vh;
-            object-fit: contain;
-            border-radius: 3px;
-            display: block;
+            width: 100%; max-width: 100%; height: auto; max-height: 75vh;
+            object-fit: contain; border-radius: 3px; display: block;
         }
-
         .feed-cell .close-btn {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            border-radius: 50%;
-            width: 26px;
-            height: 26px;
-            font-size: 15px;
-            line-height: 26px;
-            text-align: center;
-            cursor: pointer;
-            display: block;
+            position: absolute; top: 6px; right: 6px; background: rgba(0, 0, 0, 0.6);
+            color: #fff; border-radius: 50%; width: 26px; height: 26px;
+            font-size: 15px; line-height: 26px; text-align: center; cursor: pointer; display: block;
         }
-
-      
         .gallery-fade {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 60px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 6px;
+            position: absolute; left: 0; right: 0; bottom: 0; height: 60px;
+            display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px;
             background: linear-gradient(to bottom, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.92) 78%);
-            cursor: pointer;
-            border-radius: 0 0 2px 2px;
+            cursor: pointer; border-radius: 0 0 2px 2px;
         }
-
-        .show-more-toggle:checked ~ .post-gallery {
-            max-height: 2000px;
-        }
-
-        .show-more-toggle:checked ~ .gallery-fade {
-            display: none;
-        }
-
+        .show-more-toggle:checked ~ .post-gallery { max-height: 2000px; }
+        .show-more-toggle:checked ~ .gallery-fade { display: none; }
         .gallery-expand-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            font-size: 18px;
-            line-height: 30px;
-            text-align: center;
-            display: block;
-            pointer-events: none;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(0, 0, 0, 0.75); color: #fff; font-size: 18px;
+            line-height: 30px; text-align: center; display: block; pointer-events: none;
         }
-        .lists-page {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.lists-title {
-    text-align: center;
-    color: #570000;
-    letter-spacing: 3px;
-    margin: 0 0 16px 0;
-    font-size: 1.4em;
-}
-
-.lists-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0 24px;
-    width: 100%;
-    box-sizing: border-box;
-    min-width: 0;
-}
-
-.lists-details {
-    display: block;
-    min-width: 0;
-    overflow-wrap: break-word;
-    margin-bottom: 4px;
-}
-
-.lists-summary {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 0;
-    color: #4b4b4b;
-    font-family: 'MinFont', monospace;
-    font-size: 1em;
-    cursor: pointer;
-    text-align: left;
-}
-
-.lists-details-body {
-    padding-left: 6px;
-}
-
-.lists-items {
-    list-style: none;
-    margin: 0;
-    padding: 4px 0 10px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    text-align: left;
-}
-
-.lists-items li {
-    color: #6b6b6b;
-    font-size: 0.92em;
-    line-height: 1.5;
-    padding-left: 2px;
-    text-align: left;
-}
-
+        .lists-page { width: 100%; padding: 20px; box-sizing: border-box; }
+        .lists-title {
+            text-align: center; color: #570000; letter-spacing: 3px;
+            margin: 0 0 16px 0; font-size: 1.4em;
+        }
+        .lists-grid {
+            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0 24px; width: 100%; box-sizing: border-box; min-width: 0;
+        }
+        .lists-details {
+            display: block; min-width: 0; overflow-wrap: break-word; margin-bottom: 4px;
+        }
+        .lists-summary {
+            list-style: none; display: flex; align-items: center; gap: 8px;
+            padding: 6px 0; color: #4b4b4b; font-family: 'MinFont', monospace;
+            font-size: 1em; cursor: pointer; text-align: left;
+        }
+        .lists-details-body { padding-left: 6px; }
+        .lists-items {
+            list-style: none; margin: 0; padding: 4px 0 10px 0;
+            display: flex; flex-direction: column; align-items: flex-start;
+            gap: 4px; text-align: left;
+        }
+        .lists-items li {
+            color: #6b6b6b; font-size: 0.92em; line-height: 1.5;
+            padding-left: 2px; text-align: left;
+        }
     </style>
 </head>
 
@@ -302,8 +122,7 @@
     <div class="layout-with-sidebars">
         <main id="containerprincipal">
 
-        
-<h2>monthly blog</h2>
+            <h2>monthly blog</h2>
             <div class="caixamaisclaraCenterSimple">
                 <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
                     first language, so feel free to translate the page with the button on the sidebar on your left, if you're interested enough :)</h4>
@@ -317,21 +136,8 @@
 
             <div id="posts-container">
 
-
-
-
-  <div class="blog-post">
-
-
-
-
-
-
-                    <div class="post-info-header">
-                        <span class="post-date">september</span>
-                        <span class="post-separator">·</span>
-                        <span class="post-time">16:20</span>
-                    </div>
+                <div class="blog-post">
+                    
                     <h2 class="post-title">sept 2026</h2>
 
                     <div class="post-body-fixed">
@@ -384,36 +190,8 @@
                     <hr class="post-divider">
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="blog-post">
-
-
-
-
-
-
-                    <div class="post-info-header">
-                        <span class="post-date">august</span>
-                        <span class="post-separator">·</span>
-                        <span class="post-time">16:20</span>
-                    </div>
+                <div class="blog-post">
+                   
                     <h2 class="post-title">ago 2026</h2>
 
                     <div class="post-body-fixed">
@@ -477,18 +255,8 @@
                     <hr class="post-divider">
                 </div>
 
-  <div class="blog-post">
-
-
-
-
-
-
-                    <div class="post-info-header">
-                        <span class="post-date">13/07/2026</span>
-                        <span class="post-separator">·</span>
-                        <span class="post-time">17:12</span>
-                    </div>
+                <div class="blog-post">
+    
                     <h2 class="post-title">jul 2026</h2>
 
                     <div class="post-body-fixed">
@@ -564,11 +332,6 @@ gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks tamb�
                 </div>
 
                 <div class="blog-post">
-                    <div class="post-info-header">
-                        <span class="post-date">25/02/2026</span>
-                        <span class="post-separator">·</span>
-                        <span class="post-time">01:32</span>
-                    </div>
                     <h2 class="post-title">hiperfocos alimentares</h2>
 
                     <div class="post-body-fixed">
@@ -593,10 +356,8 @@ gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks tamb�
                     <hr class="post-divider">
                 </div>
 
-             
-
-               
             </div>
+
 <script type="module">
   import { mountReactions } from './reactions.js';
 
@@ -622,14 +383,15 @@ gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks tamb�
     });
   }
 
-  if (document.readyState === "loading")
+  if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", setupBlogReactions);
-  else
+  } else {
     setupBlogReactions();
+  }
 </script>
 
         </main>
     </div>
 </body>
 
-</html>twt
+</html>

@@ -13,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-M7PWC6DDRH"
 };
 
-console.log("[reactions] módulo carregado");
+console.log("[reactions] module loaded");
 
 const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -29,20 +29,113 @@ export function setReactionsAdmin(v) {
 window.setReactionsAdmin = setReactionsAdmin;
 
 const UNICODE_CATEGORIES = {
-  faces: ["😀","😃","😄","😁","😆","😅","🤣","😂","🙂","🙃","😉","😊","😇","🥰","😍","🤩","😘","😗","😚","😙","🥲","😋","😛","😜","🤪","😝","🤑","🤗","🤭","🤫","🤔","🤐","🤨","😐","😑","😶","😏","😒","🙄","😬","🤥","😌","😔","😪","🤤","😴","😷","🤒","🤕","🤢","🤮","🤧","🥵","🥶","🥴","😵","🤯","🤠","🥳","😎","🤓","🧐","😕","😟","🙁","😮","😯","😲","😳","🥺","😦","😧","😨","😰","😥","😢","😭","😱","😖","😣","😞","😓","😩","😫","🥱","😤","😡","😠","🤬","😈","👿","💀","💩","🤡","👻","👽","👾","🤖","😺","😸","😹","😻","😼","😽","🙀","😿","😾"],
-  hands: ["👋","🤚","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘","🤙","👈","👉","👆","👇","👍","👎","✊","👊","🤛","🤜","👏","🙌","👐","🤲","🤝","🙏","💅"],
-  animals: ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐵","🐔","🐧","🐦","🦆","🦅","🦉","🦇","🐺","🐴","🦄","🐝","🐛","🦋","🐌","🐢","🐍","🦎","🐙","🐬","🐳","🐋","🦈"],
-  food: ["🍎","🍊","🍋","🍌","🍉","🍇","🍓","🍒","🍑","🥭","🍍","🥥","🥝","🍅","🥑","🥦","🌽","🥕","🥔","🍞","🧀","🥚","🍳","🥓","🍔","🍟","🍕","🌭","🍣","🍜","🍰","🎂","🍭","🍫","🍿","🍩","🍪","☕","🍵","🍺","🍷"],
-  objects: ["🏠","🏡","🏢","🏥","🏦","🏨","🏫","🏰","⛪","🕌","🚂","🚗","🚕","🚌","🚑","🚒","🚓","🚲","🛴","✈️","🚀","🛸","⌚","📱","💻","📷","🎥","📺","🔦","💡","🔑","🚪"],
-  symbols: ["⚽","🏀","🏈","⚾","🎾","🏐","🎱","🏓","🏸","🥊","🎯","🎮","🎲","🎰","🎨","🎬","🎤","🎧","🎸","🎹","🎺","🥁","🏆","🥇","🎖️","🎗️"],
-  hearts: ["❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","💔","💕","💞","💓","💗","💖","💘","💝","✨","⭐","🌟","💫","⚡","🔥","💥","❄️","🌈","☀️","🌙"]
+  faces: [
+    "😀", "😃", "😄", "😁", "😆", "😅",
+    "🤣", "😂", "🙂", "🙃", "🫠", "😉",
+    "😊", "😇", "🥰", "😍", "🤩", "😘",
+    "😗", "😚", "😙", "🥲", "😋", "😛",
+    "😜", "🤪", "😝", "🤑", "🤗", "🤭",
+    "🫢", "🫣", "🤫", "🤔", "🫡", "🤐",
+    "🤨", "😐", "😑", "😶", "🫥", "😏",
+    "😒", "🙄", "😬", "🤥", "🫨", "😌",
+    "😔", "😪", "🤤", "😴", "😷", "🤒",
+    "🤕", "🤢", "🤮", "🤧", "🥵", "🥶",
+    "🥴", "😵", "😵‍💫", "🤯", "🤠", "🥳",
+    "🥸", "😎", "🤓", "🧐", "😕", "🫤",
+    "😟", "🙁", "😮", "😯", "😲", "😳",
+    "🥺", "🥹", "😦", "😧", "😨", "😰",
+    "😥", "😢", "😭", "😱", "😖", "😣",
+    "😞", "😓", "😩", "😫", "🥱", "😤",
+    "😡", "😠", "🤬", "😈", "👿", "💀",
+    "💩", "🤡", "👻", "👽", "👾", "🤖",
+    "😺", "😸", "😹", "😻", "😼", "😽",
+    "🙀", "😿", "😾"
+  ],
+  hands: [
+    "👋", "🤚", "🖐️", "✋", "🖖", "🫱",
+    "🫲", "🫳", "🫴", "👌", "🤌", "🤏",
+    "✌️", "🤞", "🫰", "🤟", "🤘", "🤙",
+    "👈", "👉", "👆", "🖕", "👇", "👍",
+    "👎", "✊", "👊", "🤛", "🤜", "👏",
+    "🙌", "🫶", "👐", "🤲", "🤝", "🙏",
+    "🫵", "🫷", "🫸", "💅", "🤳"
+  ],
+  animals: [
+    "🐶", "🐱", "🐭", "🐹", "🐰", "🦊",
+    "🐻", "🐻‍❄️", "🐼", "🐨", "🐯", "🦁",
+    "🐮", "🐷", "🐽", "🐸", "🐵", "🙈",
+    "🙉", "🙊", "🐒", "🦍", "🦧", "🐘",
+    "🦣", "🦛", "🦏", "🐪", "🐫", "🦒",
+    "🦘", "🦬", "🐃", "🐂", "🐄", "🐎",
+    "🐖", "🐏", "🐑", "🦙", "🐐", "🦌",
+    "🐕", "🐩", "🦮", "🐕‍🦺", "🐈", "🐈‍⬛",
+    "🐓", "🐣", "🐤", "🐥", "🦃", "🦤",
+    "🦚", "🦜", "🦢", "🦩", "🕊️", "🐇",
+    "🦝", "🦨", "🦡", "🦫", "🦦", "🦥",
+    "🐁", "🐀", "🐿️", "🦔", "🦇", "🐺",
+    "🦉", "🦅", "🦆", "🐧", "🐦", "🐦‍⬛",
+    "🐊", "🐢", "🐍", "🦎", "🦖", "🦕",
+    "🐙", "🦑", "🦐", "🦞", "🦀", "🦭",
+    "🐡", "🐠", "🐟", "🐬", "🐳", "🐋",
+    "🦈", "🐚", "🐌", "🐝", "🪲", "🐛",
+    "🦋", "🐞", "🐜", "🪳", "🦟", "🦗",
+    "🕷️", "🕸️", "🦂", "🪰", "🪱", "🦠"
+  ],
+  food: [
+    "🍎", "🍊", "🍋", "🍌", "🍉", "🍇",
+    "🍓", "🫐", "🍈", "🍒", "🍑", "🥭",
+    "🍍", "🥥", "🥝", "🍅", "🫒", "🥑",
+    "🍆", "🥔", "🥕", "🌽", "🌶️", "🫑",
+    "🥒", "🥬", "🥦", "🧄", "🧅", "🍄",
+    "🥜", "🫘", "🌰", "🍞", "🥐", "🥖",
+    "🫓", "🥨", "🥯", "🧀", "🥚", "🍳",
+    "🧈", "🥞", "🧇", "🥓", "🥩", "🍗",
+    "🍖", "🌭", "🍔", "🍟", "🍕", "🫔",
+    "🥪", "🥙", "🧆", "🌮", "🌯", "🥗",
+    "🥘", "🫕", "🍝", "🍜", "🍲", "🍛",
+    "🍣", "🍱", "🥟", "🦪", "🍤", "🍙",
+    "🍚", "🍘", "🍥", "🥮", "🍢", "🍡",
+    "🍧", "🍨", "🍦", "🥧", "🧁", "🍰",
+    "🎂", "🍮", "🍭", "🍬", "🍫", "🍿",
+    "🍩", "🍪", "🧃", "🧋", "🧉", "🥤",
+    "☕", "🍵", "🍺", "🍷", "🥂"
+  ],
+  objects: [
+    "🏠", "🏡", "🏢", "🏥", "🏦", "🏨",
+    "🏫", "🏰", "🏯", "⛪", "🕌", "🕍",
+    "🛕", "⛩️", "🚂", "🚗", "🚕", "🚌",
+    "🚑", "🚒", "🚓", "🚲", "🛴", "🛹",
+    "🛼", "✈️", "🚀", "🛸", "⌚", "📱",
+    "💻", "🖥️", "⌨️", "🖱️", "📷", "🎥",
+    "📺", "🎮", "🕹️", "🔦", "💡", "🔑",
+    "🚪", "🪄", "🪅", "🪆", "🧸", "🪩",
+    "🎈", "🎀", "🪁", "🧭", "🔋", "🪫",
+    "🧵", "🪡", "🧶", "🪢"
+  ],
+  symbols: [
+    "⚽", "🏀", "🏈", "⚾", "🎾", "🏐",
+    "🎱", "🏓", "🏸", "🥊", "🥋", "🎯",
+    "🎮", "🎲", "🎰", "🎨", "🎬", "🎤",
+    "🎧", "🎸", "🎹", "🎺", "🥁", "🪕",
+    "🏆", "🥇", "🎖️", "🎗️", "🥏", "🪀",
+    "🎳", "🤿", "🏹", "🎿", "🛷", "⛸️",
+    "🥌"
+  ],
+  hearts: [
+    "❤️", "🧡", "💛", "💚", "💙", "💜",
+    "🖤", "🤍", "🤎", "🩷", "🩵", "🩶",
+    "💔", "❤️‍🔥", "❤️‍🩹", "💕", "💞", "💓",
+    "💗", "💖", "💘", "💝", "💟", "💌",
+    "✨", "⭐", "🌟", "💫", "⚡", "🔥",
+    "💥", "❄️", "🌈", "☀️", "🌙"
+  ]
 };
 
 let reactionImagesPromise = null;
 
 function loadReactionImages() {
   if (!reactionImagesPromise) {
-    console.log("[reactions] buscando emotes.json...");
+    console.log("[reactions] fetching emotes.json...");
     reactionImagesPromise = fetch("emotes.json")
       .then(r => {
         console.log("[reactions] emotes.json status:", r.status);
@@ -51,7 +144,7 @@ function loadReactionImages() {
       })
       .then(data => {
         const files = Array.isArray(data.emotes) ? data.emotes : [];
-        console.log("[reactions] emotes.json carregado:", files.length, "arquivos");
+        console.log("[reactions] emotes.json loaded:", files.length, "files");
         return files.map(f => ({
           id: "react_" + slug(f),
           name: f.replace(/\.[^.]+$/, ""),
@@ -59,26 +152,19 @@ function loadReactionImages() {
         }));
       })
       .catch(err => {
-        console.error("[reactions] ERRO no fetch do emotes.json:", err);
+        console.error("[reactions] ERROR fetching emotes.json:", err);
         return [];
       });
   }
   return reactionImagesPromise;
 }
 
-/**
- * Gera um id estável e único pra QUALQUER string,
- * inclusive emojis unicode (que não têm letras/números).
- */
 function slug(str) {
   const s = String(str)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_+|_+$/g, "");
-
   if (s) return s;
-
-  // fallback: usa codepoints hexadecimais (únicos por emoji)
   return "u" + [...String(str)]
     .map(c => c.codePointAt(0).toString(16))
     .join("_");
@@ -96,7 +182,7 @@ export async function mountReactions(container, opts = {}) {
   if (!container || !opts.targetId) return null;
 
   const targetId = escId(opts.targetId);
-  console.log("[reactions] montando para targetId =", targetId);
+  console.log("[reactions] mounting for targetId =", targetId);
 
   const imageReactions = await loadReactionImages();
   console.log("[reactions] imageReactions:", imageReactions.length);
@@ -119,7 +205,7 @@ export async function mountReactions(container, opts = {}) {
     list.forEach(o => { if (!optionsById.has(o.id)) optionsById.set(o.id, o); });
   });
 
-  const ADD_ICON = "imgs/emotes/add-reaction.png";
+  const ADD_ICON = container.dataset.addIcon || "imgs/emotes/add-reaction.svg";
 
   container.innerHTML = `
     <div class="reactions-wrapper">
@@ -154,9 +240,7 @@ export async function mountReactions(container, opts = {}) {
   function renderList(counts) {
     lastCounts = counts || {};
     listEl.innerHTML = "";
-
     Object.entries(lastCounts)
-      // filtra: só > 0 E que existam em optionsById (ignora ids órfãos)
       .filter(([id, n]) => n > 0 && optionsById.has(id))
       .sort((a, b) => b[1] - a[1])
       .forEach(([reactionId, count]) => {
@@ -169,24 +253,21 @@ export async function mountReactions(container, opts = {}) {
           `<span class="reaction-icon">${iconHtml(reactionId)}</span>` +
           `<span class="reaction-count">${count}</span>` +
           `<button type="button" class="reaction-delete" title="delete">×</button>`;
-
         btn.addEventListener("click", e => {
           if (e.target.classList.contains("reaction-delete")) return;
           e.stopPropagation();
           toggleReaction(reactionId);
         });
-
         btn.querySelector(".reaction-delete").addEventListener("click", async e => {
           e.stopPropagation();
           e.preventDefault();
           if (!isAdmin) return;
-          if (!confirm("Apagar essa reação?")) return;
+          if (!confirm("Delete this reaction?")) return;
           try {
             await setDoc(docRef, {}, { merge: true });
             await updateDoc(docRef, { [`counts.${reactionId}`]: deleteField() });
           } catch (err) { console.error(err); }
         });
-
         li.appendChild(btn);
         listEl.appendChild(li);
       });
@@ -200,9 +281,9 @@ export async function mountReactions(container, opts = {}) {
     try {
       await setDoc(docRef, {}, { merge: true });
       await updateDoc(docRef, { [`counts.${reactionId}`]: increment(already ? -1 : 1) });
-      console.log("[reactions] salvo", already ? -1 : 1);
+      console.log("[reactions] saved", already ? -1 : 1);
     } catch (err) {
-      console.error("[reactions] ERRO ao reagir:", err);
+      console.error("[reactions] ERROR reacting:", err);
       already ? localStorage.setItem(key, "1") : localStorage.removeItem(key);
     }
   }
@@ -213,7 +294,7 @@ export async function mountReactions(container, opts = {}) {
       console.log("[reactions] snapshot", targetId, data.counts || {});
       renderList(data.counts || {});
     },
-    err => console.error("[reactions] ERRO snapshot:", err)
+    err => console.error("[reactions] snapshot ERROR:", err)
   );
 
   wrapper._rerender = () => renderList(lastCounts);
@@ -221,17 +302,17 @@ export async function mountReactions(container, opts = {}) {
   picker.innerHTML = `
     <div class="picker-header">
       <input type="text" class="picker-search" placeholder="Search">
-      <span class="picker-handwave">👋</span>
+      <span class="picker-handwave">\u{1f44b}</span>
     </div>
     <div class="picker-tabs">
-      <button type="button" class="picker-tab-btn active" data-cat="brilho">✨</button>
-      <button type="button" class="picker-tab-btn" data-cat="faces">😀</button>
-      <button type="button" class="picker-tab-btn" data-cat="hands">👋</button>
-      <button type="button" class="picker-tab-btn" data-cat="animals">🐱</button>
-      <button type="button" class="picker-tab-btn" data-cat="food">🍎</button>
-      <button type="button" class="picker-tab-btn" data-cat="objects">🏠</button>
-      <button type="button" class="picker-tab-btn" data-cat="symbols">⚽</button>
-      <button type="button" class="picker-tab-btn" data-cat="hearts">❤️</button>
+      <button type="button" class="picker-tab-btn active" data-cat="brilho">\u{2728}</button>
+      <button type="button" class="picker-tab-btn" data-cat="faces">\u{1f600}</button>
+      <button type="button" class="picker-tab-btn" data-cat="hands">\u{1f44b}</button>
+      <button type="button" class="picker-tab-btn" data-cat="animals">\u{1f431}</button>
+      <button type="button" class="picker-tab-btn" data-cat="food">\u{1f34e}</button>
+      <button type="button" class="picker-tab-btn" data-cat="objects">\u{1f3e0}</button>
+      <button type="button" class="picker-tab-btn" data-cat="symbols">\u{26bd}</button>
+      <button type="button" class="picker-tab-btn" data-cat="hearts">\u{2764}\u{fe0f}</button>
     </div>
     <div class="picker-body"><div class="picker-grid"></div></div>
     <div class="picker-footer">
@@ -253,10 +334,10 @@ export async function mountReactions(container, opts = {}) {
       Object.values(categories).forEach(l => all.push(...l));
       items = all.filter(it => (it.name || "").toLowerCase().includes(q));
     }
-    console.log("[reactions] renderGrid cat =", currentCat, "itens =", items.length);
+    console.log("[reactions] renderGrid cat =", currentCat, "items =", items.length);
     gridEl.innerHTML = "";
     if (!items.length) {
-      gridEl.innerHTML = `<div class="picker-empty">nada encontrado</div>`;
+      gridEl.innerHTML = `<div class="picker-empty">nothing found</div>`;
       return;
     }
     items.forEach(it => {
@@ -325,7 +406,7 @@ export async function mountReactions(container, opts = {}) {
 
   addBtn.addEventListener("click", e => {
     e.stopPropagation();
-    console.log("[reactions] clique no add");
+    console.log("[reactions] add clicked");
     picker.classList.contains("open") ? closePicker() : openPicker();
   });
 
@@ -336,4 +417,4 @@ export async function mountReactions(container, opts = {}) {
   return { wrapper };
 }
 
-console.log("[reactions] módulo pronto");
+console.log("[reactions] module ready");

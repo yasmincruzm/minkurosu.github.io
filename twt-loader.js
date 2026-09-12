@@ -275,7 +275,6 @@ style.textContent = `
     font-size: 13px;
   }
 
-  /* Post clicavel: clicar nele expande/recolhe e revela as reacoes.
      So o .twt-reactions-box e afetado -- nada aqui toca .grid-feed nem
      .feed-cell do feed.html, entao a grade de fotos do feed nao e afetada. */
   #thoughts-root #tweets-container li {

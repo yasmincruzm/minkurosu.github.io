@@ -85,7 +85,9 @@
   }, 200);
 </script>
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-<link rel="stylesheet" href="reactions.css">
+    <link rel="stylesheet" href="reactions.css">
+    <title></title>
+
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <div class="crt"></div>
     <style>
@@ -359,6 +361,13 @@ div#goog-gt- {
             height: 380px;
             overflow-y: scroll;
             overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scrollSmaller, .scrollMedium {
+            max-height: 380px;
+            overflow-y: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -678,10 +687,14 @@ div#goog-gt- {
     display: block;
 }
 
-/* ---------------------------------------------------
-   mobile — mesmo estilo, só reorganizando o que era
-   fixo em px/colunas de desktop pro viewport real
---------------------------------------------------- */
+#chattable {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 250px !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
+
 @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
     #containerprincipal,
     #container {
@@ -835,16 +848,22 @@ div#goog-gt- {
   });
 })();
 </script>
-<div class="caixamaisclaraColumn">
-  <br>
-  <script src="oneko.js"></script>
-<script language="javascript" type="text/javascript"
-    src="https://counter1.fc2.com/counter.php?id=40522267&main=1"></script>
-<noscript>
-  <img src="https://counter1.fc2.com/counter_img.php?id=40522267&main=1" alt="counter" />
-</noscript>
-  <div class="buttons"></div>
-</div>
+                <div class="caixamaisclaraColumn" style="text-align: center;">
+                  
+                    <br>
+
+                    <div class="buttons">
+
+                    </div>
+
+                    <!-- Counter FC2 original restaurado e centralizado -->
+                    <div id="fc2-counter-container" style="margin: 10px 0;">
+                        <script language="javascript" type="text/javascript"
+                            src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script><noscript><img
+                                src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" alt="FC2 Counter" /></noscript>
+                    </div>
+
+                </div>
 
             
           
@@ -895,6 +914,18 @@ div#goog-gt- {
                         </table>
                           <hr>
 
+                    <div class="sidebar-reactions-box sidebar-reactions-inline" data-reactions="sidebar_home"></div>
+                    <script type="module">
+                        import { mountReactions } from './reactions.js';
+                        const box = document.querySelector('.sidebar-reactions-box[data-reactions="sidebar_home"]');
+                        if (box) {
+                            mountReactions(box, { targetId: "sidebar_home" }).catch(err => {
+                                console.error('[reactions] falhou ao montar:', err);
+                            });
+                        }
+                    </script>
+                          <hr>
+
                         <script>
 let mrnCurrent = 0;
 const mrnTrack = document.getElementById("mrn-track");
@@ -939,14 +970,7 @@ mrnGoTo(0);
 
   fetchDiscordActivity();
   setInterval(fetchDiscordActivity, 30000);
-</script><div class="sidebar-reactions-box" data-reactions="pagina_sobre"></div>
-<script type="module">
-  import { mountReactions } from './reactions.js';
-  const box = document.querySelector('.sidebar-reactions-box[data-reactions="pagina_sobre"]');
-  if (box) mountReactions(box, { targetId: "pagina_sobre" });
 </script>
-<hr>
-
 
                     </div>
 <div style="
@@ -1008,7 +1032,8 @@ mrnGoTo(0);
 </div>
 <hr>
 
-                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="max-width: 90%; height: 300px;" id="chattable"></iframe>
+                                                <!-- Iframe do chat restaurado com altura maior para acomodar o menu de emotes -->
+                                                <iframe src="https://iframe.chat/embed?chat=minkurosu" style="width: 100%; height: 450px; border: none; border-radius: 8px;" id="chattable"></iframe>
 
                 <hr>
 <a href="https://tamanotchi.world/24409c"><img src="https://tamanotchi.world/i/24409" alt="It's tamaNOTchi! Click to feed!" style="height: 70px;"></a>
