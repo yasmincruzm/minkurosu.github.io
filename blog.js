@@ -62,7 +62,6 @@ async function loadBlogPosts() {
             `;
             blogPostsContainer.appendChild(postElement);
 
-            // Monta reações nesse post do Firestore
             const targetId = "blog_" + String(post.title || docSnap.id)
                 .toLowerCase().replace(/[^a-z0-9]/g, "_");
 

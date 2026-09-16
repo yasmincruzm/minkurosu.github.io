@@ -1,7 +1,6 @@
-import { mountReactions } from './reactions.js';
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, collection, query, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { mountReactions } from './reactions.js';
+
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
     authDomain: "minkurosu.firebaseapp.com",
@@ -12,21 +11,24 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db  = getFirestore(app);
 
 function formatTimestampForTitle(timestamp) {
     if (!timestamp) return 'Date Unavailable';
-    const date = timestamp.toDate();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear());
-    return `${day}/${month}/${year}`;
+    try {
+        const date = timestamp.toDate();
+        const day   = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year  = String(date.getFullYear());
+        return `${day}/${month}/${year}`;
+    } catch {
+        return 'Date Unavailable';
+    }
 }
 
 function escapeHtml(str) {
-    return str
+    return String(str ?? '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -37,7 +39,7 @@ function escapeHtml(str) {
 async function loadDreams() {
     const dreamsContainer = document.getElementById('dreams-container');
     if (!dreamsContainer) {
-        console.error("error.");
+        console.error('[dream-journal] error.');
         return;
     }
 
@@ -48,14 +50,13 @@ async function loadDreams() {
         dreamsContainer.innerHTML = '';
 
         if (querySnapshot.empty) {
-            dreamsContainer.innerHTML = '<h2>error.</h2>';
+            dreamsContainer.innerHTML = '<h2>empty.</h2>';
             return;
         }
 
         let dreamNumber = querySnapshot.size;
 
         querySnapshot.forEach(docSnap => {
-            const dreamId = docSnap.id;
             const dream = docSnap.data();
             const dreamElement = document.createElement('div');
             dreamElement.classList.add('blog-post');
@@ -63,33 +64,25 @@ async function loadDreams() {
             const formattedDate = formatTimestampForTitle(dream.timestamp);
             const title = `Sonho n° ${String(dreamNumber).padStart(3, '0')} - ${formattedDate}`;
 
-            const rawContent = dream.content || '';
+            const rawContent  = dream.content || '';
             const safeContent = escapeHtml(rawContent)
                 .replace(/\\n/g, '<br>')
                 .replace(/\n/g, '<br>');
 
             dreamElement.innerHTML = `
-               <h1>${escapeHtml(title)}</h1>
-               <p>${safeContent}</p>
-               <div class="dream-reactions-box"></div>
-               <hr class="post-divider">
+                <h1>${escapeHtml(title)}</h1>
+                <p>${safeContent}</p>
+                <hr class="post-divider">
             `;
             dreamsContainer.appendChild(dreamElement);
-
-       const reactionsBox = dreamElement.querySelector('.dream-reactions-box');
-if (reactionsBox) {
-  mountReactions(reactionsBox, { targetId: "dream_" + dreamId });
-}
 
             dreamNumber--;
         });
 
-        console.log(`[dream-journal] ${querySnapshot.size}sucess.`);
+        console.log(`[dream-journal] ${querySnapshot.size} loaded.`);
     } catch (error) {
-        console.error("[dream-journal]Erro:", error);
-        if (dreamsContainer) {
-            dreamsContainer.innerHTML = `<p style="color: red;">error: ${escapeHtml(error.message || String(error))}</p>`;
-        }
+        console.error('[dream-journal] error loading:', error);
+        dreamsContainer.innerHTML = `<p style="color: red;">erro: ${escapeHtml(error.message || String(error))}</p>`;
     }
 }
 

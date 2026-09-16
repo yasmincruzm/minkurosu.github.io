@@ -275,8 +275,7 @@ style.textContent = `
     font-size: 13px;
   }
 
-     So o .twt-reactions-box e afetado -- nada aqui toca .grid-feed nem
-     .feed-cell do feed.html, entao a grade de fotos do feed nao e afetada. */
+   
   #thoughts-root #tweets-container li {
     cursor: pointer;
     transition: background-color 0.15s ease;
@@ -433,8 +432,8 @@ async function createPost() {
     textEl.value = "";
     if (box && box._clearImageSelection) box._clearImageSelection();
   } catch (err) {
-    console.error("Erro ao postar:", err);
-    alert("Não foi possível criar o post.");
+    console.error("error posting:", err);
+    alert("error.");
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "postar";
@@ -527,8 +526,8 @@ async function deletePost(id, liEl) {
     liEl.style.opacity = "0";
     setTimeout(() => liEl.remove(), 310);
   } catch (err) {
-    console.error("Erro ao deletar:", err);
-    alert("Não foi possível deletar o post.");
+    console.error("error deleting:", err);
+    alert("error.");
   }
 }
 
@@ -536,8 +535,8 @@ async function saveEdit(id, newContent) {
   try {
     await updateDoc(doc(db, "posts", id), { content: newContent });
   } catch (err) {
-    console.error("Erro ao editar:", err);
-    alert("Não foi possível editar o post.");
+    console.error("error editing:", err);
+    alert("error.");
   }
 }
 

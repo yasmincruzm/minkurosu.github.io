@@ -15,18 +15,10 @@
     <meta charset="UTF-8">
     <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
     <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
-    <title>@minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <div class="crt"></div>
     <style>
-        /* estas regras eram globais (body > .layout-with-sidebars, #containerprincipal)
-           e, como essa página é injetada como innerHTML dentro do site principal
-           (não carregada isolada), elas colidiam com os MESMOS ids/classes do
-           index.html de verdade — forçando o layout com sidebars inteiro do site
-           a virar display:block e some com o grid sempre que essa página carregava.
-           Agora ficam restritas ao próprio container da galeria (#webweaving-container),
-           que é o único elemento que realmente pertence a esta página. */
         #webweaving-container {
             text-align: left;
             width: 100%;

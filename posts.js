@@ -260,11 +260,10 @@ style.textContent = `
   #thoughts-root #compose-post button:hover { background: #2da0c7; }
   #thoughts-root #compose-post button:disabled { background: #2a4a56; cursor: default; }
 
-  /* Alinhamento com mais respiro */
   #thoughts-root .post-actions { 
     display: flex; 
-    gap: 10px; /* Aumentado para 10px */
-    margin: 12px 0 0 0; /* Aumentado para 12px */
+    gap: 10px;
+    margin: 12px 0 0 0;
     padding-top: 6px; 
     align-items: center; 
     flex-wrap: wrap;
@@ -279,17 +278,309 @@ style.textContent = `
   #thoughts-root .action-button.liked,
   #thoughts-root .action-button.liked:hover { color: #E0245E; }
   #thoughts-root .action-button.liked svg { fill: currentColor; stroke: currentColor; }
-  
-  #thoughts-root #tweets-container li .post-actions .twt-reactions-box {
-    display: flex; 
-    align-items: center; 
-    margin: 0;
-    flex: 0 0 auto;
+
+  /* ============================================================
+     REACTIONS — chip e add-btn
+     ============================================================ */
+  #thoughts-root .twt-reactions-box {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 auto !important;
+    vertical-align: middle !important;
   }
-  #thoughts-root #tweets-container li .post-actions .twt-reactions-box .reactions-wrapper {
-    margin: 0;
-    width: auto;
+  #thoughts-root .twt-reactions-box .reactions-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 5px !important;
+    position: relative !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
+  #thoughts-root .twt-reactions-box .reactions-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  #thoughts-root .twt-reactions-box .reactions-list li {
+    display: flex !important;
+    flex-shrink: 0 !important;
+  }
+
+  #thoughts-root .twt-reactions-box .reaction-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    min-width: 34px !important;
+    width: auto !important;
+    height: 26px !important;
+    padding: 0 8px !important;
+    background: #252525 !important;
+    border: none !important;
+    border-radius: 13px !important;
+    color: #E1E8ED !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    position: relative !important;
+    flex-shrink: 0 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: background 0.12s !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-chip:hover {
+    background: #303030 !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-chip.reacted {
+    background: #303030 !important;
+    box-shadow: inset 0 0 0 2px #3f4262 !important;
+  }
+
+  #thoughts-root .twt-reactions-box .reaction-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+    vertical-align: middle !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-icon img {
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-count {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: inherit !important;
+    line-height: 1 !important;
+  }
+
+  #thoughts-root .twt-reactions-box .reaction-add-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    padding: 0 !important;
+    background: #252525 !important;
+    border: none !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    transition: background 0.12s !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-add-btn:hover {
+    background: #303030 !important;
+  }
+  #thoughts-root .twt-reactions-box .reaction-add-btn img,
+  #thoughts-root .twt-reactions-box .reaction-add-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+    max-width: 14px !important;
+    max-height: 14px !important;
+    object-fit: contain !important;
+    display: block !important;
+    filter: brightness(1.2) saturate(0.3) !important;
+  }
+
+  /* ============================================================
+     PICKER — forçado globalmente (não depende do reactions.css)
+     ============================================================ */
+  .reaction-picker {
+    position: fixed !important;
+    z-index: 2147483647 !important;
+    width: 400px !important;
+    max-width: calc(100vw - 24px) !important;
+    background: #1a1a1a !important;
+    border: none !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.8) !important;
+    display: none !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    font-family: "MinFont", monospace !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .reaction-picker.open { display: flex !important; }
+
+  .reaction-picker .picker-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #242424 !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+  }
+  .reaction-picker .picker-search {
+    flex: 1 !important;
+    background: #111 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    color: #e6e6e6 !important;
+    font-size: 13px !important;
+    font-family: inherit !important;
+    outline: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+  .reaction-picker .picker-search::placeholder { color: #5a5a5a !important; }
+
+  .reaction-picker .picker-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(8, 1fr) !important;
+    align-items: center !important;
+    justify-items: center !important;
+    gap: 4px !important;
+    padding: 8px 10px !important;
+    background: #1a1a1a !important;
+    border-bottom: 1px solid #242424 !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+  }
+  .reaction-picker .picker-tab-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 32px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+  }
+  .reaction-picker .picker-tab-btn:hover { background: #242424 !important; }
+  .reaction-picker .picker-tab-btn.active { background: #242424 !important; }
+
+  .reaction-picker .picker-body {
+    display: block !important;
+    width: 100% !important;
+    height: 320px !important;
+    min-height: 320px !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 12px 14px !important;
+    background: #1a1a1a !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+  }
+
+  .reaction-picker .picker-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, 44px) !important;
+    grid-auto-rows: 44px !important;
+    gap: 6px !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .reaction-picker .picker-item-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 7px !important;
+    cursor: pointer !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    transition: background 0.1s !important;
+  }
+  .reaction-picker .picker-item-btn:hover {
+    background: #242424 !important;
+  }
+  .reaction-picker .picker-item-btn img {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .reaction-picker .picker-empty {
+    grid-column: 1 / -1 !important;
+    padding: 18px 10px !important;
+    text-align: center !important;
+    color: #7a7d84 !important;
+    font-size: 12px !important;
+  }
+  .reaction-picker .picker-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 10px 12px 11px !important;
+    font-size: 11.5px !important;
+    color: #8a8d94 !important;
+    background: #141414 !important;
+    border-top: 1px solid #242424 !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+  }
+  .reaction-picker .picker-footer b { color: #c5c8ce !important; font-weight: 700 !important; }
+  .reaction-picker .picker-footer .star-icon { width: 11px !important; height: 11px !important; fill: #c5c8ce !important; }
 `;
 document.head.appendChild(style);
 
@@ -678,7 +969,7 @@ function buildPostEl(id, data) {
 
   li.addEventListener("click", e => {
     if (e.target.closest(
-      "a, button, .twt-menu-btn, .twt-dropdown, .edit-form, input, textarea, .action-button, .twt-reactions-box, .reactions-wrapper"
+      "a, button, .twt-menu-btn, .twt-dropdown, .edit-form, input, textarea, .action-button, .twt-reactions-box, .reactions-wrapper, .reaction-picker"
     )) return;
     li.classList.toggle("expanded");
   });

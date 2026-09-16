@@ -67,7 +67,32 @@
         bindGalleryFancybox();
     </script>
 
+<script>
+(function autoTranslate() {
+  if (localStorage.getItem('gt_lang')) return;
+  if (location.hostname.includes('translate.goog')) return;
+  if (sessionStorage.getItem('gt_checked') === '1') return;
+  sessionStorage.setItem('gt_checked', '1');
+  const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  const isPtBrowser = browserLang.startsWith('pt');
+  if (isPtBrowser) return;
+  const ptCountries = ['BR', 'PT', 'AO', 'MZ', 'CV', 'GW', 'ST', 'TL'];
 
+  fetch('https://ip-api.com/json/?fields=countryCode')
+    .then(r => r.json())
+    .then(d => {
+      const cc = (d.countryCode || '').toUpperCase();
+      if (ptCountries.includes(cc)) return;
+      const target = 'https://translate-goog-minkurosu-site.translate.goog/'
+        + location.pathname.replace(/^\//, '')
+        + location.search
+        + (location.search ? '&' : '?')
+        + '_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=en';
+      location.replace(target);
+    })
+    .catch(() => {});
+})();
+</script>
 
 
     <meta charset="UTF-8">
@@ -678,11 +703,7 @@ div#goog-gt- {
     display: block;
 }
 
-/* ---------------------------------------------------
-   mobile — mesmo estilo, só reorganizando o que era
-   fixo em px/colunas de desktop pro viewport real
---------------------------------------------------- */
-@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+@media (max-width: 768px) {
     #containerprincipal,
     #container {
         max-width: 100%;
@@ -767,13 +788,13 @@ div#goog-gt- {
                 <h3> 23yo • they/she • brasil</h3>
                 <h3>digital art & live2d &</h3>
                 <h3>psychology graduate &</h3>
-                 <h3>prosthodontics student</h3>
+                 <h3>dental lab tech student</h3>
                 <h3><a href="psi.html" target="_blank">Ψ</a> • ⚧</h3>
 
                 <hr>
          
 <div class="nav-side">
-<div class="side-item"><a href="#" data-page="feed" class="nav-link">pics</a></div>
+<div class="side-item"><a href="#" data-page="pics" class="nav-link">pics</a></div>
    <div class="side-item"><a href="#" data-page="commission" class="nav-link">commissions</a></div>
 
   <div class="side-item"><a href="#" data-page="portfolio-photos" class="nav-link">photography</a></div>
@@ -795,8 +816,9 @@ div#goog-gt- {
 
   <div class="side-item"><a href="#" data-page="guestbook" class="nav-link">guestbook</a></div>
 
+  <div class="side-item"><a href="#" data-page="mailbox" class="nav-link">mailbox</a></div>
 
-  <div class="side-item"><a href="#" data-page="mystuff" class="nav-link">my stuff</a></div>
+  <div class="side-item"><a href="#" data-page="mystuff" class="nav-link">materialism</a></div>
   <div class="side-item"><a href="#" data-page="quizzes" class="nav-link">quiz/tests</a></div>
   <div class="side-item"><a href="#" data-page="room" class="nav-link">room</a></div>
 
@@ -812,7 +834,7 @@ div#goog-gt- {
   
                 <button id="crt-toggle" type="button" title="toggle crt effect"> crt: on </button>
 
-                <h3>translate:</h3>
+                <h3>translate if you're<br>interested enough!</h3>
 <div id="google_translate_element"></div>
 
 <script>
@@ -844,8 +866,8 @@ div#goog-gt- {
                              src="https://counter1.fc2.com/counter_img.php?id=40522267&main=1"
                              alt="FC2 Counter"
                              referrerpolicy="unsafe-url"
-                             onload="console.log('[FC2 counter] carregou com sucesso.');"
-                             onerror="console.warn('[FC2 counter] FALHOU ao carregar. Veja a aba Network do DevTools filtrando por fc2 para confirmar o motivo.'); this.style.display='none';">
+                             onload="console.log('[FC2 counter] sucess');"
+                             onerror="console.warn('[FC2 counter] error'); this.style.display='none';">
                     </div>
 
 
@@ -876,81 +898,115 @@ div#goog-gt- {
                         <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
                         
                             <tr>
-                                <td style="border: 1px solid black; padding: 8px;">feeling</td>
-                                       <td style="border: 1px solid black; padding: 8px;"><a href="https://www.imood.com/users/minkurosu"><img src="https://moods.imood.com/display/uname-minkurosu/fg-8a8278/trans-1/imood.gif" alt="The current mood of minkurosu at www.imood.com" border="0"></a></td>
+                                <td style="border: 1px solid black; padding: 8px;">feeling:</td>
+                                       <td style="border: 1px solid black; padding: 8px;"><img src="imgs/emotes/emote22.png" style="height: 1.8rem;"></td>
                                 </td>
                             </tr>
                          <tr>
-  <td style="border: 1px solid black; padding: 8px;">playing</td>
+  <td style="border: 1px solid black; padding: 8px;">playing:</td>
   <td style="border: 1px solid black; padding: 8px;" id="discord-game">--</td>
 </tr>
 <tr>
-  <td style="border: 1px solid black; padding: 8px;">listening</td>
+  <td style="border: 1px solid black; padding: 8px;">listening:</td>
   <td style="border: 1px solid black; padding: 8px;" id="lastfm-song-cell">loading...</td>
 </tr>
     <tr>
-                                <td style="border: 1px solid black; padding: 8px;">reading</td>
+                                <td style="border: 1px solid black; padding: 8px;">reading:</td>
                                 <td style="border: 1px solid black; padding: 8px;">piaget, vigotski, wallon</td>
                             </tr>
                             <tr>
-                                <td style="border: 1px solid black; padding: 8px;">watching</td>
-                                <td style="border: 1px solid black; padding: 8px;">twin peaks</td>
+                                <td style="border: 1px solid black; padding: 8px;">watching:</td>
+                                <td style="border: 1px solid black; padding: 8px;">south park, twin peaks</td>
                             </tr>
                         
                             <tr>
                                 <td style="border: 1px solid black; padding: 8px;">current obsession:</td>
-                                <td style="border: 1px solid black; padding: 8px;">trying to learn rollerskates, transformice</td>
+                                <td style="border: 1px solid black; padding: 8px;">transformice, patins quad</td>
                             </tr>
                         </table>
                           <hr>
 
-                        <script>
-let mrnCurrent = 0;
-const mrnTrack = document.getElementById("mrn-track");
-const mrnCaption = document.getElementById("mrn-caption");
-const mrnDate = document.getElementById("mrn-date");
+            
 
-mrnSlides.forEach(s => {
-  const slide = document.createElement("div");
-  slide.style.cssText = "flex:0 0 100%;";
-slide.innerHTML = `<img src="${s.img}" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">`;  mrnTrack.appendChild(slide);
-});
+<div class="mrn-slideshow" style="position:relative; overflow:hidden; border-radius:3px;">
+  <div id="mrn-track" style="display:flex; transition:transform 0.4s ease;"></div>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+    <button type="button" id="mrn-prev" style="background:#1b1b1b; border:none; color:#696969; padding:4px 10px; cursor:pointer; border-radius:3px;">←</button>
+    <div style="text-align:center;">
+      <div id="mrn-caption" style="font-size:0.9rem; color:#696969;"></div>
+      <div id="mrn-date" style="font-size:0.75rem; color:#4a4040;"></div>
+    </div>
+    <button type="button" id="mrn-next" style="background:#1b1b1b; border:none; color:#696969; padding:4px 10px; cursor:pointer; border-radius:3px;">→</button>
+  </div>
+</div>
 
-function mrnGoTo(n) {
-  mrnCurrent = (n + mrnSlides.length) % mrnSlides.length;
-  mrnTrack.style.transform = `translateX(-${mrnCurrent * 100}%)`;
-  mrnCaption.textContent = mrnSlides[mrnCurrent].caption;
-  mrnDate.textContent = mrnSlides[mrnCurrent].date;
-}
-
-function mrnGo(dir) { mrnGoTo(mrnCurrent + dir); }
-
-mrnGoTo(0);
-</script>
 <script>
+(function () {
+  const mrnSlides = [
+  ];
+
+  const track   = document.getElementById('mrn-track');
+  const caption = document.getElementById('mrn-caption');
+  const dateEl  = document.getElementById('mrn-date');
+
+  if (!track) return; 
+
+  if (!mrnSlides.length) {
+    track.closest('.mrn-slideshow').style.display = 'none';
+    return;
+  }
+
+  let current = 0;
+
+  mrnSlides.forEach(s => {
+    const slide = document.createElement('div');
+    slide.style.cssText = 'flex:0 0 100%;';
+    slide.innerHTML = `<img src="${s.img}" class="desaturate" loading="lazy"
+      style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">`;
+    track.appendChild(slide);
+  });
+
+  function goTo(n) {
+    current = (n + mrnSlides.length) % mrnSlides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    if (caption) caption.textContent = mrnSlides[current].caption || '';
+    if (dateEl)  dateEl.textContent  = mrnSlides[current].date    || '';
+  }
+
+  document.getElementById('mrn-prev')?.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('mrn-next')?.addEventListener('click', () => goTo(current + 1));
+
+  goTo(0);
+})();
+</script>
+
+<script>
+(function () {
   const DISCORD_ID = '425408284711714826';
+  const cell = document.getElementById('discord-game');
+  if (!cell) return;
 
   async function fetchDiscordActivity() {
     try {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-      const { data } = await res.json();
-      const cell = document.getElementById('discord-game');
-      
-      if (data.activities && data.activities.length > 0) {
+      const res  = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+      const json = await res.json();
+      const data = json.data;
+      if (data?.activities?.length) {
         cell.textContent = data.activities.map(a => a.name.toLowerCase()).join(', ');
       } else {
         cell.textContent = 'nothing';
       }
-    } catch (e) {
-      document.getElementById('discord-game').textContent = 'error';
+    } catch {
+      cell.textContent = 'error';
     }
   }
 
   fetchDiscordActivity();
   setInterval(fetchDiscordActivity, 30000);
+})();
 </script>
 
-                    </div>
+<hr>
 <div style="
   color: #b30f0f;
   font-weight: bold;
@@ -1094,10 +1150,10 @@ mrnGoTo(0);
                     <div class="divitems">
                        
                         <div class="nav-item">
-                            <a href="#" data-page="aboutme" class="nav-link">home</a>
+<a href="#" data-page="home" class="nav-link">home</a>
                         </div>
                         <div class="nav-item">
-                            <a href="#" data-page="feed" class="nav-link">pics</a>
+<a href="#" data-page="pics" class="nav-link">pics</a>
                         </div>
                       
                         <div class="nav-item">
@@ -1122,11 +1178,9 @@ mrnGoTo(0);
                 <h1 id=nl>
                 </h1>
                 <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-25px; left:6%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif/v1/fit/w_750,h_750,q_90,enc_avif,quality_auto/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif" style="height:80px;image-rendering:pixelated;display:block;"></a>
-                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-40px; right:14%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif/v1/fit/w_468,h_468,q_90,enc_avif,quality_auto/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif" style="height:70px;image-rendering:pixelated;display:block;"></a>
             </header>
 <br>
- 
-
+<!--
     <a href="" target="_blank" title="" style="position:absolute; top:60%; right:-15px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/tooth_lower-right-molar-1.gif" style=";height:65px;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:50%; left:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/katomojiw.gif" style="width:100px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="https://mudflower.earth/" target="_blank" title="mudflower.earth" style="position:absolute; top:10%; right:-30px; display:block; z-index:999;"><img src="imgs/webgraphics/pixels/skull_cat_mudflower.gif" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
@@ -1141,29 +1195,21 @@ mrnGoTo(0);
     <a href="" target="_blank" title="" style="position:absolute; top:75%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:85%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
     <a href="" target="_blank" title="" style="position:absolute; top:95%; right:-30px; display:block; z-index:999;"><img src="" style="width:60px;height:auto;image-rendering:pixelated;display:block;"></a>
-      
-    
+                      <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com" style="position:absolute; bottom:-40px; right:14%; display:block; z-index:999;"><img src="https://static.wixstatic.com/media/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif/v1/fit/w_468,h_468,q_90,enc_avif,quality_auto/efbf8e_893f6fb7d70f48b08e078ed7e3cd0670~mv2.gif" style="height:70px;image-rendering:pixelated;display:block;"></a>
+
+     -->
     
     <div id="container">
 
-        </div></main>
+        </div><footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:#4b0000; text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
+  minkurosu © 2024 - forever
+</footer></main>
 
 
 
 
 
         <aside id="sidebar-direita-container" class="sidebar sidebar-right" style="overflow:visible !important; position:relative !important;">
- <a href="psi.html" id="mc-sign-link"
-  onmouseover="this.style.transform='perspective(500px) rotateX(5deg)'"
-  onmouseout="this.style.transform='perspective(500px) rotateX(0deg)'"
-  style="display:block; width:210px; cursor:pointer; transform-origin:top center; transform:perspective(500px) rotateX(0deg); transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94); text-decoration:none; float:right; clear:right; margin-right:-208px; margin-bottom:-230px;">
-  <div style="position:relative; width:210px; line-height:0;">
-    <img src="imgs/webgraphics/pixels/sign_hanging.png" style="width:210px; image-rendering:pixelated; display:block;"/>
-    <div style="position:absolute; top:43%; left:48%; transform:translateX(-50%); width:78%; height:55%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; font-size:15px; color:#0a0a0a; text-shadow:none; line-height:1.5; pointer-events:none;">
-      <span>SERVICES OPEN:</span><span> LIVE2D RIG (worldwide) </span><span style="font-size:15px;">& ATENDIMENTO PSICOLOGICO CLÍNICO</span><span> (BRASILEIROS)</span>
-    </div>
-  </div>
-</a>
 
 
 
@@ -1337,7 +1383,7 @@ mrnGoTo(0);
                             </div>
                 
 
-                            <div class="scroll">
+                            <div class="scroll" style="height:840px">
                                 <img loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" id="blinkies" class="desaturate">
 
 
@@ -1464,10 +1510,21 @@ mrnGoTo(0);
 <div class="track track-1">
                                 <div class="track-inner2">
                                     <img src="imgs/webgraphics/buttons/antifa.gif">
-
-
-<img src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
+                                     <img src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
+<img src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/nop.gif" class="desaturate" style="height: 31px; width: 88px;">
+
+ <img src="imgs/webgraphics/buttons/eattherich.png" class="desaturate" style="height: 31px; width: 88px;">
+ <img src="imgs/webgraphics/buttons/toebeans.gif" class="desaturate" style="height: 31px; width: 88px;">
+ <img src="imgs/webgraphics/buttons/transrights.png" class="desaturate" style="height: 31px; width: 88px;">
+
+ <img src="imgs/webgraphics/buttons/bestvieweddesktop.gif">
+ <img src="imgs/webgraphics/buttons/button (4).gif">
+ <img src="imgs/webgraphics/buttons/exwhuh.gif" class="desaturate" style="height: 31px; width: 88px;">
+ <img src="imgs/webgraphics/buttons/rainbow.png" class="desaturate" style="height: 31px; width: 88px;">
+
+ <img src="imgs/webgraphics/buttons/button (7).gif">
+ <img src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/notforchildren.jpg"  class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/transrights.png" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/this-website-is-emo.gif" class="desaturate" style="height: 31px; width: 88px;">
@@ -1476,7 +1533,6 @@ mrnGoTo(0);
 <img src="imgs/webgraphics/buttons/piracy.gif" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/antifa.gif" class="desaturate" style="height: 31px; width: 88px;">
      <img src="imgs/webgraphics/buttons/eattherich.png" class="desaturate" style="height: 31px; width: 88px;">
-<img src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/crush.png" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/fuck_zios.png" class="desaturate" style="height: 31px; width: 88px;">
 <img src="imgs/webgraphics/buttons/neocities.gif" class="desaturate" style="height: 31px; width: 88px;">
@@ -1671,6 +1727,12 @@ setInterval(checkLive, 300000);
         <a href="https://edhmr.neocities.org" target="_blank"><img loading="lazy" src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate"></a>
         <a href="https://morangocorner.neocities.org/"><img loading="lazy" src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate"></a>
         <a href="https://dudalog.neocities.org/links/" target="_blank"><img loading="lazy" src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate" alt=""></a>
+   
+   
+        <a href="https://falodemais.neocities.org/"><img src="https://falodemais.neocities.org/assets/blinkies/meuuu.gif" class="desaturate" style="image-rendering: pixelated;"></a>
+             <a href="https://outrolucas.neocities.org/"><img loading="lazy" src="https://outrolucas.neocities.org/assets/menus/vizinhanca/outrolucas.gif" class="desaturate"></a>
+
+     
         <a href='https://disinformation.neocities.org'><img loading="lazy"  src='https://disinformation.neocities.org/images/button.gif' class="desaturate"></a>
 <a href="https://mozartsempiano.com" target="_blank"><img loading="lazy" src="https://mozartsempiano.com/assets/img/mozartsempiano-btn-1.gif" class="desaturate"></a>        <a href="https://aaeri.neocities.org/" target="_blank"><img loading="lazy" src="imgs/webgraphics/buttons/button_aaeri.gif" class="desaturate" alt=""></a>
         <a href="https://sargx.net"><img loading="lazy" src="https://sargx.net/assets/links/banners/sargx.gif" class="desaturate" alt="sargx.net"></a>
@@ -1680,9 +1742,7 @@ setInterval(checkLive, 300000);
         <a href="https://hnrikaster.neocities.org/" target="_blank"><img loading="lazy" src="https://hnrikaster.neocities.org/button_rike.gif" class="desaturate" alt="mari"></a>
        <a href="https://melankorin.net/"><img loading="lazy" src="https://melankorin.net/assets/img/buttons/button-1.gif" class="desaturate" alt=""></a>
          <a href="https://marinados.neocities.org/" target="_blank"><img loading="lazy" src="https://marinados.neocities.org/button%20(4).png" class="desaturate" alt="mari"></a>
-        <a href="https://nanacore.neocities.org/" target="_blank"><img loading="lazy" src="https://nanacore.neocities.org/imgs/buttons/nanacore.png" class="desaturate" alt=""></a>
-<a href="https://bibianca.neocities.org/"><img loading="lazy" src="https://bibianca.neocities.org/assets/blinkies/meuuu.gif" style="image-rendering: pixelated;" class="desaturate"></a>
-<a href="https://tevito.neocities.org"><img loading="lazy" src="https://file.garden/Zx6xDK2qeAn-d7p4/TEVITO-BUTTON.gif" class="desaturate" alt="TeviWeb"></a>
+<a target="_blank" href="https://nanacore.net/"><img src="https://nanacore.net/imgs/buttons/nanacore.gif" class="desaturate" alt="nanacore"></a><a href="https://tevito.neocities.org"><img loading="lazy" src="https://file.garden/Zx6xDK2qeAn-d7p4/TEVITO-BUTTON.gif" class="desaturate" alt="TeviWeb"></a>
 <a href="https://planicie.neocities.org/"><img loading="lazy" src="https://planicie.neocities.org/images/icons/planicie-button.gif" class="desaturate" alt="Planicie Logo"></a>
 <a href="https://magspace.neocities.org/"><img loading="lazy" src="https://magspace.neocities.org/images/button.png" class="desaturate" ></a>
 <a href="https://eduu.neocities.org/"><img loading="lazy" src="https://eduu.neocities.org/buttons/edu-button.gif" class="desaturate" ></a>
@@ -1751,12 +1811,12 @@ setInterval(checkLive, 300000);
         <a href="https://yogomagpie.neocities.org/about"><img loading="lazy" src="imgs/webgraphics/buttons/YMbutton.gif" class="desaturate"></a>
         <a href="https://hellomei.dev/"><img loading="lazy" src="imgs/webgraphics/buttons/hellomei.gif" style="image-rendering: pixelated;" class="desaturate"></a>
         <a href="https://petrapixel.neocities.org/" target="_blank"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/petracoding/petrapixel.neocities.org@latest/public/assets/img/linkback.gif" alt="petrapixel" class="desaturate"></a>
- <a href="https://sephlow.net" target="_blank"><img loading="lazy" src="saved button image goes here!" alt="sephlow" class="desaturate"></a>
-        <a href="bruisedgh0st.neocities.org"><img loading="lazy" class="desaturate" src="https://bruisedgh0st.neocities.org/button.gif"></a>
+<a href="https://sephlow.net" target="_blank"><img src="imgs/webgraphics/buttons/Sephlow88x31Button.gif" class="desaturate" alt="sephlow"></a>      
+  <a href="bruisedgh0st.neocities.org"><img loading="lazy" class="desaturate" src="https://bruisedgh0st.neocities.org/button.gif"></a>
       <a href="https://mildlypepper.net/"><img loading="lazy" src="https://mildlypepper.net/media/buttons/pepperbutton.png"></a>
                             <a href="https://blissprism.nekoweb.org/"><img loading="lazy" src="https://blissprism.nekoweb.org/images/buttons/blissprism_button.gif" class="desaturate"></a>
       <a href="https://betapopsicle.neocities.org/#/"><img loading="lazy" src="imgs/webgraphics/buttons/betapopsiclebutton_1.gif" class="desaturate"></a>
-                      <a href="https://hisahito.neocities.org" target="_blank"><img loading="lazy" src="https://hisahito.neocities.org/stuff/sitebuttonthing.PNG" class="desaturate"></a>
+<a href="https://hisahito.neocities.org" target="_blank"><img loading="lazy" decoding="async" src="https://hisahito.neocities.org/stuff/sitebuttonthing.GIF" class="desaturate"></a>
                     <a href="https://waterlily.nekoweb.org/" target="_top"><img src="https://waterlily.nekoweb.org/images/buttons/button.png" alt="waterlily" class="desaturate" style="image-rendering: pixelated;" ></a>
 
                     
@@ -1789,7 +1849,7 @@ setInterval(checkLive, 300000);
         <a href='https://starboystation.neocities.org/'><img loading="lazy" src="https://starboystation.neocities.org/imgs/starboystationbutton.png" class="desaturate" alt="Starboy Station"></a>
 <a href="https://sewerwolfx.neocities.org"><img loading="lazy" src="https://files.catbox.moe/j12s3p.gif" class="desaturate"></a> 
         <a href="https://roboticoperatingbuddy.neocities.org/"><img loading="lazy" src="https://roboticoperatingbuddy.neocities.org/images/mybutton.png" class="desaturate" alt="robotic operating buddys site button"></a>
-  <a href="https://thematildenet.nekoweb.org/index.html"><img loading="lazy" src="https://i.ibb.co/Q70j8Hg5/the-matildenet.png" class="desaturate" alt="the matildenet" border="0"></a>
+<a href="https://thematildenet.nekoweb.org/index.html"><img src="https://i.ibb.co/Q70j8Hg5/the-matildenet.png" alt="the matildenet" class="desaturate" border="0"></a>
  <a href="https://kkul.neocities.org/"><img loading="lazy" src="https://file.garden/aS-t0Aj4K3mdDujK/kkulbutton.gif"  class="desaturate"></a>
 
 <a href="https://estranged.nekoweb.org"><img loading="lazy" src="https://i.imgur.com/emTTyTK.gif" class="desaturate" alt="Estranged button"></a>  <a href="https://rfguy.nekoweb.org/">
@@ -1835,7 +1895,6 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
         <h4>05/08/2025 - added games page!</h4>
     </div>
 </div>
-
 <hr>
 <img src="imgs\webgraphics\pixels\hunter-s-moon-king-lulu-deer.gif">
 
@@ -1915,7 +1974,7 @@ button.png" class="desaturate"  alt="RFGuy website button"></a>
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en,pt-br',
-      includedLanguages: '',
+      includedLanguages: 'en,es,fr,ja,de,ko,it,zh-CN,pt-br,pt,hi,ru,ar,tr,nl,sv,pl,th,vi,he,el,da,no,fi,cs,ro,nl,az,uz,ku,ps,sd,yo,ig,am',
       layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
       autoDisplay: false
     }, 'google_translate_element');

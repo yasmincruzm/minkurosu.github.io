@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script type="module" src="reactions.js"></script>
 </head>
 <body>
 
@@ -129,23 +128,6 @@
     text-align: left;
   }
   .feed-cell.expanded .caption-text { display: block; }
-
-  .feed-reactions-box {
-    display: none;
-    width: 100%;
-    margin-top: 0.1rem;
-  }
-  .feed-cell.expanded .feed-reactions-box { display: block; }
-
-  .feed-expand-divider {
-    display: none;
-    width: 100%;
-    margin: 0.9rem 0 0;
-    border: none;
-    border-top: 1px solid currentColor;
-    opacity: 0.15;
-  }
-  .feed-cell.expanded .feed-expand-divider { display: block; }
 </style>
 
 <div class="grid-feed" data-expand-grid>
@@ -2970,7 +2952,7 @@
     <div class="caption-text"></div>
   </div>
 
-  <div class="feed-cell" onclick="expandCell(this, 'imgs/feed/1249513419820833676_229670069.jpg', 'imgs/feed/1249513419820833676_229670069.jpg')">
+  <div class="feed-cell" onclick="expandCell(this, 'imgs/feed/1249513419820833676_229670069.jpg', 'imgs/feed/1249513419820833676_229670069.jpgbb')">
     <img class="thumb-img" src="imgs/feed/1249513419820833676_229670069.jpg" alt="" loading="lazy" />
     <div class="hover-hint"></div>
     <div class="full-img-wrap">
@@ -3762,46 +3744,6 @@
 
 </div>
 
-<script type="module">
-  import { mountReactions } from './reactions.js';
-
-  function slugify(src) {
-    return (src || "").replace(/^.*\//, "").replace(/\.[a-z0-9]+$/i, "").replace(/[^a-zA-Z0-9]/g, "_");
-  }
-
-  function ensureReactionBox(cell) {
-    if (cell.querySelector(".feed-reactions-box")) return;
-    const img = cell.querySelector(".thumb-img");
-    const slug = slugify(img && img.getAttribute("src"));
-    const name = "feed_" + (slug || Math.random().toString(36).slice(2));
-
-    const box = document.createElement("div");
-    box.className = "feed-reactions-box";
-    const caption = cell.querySelector(".caption-text");
-    if (caption) caption.insertAdjacentElement("afterend", box);
-    else cell.appendChild(box);
-
-    const divider = document.createElement("hr");
-    divider.className = "feed-expand-divider";
-    box.insertAdjacentElement("afterend", divider);
-
-    mountReactions(box, { targetId: name });
-  }
-
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(m => {
-      if (m.type === "attributes" && m.attributeName === "class") {
-        const cell = m.target;
-        if (cell.classList.contains("feed-cell") && cell.classList.contains("expanded"))
-          ensureReactionBox(cell);
-      }
-    });
-  });
-
-  document.querySelectorAll(".feed-cell").forEach(cell => {
-    observer.observe(cell, { attributes: true, attributeFilter: ["class"] });
-  });
-</script>
 <script type="module" src="expand-cells.js"></script>
 </body>
 </html>

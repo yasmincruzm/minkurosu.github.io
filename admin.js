@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             msg(loginMessage, 'acesso negado.', 'error');
             return;
         }
-        localStorage.setItem('mku_admin', '1');
+        localStorage.setItem('min_admin', '1');
         msg(loginMessage, 'logged in!', 'success');
     }).catch(err => {
         console.error('redirect login error:', err);
@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadCityList(app);
             loadDrawings(app);
             loadMailbox(db);
+            loadComments(db);
         } else {
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg(loginMessage, 'acesso negado.', 'error');
                 return;
             }
-            localStorage.setItem('mku_admin', '1');
+            localStorage.setItem('min_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             msg(loginMessage, `erro: ${err.message}`, 'error');
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg(loginMessage, 'acesso negado. use sua conta autorizada.', 'error');
                 return;
             }
-            localStorage.setItem('mku_admin', '1');
+            localStorage.setItem('min_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             console.error('google popup login error:', err.code, err.message);
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutBtn?.addEventListener('click', async () => {
         try {
             await signOut(auth);
-            localStorage.removeItem('mku_admin');
+            localStorage.removeItem('min_admin');
             msg(loginMessage, 'logged out.', 'info');
         } catch (err) {
             msg(loginMessage, `logout error: ${err.message}`, 'error');
@@ -288,6 +289,108 @@ function loadMailbox(db) {
     });
 }
 
+function loadComments(db) {
+    const container = document.getElementById('comments-admin-list');
+    const filterEl  = document.getElementById('comments-filter');
+    if (!container) return;
+
+    let allComments = [];
+    let currentFilter = '';
+
+    const q = query(collection(db, 'comments'));
+
+    onSnapshot(q, snapshot => {
+        allComments = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        allComments.sort((a, b) => {
+            const ta = a.timestamp?.seconds || 0;
+            const tb = b.timestamp?.seconds || 0;
+            return tb - ta;
+        });
+        render();
+    }, err => {
+        console.warn('loadComments:', err);
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar comentários.</p>`;
+    });
+
+    function countryFlag(cc) {
+        if (!cc || cc.length !== 2) return '🌐';
+        return [...cc.toUpperCase()]
+            .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
+            .join('');
+    }
+
+    function fmtWhen(ts) {
+        if (!ts) return '—';
+        const time = ts.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        const date = ts.toLocaleDateString('pt-BR'); // dd/mm/aaaa
+        return `${time} - ${date}`;
+    }
+
+    function render() {
+        const filtered = currentFilter
+            ? allComments.filter(c => c.postId === currentFilter)
+            : allComments;
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<p class="tracker-empty">nenhum comentário${currentFilter ? ' nesse post' : ''} ainda.</p>`;
+            return;
+        }
+
+        container.innerHTML = filtered.map(c => {
+            const ts  = c.timestamp?.toDate ? c.timestamp.toDate() : null;
+            const when = fmtWhen(ts);
+
+            const siteHtml = c.site
+                ? `<a class="cmt-site" href="${escapeHtml(c.site)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a>`
+                : '';
+
+            const location = [c.city, c.region, c.country]
+                .filter(v => v && v !== 'unknown' && v !== '')
+                .join(', ') || 'localização desconhecida';
+
+            const flag    = countryFlag(c.cc || '');
+            const device  = c.device  || '—';
+            const browser = c.browser || '—';
+            const os      = c.os      || '—';
+
+            return `
+            <div class="cmt-card" data-id="${c.id}">
+                <div class="cmt-head">
+                    <span class="cmt-name">${escapeHtml(c.name || 'anônimo')}</span>
+                    ${siteHtml}
+                    <span class="cmt-post">${escapeHtml(c.postId || '')}</span>
+                </div>
+                <div class="cmt-msg">${escapeHtml(c.message || '')}</div>
+                <div class="cmt-meta">
+                    <span class="cmt-loc">${flag} ${escapeHtml(location)}</span>
+                    <span class="cmt-dev">${escapeHtml(device)} · ${escapeHtml(browser)} · ${escapeHtml(os)}</span>
+                    <span class="cmt-ip">🌐 ${escapeHtml(c.ip || 'unknown')}</span>
+                    <span class="cmt-when">${when}</span>
+                </div>
+                <button class="cmt-delete" data-id="${c.id}">deletar</button>
+            </div>`;
+        }).join('');
+
+        container.querySelectorAll('.cmt-delete').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (!confirm('deletar esse comentário?')) return;
+                try {
+                    await deleteDoc(doc(db, 'comments', btn.dataset.id));
+                } catch (err) {
+                    alert('erro ao deletar: ' + err.message);
+                }
+            });
+        });
+    }
+
+    filterEl?.addEventListener('change', () => {
+        currentFilter = filterEl.value;
+        render();
+    });
+}
+
 function escapeHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }

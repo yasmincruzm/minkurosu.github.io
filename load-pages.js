@@ -12,9 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainContainer = document.getElementById('container');
     if (!mainContainer) return;
 
-    const HOME_PAGE = 'aboutme';
+    const HOME_PAGE = 'home';
 
     const PAGE_ALIASES = {
+        'aboutme': 'home',
+        'feed': 'pics',
         'comissions': 'commission',
         'commissions': 'commission',
         'comission': 'commission',
@@ -199,14 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('popstate', e => {
-        const page = e.state?.page || 'aboutme';
+        const page = e.state?.page || HOME_PAGE;
         loadPage(page, false);
     });
 
     const initialPage = (() => {
         const rawPath = window.__deepLinkPath || location.pathname;
         const path = rawPath.replace(/^\//, '').replace(/\.html$/, '').split(/[?#]/)[0];
-        return path && path !== 'index' ? path : 'aboutme';
+        return resolvePage(path && path !== 'index' ? path : HOME_PAGE);
     })();
 
     history.replaceState({ page: initialPage }, '', urlFor(initialPage));

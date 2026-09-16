@@ -1,133 +1,61 @@
 <style>
-    #mailbox-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+    #mailbox-textarea {
         width: 100%;
-        padding: 40px 20px;
-        box-sizing: border-box;
-    }
-
-    .mailbox-box {
-        background-color: #2a2a2a;
-        border: 1px solid #4a0000;
-        border-radius: 3px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.7);
-        padding: 32px 28px;
-        max-width: 500px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .mailbox-box h1 {
-        margin: 0;
-        font-size: 1.8em;
-        color: #a7a7a7;
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        text-align: center;
-        letter-spacing: 2px;
-    }
-
-    .mailbox-box p {
-        margin: 0;
-        color: #555;
-        font-size: 0.9em;
-        text-align: center;
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    #mailbox-wrap textarea {
-        width: 100%;
-        min-height: 80px;
+        min-height: 90px;
         max-height: 250px;
         resize: none;
         overflow-y: auto;
-        padding: 12px;
-        background-color: #0a0a0a;
-        border: 1px solid #310000;
+        padding: 10px 12px;
+        background-color: var(--emo-bg-dark);
+        border: 0.3125rem solid var(--emo-border-dark);
         border-radius: 3px;
-        color: #a7a7a7;
+        color: var(--emo-text-muted);
         font-family: "MinFont", monospace;
         font-size: 1em;
         line-height: 1.5;
         box-sizing: border-box;
         outline: none;
-        transition: border-color 0.2s;
-        text-shadow: none;
+        transition: border-color 0.2s, background-color 0.2s;
+        -webkit-text-fill-color: var(--emo-text-muted);
+        caret-color: var(--emo-text-hover2);
+        text-shadow: var(--emo-text-shadow);
     }
+    #mailbox-textarea:focus {
+        border-color: var(--emo-border-accent);
+        background-color: #0d0d0d;
+    }
+    #mailbox-textarea::placeholder { color: #333; }
 
-    #mailbox-wrap textarea:focus {
-        border-color: #6a0000;
-    }
+    button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
 
-    #mailbox-wrap textarea::placeholder {
-        color: #333;
-    }
 
-    #mailbox-wrap button {
-        background-color: #1a0000;
-        border: 1px solid #4a0000;
-        color: #a7a7a7;
-        font-family: "MinFont", monospace;
-        font-size: 1em;
-        padding: 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        transition: background-color 0.2s, border-color 0.2s;
-        width: 100%;
-    }
-
-    #mailbox-wrap button:hover {
-        background-color: #2a0000;
-        border-color: #6a0000;
-    }
-
-    #mailbox-wrap button:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
-
-    #mailbox-wrap .mb-status {
-        text-align: center;
-        font-size: 0.88em;
-        padding: 8px;
-        border-radius: 3px;
-        display: none;
-    }
-
-    #mailbox-wrap .mb-status.success {
-        display: block;
-        background-color: #0a1a0a;
-        border: 1px solid #1e3a1e;
-        color: #5a9a5a;
-    }
-
-    #mailbox-wrap .mb-status.error {
-        display: block;
-        background-color: #1a0a0a;
-        border: 1px solid #3a1e1e;
-        color: #9a5a5a;
-    }
 </style>
 
 <div id="container">
-    <div class="caixamaisclara">
-    <div id="mailbox-wrap">
-        <div class="mailbox-box">
-            <h1>✉ mailbox</h1>
-            <p>send me an anonymous message if what u wanna say isnt sayable on guestbook<br>
-            or if you wanna get something off your chest, im all ears :) </p>
+    <div class="caixamaisclaraColumn" style="max-width: 520px; margin: 40px auto; padding: 20px;">
 
-            <textarea id="msg-input" placeholder="..." maxlength="1000"></textarea>
+        <h2>✉ mailbox</h2>
 
-            <button type="button" id="send-btn">send</button>
-            <div id="mb-status" class="mb-status"></div>
-        </div>
+        <p style="text-align:center; margin: 0 0 10px 0;">
+            send me an anonymous message if what u wanna say isnt sayable on guestbook<br>
+            or if you wanna get something off your chest, im all ears :) dont be a jerk
+        </p>
+
+        <textarea id="mailbox-textarea" placeholder="..." maxlength="1000"></textarea>
+
+        <button type="button" id="mailbox-send" class="pushable" style="margin-top: 14px;">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front">send</span>
+        </button>
+
+        <div id="mailbox-status" class="message" style="display:none; margin-top: 10px;"></div>
     </div>
-</div>
 </div>
 
 <script type="module">
@@ -146,9 +74,9 @@
     const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     const db  = getFirestore(app);
 
-    const textarea = document.getElementById('msg-input');
-    const sendBtn  = document.getElementById('send-btn');
-    const status   = document.getElementById('mb-status');
+    const textarea = document.getElementById('mailbox-textarea');
+    const sendBtn  = document.getElementById('mailbox-send');
+    const status   = document.getElementById('mailbox-status');
 
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
@@ -161,7 +89,7 @@
         if (!text) return;
 
         sendBtn.disabled = true;
-        status.className = 'mb-status';
+        status.style.display = 'none';
         status.textContent = '';
 
         let ip = 'unknown';
@@ -179,12 +107,27 @@
             });
 
             status.textContent = 'message sent ♥';
-            status.className   = 'mb-status success';
-            textarea.value     = '';
+            status.style.display = 'block';
+            status.style.background = '#0a1a0a';
+            status.style.border = '0.3125rem solid #1e3a1e';
+            status.style.color = '#5a9a5a';
+            status.style.padding = '10px';
+            status.style.borderRadius = '3px';
+            status.style.textAlign = 'center';
+            status.style.fontSize = '0.88em';
+
+            textarea.value = '';
             textarea.style.height = '';
         } catch (err) {
             status.textContent = 'something went wrong. try again.';
-            status.className   = 'mb-status error';
+            status.style.display = 'block';
+            status.style.background = '#1a0a0a';
+            status.style.border = '0.3125rem solid #3a1e1e';
+            status.style.color = '#9a5a5a';
+            status.style.padding = '10px';
+            status.style.borderRadius = '3px';
+            status.style.textAlign = 'center';
+            status.style.fontSize = '0.88em';
             console.error(err);
         }
 

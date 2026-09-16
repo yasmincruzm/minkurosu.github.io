@@ -23,13 +23,6 @@ export const CUSTOM_EMOTES = [
   { id: "emote22", name: "emote22", url: "imgs/emotes/emote22.png" }
 ];
 
-export const DEFAULT_UNICODE_EMOJIS = [
-  "❤️", "🖤", "🦇", "✨", "🔥", "😭", "💀", "⭐", "🐱", "🎀",
-  "🕷️", "🩸", "🔪", "👀", "🌙", "☁️", "💔", "🥹", "🥺", "🌸",
-  "☠️", "🐈‍⬛", "💫", "🕸️", "🩹", "👾", "🧸", "🕯️", "🎧", "🌹",
-  "🧛", "🍙", "🍵", "🖤", "🍓", "✝️", "🎸", "🦇", "💿", "💊"
-];
-
 export const REACTION_CONFIG = {
   theme: "pill",
   maxDistinct: 25,

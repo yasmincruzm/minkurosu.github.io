@@ -78,7 +78,7 @@ window.initializeSlideshow = function initializeSlideshow() {
 
   slides.forEach(img => {
     img.addEventListener('error', () => {
-      console.warn('[slideshow] falhou ao carregar:', img.src);
+      console.warn('[slideshow] error:', img.src);
       img.remove();
       slides = slides.filter(s => s !== img);
       if (!slides.length) {

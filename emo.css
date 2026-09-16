@@ -744,7 +744,7 @@ h5 {
   background: rgba(20, 0, 0, 0.85);
    cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
-@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+@media (max-width: 768px) {
   .fancybox__caption {
     font-size: 11px;
     padding: 6px 12px;
@@ -765,7 +765,7 @@ h5 {
     padding: 44px 8px 48px;
   }
 }
-@media (max-width: 480px), (max-device-width: 480px), (pointer: coarse) {
+@media (max-width: 480px) {
   .fancybox__slide {
     padding: 48px 4px 52px;
   }
@@ -1023,9 +1023,6 @@ h5 {
   align-items: flex-start;
   gap: 0px;
   grid-template-columns: 300px 1fr 1000px;
-  !important -webkit-column-rule: 1px solid #dbdbdb;
-  -moz-column-rule: 1px solid #dbdbdb;
-  column-rule: 1px solid #dbdbdb;
   text-shadow: var(--emo-text-shadow);
 }
 .column {
@@ -1034,9 +1031,6 @@ h5 {
   padding: 0 8px;
   box-sizing: border-box;
   justify-content: left;
-  -webkit-column-rule: 1px solid #dbdbdb;
-  -moz-column-rule: 1px solid #dbdbdb;
-  column-rule: 1px solid #dbdbdb;
 }
 .column h1,
 .column p {
@@ -1141,7 +1135,7 @@ td {
 th {
   background-color: rgba(255, 255, 255, 0.1);
 }
-@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+@media (max-width: 768px) {
   table,
   th,
   td {
@@ -1540,7 +1534,7 @@ th {
 }
 .feed-cell.expanded .caption-text { display: block; }
 
-@media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+@media (max-width: 768px) {
   .grid-feed { grid-template-columns: repeat(2, 1fr); }
   .caption-text { font-size: 1rem; }
 }
@@ -1548,25 +1542,27 @@ th {
 
 @media (max-width: 900px) {
   body > .layout-with-sidebars {
-    grid-template-columns: 1fr !important;
-    width: 100%;
+    /* o site continua sendo três colunas: esquerda | conteúdo | direita */
+    grid-template-columns: 300px 800px 300px !important;
+    width: 1400px;
+    min-width: 1400px;
   }
   .maincollums {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: flex-start;
   }
   .sidebar {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
+    width: 300px !important;
+    min-width: 300px !important;
+    max-width: 300px !important;
   }
   header {
     max-width: 100%;
   }
   #containerprincipal,
   #container {
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 800px !important;
+    max-width: 800px !important;
     box-sizing: border-box;
   }
   .grid-container {
@@ -1574,7 +1570,7 @@ th {
   }
 }
 
-@media (max-width: 768px), (max-device-width: 768px) {
+@media (max-width: 768px) {
   h1 { font-size: 1.6rem; }
   h2 { font-size: 2rem; }
   h3 { font-size: 1.3rem; }

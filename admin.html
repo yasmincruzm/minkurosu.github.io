@@ -5,8 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js">
-</script>
     <title>admin</title>
 </head>
 
@@ -24,19 +22,18 @@
         background-repeat: repeat;
         background-attachment: fixed;
     }
-    
-.vc-page-tag {
-    display: inline-block;
-    background: #24211e;
-    border: 1px solid #3a3632;
-    color: #aaa;
-    font-size: 0.8em;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin: 2px 4px 2px 0;
-    font-family: "MinFont", monospace;
-} 
 
+    .vc-page-tag {
+        display: inline-block;
+        background: #24211e;
+        border: 1px solid #3a3632;
+        color: #aaa;
+        font-size: 0.8em;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin: 2px 4px 2px 0;
+        font-family: "MinFont", monospace;
+    }
 
     #container {
         display: flex;
@@ -526,6 +523,77 @@
     .mb-delete:hover {
         background-color: #3a2020;
     }
+
+    .cmt-card {
+        background: #1a1815;
+        border: 1px solid #3a3632;
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-family: "MinFont", monospace;
+        animation: vcIn 0.3s ease;
+    }
+    .cmt-head {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .cmt-name {
+        color: #d5d5d5;
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+    .cmt-site {
+        color: #6C6661;
+        font-size: 0.78em;
+        text-decoration: none;
+        word-break: break-all;
+    }
+    .cmt-site:hover { color: #a8a0a0; text-decoration: underline; }
+    .cmt-post {
+        color: #6a3a3a;
+        font-size: 0.72em;
+        background: #241a1a;
+        border: 1px solid #3a2020;
+        padding: 1px 6px;
+        border-radius: 3px;
+    }
+    .cmt-msg {
+        color: #d5d5d5;
+        font-size: 0.9em;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+    .cmt-meta {
+        display: flex;
+        gap: 12px;
+        font-size: 0.72em;
+        color: #888;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .cmt-loc  { color: #aaa; }
+    .cmt-dev  { color: #7a7070; }
+    .cmt-ip   { color: #6C6661; }
+    .cmt-when { color: #bbb; font-weight: bold; }
+    .cmt-delete {
+        align-self: flex-end;
+        background: #2a1e1e;
+        border: 1px solid #4a2e2e;
+        color: #bf6a6a;
+        font-family: "MinFont", monospace;
+        font-size: 0.72em;
+        padding: 3px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        width: auto;
+        transition: background-color 0.2s;
+    }
+    .cmt-delete:hover { background-color: #3a2020; }
 </style>
 
 <body>
@@ -563,9 +631,9 @@
 
         <div id="admin-panel-section" class="admin-form-box" style="display: none;">
 
-            <h2>new post</h2>
+            <h2>novo post</h2>
             <div class="field">
-                <label for="post-content">post text:</label>
+                <label for="post-content">texto do post:</label>
                 <textarea id="post-content"></textarea>
             </div>
             <div class="field">
@@ -581,7 +649,7 @@
 
             <hr>
 
-            <h2>close friends</h2>
+            <h2>amigos próximos</h2>
             <div class="field">
                 <label for="private-entry-content">conteúdo da entrada:</label>
                 <textarea id="private-entry-content"></textarea>
@@ -591,12 +659,12 @@
 
             <hr>
 
-            <h2>register new dream</h2>
+            <h2>registrar novo sonho</h2>
             <div class="field">
-                <label for="dream-content">dream content:</label>
+                <label for="dream-content">conteúdo do sonho:</label>
                 <textarea id="dream-content"></textarea>
             </div>
-            <button type="button" id="publish-dream-btn">register dream</button>
+            <button type="button" id="publish-dream-btn">registrar sonho</button>
             <div id="dream-message" class="message"></div>
 
             <hr>
@@ -618,17 +686,42 @@
             <div id="blog-message" class="message"></div>
 
             <hr>
-<a target="_blank" href="https://livetrafficfeed.com/live/minkurosu.site"><img src="//livetrafficfeed.com/static/imgv2/feed.png?d=minkurosu.site&c=6f0bfaeaffe1784ccb1d7211a53cd8a5&w=240&h=10&bg=303030&ht=d40404&b=631010&t=949494&r=537063695"></a>
 
-            <h2>✉ mailbox</h2>
+            <h2>✉ caixa de correio</h2>
             <div id="mailbox-list">
                 <p class="tracker-empty">carregando...</p>
             </div>
 
             <hr>
 
-            <h2>analytics</h2>
+            <h2>estatísticas</h2>
             <div id="analytics-section">
+                <p class="tracker-empty">carregando...</p>
+            </div>
+    <h2>💬 comentários do blog</h2>
+
+            <div class="field">
+                <label for="comments-filter">filtrar por post:</label>
+                <select id="comments-filter" style="
+                    padding: 11px 13px;
+                    border: 1px solid #3a3632;
+                    border-radius: 6px;
+                    font-size: 0.95em;
+                    font-family: 'MinFont', monospace;
+                    background-color: #1a1815;
+                    color: #d5d5d5;
+                    width: 100%;
+                    outline: none;
+                ">
+                    <option value="">todos</option>
+                    <option value="blog_sept_2026">setembro 2026</option>
+                    <option value="blog_ago_2026">agosto 2026</option>
+                    <option value="blog_jul_2026">julho 2026</option>
+                    <option value="blog_jun_2026_hiperfocos">junho 2026</option>
+                </select>
+            </div>
+
+            <div id="comments-admin-list">
                 <p class="tracker-empty">carregando...</p>
             </div>
 
@@ -638,8 +731,10 @@
             <div id="visitor-tracker">
                 <p class="tracker-empty">carregando...</p>
             </div>
-        </div>
 
+            <hr>
+
+        
             <hr>
 
             <button type="button" id="logout-btn">sair</button>
@@ -648,6 +743,5 @@
     </div>
 </body>
 
-<script type="module" src="admin.js?v=2"></script>
-
+<script type="module" src="admin.js?v=3"></script>
 </html>

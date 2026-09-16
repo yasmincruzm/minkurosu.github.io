@@ -1,397 +1,1058 @@
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="reactions.css" />
 
-<head>
-    <script src="script.js"></script>
-    <script src="oneko.js"></script>
-    <script>NekoType = "black"</script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-4K5KDKEJ2E');
-    </script>
-    <meta charset="UTF-8">
-    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <link rel="stylesheet" href="emo.css" />
-    <link rel="stylesheet" href="reactions.css">
-    <style>
-        .blog-post { text-align: left; }
-        .blog-post .post-info-header {
-            display: flex; align-items: center; gap: 6px; text-align: left;
-            font-size: 0.85rem; color: #4b4b4b;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin-bottom: 4px;
-        }
-        .blog-post .post-date, .blog-post .post-time, .blog-post .post-separator {
-            text-align: left; font-size: 0.85rem;
-        }
-        .blog-post .post-title {
-            font-size: 1.6rem; text-align: left; margin: 0 0 8px 0;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-        .blog-post .post-text {
-            text-align: left; font-size: 0.95rem; line-height: 1.6;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-        .blogimg{ height: 400px; align-items: center; display: block; margin-left:auto; margin-right:auto; }
-        .post-body-fixed { display: flex; flex-direction: column; gap: 10px; box-sizing: border-box; }
-        .post-text-scroll { height: auto; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; }
-        .post-text-scroll::-webkit-scrollbar { width: 6px; }
-        .post-text-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.5); border-radius: 3px; }
-        .post-text-scroll::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.15); }
-        .post-gallery-wrap { position: relative; }
-        .post-gallery-wrap:has(input:checked) .post-gallery { max-height: none; }
-        .post-gallery-wrap:has(input:checked) .gallery-fade { display: none; }
-        .post-gallery {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 6px;
-            max-height: 168px; overflow: hidden; transition: max-height 0.35s ease;
-        }
-        .post-gallery .feed-cell {
-            position: relative; flex: 0 0 calc(33.333% - 4px); max-width: calc(33.333% - 4px);
-            aspect-ratio: 1 / 1; overflow: hidden; border-radius: 2px;
-        }
-        .post-gallery .feed-cell:has(.photo-toggle:checked) {
-            flex: 0 0 100%; max-width: 100%; aspect-ratio: unset;
-        }
-        .feed-cell .thumb-label { display: block; width: 100%; height: 100%; cursor: pointer; }
-        .feed-cell .thumb-img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
-        .feed-cell .thumb-label:hover .thumb-img { transform: scale(1.04); filter: brightness(0.85); }
-        .feed-cell .hover-hint { position: absolute; inset: 0; pointer-events: none; }
-        .feed-cell .full-img-wrap { display: none; position: relative; width: 100%; }
-        .feed-cell .photo-toggle:checked ~ .full-img-wrap { display: block; }
-        .feed-cell .photo-toggle:checked ~ .thumb-label { display: none; }
-        .feed-cell .full-img-wrap img {
-            width: 100%; max-width: 100%; height: auto; max-height: 75vh;
-            object-fit: contain; border-radius: 3px; display: block;
-        }
-        .feed-cell .close-btn {
-            position: absolute; top: 6px; right: 6px; background: rgba(0, 0, 0, 0.6);
-            color: #fff; border-radius: 50%; width: 26px; height: 26px;
-            font-size: 15px; line-height: 26px; text-align: center; cursor: pointer; display: block;
-        }
-        .gallery-fade {
-            position: absolute; left: 0; right: 0; bottom: 0; height: 60px;
-            display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px;
-            background: linear-gradient(to bottom, rgba(10, 10, 10, 0) 0%, rgba(10, 10, 10, 0.92) 78%);
-            cursor: pointer; border-radius: 0 0 2px 2px;
-        }
-        .show-more-toggle:checked ~ .post-gallery { max-height: 2000px; }
-        .show-more-toggle:checked ~ .gallery-fade { display: none; }
-        .gallery-expand-btn {
-            width: 30px; height: 30px; border-radius: 50%;
-            background: rgba(0, 0, 0, 0.75); color: #fff; font-size: 18px;
-            line-height: 30px; text-align: center; display: block; pointer-events: none;
-        }
-        .lists-page { width: 100%; padding: 20px; box-sizing: border-box; }
-        .lists-title {
-            text-align: center; color: #570000; letter-spacing: 3px;
-            margin: 0 0 16px 0; font-size: 1.4em;
-        }
-        .lists-grid {
-            display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0 24px; width: 100%; box-sizing: border-box; min-width: 0;
-        }
-        .lists-details {
-            display: block; min-width: 0; overflow-wrap: break-word; margin-bottom: 4px;
-        }
-        .lists-summary {
-            list-style: none; display: flex; align-items: center; gap: 8px;
-            padding: 6px 0; color: #4b4b4b; font-family: 'MinFont', monospace;
-            font-size: 1em; cursor: pointer; text-align: left;
-        }
-        .lists-details-body { padding-left: 6px; }
-        .lists-items {
-            list-style: none; margin: 0; padding: 4px 0 10px 0;
-            display: flex; flex-direction: column; align-items: flex-start;
-            gap: 4px; text-align: left;
-        }
-        .lists-items li {
-            color: #6b6b6b; font-size: 0.92em; line-height: 1.5;
-            padding-left: 2px; text-align: left;
-        }
-    </style>
-</head>
+<style>
 
-<body>
-    <div class="layout-with-sidebars">
-        <main id="containerprincipal">
+    .min-blog-wrap {
+        display:block; width:100%; margin:0; padding:0;
+        background:transparent; font-family:"MinFont",monospace;
+        font-size:15px; text-align:left; color:#696969; line-height:1.4;
+    }
+    .min-blog-shell {
+        display:block; width:100%; max-width:680px; margin:0 auto;
+        padding:22px 20px 28px; background:#141414;
+        border-radius:3px; box-sizing:border-box;
+    }
 
-            <h2>monthly blog</h2>
-            <div class="caixamaisclaraCenterSimple">
-                <h4>sorry if there any foreign readers, i kinda wanna do my entries in brazilian portuguese 'cause it's my
-                    first language, so feel free to translate the page with the button on the sidebar on your left, if you're interested enough :)</h4>
-                    <br>
-                <div class="nav-item"></div>
-                <br>
-                <div id="google_translate_element"></div>
-            </div>
 
-            <hr>
+    .min-blog-head { text-align:center; margin:0 0 20px; padding:0; }
+    .min-blog-h1 {
+        display:block; margin:0 0 6px; font-family:"MinFont",monospace;
+        font-size:1.6rem; font-weight:700; letter-spacing:3px;
+        color:var(--emo-text-hover2); text-shadow:var(--emo-text-shadow); line-height:1.1;
+    }
+    .min-blog-sub {
+        display:block; margin:0 auto; max-width:440px;
+        font-family:"MinFont",monospace; font-size:0.88rem; line-height:1.4;
+        color:var(--emo-text-muted); text-align:center; text-shadow:var(--emo-text-shadow);
+    }
 
-            <div id="posts-container">
+    .min-month { display:block; margin:0 0 10px; }
+    .min-month > summary {
+        display:flex; align-items:center; justify-content:space-between;
+        list-style:none; cursor:pointer; padding:6px 2px;
+        font-family:"MinFont",monospace; font-size:1rem; font-weight:700;
+        letter-spacing:1px; color:#7a1a1a; user-select:none;
+        text-shadow:var(--emo-text-shadow);
+    }
+    .min-month > summary::-webkit-details-marker { display:none; }
+    .min-month > summary::marker { display:none; content:""; }
+    .min-month > summary:hover { color:#b81010; }
+    .min-month > summary::after { content:"+"; color:var(--emo-text-hover2); font-size:1.15rem; margin-left:12px; }
+    .min-month[open] > summary::after { content:"−"; }
 
-                <div class="blog-post">
-                    
-                    <h2 class="post-title">sept 2026</h2>
+    .min-entries { display:flex; flex-direction:column; gap:8px; padding:4px 2px 10px; }
 
-                    <div class="post-body-fixed">
-                        <div class="post-text-scroll">
-                            <div class="post-text">
-                           <br>
-                        - sinto que estou andando pelo vale da sombra e da morte, quando isso vai passar? preciso de um emprego
-                         logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preencher o vazio existencial ja q fazer oq estamos no capitalismo <br>
-- fiz uma aula experimental de yoga, sinto q preciso começar a me aprofundar em meditaçao e tals pra tentar lidar melhor com minhas questões e descobrir melhor o que quero pra minha vida <br>
-- pensando muito como algumas amizades virtuais, que fiz sem querer e sem expectativas, acabaram me compreendendo respeitando e fazendo mais questão da minha presença do que 80% das amizades que fiz pessoalmente 🤡. convenhamos que pra mim sempre foi mais facil socializar online e em jogos, mas eita como isso colabora pro meu isolamento <br>
+    .min-text {
+        display:block; font-family:"MinFont",monospace; font-size:0.96rem;
+        line-height:1.4; color:#696969; white-space:pre-wrap;
+        text-align:left; text-shadow:var(--emo-text-shadow);
+    }
+    .min-text a { color:var(--emo-text-hover2); text-decoration:none; }
+    .min-text a:hover { text-decoration:underline; }
 
-                        <details class="lists-details">
+    .min-music { margin:8px 0 0; }
+    .min-music-title {
+        display:block; margin:0 0 3px; font-family:"MinFont",monospace;
+        font-size:0.9rem; font-weight:700; letter-spacing:1px;
+        color:var(--emo-text-hover2); text-shadow:var(--emo-text-shadow);
+    }
+    .min-music-list { display:flex; flex-direction:column; gap:0; list-style:none; margin:0; padding:0; }
+    .min-music-list li {
+        font-family:"MinFont",monospace; font-size:0.9rem; line-height:1.35;
+        color:#9a8f8f; text-shadow:var(--emo-text-shadow);
+    }
+    .min-music-list a { color:#696969; text-decoration:none; }
+    .min-music-list a:hover { color:var(--emo-text-hover2); text-decoration:underline; }
 
-<summary class="lists-summary">- musicas do mes (clique para expandir)</summary>
-                            <div class="lists-details-body">
-                                <ul class="lists-items">
-                                    <li> <a src="https://open.spotify.com/intl-pt/track/3ZffCQKLFLUvYM59XKLbVm?si=4b5e1ee0813b4428">wake me up when september ends - green day </a> <br></li>
-                                 <li> <a src="https://open.spotify.com/intl-pt/track/0YUVtMGgaJj55WAr7AHRvY?si=0a6bc2f3b48d408f"> há tempos - legião urbana </a> <br></li>
-                               <li> <a src="https://open.spotify.com/intl-pt/track/2plbrEY59IikOBgBGLjaoe?si=d4caa203269648be"> die with a smile - bruno mars  (VCS SABIAM Q O BRUNO MARS ESCREVEU ESSA MUSICA APÓS ASSISTIR ATTACK ON TITAN E SE INSPIROU NO EREN E NA MIKASA? SABIAM??) </a> <br></li>
-                               
-                                </ul>
-                            </div>
+    .min-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin:8px 0 0; }
+    .min-cell {
+        position:relative; aspect-ratio:1/1; overflow:hidden;
+        border-radius:3px; background:#0a0a0a;
+    }
+    .min-cell:has(.min-toggle:checked) { grid-column:1/-1; aspect-ratio:unset; }
+    .min-thumb { display:block; width:100%; height:100%; cursor:pointer; line-height:0; }
+    .min-thumb-img { display:block; width:100%; height:100%; object-fit:cover; }
+    .min-thumb:hover .min-thumb-img { filter:brightness(0.85); }
+    .min-full { display:none; position:relative; width:100%; }
+    .min-toggle:checked ~ .min-full { display:block; }
+    .min-toggle:checked ~ .min-thumb { display:none; }
+    .min-full img { display:block; width:100%; max-height:70vh; object-fit:contain; border-radius:3px; }
+    .min-close {
+        position:absolute; top:6px; right:6px; width:24px; height:24px;
+        background:rgba(0,0,0,0.75); color:#d01010; border-radius:50%;
+        font-size:14px; line-height:24px; text-align:center; cursor:pointer; z-index:5;
+    }
+    .min-close:hover { background:rgba(139,0,0,0.7); color:#fff; }
 
-                        </details>
-                            </div>
-                        </div>
+    .min-cmt-details { display:block; margin:10px 0 0; }
+    .min-cmt-toggle {
+        display:flex; align-items:center; gap:6px; list-style:none; cursor:pointer;
+        padding:3px 0; font-family:"MinFont",monospace; font-size:0.9rem;
+        color:#7a6a6a; user-select:none; text-shadow:var(--emo-text-shadow);
+    }
+    .min-cmt-toggle::-webkit-details-marker { display:none; }
+    .min-cmt-toggle::marker { display:none; content:""; }
+    .min-cmt-toggle:hover { color:#841717; }
+    .min-cmt-toggle::before { content:""; opacity:0.7; }
+    .min-cmt-count { color:var(--emo-text-hover2); }
+    .min-cmt-body { padding:8px 0 4px; }
 
-                        <div class="post-gallery-wrap">
-                            <input type="checkbox" id="show-more-post-sept2026" class="show-more-toggle" hidden>
-                            <div class="grid-feed post-gallery">
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-post-sept2026-1" class="photo-toggle" hidden>
-                                    <label for="photo-post-sept2026-1" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/feed/yoga.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/feed/yoga.jpg" alt="">
-                                        <label for="photo-post-sept2026-1" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                            </div>
+    .min-cw {
+        display:block; background:#0d0d0d; border:none;
+        border-radius:4px; padding:14px 14px 12px;
+        font-family:"MinFont",monospace;
+    }
+    .min-cw-head { display:flex; justify-content:space-between; align-items:baseline; margin:0 0 12px; }
+    .min-cw-title { font-size:1.05rem; font-weight:700; color:#696969; letter-spacing:0.5px; }
+    .min-cw-hint { font-size:0.82rem; color:#5a4a4a; }
+    .min-cw-row { display:flex; gap:10px; margin:0 0 8px; }
+    .min-cw-field { flex:1; display:flex; flex-direction:column; }
+    .min-cw-label { font-size:0.84rem; color:#8a7a7a; margin:0 0 3px; }
+    .min-cw-label .req { color:#b81010; }
 
-                            <label for="show-more-post-sept2026" class="gallery-fade">
-                                <span class="gallery-expand-btn">+</span>
-                            </label>
-                        </div>
-                    </div>
+    .min-cw-in,
+    .min-cw-ta {
+        display:block; width:100%; background:#161616;
+        border:none; border-radius:3px; padding:8px 10px;
+        font-family:"MinFont",monospace; font-size:0.92rem; color:#696969;
+        outline:none; box-sizing:border-box; -webkit-text-fill-color:#696969;
+        caret-color:var(--emo-text-hover2);
+    }
+    .min-cw-in:focus,
+    .min-cw-ta:focus { background:#1c1c1c; }
+    .min-cw-in::placeholder,
+    .min-cw-ta::placeholder { color:#4a3a3a; }
+    .min-cw-ta { min-height:90px; resize:vertical; line-height:1.4; }
 
-                    <hr class="post-divider">
-                </div>
+    .min-cw-tools { display:flex; gap:4px; margin:0 0 5px; }
+    .min-cw-tool {
+        width:30px; height:30px; background:#161616; border:none;
+        border-radius:3px; color:#696969; font-family:"MinFont",monospace;
+        font-size:0.9rem; cursor:pointer; line-height:1;
+    }
+    .min-cw-tool:hover { background:#1e1e1e; color:#d5d5d5; }
 
-                <div class="blog-post">
-                   
-                    <h2 class="post-title">ago 2026</h2>
+    .min-cw-submit {
+        display:inline-block; margin:10px 0 0; padding:8px 20px;
+        background:#2a0a0a; border:none; border-radius:3px; color:#696969;
+        font-family:"MinFont",monospace; font-size:0.92rem; cursor:pointer;
+    }
+    .min-cw-submit:hover:not(:disabled) { background:#3a1010; color:#696969; }
+    .min-cw-submit:disabled { opacity:0.5; cursor:not-allowed; }
+    .min-cw-ghost { background:#1a1a1a; color:#8a7a7a; }
+    .min-cw-ghost:hover { background:#222; color:#696969; }
 
-                    <div class="post-body-fixed">
-                        <div class="post-text-scroll">
-                            <div class="post-text">
-                           <br>
-                         - só fui baixar meu historico da facul 6 meses depois de formar, e vi q meu cr fechou em 9, fica aqui um registro da minha gratidão e um pouco de orgulho proprio <br> 
-- estou tendo aquela famosa crise de transição pra vida adulta, definir o que quero fazer da minha vida profissional, ê fase chata. mas sei que estou bem empolgada com protese tmb, e a possibilidade de poder trabalhar em casa no meu cantinho me anima bastante :) <br>
-- andei de patins com meu namo, e ele de skate, foi irado mas ainda estou passando muito perrengue, preciso de uma roda maior e mais macia
-<br>     
-                        <details class="lists-details">
+    .min-cw-status { display:block; min-height:1.2em; margin:5px 0 0; font-size:0.82rem; color:#8a7a7a; }
+    .min-cw-status.ok { color:#6abf6a; }
+    .min-cw-status.err { color:#bf6a6a; }
 
-<summary class="lists-summary">- musicas do mes (clique para expandir)</summary>
-                            <div class="lists-details-body">
-                                <ul class="lists-items">
-                                    <li> <a src="https://open.spotify.com/intl-pt/track/1rDJIKiabJGtDtT8y72aTr?si=0609c477b69842ea">desert song - mcr </a> <br></li>
-                                 <li> <a src="https://open.spotify.com/intl-pt/track/089jl361OtZ6VpYvhgPiTS?si=01a109ee2a5d4ec8">join me in death - him </a> <br></li>
-                                </ul>
-                                                             <li> <a src="https://open.spotify.com/intl-pt/track/3zEN0ii6s4DHHBpnTp3RP7?si=e56629da54454b54"> we the people - empire of the sun</a> <br></li>
+    .min-cw-powered { text-align:right; margin:8px 0 0; font-size:0.8rem; color:#4a4040; }
+    .min-cw-powered b { color:#696969; font-weight:700; }
 
-                            </div>
+    .min-cw-listhead {
+        display:flex; justify-content:space-between; align-items:center;
+        margin:14px 0 6px; padding-top:0;
+        border-top:none;
+        font-size:0.92rem; color:#696969;
+    }
+    .min-cw-sort {
+        background:#161616; border:none; color:#a8a0a0;
+        font-family:"MinFont",monospace; font-size:0.86rem;
+        padding:5px 9px; border-radius:3px; cursor:pointer; outline:none;
+    }
 
-                        </details>
-                            </div>
-                        </div>
+    .min-cw-list { display:flex; flex-direction:column; }
+    .min-cw-empty { padding:12px 0; text-align:center; font-size:0.9rem; color:#4a4040; }
 
-                        <div class="post-gallery-wrap">
-                            <input type="checkbox" id="show-more-post-ago2026" class="show-more-toggle" hidden>
-                            <div class="grid-feed post-gallery">
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-post-ago2026-1" class="photo-toggle" hidden>
-                                    <label for="photo-post-ago2026-1" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/feed/gabminonwheels.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/feed/gabminonwheels.jpg" alt="">
-                                        <label for="photo-post-ago2026-1" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
+    .min-cw-item { display:flex; gap:10px; padding:10px 0; }
+    .min-cw-item + .min-cw-item { border-top:none; }
+    .min-cw-av {
+        width:42px; height:42px; border-radius:4px; flex-shrink:0;
+        display:flex; align-items:center; justify-content:center;
+        font-size:1.05rem; font-weight:700; color:#696969; overflow:hidden;
+    }
+    .min-cw-av img { width:100%; height:100%; object-fit:cover; display:block; }
+    .min-cw-main { flex:1; min-width:0; }
+    .min-cw-head2 { display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; margin:0 0 2px; }
+    .min-cw-name { font-size:0.94rem; font-weight:700; color:#696969; }
+    .min-cw-name a { color:#b81010; text-decoration:none; }
+    .min-cw-name a:hover { text-decoration:underline; }
+    .min-cw-time { font-size:0.8rem; color:#5a4a4a; }
+    .min-cw-text {
+        font-size:0.94rem; color:#696969; line-height:1.45;
+        margin:3px 0 0; white-space:pre-wrap; word-wrap:break-word;
+    }
+    .min-cw-text a { color:#b81010; }
+    .min-cw-actions { display:flex; gap:14px; margin:5px 0 0; }
+    .min-cw-act {
+        display:inline-flex; align-items:center; gap:4px; background:none;
+        border:none; padding:0; font-family:"MinFont",monospace;
+        font-size:0.84rem; color:#5a4a4a; cursor:pointer;
+    }
+    .min-cw-act:hover { color:#b81010; }
+    .min-cw-act.liked { color:#b81010; }
 
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-post-ago2026-2" class="photo-toggle" hidden>
-                                    <label for="photo-post-ago2026-2" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/feed/bacardi.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/feed/bacardi.jpg" alt="">
-                                        <label for="photo-post-ago2026-2" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                            </div>
+    .min-cw-meta { display:flex; gap:10px; margin:4px 0 0; font-size:0.76rem; color:#3a3030; flex-wrap:wrap; }
 
-                            <label for="show-more-post-ago2026" class="gallery-fade">
-                                <span class="gallery-expand-btn">+</span>
-                            </label>
-                        </div>
-                    </div>
+    .min-cw-replies { margin:8px 0 0; padding:0 0 0 14px; border-left:none; }
+    .min-cw-replies .min-cw-item { padding:8px 0; }
 
-                    <hr class="post-divider">
-                </div>
+    .min-cw-replyform {
+        display:flex; flex-direction:column; gap:6px; margin:8px 0 0;
+        padding:10px; background:#111; border-radius:3px;
+    }
+    .min-cw-replyform .min-cw-submit { margin:0; padding:6px 16px; font-size:0.86rem; }
 
-                <div class="blog-post">
+    .blog-reactions-box { display:block !important; margin:0 0 10px !important; padding:0 !important; }
+
+    .blog-reactions-box .reactions-wrapper {
+        display:flex !important;
+        flex-direction:row !important;
+        flex-wrap:wrap !important;
+        align-items:center !important;
+        gap:6px !important;
+        position:relative !important;
+        overflow:visible !important;
+    }
+    .blog-reactions-box .reactions-list {
+        display:flex !important;
+        flex-wrap:wrap !important;
+        align-items:center !important;
+        align-content:center !important;
+        gap:5px !important;
+        max-height:none !important;
+        overflow:visible !important;
+        list-style:none !important;
+        padding:0 !important;
+        margin:0 !important;
+    }
+    .blog-reactions-box .reactions-list li { display:flex !important; flex-shrink:0 !important; }
+
+    .blog-reactions-box .reaction-chip {
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:6px !important;
+        min-width:42px !important;
+        width:auto !important;
+        height:32px !important;
+        padding:0 10px !important;
+        background:#1a1a1a !important;
+        border:none !important;
+        border-radius:16px !important;
+        color:#d5d8dd !important;
+        font-size:12px !important;
+        font-weight:700 !important;
+        cursor:pointer !important;
+        line-height:1 !important;
+        position:relative !important;
+        flex-shrink:0 !important;
+        outline:none !important;
+        box-sizing:border-box !important;
+        transition:background 0.15s !important;
+    }
+    .blog-reactions-box .reaction-chip:hover { background:#242424 !important; }
+    .blog-reactions-box .reaction-chip.reacted {
+        background:#242424 !important;
+        color:#fff !important;
+    }
+
+    .blog-reactions-box .reaction-icon {
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        width:24px !important;
+        height:24px !important;
+        min-width:24px !important;
+        min-height:24px !important;
+        max-width:24px !important;
+        max-height:24px !important;
+        font-size:20px !important;
+        line-height:1 !important;
+        flex-shrink:0 !important;
+        overflow:hidden !important;
+        vertical-align:middle !important;
+    }
+    .blog-reactions-box .reaction-icon img {
+        width:24px !important;
+        height:24px !important;
+        max-width:24px !important;
+        max-height:24px !important;
+        object-fit:contain !important;
+        display:block !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+    .blog-reactions-box .reaction-count {
+        font-size:12px !important;
+        font-weight:700 !important;
+        color:inherit !important;
+        line-height:1 !important;
+    }
+
+    .blog-reactions-box .reaction-add-btn {
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        width:32px !important;
+        height:32px !important;
+        min-width:32px !important;
+        min-height:32px !important;
+        max-width:32px !important;
+        max-height:32px !important;
+        padding:0 !important;
+        background:#1a1a1a !important;
+        border:none !important;
+        border-radius:50% !important;
+        cursor:pointer !important;
+        overflow:hidden !important;
+        flex-shrink:0 !important;
+        outline:none !important;
+        box-sizing:border-box !important;
+        transition:background 0.15s !important;
+    }
+    .blog-reactions-box .reaction-add-btn:hover { background:#242424 !important; }
+    .blog-reactions-box .reaction-add-btn img,
+    .blog-reactions-box .reaction-add-btn svg {
+        width:18px !important;
+        height:18px !important;
+        max-width:18px !important;
+        max-height:18px !important;
+        object-fit:contain !important;
+        display:block !important;
+        filter:brightness(1.2) saturate(0.3) !important;
+    }
+
+    .reaction-picker {
+        position:fixed !important;
+        z-index:2147483647 !important;
+        width:400px !important;
+        max-width:calc(100vw - 24px) !important;
+        background:#1a1a1a !important;
+        border:none !important;
+        border-radius:10px !important;
+        box-shadow:0 8px 28px rgba(0,0,0,0.8) !important;
+        display:none !important;
+        flex-direction:column !important;
+        overflow:hidden !important;
+        font-family:"MinFont",monospace !important;
+    }
+    .reaction-picker.open { display:flex !important; }
+
+    .reaction-picker .picker-header {
+        display:flex !important;
+        align-items:center !important;
+        gap:8px !important;
+        padding:10px 12px !important;
+        background:#1a1a1a !important;
+        border-bottom:none !important;
+    }
+    .reaction-picker .picker-search {
+        flex:1 !important;
+        background:#111 !important;
+        border:none !important;
+        border-radius:6px !important;
+        padding:8px 12px !important;
+        color:#e6e6e6 !important;
+        font-size:13px !important;
+        font-family:inherit !important;
+        outline:none !important;
+    }
+    .reaction-picker .picker-search::placeholder { color:#5a5a5a !important; }
+
+    .reaction-picker .picker-tabs {
+        display:grid !important;
+        grid-template-columns:repeat(8,1fr) !important;
+        align-items:center !important;
+        justify-items:center !important;
+        gap:4px !important;
+        padding:8px 10px !important;
+        background:#1a1a1a !important;
+        border-bottom:none !important;
+    }
+    .reaction-picker .picker-tab-btn {
+        width:100% !important;
+        height:32px !important;
+        display:inline-flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        background:transparent !important;
+        border:none !important;
+        border-radius:6px !important;
+        font-size:18px !important;
+        cursor:pointer !important;
+        padding:0 !important;
+    }
+    .reaction-picker .picker-tab-btn:hover { background:#242424 !important; }
+    .reaction-picker .picker-tab-btn.active { background:#242424 !important; }
+
+    .reaction-picker .picker-body {
+        height:320px !important;
+        min-height:320px !important;
+        max-height:320px !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        padding:12px 14px !important;
+        background:#1a1a1a !important;
+        display:block !important;
+    }
+    .reaction-picker .picker-grid {
+        display:grid !important;
+        grid-template-columns:repeat(auto-fill, 44px) !important;
+        grid-auto-rows:44px !important;
+        gap:6px !important;
+        width:100% !important;
+    }
+
+    .reaction-picker .picker-item-btn {
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        width:44px !important;
+        height:44px !important;
+        padding:0 !important;
+        background:transparent !important;
+        border:none !important;
+        border-radius:7px !important;
+        cursor:pointer !important;
+        font-size:28px !important;
+        line-height:1 !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+        transition:background 0.1s, transform 0.1s !important;
+    }
+    .reaction-picker .picker-item-btn:hover {
+        background:#242424 !important;
+        transform:scale(1.08) !important;
+    }
+    .reaction-picker .picker-item-btn img {
+        width:40px !important;
+        height:40px !important;
+        max-width:40px !important;
+        max-height:40px !important;
+        object-fit:contain !important;
+        object-position:center !important;
+        display:block !important;
+        margin:0 !important;
+        padding:0 !important;
+    }
+    .reaction-picker .picker-empty {
+        grid-column:1 / -1 !important;
+        padding:18px 10px !important;
+        text-align:center !important;
+        color:#7a7d84 !important;
+        font-size:12px !important;
+    }
+    .reaction-picker .picker-footer {
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:4px !important;
+        padding:10px 12px 11px !important;
+        font-size:11.5px !important;
+        color:#8a8d94 !important;
+        background:#141414 !important;
+        border-top:none !important;
+        text-align:center !important;
+    }
+    .reaction-picker .picker-footer b { color:#c5c8ce !important; font-weight:700 !important; }
+    .reaction-picker .picker-footer .star-icon { width:11px !important; height:11px !important; fill:#c5c8ce !important; }
+
     
-                    <h2 class="post-title">jul 2026</h2>
+    .min-blog-wrap hr,
+    .min-blog-shell hr,
+    .min-cw hr {
+        display: block !important;
+        height: 1px !important;
+        border: none !important;
+        border-top: 1px solid #2a2a2a !important;
+        background: none !important;
+        box-shadow: none !important;
+        margin: 1rem 0 !important;
+        width: 100% !important;
+    }
 
-                    <div class="post-body-fixed">
-                        <div class="post-text-scroll">
-                            <div class="post-text">
-                           estou pensando em tentar postar mensalmente aqui<br>
-                           - adivinha quem recebeu laudo pra Audhd?<br> 
-- estou animada com meu curso de protética, é mto bom se sentir empolgada em aprender algo novo :) <br>
+    .min-blog-wrap button,
+    .min-cw button,
+    .min-blog-wrap .min-cw-submit,
+    .min-blog-wrap .min-cw-tool,
+    .min-blog-wrap .min-cw-sort,
+    .min-blog-wrap .min-cw-act {
+        width: auto !important;
+        font-family: "MinFont", monospace !important;
+        cursor: pointer !important;
+    }
 
-- estou viciada dnv no jogo transformice, que jogo desde 2011, e fiz mais amizades legais la!!! <br>
+    .min-cw-submit {
+        display: inline-block !important;
+        padding: 8px 20px !important;
+    }
 
-- tmb estou obcadissima com as midias recentes dos shows do mcr na europa, minha banda fav ta vivissima <3 <br>
+    .min-cw-tool {
+        width: 30px !important;
+        height: 30px !important;
+        padding: 0 !important;
+    }
 
-- também estou assistindo twin peaks com meu namorado e estou gostando bastante. me lembra um pouco arquivo x, pelos fenomenos sobrenaturais tipo premoniçao 
-ou visões e interpretaçao de sonhos, quem nos recomendou comentou que lembra a psicologia de carl jung. o clima e vegetaçao da região que foi gravada tem me 
-gatilhado muito tambem, morro de vontade de viajar pra lá e visitar forks também, a cidade que crepúsculo foi gravado.<br>
+    .min-blog-wrap input,
+    .min-blog-wrap textarea,
+    .min-blog-wrap select {
+        -webkit-text-fill-color: #696969 !important;
+        color: #696969 !important;
+        caret-color: var(--emo-text-hover2) !important;
+        font-family: "MinFont", monospace !important;
+    }
 
-- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham.<br>
-- ganhei um prêmio no curso por ter tirado primeiro lugar na prova feita por kahoot kkkk ganhei um aspirador portatil q vai me quebrar um galho nesse trabalho.
-- criei também uma pagina para minha clínica psi, mas to super ansiosa e insegura k
+    .min-blog-wrap a {
+        display: inline !important;
+        color: inherit !important;
+        text-decoration: none !important;
+        margin-top: 0 !important;
+        background: none !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        transition: color 0.15s !important;
+    }
 
-<br>     
-                        <details class="lists-details">
+    .min-text a:hover,
+    .min-music-list a:hover {
+        color: var(--emo-text-hover2) !important;
+        text-decoration: underline !important;
+    }
 
-<summary class="lists-summary">- musicas do mes (clique para expandir)</summary>
-                            <div class="lists-details-body">
-                                <ul class="lists-items">
-                                    <li> <a src="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm?si=8ade56ac62784343">silvering blade - jazmin bean</a> <br></li>
-                                    <li> <a src="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5?si=1b8dd4fd4afc4f25">high enough blade - k.flay</a> <br></li>
-                                
-                                </ul>
-                            </div>
+    .min-blog-wrap ul,
+    .min-blog-wrap li {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 
-                        </details>
-                            </div>
-                        </div>
+    .min-blog-wrap summary,
+    .min-blog-wrap details {
+        cursor: pointer !important;
+        list-style: none !important;
+    }
 
-                        <div class="post-gallery-wrap">
-                            <input type="checkbox" id="show-more-post-2" class="show-more-toggle" hidden>
-                            <div class="grid-feed post-gallery">
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-post-2-1" class="photo-toggle" hidden>
-                                    <label for="photo-post-2-1" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/tpd1.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/tpd1.jpg" alt="">
-                                        <label for="photo-post-2-1" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
+    .min-month > summary::-webkit-details-marker,
+    .min-cmt-toggle::-webkit-details-marker { display: none !important; }
+    .min-month > summary::marker,
+    .min-cmt-toggle::marker { display: none !important; content: "" !important; }
 
-                                <div class="feed-cell">
-                                    <input type="checkbox" id="photo-post-2-2" class="photo-toggle" hidden>
-                                    <label for="photo-post-2-2" class="thumb-label">
-                                        <img class="thumb-img" src="imgs/blog/pedge.jpg" alt="" loading="lazy">
-                                        <span class="hover-hint"></span>
-                                    </label>
-                                    <div class="full-img-wrap">
-                                        <img src="imgs/blog/pedge.jpg" alt="">
-                                        <label for="photo-post-2-2" class="close-btn">&times;</label>
-                                    </div>
-                                </div>
-                            </div>
+    .min-blog-wrap img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
 
-                            <label for="show-more-post-2" class="gallery-fade">
-                                <span class="gallery-expand-btn">+</span>
-                            </label>
-                        </div>
-                    </div>
+    .blog-reactions-box .reaction-add-btn {
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        padding: 0 !important;
+    }
 
-                    <hr class="post-divider">
+    .blog-reactions-box .reaction-chip {
+        min-width: 42px !important;
+        padding: 0 10px !important;
+        height: 32px !important;
+    }
+
+    .reaction-picker {
+        position: fixed !important;
+        z-index: 2147483647 !important;
+    }
+
+    .min-blog-wrap,
+    .min-blog-wrap * {
+        text-shadow: none !important;
+    }
+
+    .min-blog-h1,
+    .min-text,
+    .min-music-title,
+    .min-music-list li,
+    .min-month > summary,
+    .min-cmt-toggle,
+    .min-cw-text,
+    .min-cw-name,
+    .min-cw-title {
+        text-shadow: var(--emo-text-shadow) !important;
+    }
+
+    @media (max-width: 560px) {
+        .min-blog-shell { padding:16px 12px 22px; }
+        .min-blog-h1 { font-size:1.3rem; letter-spacing:2px; }
+        .min-gallery { grid-template-columns:repeat(2,1fr); }
+        .min-cw-row { flex-direction:column; }
+        .reaction-picker { width:calc(100vw - 16px) !important; }
+    }
+</style>
+
+<div class="min-blog-wrap">
+    <div class="min-blog-shell">
+
+        <div class="min-blog-head">
+            <h1 class="min-blog-h1">monthly blog</h1>
+            <p class="min-blog-sub"><em>feel free to translate the page with the button on the sidebar on your left if you're interested enough :)</em></p>
+        </div>
+<hr>
+        <details class="min-month">
+            <summary><span>setembro 2026</span></summary>
+            <div class="min-entries">
+                <div class="min-text">
+- sinto que estou andando pelo vale da sombra e da morte, preciso de um emprego bão
+logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preencher o vazio existencial, ja q fazer oq estamos no capitalismo
+<br>- fiz uma aula experimental de yoga, queria mto fazer mas o studio era na frente de uma avenida barulhenta :(
+<br>- pensando muito como algumas amizades virtuais, que fiz sem querer e sem expectativas, acabaram me compreendendo respeitando e fazendo mais questão da minha presença do que grande parte das amizades que fiz pessoalmente 🤡.
+              <br>- cara  a conta de anos de negligencia alimentar e de vida sedentaria ta batendo na porta, estou precisando muito de proteínas e talvez seja pq estou completando praticamente 10 anos de vegetarianismo, e ta sendo muito dificil me forçar a comer em grandes quantidades, pra tentar nao precisar recorrer a medidas drásticas que vao contra minha moral, ainda mais tendo algumas seletividades alimentares :(
+</div>
+
+                <div class="min-music">
+                    <h4 class="min-music-title">músicas do mês</h4>
+                    <ul class="min-music-list">
+                        <li><a href="https://open.spotify.com/intl-pt/track/3ZffCQKLFLUvYM59XKLbVm" target="_blank">wake me up when september ends - green day</a></li>
+                        <li><a href="https://open.spotify.com/intl-pt/track/0YUVtMGgaJj55WAr7AHRvY" target="_blank">há tempos - legião urbana</a></li>
+                        <li><a href="https://open.spotify.com/intl-pt/track/2plbrEY59IikOBgBGLjaoe" target="_blank">die with a smile - bruno mars</a></li>
+                    </ul>
                 </div>
 
-                <div class="blog-post">
-                    <h2 class="post-title">hiperfocos alimentares</h2>
-
-                    <div class="post-body-fixed">
-                        <div class="post-text-scroll">
-                            <div class="post-text">
-                                <p>esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
-                                    <br> alguns dos outros "hiperfocos" e novas descobertas gastronômicas marcantes(também vou adicionando mais depois):<br>
-                                    <br>- chá de canela
-                                    <br>- macarrão carbonara
-                                    <br>- macarrão de legumes (cenoura e abobrinha cortadas finas igual macarrão)
-                                    <br>- cenoura fatiada na frigideira, com temperos
-                                    <br>- vitamina de abacate
-                                    <br>- geléia
-                                    <br>- tomate seco (assim, não fica crocante, muito gostoso)
-                                    <br>- morango. morango com chocolate. morango com açucar.
-                                </p>
-                            </div>
-                        </div>
-
+                <div class="min-gallery">
+                    <div class="min-cell">
+                        <input type="checkbox" id="p-sept2026-1" class="min-toggle" hidden>
+                        <label for="p-sept2026-1" class="min-thumb"><img class="min-thumb-img" src="imgs/feed/yoga.jpg" loading="lazy" alt=""></label>
+                        <div class="min-full"><img src="imgs/feed/yoga.jpg" alt=""><label for="p-sept2026-1" class="min-close">&times;</label></div>
                     </div>
-
-                    <hr class="post-divider">
                 </div>
 
+                <details class="min-cmt-details" data-post-id="blog_sept_2026" open>
+                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
+                    <div class="min-cmt-body"></div>
+                </details>
             </div>
+        </details>
+
+        <details class="min-month">
+            <summary><span>agosto 2026</span></summary>
+            <div class="min-entries">
+                <div class="min-text">
+- só fui baixar meu historico da facul 6 meses depois de formar, e vi q meu cr fechou em 9, fica aqui um registro da minha gratidão e um pouco de orgulho proprio
+<br>- estou tendo aquela famosa crise de transição pra vida adulta, definir o que quero fazer da minha vida profissional, ê fase chata. mas sei que estou bem empolgada com protese tmb.
+<br>- andei de patins com meu namo, e ele de skate, foi irado mas ainda estou passando muito perrengue, preciso de uma roda maior e mais macia
+                </div>
+
+                <div class="min-music">
+                    <h4 class="min-music-title">músicas do mês</h4>
+                    <ul class="min-music-list">
+                        <li><a href="https://open.spotify.com/intl-pt/track/1rDJIKiabJGtDtT8y72aTr" target="_blank">desert song - mcr</a></li>
+                        <li><a href="https://open.spotify.com/intl-pt/track/089jl361OtZ6VpYvhgPiTS" target="_blank">join me in death - him</a></li>
+                        <li><a href="https://open.spotify.com/intl-pt/track/3zEN0ii6s4DHHBpnTp3RP7" target="_blank">we the people - empire of the sun</a></li>
+                    </ul>
+                </div>
+
+                <div class="min-gallery">
+                    <div class="min-cell">
+                        <input type="checkbox" id="p-ago2026-1" class="min-toggle" hidden>
+                        <label for="p-ago2026-1" class="min-thumb"><img class="min-thumb-img" src="imgs/feed/gabminonwheels.jpg" loading="lazy" alt=""></label>
+                        <div class="min-full"><img src="imgs/feed/gabminonwheels.jpg" alt=""><label for="p-ago2026-1" class="min-close">&times;</label></div>
+                    </div>
+                    <div class="min-cell">
+                        <input type="checkbox" id="p-ago2026-2" class="min-toggle" hidden>
+                        <label for="p-ago2026-2" class="min-thumb"><img class="min-thumb-img" src="imgs/feed/bacardi.jpg" loading="lazy" alt=""></label>
+                        <div class="min-full"><img src="imgs/feed/bacardi.jpg" alt=""><label for="p-ago2026-2" class="min-close">&times;</label></div>
+                    </div>
+                </div>
+
+                <details class="min-cmt-details" data-post-id="blog_ago_2026" open>
+                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
+                    <div class="min-cmt-body"></div>
+                </details>
+            </div>
+        </details>
+
+        <details class="min-month">
+            <summary><span>julho 2026</span></summary>
+            <div class="min-entries">
+                <div class="min-text">
+estou pensando em tentar postar mensalmente aqui<br>
+- adivinha quem recebeu laudo pra Audhd?<br>
+- estou animada com meu curso de protética, é mto bom se sentir empolgada em aprender algo novo :)<br>
+- estou viciada dnv no jogo transformice, que jogo desde 2011, e fiz mais amizades legais la!!!<br>
+- tmb estou obcadissima com as midias recentes dos shows do mcr na europa, minha banda fav ta vivissima &lt;3<br>
+- também estou assistindo twin peaks com meu namorado e estou gostando bastante.<br>
+- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham.<br>
+- ganhei um prêmio no curso por ter tirado primeiro lugar na prova feita por kahoot kkkk<br>
+- criei também uma pagina para minha clínica psi, mas to super ansiosa e insegura k
+                </div>
+
+                <div class="min-music">
+                    <h4 class="min-music-title">músicas do mês</h4>
+                    <ul class="min-music-list">
+                        <li><a href="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm" target="_blank">silvering blade - jazmin bean</a></li>
+                        <li><a href="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5" target="_blank">high enough blade - k.flay</a></li>
+                    </ul>
+                </div>
+
+                <div class="min-gallery">
+                    <div class="min-cell">
+                        <input type="checkbox" id="p-jul2026-1" class="min-toggle" hidden>
+                        <label for="p-jul2026-1" class="min-thumb"><img class="min-thumb-img" src="imgs/blog/tpd1.jpg" loading="lazy" alt=""></label>
+                        <div class="min-full"><img src="imgs/blog/tpd1.jpg" alt=""><label for="p-jul2026-1" class="min-close">&times;</label></div>
+                    </div>
+                    <div class="min-cell">
+                        <input type="checkbox" id="p-jul2026-2" class="min-toggle" hidden>
+                        <label for="p-jul2026-2" class="min-thumb"><img class="min-thumb-img" src="imgs/blog/pedge.jpg" loading="lazy" alt=""></label>
+                        <div class="min-full"><img src="imgs/blog/pedge.jpg" alt=""><label for="p-jul2026-2" class="min-close">&times;</label></div>
+                    </div>
+                </div>
+
+                <details class="min-cmt-details" data-post-id="blog_jul_2026" open>
+                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
+                    <div class="min-cmt-body"></div>
+                </details>
+            </div>
+        </details>
+
+        <details class="min-month">
+            <summary><span>laricas</span></summary>
+            <div class="min-entries">
+                <div class="min-text">
+esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
+<br><br>alguns dos outros "hiperfocos" e novas descobertas gastronômicas marcantes (também vou adicionando mais depois):
+<br>- chá de canela
+<br>- macarrão carbonara
+<br>- macarrão de legumes (cenoura e abobrinha cortadas finas igual macarrão)
+<br>- cenoura fatiada na frigideira, com temperos
+<br>- vitamina de abacate
+<br>- geléia (com biscoito com açucar, tapioca)
+<br>- tomate seco (assim, não fica crocante, muito gostoso)
+<br>- morango. morango com chocolate. morango com açucar.
+                </div>
+
+                <details class="min-cmt-details" data-post-id="blog_jun_2026_hiperfocos" open>
+                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
+                    <div class="min-cmt-body"></div>
+                </details>
+            </div>
+        </details>
+
+    </div>
+</div>
 
 <script type="module">
-  import { mountReactions } from './reactions.js';
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, query, where, onSnapshot,
+  serverTimestamp, updateDoc, doc, increment, getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { mountReactions } from './reactions.js';
 
-  function setupBlogReactions() {
-    document.querySelectorAll(".blog-post").forEach((postEl, index) => {
-      const titleEl = postEl.querySelector(".post-title");
-      const rawTitle = titleEl ? titleEl.textContent.trim() : ("entry_" + index);
-      const targetId = "blog_" + rawTitle.toLowerCase().replace(/[^a-z0-9]/g, "_");
+const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp({
+  apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+  authDomain: "minkurosu.firebaseapp.com",
+  projectId: "minkurosu",
+  storageBucket: "minkurosu.firebasestorage.app",
+  messagingSenderId: "290821725607",
+  appId: "1:290821725607:web:5e39e561da53ac7c8a2a82"
+});
+const db = getFirestore(app);
 
-      let reactBox = postEl.querySelector(".blog-reactions-box");
-      if (!reactBox) {
-        reactBox = document.createElement("div");
-        reactBox.className = "blog-reactions-box";
-        reactBox.style.cssText = "margin-top: 14px; margin-bottom: 8px;";
-        const divider = postEl.querySelector(".post-divider");
-        if (divider) postEl.insertBefore(reactBox, divider);
-        else postEl.appendChild(reactBox);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const colorOf = n => { let h=0; for (const c of String(n)) h=(h*31+c.charCodeAt(0))&0xffffffff; return `hsl(${Math.abs(h)%360},30%,30%)`; };
+const initOf  = n => String(n).trim().slice(0,1).toUpperCase() || '?';
+const ago = d => {
+  if (!d) return '—';
+  const s = Math.floor((Date.now()-d.getTime())/1000);
+  if (s<60) return `${s}s ago`;
+  if (s<3600) return `${Math.floor(s/60)}min ago`;
+  if (s<86400) return `${Math.floor(s/3600)}h ago`;
+  if (s<604800) return `${Math.floor(s/86400)}d ago`;
+  return d.toLocaleDateString('pt-BR');
+};
+const devIcon = d => d === 'Mobile' ? '📱' : d === 'Tablet' ? '💻' : '🖥️';
+const brIcon  = b => ({ Chrome:'🟡', Firefox:'🟠', Safari:'🔵', Edge:'🟢', Opera:'🔴' })[b] || '🌐';
+
+function md(t) {
+  let s = esc(t);
+  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+  s = s.replace(/__([^_]+)__/g, '<u>$1</u>');
+  s = s.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  return s;
+}
+
+let myInfo = null;
+async function getInfo() {
+  if (myInfo) return myInfo;
+  const info = { ip:'unknown', city:'unknown', region:'unknown', country:'unknown', cc:'', device:'Desktop', browser:'Unknown', os:'Unknown', lang:navigator.language || 'unknown' };
+  const ua = navigator.userAgent;
+  if (/Tablet|iPad/i.test(ua)) info.device='Tablet';
+  else if (/Mobi|Android/i.test(ua)) info.device='Mobile';
+  if (/Firefox/i.test(ua)) info.browser='Firefox';
+  else if (/Edg\//i.test(ua)) info.browser='Edge';
+  else if (/OPR|Opera/i.test(ua)) info.browser='Opera';
+  else if (/Chrome/i.test(ua)) info.browser='Chrome';
+  else if (/Safari/i.test(ua)) info.browser='Safari';
+  if (/Windows/i.test(ua)) info.os='Windows';
+  else if (/Mac OS X/i.test(ua)) info.os='MacOS';
+  else if (/Android/i.test(ua)) info.os='Android';
+  else if (/iPhone|iPad|iPod/i.test(ua)) info.os='iOS';
+  else if (/Linux/i.test(ua)) info.os='Linux';
+  try {
+    const r = await fetch('https://ip-api.com/json/?fields=query,city,regionName,country,countryCode');
+    const d = await r.json();
+    if (d && d.query) {
+      info.ip = d.query;
+      info.city = d.city || 'unknown';
+      info.region = d.regionName || 'unknown';
+      info.country = d.country || 'unknown';
+      info.cc = d.countryCode || '';
+    }
+  } catch {
+    try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); info.ip = d.ip || 'unknown'; } catch {}
+  }
+  myInfo = info;
+  return info;
+}
+
+function mountComments(box, postId) {
+  box.innerHTML = `
+    <div class="min-cw">
+      <div class="min-cw-head">
+        <span class="min-cw-title">leave a comment</span>
+        <span class="min-cw-hint"></span>
+      </div>
+
+      <div class="min-cw-row">
+        <div class="min-cw-field">
+          <label class="min-cw-label">name <span class="req">*</span></label>
+          <input type="text" class="min-cw-in js-name" maxlength="60">
+        </div>
+        <div class="min-cw-field">
+          <label class="min-cw-label">site (optional)</label>
+          <input type="text" class="min-cw-in js-site" maxlength="200">
+        </div>
+      </div>
+
+      <label class="min-cw-label">comment <span class="req">*</span></label>
+      <div class="min-cw-tools">
+        <button type="button" class="min-cw-tool" data-md="**"><b>B</b></button>
+        <button type="button" class="min-cw-tool" data-md="*"><em>I</em></button>
+        <button type="button" class="min-cw-tool" data-md="~~"><s>S</s></button>
+        <button type="button" class="min-cw-tool" data-md="__"><u>U</u></button>
+        <button type="button" class="min-cw-tool" data-md="link">🔗</button>
+      </div>
+      <textarea class="min-cw-ta js-msg" maxlength="2000" placeholder="say something nice..."></textarea>
+
+      <button type="button" class="min-cw-submit js-send">post comment</button>
+      <div class="min-cw-status js-status"></div>
+      <div class="min-cw-powered">powered by <b>Widget ★ Star</b></div>
+
+      <div class="min-cw-listhead">
+        <span class="js-count">0 comments</span>
+        <select class="min-cw-sort js-sort">
+          <option value="desc">newest first</option>
+          <option value="asc">oldest first</option>
+        </select>
+      </div>
+      <div class="min-cw-list js-list"></div>
+    </div>
+  `;
+
+  const $ = s => box.querySelector(s);
+  const nameEl = $('.js-name'), siteEl = $('.js-site'), msgEl = $('.js-msg');
+  const sendEl = $('.js-send'), statusEl = $('.js-status');
+  const countEl = $('.js-count'), sortEl = $('.js-sort'), listEl = $('.js-list');
+
+  nameEl.value = localStorage.getItem('min_name') || '';
+  siteEl.value = localStorage.getItem('min_site') || '';
+
+  box.querySelectorAll('.min-cw-tool').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const md = btn.dataset.md;
+      const s = msgEl.selectionStart, e = msgEl.selectionEnd, t = msgEl.value, sel = t.slice(s, e);
+      let ins, cur;
+      if (md === 'link') {
+        const url = prompt('URL:', 'https://'); if (!url) return;
+        ins = `[${sel || 'link'}](${url})`; cur = s + ins.length;
+      } else {
+        ins = md + (sel || 'text') + md;
+        cur = s + md.length + (sel ? sel.length : 4) + md.length;
       }
-      if (!reactBox._mounted) {
-        reactBox._mounted = true;
-        mountReactions(reactBox, { targetId });
-      }
+      msgEl.value = t.slice(0, s) + ins + t.slice(e);
+      msgEl.focus(); msgEl.selectionStart = msgEl.selectionEnd = cur;
+    });
+  });
+
+  let all = [];
+  onSnapshot(
+    query(collection(db, 'comments'), where('postId', '==', postId)),
+    snap => {
+      all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      render();
+    },
+    err => { console.warn(err); listEl.innerHTML = `<div class="min-cw-empty">error loading comments.</div>`; }
+  );
+  sortEl.addEventListener('change', render);
+
+  function render() {
+    const dir = sortEl.value;
+    const items = [...all].sort((a,b) => {
+      const ta = a.timestamp?.seconds || 0, tb = b.timestamp?.seconds || 0;
+      return dir === 'asc' ? ta-tb : tb-ta;
+    });
+    countEl.textContent = `${items.length} comment${items.length === 1 ? '' : 's'}`;
+
+    const cnt = box.closest('.min-cmt-details')?.querySelector('.min-cmt-count');
+    if (cnt) cnt.textContent = `(${items.length})`;
+
+    const tops = items.filter(c => !c.parentId);
+    const reps = {};
+    items.forEach(c => { if (c.parentId) (reps[c.parentId] ||= []).push(c); });
+
+    if (!tops.length) { listEl.innerHTML = `<div class="min-cw-empty">no comments yet. be the first!</div>`; return; }
+
+    listEl.innerHTML = tops.map(c => renderItem(c, reps[c.id] || [])).join('');
+    bindActions();
+  }
+
+  function renderItem(c, replies) {
+    const ts = c.timestamp?.toDate ? c.timestamp.toDate() : null;
+    const name = c.name || 'anonymous';
+    const nameHtml = c.site ? `<a href="${esc(c.site)}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name);
+    const avHtml = c.avatar ? `<img src="${c.avatar}" alt="">` : `<span>${esc(initOf(name))}</span>`;
+    const liked = !!localStorage.getItem(`cmt_like_${c.id}`);
+    const meta = [];
+    if (c.city && c.city !== 'unknown') meta.push(`🌐 ${esc(c.city)}`);
+    if (c.device) meta.push(`${devIcon(c.device)} ${esc(c.device)}`);
+    if (c.browser && c.browser !== 'Unknown') meta.push(`${brIcon(c.browser)} ${esc(c.browser)}`);
+
+    const repsHtml = replies.length ? `<div class="min-cw-replies">${replies.map(r => renderItem(r, [])).join('')}</div>` : '';
+
+    return `
+      <div class="min-cw-item" data-id="${c.id}">
+        <div class="min-cw-av" style="background:${colorOf(name)}">${avHtml}</div>
+        <div class="min-cw-main">
+          <div class="min-cw-head2">
+            <span class="min-cw-name">${nameHtml}</span>
+            <span class="min-cw-time">${ago(ts)}</span>
+          </div>
+          <div class="min-cw-text">${md(c.message || '')}</div>
+          <div class="min-cw-actions">
+            <button type="button" class="min-cw-act js-like ${liked ? 'liked' : ''}">♡ <span class="js-likes">${c.likes || 0}</span></button>
+            <button type="button" class="min-cw-act js-reply">↩ reply</button>
+          </div>
+          ${meta.length ? `<div class="min-cw-meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>` : ''}
+          ${repsHtml}
+        </div>
+      </div>`;
+  }
+
+  function bindActions() {
+    listEl.querySelectorAll('.min-cw-item').forEach(item => {
+      const id = item.dataset.id;
+      item.querySelector('.js-like')?.addEventListener('click', async e => {
+        e.stopPropagation();
+        const k = `cmt_like_${id}`, already = !!localStorage.getItem(k);
+        already ? localStorage.removeItem(k) : localStorage.setItem(k, '1');
+        try { await updateDoc(doc(db, 'comments', id), { likes: increment(already ? -1 : 1) }); }
+        catch { already ? localStorage.setItem(k, '1') : localStorage.removeItem(k); }
+      });
+      item.querySelector('.js-reply')?.addEventListener('click', e => { e.stopPropagation(); replyForm(item, id); });
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupBlogReactions);
-  } else {
-    setupBlogReactions();
+  function replyForm(parent, parentId) {
+    box.querySelectorAll('.min-cw-replyform').forEach(el => el.remove());
+    const f = document.createElement('div');
+    f.className = 'min-cw-replyform';
+    f.innerHTML = `
+      <input type="text" class="min-cw-in js-rname" placeholder="name *" maxlength="60" value="${esc(localStorage.getItem('min_name')||'')}">
+      <textarea class="min-cw-ta js-rmsg" placeholder="reply..." maxlength="2000"></textarea>
+      <div style="display:flex; gap:6px;">
+        <button type="button" class="min-cw-submit js-rsend">reply</button>
+        <button type="button" class="min-cw-submit min-cw-ghost js-rcancel">cancel</button>
+      </div>`;
+    parent.querySelector('.min-cw-main').appendChild(f);
+    f.querySelector('.js-rcancel').addEventListener('click', () => f.remove());
+    f.querySelector('.js-rsend').addEventListener('click', async () => {
+      const name = f.querySelector('.js-rname').value.trim();
+      const message = f.querySelector('.js-rmsg').value.trim();
+      if (!name || !message) return;
+      localStorage.setItem('min_name', name);
+      const info = await getInfo();
+      await addDoc(collection(db, 'comments'), {
+        postId, parentId, name, message, site: '', avatar: '',
+        likes: 0, ...info, timestamp: serverTimestamp()
+      });
+      f.remove();
+    });
   }
+
+  sendEl.addEventListener('click', async () => {
+    const name = nameEl.value.trim(), site = siteEl.value.trim(), message = msgEl.value.trim();
+    if (!name) return setStatus('please enter a name', 'err');
+    if (!message) return setStatus('please write something', 'err');
+    localStorage.setItem('min_name', name);
+    if (site) localStorage.setItem('min_site', site);
+    sendEl.disabled = true;
+    setStatus('sending...', 'info');
+    try {
+      const info = await getInfo();
+      await addDoc(collection(db, 'comments'), {
+        postId, parentId: null, name, site, message, avatar: '',
+        likes: 0, ...info, timestamp: serverTimestamp()
+      });
+      msgEl.value = '';
+      setStatus('posted! ♡', 'ok');
+      setTimeout(() => setStatus('', ''), 3000);
+    } catch (err) {
+      console.error(err);
+      setStatus('error: ' + err.message, 'err');
+    } finally { sendEl.disabled = false; }
+  });
+  function setStatus(t, c) { statusEl.textContent = t; statusEl.className = 'min-cw-status' + (c ? ' ' + c : ''); }
+}
+
+
+function setup() {
+  document.querySelectorAll('.min-cmt-details').forEach(details => {
+    if (details._wired) return;
+    details._wired = true;
+    const postId = details.dataset.postId;
+    if (!postId) return;
+
+    getDocs(query(collection(db, 'comments'), where('postId', '==', postId)))
+      .then(snap => {
+        const el = details.querySelector('.min-cmt-count');
+        if (el) el.textContent = `(${snap.size})`;
+      })
+      .catch(() => {});
+
+    const mount = () => {
+      if (details._mounted) return;
+      details._mounted = true;
+      const body = details.querySelector('.min-cmt-body');
+
+      const rx = document.createElement('div');
+      rx.className = 'blog-reactions-box';
+      body.appendChild(rx);
+      try { mountReactions(rx, { targetId: postId }); } catch (e) { console.warn(e); }
+
+      const cx = document.createElement('div');
+      body.appendChild(cx);
+      mountComments(cx, postId);
+    };
+
+    if (details.open) mount();
+    else details.addEventListener('toggle', () => { if (details.open) mount(); });
+  });
+}
+
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
+else setup();
+window.minSetupBlog = setup;
 </script>
-
-        </main>
-    </div>
-</body>
-
-</html>

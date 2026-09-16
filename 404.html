@@ -1,36 +1,143 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<title>min kurosu</title>
-<script>
-(function () {
-  var ALIASES = {
-    'commission': 'commissions',
-    'comms': 'commissions',
-    'encomenda': 'commissions',
-    'rig': 'commissions',
-    'live2d': 'commissions',
-    'portfolio': 'commissions',
-    'portifolio': 'commissions',
-    'psicologia': 'psi'
-  };
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — error, redirecting...</title>
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="emo.css">
 
-  var path = location.pathname.replace(/^\/+/, '').replace(/\.html$/, '').replace(/\/$/, '');
-  var target = ALIASES[path];
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            background-image: url('imgs/site_imgs/petcemetery.gif');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            font-family: "MinFont", monospace;
+        }
 
-  if (target) {
-    location.replace('/' + target);
-    return;
-  }
-})();
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
 
+        .error-box {
+            background-color: rgba(10, 10, 10, 0.85);
+            border: 0.3125rem solid var(--emo-border-accent, #310000);
+            border-radius: 3px;
+            padding: 30px 40px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--emo-shadow-lg, 0 0 1.25rem rgba(0,0,0,0.5));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
 
-    sessionStorage.redirect = location.pathname + location.search + location.hash;
-    location.replace('/');
-</script>
+        .error-title {
+            color: var(--emo-text-hover2, #8b0000);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: var(--emo-text-shadow,
+                -1px -1px 0 #000, 1px -1px 0 #000,
+                -1px 1px 0 #000, 1px 1px 0 #000);
+            animation: blink 1.2s steps(2, start) infinite;
+        }
+
+        @keyframes blink {
+            0%, 49%   { opacity: 1; }
+            50%, 100% { opacity: 0.35; }
+        }
+
+        .error-img {
+            height: 80px;
+            width: auto;
+            image-rendering: pixelated;
+            filter: saturate(0.3);
+            transition: filter 0.3s ease;
+        }
+        .error-img:hover { filter: saturate(1); }
+
+        .error-text {
+            color: var(--emo-text-muted, #5a5a5a);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+            text-shadow: var(--emo-text-shadow,
+                -1px -1px 0 #000, 1px -1px 0 #000,
+                -1px 1px 0 #000, 1px 1px 0 #000);
+        }
+
+        .error-link {
+            color: var(--emo-text-hover2, #8b0000);
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--emo-text-hover2, #8b0000);
+            transition: color 0.2s;
+            text-shadow: var(--emo-text-shadow,
+                -1px -1px 0 #000, 1px -1px 0 #000,
+                -1px 1px 0 #000, 1px 1px 0 #000);
+        }
+        .error-link:hover {
+            color: #b81010;
+            border-bottom-style: solid;
+        }
+
+        .error-count {
+            color: #4a4040;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
+
 <body>
-    <p>redirecting...</p>
+
+        <h1 class="error-title">error, redirecting...</h1><br>
+
+        <img class="error-img" src="imgs/webgraphics/pixels/katomoji.gif" alt="404">
+
+       
+
+        <a class="error-link" href="https://minkurosu.site/home.html">
+        </a>
+
+
+    <script>
+        (function () {
+            const TARGET_URL = 'https://minkurosu.site/home.html';
+            const SECONDS    = 5;
+
+            let remaining = SECONDS;
+            const counter = document.getElementById('count');
+
+            const tick = setInterval(() => {
+                remaining--;
+                if (counter) counter.textContent = remaining;
+                if (remaining <= 0) {
+                    clearInterval(tick);
+                    window.location.replace(TARGET_URL);
+                }
+            }, 1000);
+
+            document.addEventListener('keydown', () => {
+                window.location.replace(TARGET_URL);
+            });
+        })();
+    </script>
+
 </body>
+
 </html>
