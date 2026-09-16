@@ -1,8 +1,15 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {
+  getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect,
+  getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut,
+  setPersistence, browserLocalPersistence
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {
+  getFirestore, collection, addDoc, serverTimestamp, query, orderBy,
+  onSnapshot, deleteDoc, doc
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { loadVisitorTracker, loadCityList, loadDrawings } from './admin-tracker.js';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -16,17 +23,66 @@ const firebaseConfig = {
 
 const ALLOWED_EMAIL = 'mincruzm@gmail.com';
 
-const app      = initializeApp(firebaseConfig);
-const auth     = getAuth(app);
-const db       = getFirestore(app);
-const storage  = getStorage(app);
+const IMGBB_API_KEY = 'SUA_API_KEY_AQUI';
+
+
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
+
+provider.setCustomParameters({ prompt: 'select_account' });
+
+const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|Mobile/i.test(navigator.userAgent);
 
 function msg(el, text, type) {
     if (!el) return;
     el.textContent = text;
     el.className = `message ${type}`;
 }
+
+setPersistence(auth, browserLocalPersistence).catch(err => {
+    console.warn('setPersistence falhou:', err);
+});
+
+
+async function uploadImageToImgBB(file) {
+    if (!IMGBB_API_KEY || IMGBB_API_KEY === '94a7816a5bcd01a3e4a2943ed77faecd') {
+        throw new Error('ImgBB API key não configurada no admin.js');
+    }
+
+    const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = String(reader.result);
+            const comma = result.indexOf(',');
+            resolve(comma >= 0 ? result.slice(comma + 1) : result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+
+    const form = new FormData();
+    form.append('key', IMGBB_API_KEY);
+    form.append('image', base64);
+
+    const res = await fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: form
+    });
+
+    if (!res.ok) {
+        throw new Error(`ImgBB respondeu ${res.status}`);
+    }
+
+    const json = await res.json();
+    if (!json.success || !json.data?.url) {
+        throw new Error(json.error?.message || 'Falha no upload do ImgBB');
+    }
+
+    return json.data.url;
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -39,24 +95,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-    getRedirectResult(auth).then(cred => {
-        if (!cred) return;
-        if (cred.user.email !== ALLOWED_EMAIL) {
-            signOut(auth);
-            msg(loginMessage, 'acesso negado.', 'error');
-            return;
-        }
-        localStorage.setItem('min_admin', '1');
-        msg(loginMessage, 'logged in!', 'success');
-    }).catch(err => {
-        console.error('redirect login error:', err);
-        msg(loginMessage, `erro no login: ${err.code || err.message}`, 'error');
-    });
+    getRedirectResult(auth)
+        .then(cred => {
+            if (!cred) return;
+            if (cred.user.email !== ALLOWED_EMAIL) {
+                signOut(auth);
+                msg(loginMessage, 'acesso negado.', 'error');
+                return;
+            }
+            localStorage.setItem('min_admin', '1');
+            msg(loginMessage, 'logged in!', 'success');
+        })
+        .catch(err => {
+            console.error('redirect login error:', err);
+            msg(loginMessage, `erro no login: ${err.code || err.message}`, 'error');
+        });
 
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
-        if (user) {
 
+        if (user) {
             if (user.email !== ALLOWED_EMAIL) {
                 signOut(auth);
                 msg(loginMessage, 'acesso negado.', 'error');
@@ -93,6 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     googleLoginBtn?.addEventListener('click', async () => {
         msg(loginMessage, 'abrindo login do google...', 'info');
+
+        if (isMobile) {
+            try {
+                await signInWithRedirect(auth, provider);
+            } catch (err) {
+                console.error('redirect login error:', err);
+                msg(loginMessage, `erro: ${err.code || err.message}`, 'error');
+            }
+            return;
+        }
+
         try {
             const cred = await signInWithPopup(auth, provider);
             if (cred.user.email !== ALLOWED_EMAIL) {
@@ -141,6 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
     const postImageFile = document.getElementById('post-image-file');
@@ -160,21 +230,21 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             msg(postMsg, 'publishing...', 'info');
 
+            let fileUrl = '';
             if (file) {
                 msg(postMsg, 'uploading image...', 'info');
-                const storageRef = ref(storage, `blog_images/${Date.now()}_${file.name}`);
-                await uploadBytes(storageRef, file);
-                const fileUrl = await getDownloadURL(storageRef);
-                content = content ? `${content}\n${fileUrl}` : fileUrl;
+                fileUrl = await uploadImageToImgBB(file);
             }
 
-            if (enteredUrl) {
-                content = content ? `${content}\n${enteredUrl}` : enteredUrl;
-            }
+            const parts = [];
+            if (content)    parts.push(content);
+            if (enteredUrl) parts.push(enteredUrl);
+            if (fileUrl)    parts.push(fileUrl);
+            const finalContent = parts.join('\n');
 
             await addDoc(collection(db, 'posts'), {
-                content,
-                imageUrl: '',
+                content: finalContent,
+                imageUrl: fileUrl || enteredUrl || '',
                 timestamp: serverTimestamp()
             });
 
@@ -187,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             msg(postMsg, `error: ${err.message}`, 'error');
         }
     });
+
 
     const privateContent = document.getElementById('private-entry-content');
     const publishPrivate = document.getElementById('publish-private-entry-btn');
@@ -205,6 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+ 
     const dreamContent = document.getElementById('dream-content');
     const publishDream = document.getElementById('publish-dream-btn');
     const dreamMsg     = document.getElementById('dream-message');
@@ -221,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             msg(dreamMsg, `error: ${err.message}`, 'error');
         }
     });
+
 
     const blogTitle   = document.getElementById('blog-title');
     const blogContent = document.getElementById('blog-content');
@@ -244,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 
 function loadMailbox(db) {
     const container = document.getElementById('mailbox-list');
@@ -286,6 +360,9 @@ function loadMailbox(db) {
                 }
             });
         });
+    }, err => {
+        console.warn('loadMailbox:', err);
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar mensagens.</p>`;
     });
 }
 
@@ -322,7 +399,7 @@ function loadComments(db) {
     function fmtWhen(ts) {
         if (!ts) return '—';
         const time = ts.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        const date = ts.toLocaleDateString('pt-BR'); // dd/mm/aaaa
+        const date = ts.toLocaleDateString('pt-BR');
         return `${time} - ${date}`;
     }
 
@@ -388,6 +465,7 @@ function loadComments(db) {
         render();
     });
 }
+
 
 function escapeHtml(str) {
     return String(str)
