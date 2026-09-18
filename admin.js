@@ -478,9 +478,6 @@ function loadComments(db) {
     });
 }
 
-/* ═══════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════ */
 
 function escapeHtml(str) {
     return String(str)
