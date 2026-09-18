@@ -10,7 +10,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { loadVisitorTracker, loadCityList, loadDrawings } from './admin-tracker.js';
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
     authDomain: "minkurosu.firebaseapp.com",
@@ -22,18 +21,20 @@ const firebaseConfig = {
 };
 
 const ALLOWED_EMAIL = 'mincruzm@gmail.com';
-
 const IMGBB_API_KEY = 'SUA_API_KEY_AQUI';
-
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-provider.setCustomParameters({ prompt: 'select_account' });
-
 const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|Mobile/i.test(navigator.userAgent);
+
+if (!isMobile) {
+    provider.setCustomParameters({ prompt: 'select_account' });
+}
+
+console.log('[admin] isMobile =', isMobile);
 
 function msg(el, text, type) {
     if (!el) return;
@@ -42,8 +43,29 @@ function msg(el, text, type) {
 }
 
 setPersistence(auth, browserLocalPersistence).catch(err => {
-    console.warn('setPersistence falhou:', err);
+    console.warn('[admin] setPersistence falhou:', err);
 });
+
+
+getRedirectResult(auth)
+    .then(cred => {
+        console.log('[admin] getRedirectResult:', cred);
+        if (!cred) return;
+        if (cred.user.email !== ALLOWED_EMAIL) {
+            signOut(auth);
+            const lm = document.getElementById('login-message');
+            msg(lm, 'acesso negado.', 'error');
+            return;
+        }
+        localStorage.setItem('min_admin', '1');
+        const lm = document.getElementById('login-message');
+        msg(lm, 'logged in!', 'success');
+    })
+    .catch(err => {
+        console.error('[admin] redirect login error:', err);
+        const lm = document.getElementById('login-message');
+        msg(lm, `erro no login: ${err.code || err.message}`, 'error');
+    });
 
 
 async function uploadImageToImgBB(file) {
@@ -95,26 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-    getRedirectResult(auth)
-        .then(cred => {
-            if (!cred) return;
-            if (cred.user.email !== ALLOWED_EMAIL) {
-                signOut(auth);
-                msg(loginMessage, 'acesso negado.', 'error');
-                return;
-            }
-            localStorage.setItem('min_admin', '1');
-            msg(loginMessage, 'logged in!', 'success');
-        })
-        .catch(err => {
-            console.error('redirect login error:', err);
-            msg(loginMessage, `erro no login: ${err.code || err.message}`, 'error');
-        });
-
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
         if (user) {
+            console.log('[admin] logado como:', user.email);
             if (user.email !== ALLOWED_EMAIL) {
                 signOut(auth);
                 msg(loginMessage, 'acesso negado.', 'error');
@@ -128,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadMailbox(db);
             loadComments(db);
         } else {
+            console.log('[admin] deslogado');
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
         }
@@ -139,24 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
             if (cred.user.email !== ALLOWED_EMAIL) {
                 await signOut(auth);
-                msg(loginMessage, 'acesso negado.', 'error');
+                msg(loginMessage, 'denied.', 'error');
                 return;
             }
             localStorage.setItem('min_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
-            msg(loginMessage, `erro: ${err.message}`, 'error');
+            msg(loginMessage, `error: ${err.message}`, 'error');
         }
     });
 
     googleLoginBtn?.addEventListener('click', async () => {
-        msg(loginMessage, 'abrindo login do google...', 'info');
+        msg(loginMessage, 'opening google login...', 'info');
 
         if (isMobile) {
+            console.log('[admin] mobile → signInWithRedirect');
             try {
                 await signInWithRedirect(auth, provider);
             } catch (err) {
-                console.error('redirect login error:', err);
+                console.error('[admin] redirect login error:', err);
                 msg(loginMessage, `erro: ${err.code || err.message}`, 'error');
             }
             return;
@@ -166,13 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const cred = await signInWithPopup(auth, provider);
             if (cred.user.email !== ALLOWED_EMAIL) {
                 await signOut(auth);
-                msg(loginMessage, 'acesso negado. use sua conta autorizada.', 'error');
+                msg(loginMessage, 'denied. use your authorized account.', 'error');
                 return;
             }
             localStorage.setItem('min_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
-            console.error('google popup login error:', err.code, err.message);
+            console.error('[admin] popup login error:', err.code, err.message);
 
             const popupIssues = [
                 'auth/popup-blocked',
@@ -182,17 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
 
             if (popupIssues.includes(err.code)) {
-                msg(loginMessage, 'popup bloqueado, redirecionando...', 'info');
+                msg(loginMessage, 'blocked, redirecting', 'info');
                 try {
                     await signInWithRedirect(auth, provider);
                 } catch (err2) {
-                    msg(loginMessage, `erro: ${err2.code || err2.message}`, 'error');
+                    msg(loginMessage, `error: ${err2.code || err2.message}`, 'error');
                 }
                 return;
             }
 
             if (err.code === 'auth/unauthorized-domain') {
-                msg(loginMessage, 'este domínio não está autorizado no firebase (authentication > settings > authorized domains).', 'error');
+                msg(loginMessage, 'this domain is not authorized in firebase (authentication > settings > authorized domains).', 'error');
                 return;
             }
 
@@ -210,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    
 
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
@@ -276,7 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
- 
+    
+
     const dreamContent = document.getElementById('dream-content');
     const publishDream = document.getElementById('publish-dream-btn');
     const dreamMsg     = document.getElementById('dream-message');
@@ -327,7 +338,7 @@ function loadMailbox(db) {
 
     onSnapshot(q, snapshot => {
         if (snapshot.empty) {
-            container.innerHTML = `<p class="tracker-empty">nenhuma mensagem ainda.</p>`;
+            container.innerHTML = `<p class="tracker-empty">no messages yet.</p>`;
             return;
         }
 
@@ -362,9 +373,10 @@ function loadMailbox(db) {
         });
     }, err => {
         console.warn('loadMailbox:', err);
-        container.innerHTML = `<p class="tracker-empty">erro ao carregar mensagens.</p>`;
+        container.innerHTML = `<p class="tracker-empty">error</p>`;
     });
 }
+
 
 function loadComments(db) {
     const container = document.getElementById('comments-admin-list');
@@ -386,7 +398,7 @@ function loadComments(db) {
         render();
     }, err => {
         console.warn('loadComments:', err);
-        container.innerHTML = `<p class="tracker-empty">erro ao carregar comentários.</p>`;
+        container.innerHTML = `<p class="tracker-empty">error</p>`;
     });
 
     function countryFlag(cc) {
@@ -409,7 +421,7 @@ function loadComments(db) {
             : allComments;
 
         if (filtered.length === 0) {
-            container.innerHTML = `<p class="tracker-empty">nenhum comentário${currentFilter ? ' nesse post' : ''} ainda.</p>`;
+            container.innerHTML = `<p class="tracker-empty">no comments${currentFilter ? ' in this post' : ''} ainda.</p>`;
             return;
         }
 
@@ -433,7 +445,7 @@ function loadComments(db) {
             return `
             <div class="cmt-card" data-id="${c.id}">
                 <div class="cmt-head">
-                    <span class="cmt-name">${escapeHtml(c.name || 'anônimo')}</span>
+                    <span class="cmt-name">${escapeHtml(c.name || 'anon')}</span>
                     ${siteHtml}
                     <span class="cmt-post">${escapeHtml(c.postId || '')}</span>
                 </div>
@@ -466,6 +478,9 @@ function loadComments(db) {
     });
 }
 
+/* ═══════════════════════════════════════════════════════
+   HELPERS
+   ═══════════════════════════════════════════════════════ */
 
 function escapeHtml(str) {
     return String(str)
