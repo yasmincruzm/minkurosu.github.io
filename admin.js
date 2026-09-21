@@ -20,8 +20,29 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-const ALLOWED_EMAIL = 'mincruzm@gmail.com';
+/* ═══════════════════════════════════════════════════════
+   ADMIN — 2 e-mails autorizados
+   ═══════════════════════════════════════════════════════ */
+
+const ALLOWED_EMAILS = [
+    'mincruzm@gmail.com',
+    'yasmincruzm@hotmail.com'
+];
+
+// helper que checa se o e-mail tá na lista
+function isAllowed(email) {
+    return !!email && ALLOWED_EMAILS.includes(email);
+}
+
+/* ═══════════════════════════════════════════════════════
+   IMGBB — coloque sua chave real aqui
+   ═══════════════════════════════════════════════════════ */
+
 const IMGBB_API_KEY = 'SUA_API_KEY_AQUI';
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════ */
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -46,12 +67,16 @@ setPersistence(auth, browserLocalPersistence).catch(err => {
     console.warn('[admin] setPersistence falhou:', err);
 });
 
+/* ═══════════════════════════════════════════════════════
+   getRedirectResult — fora do DOMContentLoaded
+   ═══════════════════════════════════════════════════════ */
 
 getRedirectResult(auth)
     .then(cred => {
         console.log('[admin] getRedirectResult:', cred);
         if (!cred) return;
-        if (cred.user.email !== ALLOWED_EMAIL) {
+
+        if (!isAllowed(cred.user.email)) {
             signOut(auth);
             const lm = document.getElementById('login-message');
             msg(lm, 'acesso negado.', 'error');
@@ -67,9 +92,12 @@ getRedirectResult(auth)
         msg(lm, `erro no login: ${err.code || err.message}`, 'error');
     });
 
+/* ═══════════════════════════════════════════════════════
+   UPLOAD → ImgBB
+   ═══════════════════════════════════════════════════════ */
 
 async function uploadImageToImgBB(file) {
-    if (!IMGBB_API_KEY || IMGBB_API_KEY === '94a7816a5bcd01a3e4a2943ed77faecd') {
+    if (!IMGBB_API_KEY || IMGBB_API_KEY === 'SUA_API_KEY_AQUI') {
         throw new Error('ImgBB API key não configurada no admin.js');
     }
 
@@ -105,6 +133,9 @@ async function uploadImageToImgBB(file) {
     return json.data.url;
 }
 
+/* ═══════════════════════════════════════════════════════
+   DOM
+   ═══════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -117,16 +148,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
+    // ── observa estado de auth ───────────────────────────────
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
         if (user) {
             console.log('[admin] logado como:', user.email);
-            if (user.email !== ALLOWED_EMAIL) {
+
+            if (!isAllowed(user.email)) {
                 signOut(auth);
                 msg(loginMessage, 'acesso negado.', 'error');
                 return;
             }
+
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
             loadVisitorTracker(app);
@@ -141,24 +175,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ── login email/senha ────────────────────────────────────
     loginEmailForm?.addEventListener('submit', async e => {
         e.preventDefault();
         try {
             const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
-            if (cred.user.email !== ALLOWED_EMAIL) {
+
+            if (!isAllowed(cred.user.email)) {
                 await signOut(auth);
-                msg(loginMessage, 'denied.', 'error');
+                msg(loginMessage, 'acesso negado.', 'error');
                 return;
             }
             localStorage.setItem('min_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
-            msg(loginMessage, `error: ${err.message}`, 'error');
+            msg(loginMessage, `erro: ${err.message}`, 'error');
         }
     });
 
+    // ── login com google ─────────────────────────────────────
     googleLoginBtn?.addEventListener('click', async () => {
-        msg(loginMessage, 'opening google login...', 'info');
+        msg(loginMessage, 'abrindo login do google...', 'info');
 
         if (isMobile) {
             console.log('[admin] mobile → signInWithRedirect');
@@ -173,9 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const cred = await signInWithPopup(auth, provider);
-            if (cred.user.email !== ALLOWED_EMAIL) {
+
+            if (!isAllowed(cred.user.email)) {
                 await signOut(auth);
-                msg(loginMessage, 'denied. use your authorized account.', 'error');
+                msg(loginMessage, 'acesso negado. use uma conta autorizada.', 'error');
                 return;
             }
             localStorage.setItem('min_admin', '1');
@@ -191,17 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
 
             if (popupIssues.includes(err.code)) {
-                msg(loginMessage, 'blocked, redirecting', 'info');
+                msg(loginMessage, 'popup bloqueado, redirecionando...', 'info');
                 try {
                     await signInWithRedirect(auth, provider);
                 } catch (err2) {
-                    msg(loginMessage, `error: ${err2.code || err2.message}`, 'error');
+                    msg(loginMessage, `erro: ${err2.code || err2.message}`, 'error');
                 }
                 return;
             }
 
             if (err.code === 'auth/unauthorized-domain') {
-                msg(loginMessage, 'this domain is not authorized in firebase (authentication > settings > authorized domains).', 'error');
+                msg(loginMessage, 'este domínio não está autorizado no firebase (authentication > settings > authorized domains).', 'error');
                 return;
             }
 
@@ -209,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ── logout ───────────────────────────────────────────────
     logoutBtn?.addEventListener('click', async () => {
         try {
             await signOut(auth);
@@ -219,7 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    
+    /* ═══════════════════════════════════════════════════════
+       NOVO POST
+       ═══════════════════════════════════════════════════════ */
 
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
@@ -268,6 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ═══════════════════════════════════════════════════════
+       ENTRADA PRIVADA
+       ═══════════════════════════════════════════════════════ */
 
     const privateContent = document.getElementById('private-entry-content');
     const publishPrivate = document.getElementById('publish-private-entry-btn');
@@ -286,7 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    
+    /* ═══════════════════════════════════════════════════════
+       SONHO
+       ═══════════════════════════════════════════════════════ */
 
     const dreamContent = document.getElementById('dream-content');
     const publishDream = document.getElementById('publish-dream-btn');
@@ -305,6 +351,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ═══════════════════════════════════════════════════════
+       POST DO BLOG
+       ═══════════════════════════════════════════════════════ */
 
     const blogTitle   = document.getElementById('blog-title');
     const blogContent = document.getElementById('blog-content');
@@ -329,6 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+/* ═══════════════════════════════════════════════════════
+   MAILBOX
+   ═══════════════════════════════════════════════════════ */
 
 function loadMailbox(db) {
     const container = document.getElementById('mailbox-list');
@@ -338,7 +390,7 @@ function loadMailbox(db) {
 
     onSnapshot(q, snapshot => {
         if (snapshot.empty) {
-            container.innerHTML = `<p class="tracker-empty">no messages yet.</p>`;
+            container.innerHTML = `<p class="tracker-empty">nenhuma mensagem ainda.</p>`;
             return;
         }
 
@@ -373,10 +425,13 @@ function loadMailbox(db) {
         });
     }, err => {
         console.warn('loadMailbox:', err);
-        container.innerHTML = `<p class="tracker-empty">error</p>`;
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar mensagens.</p>`;
     });
 }
 
+/* ═══════════════════════════════════════════════════════
+   COMENTÁRIOS
+   ═══════════════════════════════════════════════════════ */
 
 function loadComments(db) {
     const container = document.getElementById('comments-admin-list');
@@ -398,7 +453,7 @@ function loadComments(db) {
         render();
     }, err => {
         console.warn('loadComments:', err);
-        container.innerHTML = `<p class="tracker-empty">error</p>`;
+        container.innerHTML = `<p class="tracker-empty">erro ao carregar comentários.</p>`;
     });
 
     function countryFlag(cc) {
@@ -421,7 +476,7 @@ function loadComments(db) {
             : allComments;
 
         if (filtered.length === 0) {
-            container.innerHTML = `<p class="tracker-empty">no comments${currentFilter ? ' in this post' : ''} ainda.</p>`;
+            container.innerHTML = `<p class="tracker-empty">nenhum comentário${currentFilter ? ' nesse post' : ''} ainda.</p>`;
             return;
         }
 
@@ -445,7 +500,7 @@ function loadComments(db) {
             return `
             <div class="cmt-card" data-id="${c.id}">
                 <div class="cmt-head">
-                    <span class="cmt-name">${escapeHtml(c.name || 'anon')}</span>
+                    <span class="cmt-name">${escapeHtml(c.name || 'anônimo')}</span>
                     ${siteHtml}
                     <span class="cmt-post">${escapeHtml(c.postId || '')}</span>
                 </div>
@@ -477,7 +532,6 @@ function loadComments(db) {
         render();
     });
 }
-
 
 function escapeHtml(str) {
     return String(str)
