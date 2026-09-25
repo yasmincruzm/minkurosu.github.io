@@ -84,125 +84,6 @@
     }
     .min-close:hover { background:rgba(139,0,0,0.7); color:#fff; }
 
-    .min-cmt-details { display:block; margin:10px 0 0; }
-    .min-cmt-toggle {
-        display:flex; align-items:center; gap:6px; list-style:none; cursor:pointer;
-        padding:3px 0; font-family:"MinFont",monospace; font-size:0.9rem;
-        color:#7a6a6a; user-select:none; text-shadow:var(--emo-text-shadow);
-    }
-    .min-cmt-toggle::-webkit-details-marker { display:none; }
-    .min-cmt-toggle::marker { display:none; content:""; }
-    .min-cmt-toggle:hover { color:#841717; }
-    .min-cmt-toggle::before { content:""; opacity:0.7; }
-    .min-cmt-count { color:var(--emo-text-hover2); }
-    .min-cmt-body { padding:8px 0 4px; }
-
-    .min-cw {
-        display:block; background:#0d0d0d; border:none;
-        border-radius:4px; padding:14px 14px 12px;
-        font-family:"MinFont",monospace;
-    }
-    .min-cw-head { display:flex; justify-content:space-between; align-items:baseline; margin:0 0 12px; }
-    .min-cw-title { font-size:1.05rem; font-weight:700; color:#696969; letter-spacing:0.5px; }
-    .min-cw-hint { font-size:0.82rem; color:#5a4a4a; }
-    .min-cw-row { display:flex; gap:10px; margin:0 0 8px; }
-    .min-cw-field { flex:1; display:flex; flex-direction:column; }
-    .min-cw-label { font-size:0.84rem; color:#8a7a7a; margin:0 0 3px; }
-    .min-cw-label .req { color:#b81010; }
-
-    .min-cw-in,
-    .min-cw-ta {
-        display:block; width:100%; background:#161616;
-        border:none; border-radius:3px; padding:8px 10px;
-        font-family:"MinFont",monospace; font-size:0.92rem; color:#696969;
-        outline:none; box-sizing:border-box; -webkit-text-fill-color:#696969;
-        caret-color:var(--emo-text-hover2);
-    }
-    .min-cw-in:focus,
-    .min-cw-ta:focus { background:#1c1c1c; }
-    .min-cw-in::placeholder,
-    .min-cw-ta::placeholder { color:#4a3a3a; }
-    .min-cw-ta { min-height:90px; resize:vertical; line-height:1.4; }
-
-    .min-cw-tools { display:flex; gap:4px; margin:0 0 5px; }
-    .min-cw-tool {
-        width:30px; height:30px; background:#161616; border:none;
-        border-radius:3px; color:#696969; font-family:"MinFont",monospace;
-        font-size:0.9rem; cursor:pointer; line-height:1;
-    }
-    .min-cw-tool:hover { background:#1e1e1e; color:#d5d5d5; }
-
-    .min-cw-submit {
-        display:inline-block; margin:10px 0 0; padding:8px 20px;
-        background:#2a0a0a; border:none; border-radius:3px; color:#696969;
-        font-family:"MinFont",monospace; font-size:0.92rem; cursor:pointer;
-    }
-    .min-cw-submit:hover:not(:disabled) { background:#3a1010; color:#696969; }
-    .min-cw-submit:disabled { opacity:0.5; cursor:not-allowed; }
-    .min-cw-ghost { background:#1a1a1a; color:#8a7a7a; }
-    .min-cw-ghost:hover { background:#222; color:#696969; }
-
-    .min-cw-status { display:block; min-height:1.2em; margin:5px 0 0; font-size:0.82rem; color:#8a7a7a; }
-    .min-cw-status.ok { color:#6abf6a; }
-    .min-cw-status.err { color:#bf6a6a; }
-
-    .min-cw-powered { text-align:right; margin:8px 0 0; font-size:0.8rem; color:#4a4040; }
-    .min-cw-powered b { color:#696969; font-weight:700; }
-
-    .min-cw-listhead {
-        display:flex; justify-content:space-between; align-items:center;
-        margin:14px 0 6px; padding-top:0;
-        border-top:none;
-        font-size:0.92rem; color:#696969;
-    }
-    .min-cw-sort {
-        background:#161616; border:none; color:#a8a0a0;
-        font-family:"MinFont",monospace; font-size:0.86rem;
-        padding:5px 9px; border-radius:3px; cursor:pointer; outline:none;
-    }
-
-    .min-cw-list { display:flex; flex-direction:column; }
-    .min-cw-empty { padding:12px 0; text-align:center; font-size:0.9rem; color:#4a4040; }
-
-    .min-cw-item { display:flex; gap:10px; padding:10px 0; }
-    .min-cw-item + .min-cw-item { border-top:none; }
-    .min-cw-av {
-        width:42px; height:42px; border-radius:4px; flex-shrink:0;
-        display:flex; align-items:center; justify-content:center;
-        font-size:1.05rem; font-weight:700; color:#696969; overflow:hidden;
-    }
-    .min-cw-av img { width:100%; height:100%; object-fit:cover; display:block; }
-    .min-cw-main { flex:1; min-width:0; }
-    .min-cw-head2 { display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; margin:0 0 2px; }
-    .min-cw-name { font-size:0.94rem; font-weight:700; color:#696969; }
-    .min-cw-name a { color:#b81010; text-decoration:none; }
-    .min-cw-name a:hover { text-decoration:underline; }
-    .min-cw-time { font-size:0.8rem; color:#5a4a4a; }
-    .min-cw-text {
-        font-size:0.94rem; color:#696969; line-height:1.45;
-        margin:3px 0 0; white-space:pre-wrap; word-wrap:break-word;
-    }
-    .min-cw-text a { color:#b81010; }
-    .min-cw-actions { display:flex; gap:14px; margin:5px 0 0; }
-    .min-cw-act {
-        display:inline-flex; align-items:center; gap:4px; background:none;
-        border:none; padding:0; font-family:"MinFont",monospace;
-        font-size:0.84rem; color:#5a4a4a; cursor:pointer;
-    }
-    .min-cw-act:hover { color:#b81010; }
-    .min-cw-act.liked { color:#b81010; }
-
-    .min-cw-meta { display:flex; gap:10px; margin:4px 0 0; font-size:0.76rem; color:#3a3030; flex-wrap:wrap; }
-
-    .min-cw-replies { margin:8px 0 0; padding:0 0 0 14px; border-left:none; }
-    .min-cw-replies .min-cw-item { padding:8px 0; }
-
-    .min-cw-replyform {
-        display:flex; flex-direction:column; gap:6px; margin:8px 0 0;
-        padding:10px; background:#111; border-radius:3px;
-    }
-    .min-cw-replyform .min-cw-submit { margin:0; padding:6px 16px; font-size:0.86rem; }
-
     .blog-reactions-box { display:block !important; margin:0 0 10px !important; padding:0 !important; }
 
     .blog-reactions-box .reactions-wrapper {
@@ -472,28 +353,6 @@
         width: 100% !important;
     }
 
-    .min-blog-wrap button,
-    .min-cw button,
-    .min-blog-wrap .min-cw-submit,
-    .min-blog-wrap .min-cw-tool,
-    .min-blog-wrap .min-cw-sort,
-    .min-blog-wrap .min-cw-act {
-        width: auto !important;
-        font-family: "MinFont", monospace !important;
-        cursor: pointer !important;
-    }
-
-    .min-cw-submit {
-        display: inline-block !important;
-        padding: 8px 20px !important;
-    }
-
-    .min-cw-tool {
-        width: 30px !important;
-        height: 30px !important;
-        padding: 0 !important;
-    }
-
     .min-blog-wrap input,
     .min-blog-wrap textarea,
     .min-blog-wrap select {
@@ -534,10 +393,8 @@
         list-style: none !important;
     }
 
-    .min-month > summary::-webkit-details-marker,
-    .min-cmt-toggle::-webkit-details-marker { display: none !important; }
-    .min-month > summary::marker,
-    .min-cmt-toggle::marker { display: none !important; content: "" !important; }
+    .min-month > summary::-webkit-details-marker { display: none !important; }
+    .min-month > summary::marker { display: none !important; content: "" !important; }
 
     .min-blog-wrap img {
         max-width: 100%;
@@ -574,11 +431,7 @@
     .min-text,
     .min-music-title,
     .min-music-list li,
-    .min-month > summary,
-    .min-cmt-toggle,
-    .min-cw-text,
-    .min-cw-name,
-    .min-cw-title {
+    .min-month > summary {
         text-shadow: var(--emo-text-shadow) !important;
     }
 
@@ -586,7 +439,6 @@
         .min-blog-shell { padding:16px 12px 22px; }
         .min-blog-h1 { font-size:1.3rem; letter-spacing:2px; }
         .min-gallery { grid-template-columns:repeat(2,1fr); }
-        .min-cw-row { flex-direction:column; }
         .reaction-picker { width:calc(100vw - 16px) !important; }
     }
 </style>
@@ -627,10 +479,7 @@ logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preenc
                     </div>
                 </div>
 
-                <details class="min-cmt-details" data-post-id="blog_sept_2026" open>
-                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
-                    <div class="min-cmt-body"></div>
-                </details>
+             
             </div>
         </details>
 
@@ -665,10 +514,7 @@ logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preenc
                     </div>
                 </div>
 
-                <details class="min-cmt-details" data-post-id="blog_ago_2026" open>
-                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
-                    <div class="min-cmt-body"></div>
-                </details>
+            
             </div>
         </details>
 
@@ -708,10 +554,7 @@ estou pensando em tentar postar mensalmente aqui<br>
                     </div>
                 </div>
 
-                <details class="min-cmt-details" data-post-id="blog_jul_2026" open>
-                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
-                    <div class="min-cmt-body"></div>
-                </details>
+              
             </div>
         </details>
 
@@ -731,328 +574,10 @@ esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer 
 <br>- morango. morango com chocolate. morango com açucar.
                 </div>
 
-                <details class="min-cmt-details" data-post-id="blog_jun_2026_hiperfocos" open>
-                    <summary class="min-cmt-toggle"><span>comentários</span> <span class="min-cmt-count">(0)</span></summary>
-                    <div class="min-cmt-body"></div>
-                </details>
+               
             </div>
         </details>
 
     </div>
 </div>
 
-<script type="module">
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getFirestore, collection, addDoc, query, where, onSnapshot,
-  serverTimestamp, updateDoc, doc, increment, getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { mountReactions } from './reactions.js';
-
-const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp({
-  apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
-  authDomain: "minkurosu.firebaseapp.com",
-  projectId: "minkurosu",
-  storageBucket: "minkurosu.firebasestorage.app",
-  messagingSenderId: "290821725607",
-  appId: "1:290821725607:web:5e39e561da53ac7c8a2a82"
-});
-const db = getFirestore(app);
-
-const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const colorOf = n => { let h=0; for (const c of String(n)) h=(h*31+c.charCodeAt(0))&0xffffffff; return `hsl(${Math.abs(h)%360},30%,30%)`; };
-const initOf  = n => String(n).trim().slice(0,1).toUpperCase() || '?';
-const ago = d => {
-  if (!d) return '—';
-  const s = Math.floor((Date.now()-d.getTime())/1000);
-  if (s<60) return `${s}s ago`;
-  if (s<3600) return `${Math.floor(s/60)}min ago`;
-  if (s<86400) return `${Math.floor(s/3600)}h ago`;
-  if (s<604800) return `${Math.floor(s/86400)}d ago`;
-  return d.toLocaleDateString('pt-BR');
-};
-const devIcon = d => d === 'Mobile' ? '📱' : d === 'Tablet' ? '💻' : '🖥️';
-const brIcon  = b => ({ Chrome:'🟡', Firefox:'🟠', Safari:'🔵', Edge:'🟢', Opera:'🔴' })[b] || '🌐';
-
-function md(t) {
-  let s = esc(t);
-  s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  s = s.replace(/~~([^~]+)~~/g, '<del>$1</del>');
-  s = s.replace(/__([^_]+)__/g, '<u>$1</u>');
-  s = s.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-  return s;
-}
-
-let myInfo = null;
-async function getInfo() {
-  if (myInfo) return myInfo;
-  const info = { ip:'unknown', city:'unknown', region:'unknown', country:'unknown', cc:'', device:'Desktop', browser:'Unknown', os:'Unknown', lang:navigator.language || 'unknown' };
-  const ua = navigator.userAgent;
-  if (/Tablet|iPad/i.test(ua)) info.device='Tablet';
-  else if (/Mobi|Android/i.test(ua)) info.device='Mobile';
-  if (/Firefox/i.test(ua)) info.browser='Firefox';
-  else if (/Edg\//i.test(ua)) info.browser='Edge';
-  else if (/OPR|Opera/i.test(ua)) info.browser='Opera';
-  else if (/Chrome/i.test(ua)) info.browser='Chrome';
-  else if (/Safari/i.test(ua)) info.browser='Safari';
-  if (/Windows/i.test(ua)) info.os='Windows';
-  else if (/Mac OS X/i.test(ua)) info.os='MacOS';
-  else if (/Android/i.test(ua)) info.os='Android';
-  else if (/iPhone|iPad|iPod/i.test(ua)) info.os='iOS';
-  else if (/Linux/i.test(ua)) info.os='Linux';
-  try {
-    const r = await fetch('https://ip-api.com/json/?fields=query,city,regionName,country,countryCode');
-    const d = await r.json();
-    if (d && d.query) {
-      info.ip = d.query;
-      info.city = d.city || 'unknown';
-      info.region = d.regionName || 'unknown';
-      info.country = d.country || 'unknown';
-      info.cc = d.countryCode || '';
-    }
-  } catch {
-    try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); info.ip = d.ip || 'unknown'; } catch {}
-  }
-  myInfo = info;
-  return info;
-}
-
-function mountComments(box, postId) {
-  box.innerHTML = `
-    <div class="min-cw">
-      <div class="min-cw-head">
-        <span class="min-cw-title">leave a comment</span>
-        <span class="min-cw-hint"></span>
-      </div>
-
-      <div class="min-cw-row">
-        <div class="min-cw-field">
-          <label class="min-cw-label">name <span class="req">*</span></label>
-          <input type="text" class="min-cw-in js-name" maxlength="60">
-        </div>
-        <div class="min-cw-field">
-          <label class="min-cw-label">site (optional)</label>
-          <input type="text" class="min-cw-in js-site" maxlength="200">
-        </div>
-      </div>
-
-      <label class="min-cw-label">comment <span class="req">*</span></label>
-      <div class="min-cw-tools">
-        <button type="button" class="min-cw-tool" data-md="**"><b>B</b></button>
-        <button type="button" class="min-cw-tool" data-md="*"><em>I</em></button>
-        <button type="button" class="min-cw-tool" data-md="~~"><s>S</s></button>
-        <button type="button" class="min-cw-tool" data-md="__"><u>U</u></button>
-        <button type="button" class="min-cw-tool" data-md="link">🔗</button>
-      </div>
-      <textarea class="min-cw-ta js-msg" maxlength="2000" placeholder="say something nice..."></textarea>
-
-      <button type="button" class="min-cw-submit js-send">post comment</button>
-      <div class="min-cw-status js-status"></div>
-      <div class="min-cw-powered">powered by <b>Widget ★ Star</b></div>
-
-      <div class="min-cw-listhead">
-        <span class="js-count">0 comments</span>
-        <select class="min-cw-sort js-sort">
-          <option value="desc">newest first</option>
-          <option value="asc">oldest first</option>
-        </select>
-      </div>
-      <div class="min-cw-list js-list"></div>
-    </div>
-  `;
-
-  const $ = s => box.querySelector(s);
-  const nameEl = $('.js-name'), siteEl = $('.js-site'), msgEl = $('.js-msg');
-  const sendEl = $('.js-send'), statusEl = $('.js-status');
-  const countEl = $('.js-count'), sortEl = $('.js-sort'), listEl = $('.js-list');
-
-  nameEl.value = localStorage.getItem('min_name') || '';
-  siteEl.value = localStorage.getItem('min_site') || '';
-
-  box.querySelectorAll('.min-cw-tool').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const md = btn.dataset.md;
-      const s = msgEl.selectionStart, e = msgEl.selectionEnd, t = msgEl.value, sel = t.slice(s, e);
-      let ins, cur;
-      if (md === 'link') {
-        const url = prompt('URL:', 'https://'); if (!url) return;
-        ins = `[${sel || 'link'}](${url})`; cur = s + ins.length;
-      } else {
-        ins = md + (sel || 'text') + md;
-        cur = s + md.length + (sel ? sel.length : 4) + md.length;
-      }
-      msgEl.value = t.slice(0, s) + ins + t.slice(e);
-      msgEl.focus(); msgEl.selectionStart = msgEl.selectionEnd = cur;
-    });
-  });
-
-  let all = [];
-  onSnapshot(
-    query(collection(db, 'comments'), where('postId', '==', postId)),
-    snap => {
-      all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      render();
-    },
-    err => { console.warn(err); listEl.innerHTML = `<div class="min-cw-empty">error loading comments.</div>`; }
-  );
-  sortEl.addEventListener('change', render);
-
-  function render() {
-    const dir = sortEl.value;
-    const items = [...all].sort((a,b) => {
-      const ta = a.timestamp?.seconds || 0, tb = b.timestamp?.seconds || 0;
-      return dir === 'asc' ? ta-tb : tb-ta;
-    });
-    countEl.textContent = `${items.length} comment${items.length === 1 ? '' : 's'}`;
-
-    const cnt = box.closest('.min-cmt-details')?.querySelector('.min-cmt-count');
-    if (cnt) cnt.textContent = `(${items.length})`;
-
-    const tops = items.filter(c => !c.parentId);
-    const reps = {};
-    items.forEach(c => { if (c.parentId) (reps[c.parentId] ||= []).push(c); });
-
-    if (!tops.length) { listEl.innerHTML = `<div class="min-cw-empty">no comments yet. be the first!</div>`; return; }
-
-    listEl.innerHTML = tops.map(c => renderItem(c, reps[c.id] || [])).join('');
-    bindActions();
-  }
-
-  function renderItem(c, replies) {
-    const ts = c.timestamp?.toDate ? c.timestamp.toDate() : null;
-    const name = c.name || 'anonymous';
-    const nameHtml = c.site ? `<a href="${esc(c.site)}" target="_blank" rel="noopener">${esc(name)}</a>` : esc(name);
-    const avHtml = c.avatar ? `<img src="${c.avatar}" alt="">` : `<span>${esc(initOf(name))}</span>`;
-    const liked = !!localStorage.getItem(`cmt_like_${c.id}`);
-    const meta = [];
-    if (c.city && c.city !== 'unknown') meta.push(`🌐 ${esc(c.city)}`);
-    if (c.device) meta.push(`${devIcon(c.device)} ${esc(c.device)}`);
-    if (c.browser && c.browser !== 'Unknown') meta.push(`${brIcon(c.browser)} ${esc(c.browser)}`);
-
-    const repsHtml = replies.length ? `<div class="min-cw-replies">${replies.map(r => renderItem(r, [])).join('')}</div>` : '';
-
-    return `
-      <div class="min-cw-item" data-id="${c.id}">
-        <div class="min-cw-av" style="background:${colorOf(name)}">${avHtml}</div>
-        <div class="min-cw-main">
-          <div class="min-cw-head2">
-            <span class="min-cw-name">${nameHtml}</span>
-            <span class="min-cw-time">${ago(ts)}</span>
-          </div>
-          <div class="min-cw-text">${md(c.message || '')}</div>
-          <div class="min-cw-actions">
-            <button type="button" class="min-cw-act js-like ${liked ? 'liked' : ''}">♡ <span class="js-likes">${c.likes || 0}</span></button>
-            <button type="button" class="min-cw-act js-reply">↩ reply</button>
-          </div>
-          ${meta.length ? `<div class="min-cw-meta">${meta.map(m => `<span>${m}</span>`).join('')}</div>` : ''}
-          ${repsHtml}
-        </div>
-      </div>`;
-  }
-
-  function bindActions() {
-    listEl.querySelectorAll('.min-cw-item').forEach(item => {
-      const id = item.dataset.id;
-      item.querySelector('.js-like')?.addEventListener('click', async e => {
-        e.stopPropagation();
-        const k = `cmt_like_${id}`, already = !!localStorage.getItem(k);
-        already ? localStorage.removeItem(k) : localStorage.setItem(k, '1');
-        try { await updateDoc(doc(db, 'comments', id), { likes: increment(already ? -1 : 1) }); }
-        catch { already ? localStorage.setItem(k, '1') : localStorage.removeItem(k); }
-      });
-      item.querySelector('.js-reply')?.addEventListener('click', e => { e.stopPropagation(); replyForm(item, id); });
-    });
-  }
-
-  function replyForm(parent, parentId) {
-    box.querySelectorAll('.min-cw-replyform').forEach(el => el.remove());
-    const f = document.createElement('div');
-    f.className = 'min-cw-replyform';
-    f.innerHTML = `
-      <input type="text" class="min-cw-in js-rname" placeholder="name *" maxlength="60" value="${esc(localStorage.getItem('min_name')||'')}">
-      <textarea class="min-cw-ta js-rmsg" placeholder="reply..." maxlength="2000"></textarea>
-      <div style="display:flex; gap:6px;">
-        <button type="button" class="min-cw-submit js-rsend">reply</button>
-        <button type="button" class="min-cw-submit min-cw-ghost js-rcancel">cancel</button>
-      </div>`;
-    parent.querySelector('.min-cw-main').appendChild(f);
-    f.querySelector('.js-rcancel').addEventListener('click', () => f.remove());
-    f.querySelector('.js-rsend').addEventListener('click', async () => {
-      const name = f.querySelector('.js-rname').value.trim();
-      const message = f.querySelector('.js-rmsg').value.trim();
-      if (!name || !message) return;
-      localStorage.setItem('min_name', name);
-      const info = await getInfo();
-      await addDoc(collection(db, 'comments'), {
-        postId, parentId, name, message, site: '', avatar: '',
-        likes: 0, ...info, timestamp: serverTimestamp()
-      });
-      f.remove();
-    });
-  }
-
-  sendEl.addEventListener('click', async () => {
-    const name = nameEl.value.trim(), site = siteEl.value.trim(), message = msgEl.value.trim();
-    if (!name) return setStatus('please enter a name', 'err');
-    if (!message) return setStatus('please write something', 'err');
-    localStorage.setItem('min_name', name);
-    if (site) localStorage.setItem('min_site', site);
-    sendEl.disabled = true;
-    setStatus('sending...', 'info');
-    try {
-      const info = await getInfo();
-      await addDoc(collection(db, 'comments'), {
-        postId, parentId: null, name, site, message, avatar: '',
-        likes: 0, ...info, timestamp: serverTimestamp()
-      });
-      msgEl.value = '';
-      setStatus('posted! ♡', 'ok');
-      setTimeout(() => setStatus('', ''), 3000);
-    } catch (err) {
-      console.error(err);
-      setStatus('error: ' + err.message, 'err');
-    } finally { sendEl.disabled = false; }
-  });
-  function setStatus(t, c) { statusEl.textContent = t; statusEl.className = 'min-cw-status' + (c ? ' ' + c : ''); }
-}
-
-
-function setup() {
-  document.querySelectorAll('.min-cmt-details').forEach(details => {
-    if (details._wired) return;
-    details._wired = true;
-    const postId = details.dataset.postId;
-    if (!postId) return;
-
-    getDocs(query(collection(db, 'comments'), where('postId', '==', postId)))
-      .then(snap => {
-        const el = details.querySelector('.min-cmt-count');
-        if (el) el.textContent = `(${snap.size})`;
-      })
-      .catch(() => {});
-
-    const mount = () => {
-      if (details._mounted) return;
-      details._mounted = true;
-      const body = details.querySelector('.min-cmt-body');
-
-      const rx = document.createElement('div');
-      rx.className = 'blog-reactions-box';
-      body.appendChild(rx);
-      try { mountReactions(rx, { targetId: postId }); } catch (e) { console.warn(e); }
-
-      const cx = document.createElement('div');
-      body.appendChild(cx);
-      mountComments(cx, postId);
-    };
-
-    if (details.open) mount();
-    else details.addEventListener('toggle', () => { if (details.open) mount(); });
-  });
-}
-
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
-else setup();
-window.minSetupBlog = setup;
-</script>

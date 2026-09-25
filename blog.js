@@ -12,19 +12,35 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const blogPostsContainer = document.getElementById('posts-container');
 
 function formatTimestamp(timestamp) {
-    if (!timestamp || !timestamp.toDate) return 'Data Indisponível';
-    const date = timestamp.toDate();
-    return new Intl.DateTimeFormat('pt-BR', {
-        dateStyle: 'long',
-        timeStyle: 'short',
-    }).format(date);
+    if (!timestamp?.toDate) return 'Data Indisponível';
+    return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
+}
+
+function buildPostElement(post, id) {
+    const el = document.createElement('article');
+    el.classList.add('blog-post');
+    el.innerHTML = `
+        <h2>${post.title}</h2>
+        <p class="post-meta">Publicado em ${formatTimestamp(post.timestamp)}</p>
+        ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}">` : ''}
+        <div class="post-content">${post.content}</div>
+        <hr class="post-divider">
+    `;
+
+    const reactBox = document.createElement('div');
+    reactBox.className = 'blog-reactions-box';
+    reactBox.style.cssText = 'margin-top: 14px; margin-bottom: 8px;';
+    el.insertBefore(reactBox, el.querySelector('.post-divider'));
+
+    const targetId = 'blog_' + String(post.title || id).toLowerCase().replace(/[^a-z0-9]/g, '_');
+    mountReactions(reactBox, { targetId });
+
+    return el;
 }
 
 async function loadBlogPosts() {
@@ -35,51 +51,22 @@ async function loadBlogPosts() {
     blogPostsContainer.innerHTML = '<h2>Carregando posts...</h2>';
 
     try {
+        const q = query(collection(db, 'blog_posts'), orderBy('timestamp', 'desc'));
+        const snapshot = await getDocs(q);
 
-        const q = query(collection(db, "blog_posts"), orderBy("timestamp", "desc"));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
+        if (snapshot.empty) {
             blogPostsContainer.innerHTML = '<p>nenhum post de blog encontrado ainda.</p>';
             return;
         }
 
         blogPostsContainer.innerHTML = '';
-
-        querySnapshot.forEach((docSnap) => {
-            const post = docSnap.data();
-            const postElement = document.createElement('article');
-            postElement.classList.add('blog-post');
-
-            const formattedDate = formatTimestamp(post.timestamp);
-
-            postElement.innerHTML = `
-                <h2>${post.title}</h2>
-                <p class="post-meta">Publicado em ${formattedDate}</p>
-                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.title}">` : ''}
-                <div class="post-content">${post.content}</div>
-                <hr class="post-divider">
-            `;
-            blogPostsContainer.appendChild(postElement);
-
-            const targetId = "blog_" + String(post.title || docSnap.id)
-                .toLowerCase().replace(/[^a-z0-9]/g, "_");
-
-            const reactBox = document.createElement("div");
-            reactBox.className = "blog-reactions-box";
-            reactBox.style.cssText = "margin-top: 14px; margin-bottom: 8px;";
-
-            const divider = postElement.querySelector(".post-divider");
-            if (divider) postElement.insertBefore(reactBox, divider);
-            else postElement.appendChild(reactBox);
-
-            mountReactions(reactBox, { targetId });
+        snapshot.forEach(docSnap => {
+            blogPostsContainer.appendChild(buildPostElement(docSnap.data(), docSnap.id));
         });
     } catch (e) {
-        console.error("error: ", e);
+        console.error('error: ', e);
         blogPostsContainer.innerHTML = '<p>error.</p>';
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', loadBlogPosts);

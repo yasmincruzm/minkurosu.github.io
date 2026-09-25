@@ -99,20 +99,10 @@ async function getMyInfo() {
   };
 
   const ua = navigator.userAgent;
-  if (/Tablet|iPad/i.test(ua))       info.device = 'Tablet';
-  else if (/Mobi|Android/i.test(ua)) info.device = 'Mobile';
-
-  if (/Firefox/i.test(ua))            info.browser = 'Firefox';
-  else if (/Edg\//i.test(ua))         info.browser = 'Edge';
-  else if (/OPR|Opera/i.test(ua))     info.browser = 'Opera';
-  else if (/Chrome/i.test(ua))        info.browser = 'Chrome';
-  else if (/Safari/i.test(ua))        info.browser = 'Safari';
-
-  if (/Windows/i.test(ua))                  info.os = 'Windows';
-  else if (/Mac OS X/i.test(ua))            info.os = 'MacOS';
-  else if (/Android/i.test(ua))             info.os = 'Android';
-  else if (/iPhone|iPad|iPod/i.test(ua))    info.os = 'iOS';
-  else if (/Linux/i.test(ua))               info.os = 'Linux';
+  const match = (list, fallback) => (list.find(([re]) => re.test(ua)) || [, fallback])[1];
+  info.device = match([[/Tablet|iPad/i, 'Tablet'], [/Mobi|Android/i, 'Mobile']], 'Desktop');
+  info.browser = match([[/Firefox/i, 'Firefox'], [/Edg\//i, 'Edge'], [/OPR|Opera/i, 'Opera'], [/Chrome/i, 'Chrome'], [/Safari/i, 'Safari']], 'Unknown');
+  info.os = match([[/Windows/i, 'Windows'], [/Mac OS X/i, 'MacOS'], [/Android/i, 'Android'], [/iPhone|iPad|iPod/i, 'iOS'], [/Linux/i, 'Linux']], 'Unknown');
 
   try {
     const r = await fetch('https://ip-api.com/json/?fields=query,city,regionName,country,countryCode');
@@ -226,17 +216,11 @@ function mountComments(box, { postId }) {
     </div>
   `;
 
-  const nameEl     = box.querySelector('.min-cmt-name');
-  const siteEl     = box.querySelector('.min-cmt-site');
-  const msgEl      = box.querySelector('.min-cmt-message');
-  const submitEl   = box.querySelector('.min-cmt-submit');
-  const statusEl   = box.querySelector('.min-cmt-status');
-  const countLabel = box.querySelector('.min-cmt-count-label');
-  const sortEl     = box.querySelector('.min-cmt-sort');
-  const listEl     = box.querySelector('.min-cmt-list');
-  const avPrevEl   = box.querySelector('.min-cmt-avatar-el');
-  const avBtn      = box.querySelector('.min-cmt-avatar-btn');
-  const avInput    = box.querySelector('.min-cmt-avatar-input');
+  const $ = sel => box.querySelector(sel);
+  const nameEl = $('.min-cmt-name'), siteEl = $('.min-cmt-site'), msgEl = $('.min-cmt-message');
+  const submitEl = $('.min-cmt-submit'), statusEl = $('.min-cmt-status');
+  const countLabel = $('.min-cmt-count-label'), sortEl = $('.min-cmt-sort'), listEl = $('.min-cmt-list');
+  const avPrevEl = $('.min-cmt-avatar-el'), avBtn = $('.min-cmt-avatar-btn'), avInput = $('.min-cmt-avatar-input');
 
   let currentAvatar = getSavedAvatar();
 

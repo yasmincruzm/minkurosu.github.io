@@ -830,6 +830,29 @@ h5 {
   max-height: 340px;
   border-radius: 2px
 }
+.sidepic-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+}
+.sidepic-wrap img {
+  width: 100%;
+  height: 340px;
+  border-radius: 2px;
+  object-fit: cover;
+  display: block;
+}
+.sidepic-wrap .sidepic-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sidepic-wrap:hover .sidepic-hover {
+  opacity: 1;
+}
 .sidebar .box {
   background: var(--emo-bg-dark);
   border-radius: 3px;
@@ -1513,6 +1536,3 @@ th {
   text-align: center;
 }
 .feed-cell.expanded .caption-text { display: block; }
-
-
-
