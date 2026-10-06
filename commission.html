@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@minkurosu — encomendas</title>
+<link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+<link rel="stylesheet" href="emo.css">
+
+<style>
+
+.section-label {
+    text-align: center;
+    padding: 16px 0 8px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.section-label h2 {
+    color: #5a5a5a;
+    margin: 0;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.video-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.video-cell iframe,
+.video-cell video {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    border: 0;
+    background: #000;
+}
+
+
+.pagina-largura-fixa {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.caixaprices {
+    width: 80%;
+    padding: 4px;
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.caixaprices h2 {
+    font-family: "MinFont", monospace;
+    font-size: 1.4rem;
+    color: #534f4a;
+    text-align: center;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    margin: 0 0 16px;
+}
+
+
+#container table td:first-child:not(:only-child),
+#container table th:first-child:not(:only-child) {
+    width: 65% !important;
+}
+
+
+.prices-section {
+    margin-bottom: 1.5rem;
+}
+
+.prices-section h3 {
+    font-family: "MinFont", monospace;
+    font-size: .95rem;
+    color: #534f4a;
+    text-align: center;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    margin-bottom: .6rem;
+}
+
+.portfolioWrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.portfolioButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0 20px;
+}
+
+.portfolioButtons .pushable {
+    width: 100%;
+    max-width: 260px;
+}
+
+.portfolioButtons .pushable .front {
+    min-width: 0;
+}
+
+.portfolioButtons .pushable.is-active .front {
+    background: #2a0000;
+    color: #5a5a5a;
+    box-shadow: inset 0 0 5px #0000004d;
+}
+
+.portfolioButtons .pushable.is-active .edge {
+    background: #3a0000;
+}
+
+.portfolioPage {
+    display: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.portfolioPage.is-active {
+    display: block;
+}
+
+.portfolioPage .portfolioContent {
+    width: 100%;
+}
+
+
+.rig-page {
+    padding: 1rem 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rig-intro {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.rig-intro ul {
+    list-style: none;
+    padding: 0;
+    margin: .5rem 0;
+}
+
+.rig-intro .note {
+    font-size: .85rem;
+    opacity: .75;
+    margin-top: .75rem;
+}
+
+.site-banner-link {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.site-banner {
+    height: 80px;
+    transition: transform .2s ease;
+}
+
+.site-banner:hover {
+    transform: scale(1.05);
+}
+
+
+@media (max-width: 600px) {
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    html:not(:has(#containerprincipal #containerprincipal)) #containerprincipal {
+        margin: 20px auto;
+        padding: 1rem;
+        max-width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+    <main id="containerprincipal">
+        <div id="container">
+            <link rel="stylesheet" href="gallery.css">
+            <script src="gallery.js"></script>
+            <div class="caixamaisclara pagina-largura-fixa">
+                <div class="caixaprices">
+
+                    <br>
+                    <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" />
+                    <h2 style="font-size: 30px;">commissions</h2>
+                    <hr>
+
+                    <div class="prices-section">
+                        <table>
+                            <tr><th>termos de serviço</th></tr>
+                            <tr><td>pagamento em BRL (R$) por pix ou transferência</td></tr>
+                            <tr><td>50% do pagamento no início, 50% no final</td></tr>
+                            <tr><td>revisões ilimitadas, mas mudanças serão cobradas de acordo</td></tr>
+                            <tr><td>uso comercial: +60% do valor</td></tr>
+                            <tr><td>reembolso: 100% antes do início, 40% durante ou proporcional ao progresso</td></tr>
+                            <tr><td>por favor, me dê os créditos nas redes sociais ou na apresentação do modelo :)</td></tr>
+                            <tr><td>a duração do processo depende da complexidade e da minha disponibilidade</td></tr>
+                            <tr><td>proibido uso como NFT, a menos que acordado previamente</td></tr>
+                            <tr><td>eu não faço a arte do modelo, apenas o rig (animação)</td></tr>
+                            <tr><td>os valores estão sujeitos a variações dependendo da complexidade</td></tr>
+                            <tr><td>podemos negociar caso queira adicionar conteúdos</td></tr>
+                        </table>
+                    </div>
+
+                    <br>
+
+                    <div class="prices-section">
+                        <h3>o que cada rig inclui</h3>
+                        <table>
+                            <tr><th>todos os rigs incluem</th></tr>
+                            <tr><td>movimento da íris</td></tr>
+                            <tr><td>movimento de piscar</td></tr>
+                            <tr><td>movimento da sobrancelha (ângulo y)</td></tr>
+                            <tr><td>física do cabelo</td></tr>
+                            <tr><td>ângulo x da cabeça simples</td></tr>
+                            <tr><td>movimento de abrir/fechar/sorrir da boca</td></tr>
+                        </table><br>
+
+                        <table><tr><th>rig lite</th></tr><tr><td>os itens básicos citados acima</td></tr></table><br>
+
+                        <table>
+                            <tr><th>rig simples</th></tr>
+                            <tr><td>tudo do rig lite +</td></tr>
+                            <tr><td>ângulos x e y da cabeça</td></tr>
+                            <tr><td>ângulos x e y do corpo</td></tr>
+                            <tr><td>movimento olho abrindo, fechando e sorrindo</td></tr>
+                            <tr><td>movimento da íris</td></tr>
+                            <tr><td>física básica do cabelo e busto</td></tr>
+                            <tr><td>sobrancelha y + forma</td></tr>
+                            <tr><td>movimento simples da boca</td></tr>
+                            <tr><td>1 toggle</td></tr>
+                        </table><br>
+
+                        <table>
+                            <tr><th>rig detalhado</th></tr>
+                            <tr><td>tudo do rig simples +</td></tr>
+                            <tr><td>ângulos x, y e z da cabeça</td></tr>
+                            <tr><td>ângulos x, y e z do corpo</td></tr>
+                            <tr><td>física da perna e braços</td></tr>
+                            <tr><td>ângulo de inclinação da sobrancelha</td></tr>
+                            <tr><td>movimento detalhado da boca</td></tr>
+                            <tr><td>físicas mais complexas</td></tr>
+                        </table><br>
+
+                        <table>
+                            <tr><th>adicional vbridger</th></tr>
+                            <tr><td>tudo do rig detalhado +</td></tr>
+                            <tr><td>modelo da boca detalhada</td></tr>
+                            <tr><td>boca x</td></tr>
+                            <tr><td>encher bochechas</td></tr>
+                            <tr><td>língua para fora</td></tr>
+                            <tr><td>eye squint</td></tr>
+                            <tr><td>variação de movimento dos lábios</td></tr>
+                            <tr><td>breathing</td></tr>
+                        </table>
+                    </div>
+
+                    <hr>
+
+                    <div class="prices-section">
+                        <h3>portfólio</h3>
+                        <div class="portfolioWrapper">
+                            <div class="portfolioButtons">
+                                <a href="#" class="pushable portfolioNavigation" data-page="page-art">
+                                    <span class="shadow"></span><span class="edge"></span>
+                                    <span class="front">drawings</span>
+                                </a>
+                                <a href="#" class="pushable portfolioNavigation is-active" data-page="page-rig">
+                                    <span class="shadow"></span><span class="edge"></span>
+                                    <span class="front">live2d rigs</span>
+                                </a>
+                                <a href="#" class="pushable portfolioNavigation" data-page="page-photos">
+                                    <span class="shadow"></span><span class="edge"></span>
+                                    <span class="front">photography</span>
+                                </a>
+                                <a href="#" class="pushable portfolioNavigation" data-page="page-pricing">
+                                    <span class="shadow"></span><span class="edge"></span>
+                                    <span class="front">pricings</span>
+                                </a>
+                            </div>
+
+                            <div class="portfolioPage is-active" id="page-rig">
+                                <div class="rig-page">
+                                    <div class="rig-intro">
+                                        <p class="rig-intro-title">por que me escolher como sua animadora/rigger?</p>
+                                        <ul>
+                                            <li>tenho trabalhado com live2d desde dezembro de 2020, após aprender a fazer meu próprio modelo</li>
+                                            <li>a maioria dos meus clientes me encontram por recomendação de clientes antigos</li>
+                                            <li>já fiz mais de 50 encomendas para vtubers (e ainda contando!)</li>
+                                        </ul>
+                                        <p class="note">*minha webcam não é uma das melhores, por favor releve problemas de tracking nos vídeos e foque nos ângulos e nas físicas :-)</p>
+                                    </div>
+                                    <div class="video-grid">
+                                        <div class="video-cell"><iframe src="https://www.youtube.com/embed/A17-WoCIdEU" allowfullscreen></iframe></div>
+                                        <div class="video-cell"><iframe src="https://www.youtube.com/embed/PVNAQT6cO4s" allowfullscreen></iframe></div>
+                                        <div class="video-cell"><iframe src="https://www.youtube.com/embed/IaWCWhw90eI" allowfullscreen></iframe></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/shirotakami.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/dentes.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4"></video></div>
+                                        <div class="video-cell"><video controls><source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4"></video></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="portfolioPage" id="page-art">
+                                <div class="portfolioContent">
+                                    <div class="section-label"><h2>digital</h2></div><br>
+                                    <div class="gallery">
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/pixelicon.jpeg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/jupitercat.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/7.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/no min holding it in.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/wplace.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/padorupnggrey.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/5.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/madeline.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/jotaro2020.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/lispng.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/icon1.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/APOLLO.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/eueapollo.png" alt=""  loading="lazy"></label>
+                                    </div>
+
+                                    <br>
+                                    <div class="section-label"><h2>traditional</h2></div><br>
+                                    <div class="gallery">
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img class="thumbnail" src="imgs/art portfolio/2026-tradicional.jpg" alt="" loading="lazy"><img class="full" src="imgs/art portfolio/2026.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/2025.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio"  name="galeria"><img src="imgs/art portfolio/jinx-traditional.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/mymuse-traditional.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/ponysona-traditional.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/2023.jpg" alt="" loading="lazy"></label>
+                                    </div>
+
+                                    <br>
+                                    <div class="section-label"><h2>live2d model art</h2></div>
+                                    <div class="gallery">
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/minkurosu-vtuber.png" alt="" loading="lazy"></label>
+                                    </div>
+
+                                    <br>
+                                    <div class="section-label"><h2>twitch emotes</h2></div>
+                                    <div class="gallery">
+                                        <label class="gallery-item"><input type="radio"  name="galeria"><img src="imgs/art portfolio/AYAYAMinPNG.png" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/art portfolio/ApolloLove.png" alt="" loading="lazy"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="portfolioPage" id="page-photos">
+                                <div class="portfolioContent">
+                                    <div class="section-label"><h2>photography</h2></div><br>
+                                    <div class="gallery">
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4875 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/garden1.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4796 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4712.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4784.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4813 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4684-1 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4685 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4671 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4017-1.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4018-1.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4015.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4552 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4520-1 (2) (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4513 (2).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3527 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3461 (2).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3546 (3).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4065.jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4071 (2).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN4057 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3822 (4).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3858-1 (1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3815 (5)(1).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3805 (2).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3804 (4).jpg" alt="" loading="lazy"></label>
+                                        <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/photography-portfolio/DSCN3806-1 (2).jpg" alt="" loading="lazy"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="portfolioPage" id="page-pricing">
+                                <div class="portfolioContent">
+                                    <h3>pricings</h3>
+                                    <div class="prices-section">
+                                        <table>
+                                            <tr><th>descrição</th><th>valor</th></tr>
+                                            <tr><td>rig lite (quase um pngtuber)</td><td>R$ 95</td></tr>
+                                            <tr><td>rig halfbody</td><td>R$ 420</td></tr>
+                                            <tr><td>rig fullbody</td><td>R$ 450</td></tr>
+                                            <tr><td>rig fullbody + vbridger + extra physics</td><td>R$ 500</td></tr>
+                                            <tr><td>rig vtuber pet/chibi</td><td>R$ 200 +-</td></tr>
+                                            <tr><td>adicional toggle (on/off)</td><td>R$ 5 +-</td></tr>
+                                            <tr><td>adicional com expressão / movimento / física</td><td>R$ 10</td></tr>
+                                            <tr><td>adicional com motion / animação (.can3)</td><td>R$ 15–20</td></tr>
+                                            <tr><td>adicional partes do corpo extra</td><td>R$ 15</td></tr>
+                                            <tr><td>adicional ângulos da cabeça wide-range</td><td>R$ 50</td></tr>
+                                            <tr><td>adicional boca vbridger</td><td>R$ 50</td></tr>
+                                            <tr><td>physics augmentation @ vtube studio</td><td>R$ 20</td></tr>
+                                            <tr><td>rework em qualquer parte</td><td>valor a combinar</td></tr>
+                                            <tr><td>animação de objetos / props</td><td>valor a combinar</td></tr>
+                                        </table>
+                                        <p class="pricing-note">* preços podem mudar dependendo da complexidade e número

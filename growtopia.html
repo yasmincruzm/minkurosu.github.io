@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: "MinFont";
+            background-image: none;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+
+        }
+
+        h3 {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+        }
+
+
+        .skin-grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            justify-content: center;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .skin-item {
+
+            height: 200px;
+            overflow: hidden;
+
+        }
+
+        .skin-item img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .skin-title {
+            font-size: 0.9em;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+
+        .game-vertical-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .game-photo-card {
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .game-photo-card .preview-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .game-photo-card:hover .preview-img {
+            transform: scale(1.005);
+            filter: brightness(0.95);
+        }
+
+        .game-photo-card.active .preview-img {
+            display: none;
+        }
+
+        .game-photo-card .expanded-wrapper {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            animation: slideDownIn 0.25s ease;
+        }
+
+        .game-photo-card.active .expanded-wrapper {
+            display: block;
+        }
+
+        .game-photo-card .expanded-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .game-photo-card .photo-caption {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 1.15em;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+        }
+
+        @keyframes slideDownIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        br {
+            height: 4px;
+            width: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="containerprincipalColumn">
+
+        <div class="row-container" style="color: #525252; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+
+            <p>growtopia foi um dos jogos mais importantes da minha infância, e minha conta tem, aproximadamente,
+                <span data-desde="2014-07-14">calculando...</span>+ dias.</p>
+
+            <p> infelizmente, o jogo não é mais o mesmo daquela época; agora a ubisoft o comprou e ele está cheio de cassinos e bots.
+            </p>
+
+            <p> às vezes até sonho com o jogo: minha conta sendo hackeada ou meu mundo sendo destruído. em alguns desses sonhos,
+                lembro de mandar /msg para os moderadores porque um hacker estava acabando com meu mundo... </p>
+
+            <p> é muito doido pensar que o jogo que eu jogava aos 10 anos foi tão importante que ficou gravado no meu cérebro/nos meus sonhos.</p>
+
+            <a href="#gt-1" class="lightbox-trigger">
+                <img src="imgs/games/growtopiacharacter.png" alt="my character" style="height: 200px;">
+            </a>
+
+
+            <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan20212.jpeg')">
+                <img class="preview-img" src="imgs/games/minecraft/Screenshot_20250711_163217_Growtopia.jpg" loading="lazy">
+                <div class="expanded-wrapper">
+                    <img src="">
+                </div>
+            </div>
+            <h5 class="screenshotDescription"> meu mundo</h5>
+            <br>
+
+        </div>
+
+    </main>
+
+    <script>
+   
+        document.querySelectorAll('[data-desde]').forEach(function (el) {
+            var p = el.dataset.desde.split('-');
+            var inicio = new Date(p[0], p[1] - 1, p[2]);
+            var hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            el.textContent = Math.round((hoje - inicio) / 86400000);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .game-vertical-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 960px; 
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .game-photo-card {
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+            box-sizing: border-box;
+            background: transparent;
+        }
+
+        .game-photo-card .preview-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .game-photo-card:hover .preview-img {
+            transform: scale(1.005);
+            filter: brightness(0.95);
+        }
+
+        .game-photo-card.active .preview-img {
+            display: none;
+        }
+
+        .game-photo-card .expanded-wrapper {
+            display: none;
+            width: 100%;
+            box-sizing: border-box;
+            animation: slideDownIn 0.25s ease;
+        }
+
+        .game-photo-card.active .expanded-wrapper {
+            display: block;
+        }
+
+        .game-photo-card .expanded-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .game-photo-card .photo-caption {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 1.15em;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+        }
+
+        @keyframes slideDownIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="game-vertical-gallery">
+
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png')">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+
+
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+
+  
+        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+
+      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+
+      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div>
+      
+<div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png)">
+            <img class="preview-img" src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" alt="" loading="lazy">
+            <div class="expanded-wrapper">
+                <img src="">
+            </div>
+        </div> 
+
+
+
+     
+     
+    </div>
+
+    <script>
+        function togglePhoto(card, fullSrc) {
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+                return;
+            }
+
+            document.querySelectorAll('.game-photo-card').forEach(c => c.classList.remove('active'));
+
+            var largeImg = card.querySelector('.expanded-wrapper img');
+            if (largeImg && fullSrc) {
+                largeImg.src = fullSrc;
+            }
+
+            card.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

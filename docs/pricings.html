@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1000; user-scalable=0;">
+  <link rel="stylesheet" href="styles.css">
+  <title>Home</title>
+  <style>
+    @font-face {
+      font-family: "MoreSugar";
+      src: url(fonts/MoreSugar-Regular.ttf) format('truetype');
+    }
+
+    /* General Settings */
+    html {
+      font-size: 16px;
+    }
+
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-image: url(imgs/wood2.png);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: "MoreSugar", sans-serif;
+      font-size: 16px;
+    }
+
+    /* Header */
+    header {
+      background-color: #1B1917;
+      padding: 5px;
+      margin-bottom: 2%;
+      border-radius: 0 0 1.25rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      max-height: 5rem;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+
+    .navbar .divitems {
+      display: inline-flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .navbar .divitems .nav-item {
+      white-space: nowrap;
+      padding: 0.0625rem;
+      padding-right: 0.625rem;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #534F4A;
+      background-color: #24211e;
+      padding: 3px 10px;
+      border-radius: 0.625rem;
+      transition: background-color 0.3s;
+      display: inline-block;
+      border: 0.3125rem solid #272525;
+      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+      margin: 0.625rem;
+    }
+
+    .navbar a:hover {
+      background-color: #534f4a;
+      color: #1B1917;
+      transform: scale(1.15);
+      transition: 0.2s;
+    }
+  
+
+
+    /* Main Container */
+    #container {
+      background-color: #1B1917;
+      padding: 1.25rem;
+      border-radius: 1.25rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      color: #534F4A;
+    }
+
+/* Logo */
+
+#logobig {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  animation: breathing 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+#logobig:hover {
+  transform: scale(1.15) translateY(10px);
+  transition: 0.2s;
+}
+
+@keyframes breathing {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+    .caixalogo {
+      background-color: rgba(68, 64, 60, 0.16);
+      border-radius: 0.625rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+    }
+
+    .caixamaisclara {
+      background-color: #24211e;
+      padding: 0.3125rem;
+      border-radius: 0.9375rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin: 2px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .caixamaisclara img {
+      border-radius: 0.3125rem;
+    }
+
+    .about-text {
+      max-width: 60%;
+    }
+
+    .caixamaisclara h2 {
+      margin-top: 0;
+    }
+
+    hr {
+      border: 0;
+      border-top: 0.0625rem solid #534f4a;
+      margin: 1.25rem 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin: 1.25rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #euvtuber, #euirl {
+      height: 18.75rem;
+    }
+
+    .about-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .about-content img {
+      margin: 0 0.625rem;
+      border-radius: 1rem;
+    }
+
+    #euirl, #euvtuber {
+  transition: transform 0.3s ease-in-out;
+}
+
+#euirl:hover, #euvtuber:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+
+
+    .about-content .about-text {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .boxfoto {
+      width: calc(25% - 2px);
+      display: flex;
+      gap: 2rem;
+      border-radius: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 1.7rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .h2text {
+      margin: 0;
+    }
+
+    .conjuntoblocos {
+      border-radius: 0rem;
+    }
+
+    .fotosworks {
+      height: 200px;
+      border-radius: 1rem;
+      transition: transform 0.1s ease-in-out;
+}
+
+.fotosworks:hover {
+  transform: scale(1.1) translateY(5px);
+}
+
+
+.caixaprices{
+ 
+}
+
+#pricesimages{
+    max-width: 100%;
+}
+  </style>
+</head>
+<body>
+  <header id="header" class="fixed-top">
+    <div id="divpatinha"><img src="imgs/patinha.png" id="logopatinha" alt="logo da barra de navegação"></div>
+    <nav class="navbar">
+      <div class="divitems">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">home</a>
+        </div>
+        <div class="nav-item">
+          <a href="feed.html" class="nav-link">feed</a>
+        </div>
+        <div class="nav-item">
+          <a href="contact.html" class="nav-link">contact</a>
+        </div>
+        <div class="nav-item">
+          <a href="portfolio.html" class="nav-link">portfolio</a>
+        </div>
+        <div class="nav-item">
+          <a href="pricings.html" class="nav-link">pricings & tos</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div id="container">
+    <div class="caixamaisclara">
+        <div class= "caixaprices">
+            <img src="imgs/prices1.png" id="pricesimages" alt="tabela de preços">
+            <img src="imgs/prices2.png" id="pricesimages" alt="tabela de preços">
+            <img src="imgs/prices3.png" id="pricesimages" alt="tabela de preços">
+            <img src="imgs/prices4.png" id="pricesimages" alt="tabela de preços">
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<div id="container">
+    <style>
+        .content-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h5 {
+            text-align: center;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .screenshotDescription {
+            font-size: 0.9em;
+            margin-top: 8px;
+            margin-bottom: 30px;
+        }
+
+        .galeria-container {
+            width: 100%;
+            max-width: 700px;
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .galeria-grid {
+            column-count: 1;
+            column-gap: 15px;
+            padding: 5px;
+        }
+
+        .galeria-grid a {
+            display: block;
+            margin-bottom: 30px;
+            break-inside: avoid;
+        }
+
+        .galeria-grid img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .galeria-grid img:hover {
+            transform: scale(1.02);
+        }
+
+        .fancybox__caption {
+            font-size: 25px;
+            color: #534f4a;
+            border-color: #24211e;
+        }
+
+        @media (max-width: 768px) {
+            .galeria-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+
+    <div class="content-column">
+        <h5>whenever i die, this is what i would leave behind and would make people know a little bit about myself</h5>
+        <br>
+
+        <div class="galeria-container">
+            <div class="galeria-grid">
+                
+                <a data-fancybox="mystuff-gallery" 
+                   href="imgs/site_imgs/mystuff/prateleira.jpg" 
+                   data-caption="my interests shelf">
+                    <img src="imgs/site_imgs/mystuff/prateleira.jpg" alt="my interests shelf">
+                </a>
+                <h5 class="screenshotDescription">my interests shelf</h5>
+
+                <a data-fancybox="mystuff-gallery" 
+                   href="imgs/site_imgs/mystuff/bolsa.jpeg" 
+                   data-caption="my itabag">
+                    <img src="imgs/site_imgs/mystuff/bolsa.jpeg" alt="my itabag">
+                </a>
+                <h5 class="screenshotDescription">my itabag</h5>
+
+                <a data-fancybox="mystuff-gallery" 
+                   href="imgs/site_imgs/mystuff/bookshelf.jpeg" 
+                   data-caption="my manga and book collection">
+                    <img src="imgs/site_imgs/mystuff/bookshelf.jpeg" alt="my manga and book collection">
+                </a>
+                <h5 class="screenshotDescription">my manga and book collection, but most of the stuff i read is online :( </h5>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        setTimeout(function() {
+            if (typeof Fancybox !== 'undefined') {
+                Fancybox.destroy();
+                
+                Fancybox.bind('[data-fancybox="mystuff-gallery"]', {
+                    Toolbar: {
+                        display: {
+                            left: ["infobar"],
+                            middle: [],
+                            right: ["slideshow", "thumbs", "close"],
+                        },
+                    },
+                });
+                
+                console.log('fancybox initialized for mystuff gallery');
+            } else {
+                console.error('fancybox not available');
+            }
+        }, 300);
+    </script>
+</div>

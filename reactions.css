@@ -1,0 +1,447 @@
+.reactions-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  position: relative;
+  font-family: "MinFont", "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  user-select: none;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.reactions-wrapper *,
+.reactions-wrapper *::before,
+.reactions-wrapper *::after {
+  box-sizing: border-box;
+}
+
+.reactions-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: visible;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #4a4d55 transparent;
+}
+
+.reactions-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reactions-list::-webkit-scrollbar-thumb {
+  background: #4a4d55;
+  border-radius: 3px;
+}
+
+.reactions-list li {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.reaction-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  background: #2b2d31;
+  border: 1px solid #3a3d44;
+  border-radius: 10px;
+  color: #d5d8dd;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.12s, transform 0.1s;
+  outline: none;
+  font-family: inherit;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.reaction-chip:hover {
+  background: #3a3d44;
+}
+
+.reaction-chip:active {
+  transform: scale(0.94);
+}
+
+.reaction-chip.reacted {
+  background: #3a3d44;
+  box-shadow: inset 0 0 0 2px #3f4262;
+  color: #ffffff;
+}
+
+.reaction-chip.reacted:hover {
+  background: #45484f;
+}
+
+.reaction-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.reaction-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.reaction-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d5d8dd;
+}
+
+.reaction-chip .reaction-delete {
+  display: none;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #d33;
+  border: 1.5px solid #1e1f24;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 10;
+}
+
+.reaction-chip .reaction-delete:hover {
+  background: #f44;
+}
+
+body.is-admin .reaction-chip:hover .reaction-delete {
+  display: flex;
+}
+
+.reaction-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: #2b2d31;
+  border: 1px solid #3a3d44;
+  border-radius: 10px;
+  color: #b5bac1;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.1s;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.reaction-add-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(1.1) saturate(0.4);
+  transition: filter 0.12s;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
+
+.reaction-add-btn:hover {
+  background: #3a3d44;
+}
+
+.reaction-add-btn:hover img {
+  filter: brightness(1.3) saturate(0.6);
+}
+
+.reaction-add-btn:active {
+  transform: scale(0.94);
+}
+
+.reaction-picker {
+  position: fixed !important;
+  top: auto;
+  left: auto;
+  z-index: 2147483647 !important;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  background: #1e1f24;
+  border: 2px solid #3a3d44;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: reactFadeIn 0.14s ease;
+  font-family: "MinFont", "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+@keyframes reactFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reaction-picker.open {
+  display: flex;
+}
+
+.picker-header {
+  padding: 11px 13px;
+  background: #1e1f24;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #2c2e33;
+  flex-shrink: 0;
+}
+
+.picker-search {
+  flex: 1;
+  background: #15161a;
+  border: 1.5px solid #3a3d44;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #e6e6e6;
+  font-size: 13.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.picker-search:focus {
+  border-color: #4a4d55;
+}
+
+.picker-search::placeholder {
+  color: #6b6e75;
+}
+
+.picker-handwave {
+  font-size: 20px;
+  line-height: 1;
+  cursor: default;
+  user-select: none;
+}
+
+.picker-tabs {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #1e1f24;
+  border-bottom: 1px solid #2c2e33;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.picker-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.picker-tab-btn {
+  width: 100%;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.12s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.picker-tab-btn:hover {
+  background: rgba(120, 120, 130, 0.15);
+}
+
+.picker-tab-btn.active {
+  background: rgba(120, 120, 130, 0.2);
+}
+
+.picker-body {
+  height: 320px;
+  min-height: 320px;
+  max-height: 320px;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 12px 14px;
+  background: #1e1f24;
+  scrollbar-width: thin;
+  scrollbar-color: #4a4d55 #1e1f24;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
+  overscroll-behavior: contain;
+}
+
+.picker-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.picker-body::-webkit-scrollbar:horizontal {
+  display: none;
+  height: 0;
+}
+
+.picker-body::-webkit-scrollbar-thumb {
+  background: #4a4d55;
+  border-radius: 3px;
+}
+
+.picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 44px);
+  grid-auto-rows: 44px;
+  justify-content: flex-start;
+  gap: 6px;
+  width: 100%;
+}
+
+.picker-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s;
+  line-height: 1;
+  font-family: inherit;
+  font-size: 27px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.picker-item-btn:hover {
+  background: rgba(120, 120, 130, 0.2);
+  transform: scale(1.12);
+}
+
+.picker-item-btn:active {
+  transform: scale(0.95);
+}
+
+.picker-item-btn img {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 6px;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.picker-empty {
+  grid-column: 1 / -1;
+  padding: 18px 10px;
+  text-align: center;
+  color: #7a7d84;
+  font-size: 12px;
+}
+
+.picker-footer {
+  padding: 10px 12px 11px;
+  text-align: center;
+  font-size: 11.5px;
+  color: #8a8d94;
+  background: #18191d;
+  border-top: 1px solid #2c2e33;
+  letter-spacing: 0.02em;
+  font-family: "MinFont", monospace;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.picker-footer b {
+  color: #c5c8ce;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.picker-footer .star-icon {
+  width: 11px;
+  height: 11px;
+  display: inline-block;
+  vertical-align: -1px;
+  fill: #c5c8ce;
+}
+
+.sidebar-reactions-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+
+.sidebar-reactions-inline .reactions-wrapper {
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.sidebar-reactions-inline .reactions-list {
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.sidebar-reactions-inline .reaction-add-btn {
+  flex-shrink: 0;
+}

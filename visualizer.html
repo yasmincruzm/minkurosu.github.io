@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; }
+    canvas { display: block; }
+    #fade-overlay {
+      position: fixed; inset: 0;
+      background: #000;
+      opacity: 1;
+      transition: opacity 1.5s ease;
+      pointer-events: none;
+    }
+    #fade-overlay.hidden { opacity: 0; }
+    #start-blocker {
+      position: fixed; inset: 0;
+      z-index: 99;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    #start-blocker .main-text {
+      color: rgba(255,255,255,0.85);
+      font-family: sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+    }
+    #start-blocker .warning-text {
+      color: rgba(255,255,255,0.35);
+      font-family: sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="viz-canvas"></canvas>
+  <div id="fade-overlay"></div>
+  <div id="start-blocker">
+    <span class="main-text">click to start the trip</span>
+    <span class="warning-text">(epilepsy warning)</span>
+  </div>
+
+  <script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
+  <script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('viz-canvas');
+      const overlay = document.getElementById('fade-overlay');
+      const blocker = document.getElementById('start-blocker');
+      let visualizer;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+      }
+      resize();
+      window.addEventListener('resize', () => {
+        resize();
+        if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
+      });
+
+      async function startViz() {
+        blocker.remove();
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+          await audioCtx.resume();
+          const analyser = audioCtx.createAnalyser();
+          analyser.fftSize = 2048;
+          analyser.smoothingTimeConstant = 0.85;
+          const scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
+          scriptNode.onaudioprocess = function(e) {
+            const out = e.outputBuffer.getChannelData(0);
+            for (let i = 0; i < out.length; i++) {
+              const t = (audioCtx.currentTime * 44100 + i) / 44100;
+              out[i] =
+                Math.sin(2 * Math.PI * 60 * t) * 0.3 +
+                Math.sin(2 * Math.PI * 120 * t) * 0.15 +
+                Math.sin(2 * Math.PI * 240 * t) * 0.1 +
+                Math.sin(2 * Math.PI * 480 * t + Math.sin(t * 0.5) * 2) * 0.08 +
+                Math.sin(2 * Math.PI * 1200 * t) * 0.04 +
+                (Math.random() * 2 - 1) * 0.02;
+            }
+          };
+          scriptNode.connect(analyser);
+          const bc = window.butterchurn.default || window.butterchurn;
+          visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
+          const presets = window.butterchurnPresets.getPresets
+            ? window.butterchurnPresets.getPresets()
+            : window.butterchurnPresets;
+          const keys = Object.keys(presets);
+          let idx = Math.floor(Math.random() * keys.length);
+          visualizer.loadPreset(presets[keys[idx]], 0.0);
+          visualizer.connectAudio(analyser);
+          setInterval(() => {
+            idx = (idx + 1) % keys.length;
+            visualizer.loadPreset(presets[keys[idx]], 2.7);
+          }, 15000);
+          (function render() { visualizer.render(); requestAnimationFrame(render); })();
+          setTimeout(() => { overlay.classList.add('hidden'); }, 5000);
+        } catch(e) { console.error(e); }
+      }
+
+      blocker.addEventListener('click', startViz, { once: true });
+    })();
+  </script>
+</body>
+</html>

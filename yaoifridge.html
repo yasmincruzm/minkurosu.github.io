@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+ 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    let dragEl = null, ox = 0, oy = 0;
+
+    document.querySelectorAll('.draggable').forEach(el => {
+        el.setAttribute('draggable', true);
+        el.style.transform = `rotate(${el.dataset.rotation || 0}deg)`;
+
+        el.addEventListener('dragstart', e => {
+            dragEl = el;
+            ox = e.clientX - el.getBoundingClientRect().left;
+            oy = e.clientY - el.getBoundingClientRect().top;
+            el.style.opacity = '0.5';
+        });
+
+        el.addEventListener('dragend', e => {
+            const area = el.closest('.photo-area').getBoundingClientRect();
+            el.style.left = (e.clientX - area.left - ox) + 'px';
+            el.style.top  = (e.clientY - area.top  - oy) + 'px';
+            el.style.opacity = '1';
+            dragEl = null;
+        });
+    });
+
+    document.querySelectorAll('.photo-area').forEach(area => {
+        area.addEventListener('dragover', e => e.preventDefault());
+    });
+});
+</script>
+    <meta charset="UTF-8">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
+
+    <title>@minkurosu</title>
+
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <div class="crt"></div>
+    <style>
+        html,
+        body,
+        iframe {
+            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
+        }
+
+        a,
+        button,
+        input[type="submit"],
+        input[type="button"],
+        select {
+            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+        }
+
+        #containerprincipal {
+            border-radius: 1.25rem;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 50rem;
+            box-sizing: border-box;
+            color: #534F4A;
+        }
+
+        #container {
+            background-color: #1B1917;
+            padding: 1.25rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 50rem;
+            box-sizing: border-box;
+            color: #534F4A;
+        }
+
+        .galeria-container {
+            width: 700px;
+            height: 300px;
+            border: 4px solid #534f4a;
+            border-radius: 8px;
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 5px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .galeria-grid img {
+            max-width: 100%;
+            height: 120px;
+            object-fit: contain;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .galeria-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .yaoifridge-container {
+            position: relative;
+            width: 100%;
+            padding-top: 160%;
+            background-image: url('imgs/site_imgs/fridge2.avif');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            box-sizing: border-box;
+        }
+
+        .photo-area {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 62%;
+            overflow: hidden;
+        }
+
+        .photo.draggable {
+            position: absolute;
+            border: 2px solid #fff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
+
+        .photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-1 {
+            height: 22%;
+            top: 2%;
+            left: 2%;
+        }
+
+        .photo-2 {
+            height: 18%;
+            top: 3%;
+            left: 78%;
+        }
+
+        .photo-3 {
+            height: 20%;
+            top: 18%;
+            left: 3%;
+        }
+
+        .photo-4 {
+            height: 20%;
+            top: 30%;
+            left: 60%;
+        }
+
+        .photo-5 {
+            height: 17%;
+            top: 35%;
+            left: 1%;
+        }
+
+        .photo-6 {
+            height: 18%;
+            top: 40%;
+            left: 75%;
+        }
+
+        .photo-7 {
+            height: 11%;
+            top: 70%;
+            left: 35%;
+        }
+
+        .photo-8 {
+            height: 15%;
+            top: 78%;
+            left: 54%;
+        }
+
+        .photo-9 {
+            height: 16%;
+            top: 2%;
+            left: 35%;
+        }
+
+        .photo-11 {
+            height: 19%;
+            top: 45%;
+            left: 28%;
+        }
+
+        .photo-12 {
+            height: 17%;
+            top: 60%;
+            left: 2%;
+        }
+
+        .photo-13 {
+            height: 15%;
+            top: 5%;
+            left: 50%;
+        }
+
+        .photo-14 {
+            height: 16%;
+            top: 25%;
+            left: 20%;
+        }
+
+        .photo-15 {
+            height: 12%;
+            top: 60%;
+            left: 58%;
+        }
+
+        .photo-16 {
+            height: 20%;
+            top: 78%;
+            left: 5%;
+        }
+
+        .photo-17 {
+            height: 8%;
+            top: 38%;
+            left: 40%;
+        }
+
+        .photo-18 {
+            height: 25%;
+            top: 70%;
+            left: 70%;
+        }
+
+        .photo-19 {
+            height: 18%;
+            top: 40%;
+            left: 70%;
+        }
+
+        .photo-20 {
+            height: 14%;
+            top: 70%;
+            left: 25%;
+        }
+
+        .letter-photo {
+            position: absolute;
+            width: 6%;
+            height: 5%;
+            border: none;
+            box-shadow: none;
+            z-index: 20;
+            user-select: none;
+        }
+
+        .letter-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #letter-y {
+            top: 28%;
+            left: 2%;
+            transform: rotate(-10deg);
+        }
+
+        #letter-a1 {
+            top: 28%;
+            left: 6%;
+            transform: rotate(2deg);
+        }
+
+        #letter-o {
+            top: 28%;
+            left: 11%;
+            transform: rotate(-1deg);
+        }
+
+        #letter-i {
+            top: 27%;
+            left: 14%;
+            transform: rotate(4deg);
+            height: 6%;
+        }
+
+        #letter-g {
+            top: 67%;
+            left: 80%;
+            transform: rotate(1deg);
+        }
+
+        #letter-a2 {
+            top: 67%;
+            left: 85%;
+            transform: rotate(-2deg);
+        }
+
+        #letter-y2 {
+            top: 67%;
+            left: 90%;
+            transform: rotate(3deg);
+        }
+
+      
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        #theme-toggle-button {
+            background: none !important;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent-container-example">
+        <div class="yaoifridge-container">
+            <div class="photo-area">
+                <div class="letter-photo draggable" id="letter-y" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/y.png" alt="Y">
+                </div>
+                <div class="letter-photo draggable" id="letter-a1" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/a.png" alt="A">
+                </div>
+                <div class="letter-photo draggable" id="letter-o" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/o.png" alt="O">
+                </div>
+                <div class="letter-photo draggable" id="letter-i" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/i.png" alt="I">
+                </div>
+                <div class="letter-photo draggable" id="letter-g" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/g.png" alt="G">
+                </div>
+                <div class="letter-photo draggable" id="letter-a2" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/a.png" alt="A">
+                </div>
+                <div class="letter-photo draggable" id="letter-y2" data-rotation="0" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/letters/y.png" alt="Y">
+                </div>
+
+                <div class="photo photo-1 draggable" data-rotation="-1" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/frerard.gif" alt="meu otp">
+                </div>
+                <div class="photo photo-2 draggable" data-rotation="2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/freud.jpg" alt="">
+                </div>
+                <div class="photo photo-4 draggable" data-rotation="1" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/eruri1.jpg" alt="">
+                </div>
+                <div class="photo photo-5 draggable" data-rotation="-2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/eruri2.jpg" alt="">
+                </div>
+
+
+
+                <div class="photo photo-6 draggable" data-rotation="3" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/reibert.jpg">
+                </div>
+                <div class="photo photo-7 draggable" data-rotation="-1" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/vikturi.jpg">
+                </div>
+                <div class="photo photo-8 draggable" data-rotation="2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/yarichin.jpg">
+                </div>
+                <div class="photo photo-9 draggable" data-rotation="4" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/bloodbank.jpg">
+                </div>
+                <div class="photo photo-11 draggable" data-rotation="1" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/erasermic.jpg">
+                </div>
+                <div class="photo photo-12 draggable" data-rotation="-3" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/jayvik.jpeg">
+                </div>
+                <div class="photo photo-13 draggable" data-rotation="2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/hannibal.jpg">
+                </div>
+                <div class="photo photo-14 draggable" data-rotation="-1" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/given.jpg">
+                </div>
+
+                <div class="photo photo-15 draggable" data-rotation="-2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/jayvik.gif" alt="">
+                </div>
+
+                <div class="photo photo-17 draggable" data-rotation="-2" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/bellingham.webp" alt="">
+                </div>
+
+    <div class="photo photo-16 draggable" data-rotation="-4" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/bloodweave.jpg" alt="">
+                </div>
+
+
+                  <div class="photo photo-18 draggable" data-rotation="-4" data-x="0" data-y="0">
+                    <img src="imgs/site_imgs/fridge/frerard2.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

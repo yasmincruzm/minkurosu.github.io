@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="emo.css">
+    <style>
+        .caixamaisclaraInterests {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .games-title {
+            text-align: center;
+            margin: 20px 0;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+            font-size: 2em;
+        }
+
+        .games-button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 0;
+        }
+
+        .games-button-container .pushable {
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font: inherit;
+        }
+
+        #gameContent {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .game-frame {
+            display: none; 
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .game-frame.active {
+            display: block;
+            animation: expandIn 0.25s ease;
+        }
+
+        @keyframes expandIn {
+            from { opacity: 0.6; transform: scaleY(0.97); }
+            to { opacity: 1; transform: scaleY(1); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="games-section">
+
+        <div class="caixamaisclaraInterests">
+            <h1 class="games-title">escolha um jogo!</h1>
+            <div class="games-button-container">
+                <button data-game="minecraft" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">minecraft</span></button>
+                <button data-game="bg3" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">baldurs gate 3</span></button>
+                <button data-game="transformice" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">transformice</span></button>
+                <button data-game="tomodachi" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">tomodachi life</span></button>
+                <button data-game="growtopia" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">growtopia</span></button>
+                <button data-game="stardew" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">stardew valley</span></button>
+            </div>
+        </div>
+
+        <div id="gameContent">
+            <iframe id="frame-minecraft" class="game-frame active" src="minecraft.html"></iframe>
+            <iframe id="frame-bg3" class="game-frame" src="baldursgate.html"></iframe>
+            <iframe id="frame-transformice" class="game-frame" src="transformice.html"></iframe>
+            <iframe id="frame-tomodachi" class="game-frame" src="tomodachi.html"></iframe>
+            <iframe id="frame-growtopia" class="game-frame" src="growtopia.html"></iframe>
+            <iframe id="frame-stardew" class="game-frame" src="stardewvalley.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            function resizeFrame(iframe) {
+                try {
+                    var doc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (!doc || !doc.body) return;
+                    var h = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+                    if (h > 0) iframe.style.height = h + 'px';
+                } catch (e) {}
+            }
+
+            document.querySelectorAll('.game-frame').forEach(function (iframe) {
+                iframe.addEventListener('load', function () {
+                    resizeFrame(iframe);
+                    try {
+                        var doc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (doc && doc.body && typeof ResizeObserver !== 'undefined') {
+                            new ResizeObserver(function () { resizeFrame(iframe); }).observe(doc.body);
+                        }
+                    } catch (e) {}
+                });
+            });
+
+            const buttons = document.querySelectorAll('.games-button-container .pushable');
+            const frames = document.querySelectorAll('.game-frame');
+
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const gameTarget = button.getAttribute('data-game');
+
+                    frames.forEach(function (frame) {
+                        frame.classList.remove('active');
+                    });
+
+                    const targetFrame = document.getElementById('frame-' + gameTarget);
+                    if (targetFrame) {
+                        targetFrame.classList.add('active');
+                        resizeFrame(targetFrame);
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

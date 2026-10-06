@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>webweaving</title>
+
+    <script src="oneko.js"></script>
+    <script>NekoType = "black"</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4K5KDKEJ2E');
+    </script>
+
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+
+    <style>
+
+        #webweaving-container,
+        #webweaving-container * {
+            box-sizing: border-box;
+        }
+
+        #webweaving-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 6px;
+        }
+
+        .ww-grid {
+            column-count: 3;
+            column-gap: 6px;
+            padding: 0;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .ww-grid {
+                column-count: 2;
+            }
+        }
+
+        .ww-cell {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+
+            display: block;
+            width: 100%;
+            margin: 0 0 6px 0;
+            padding: 0;
+            position: relative;
+            line-height: 0;
+
+            border: 1px solid #310000;
+            border-radius: 2px;
+            overflow: hidden;
+            background: #0a0a0a;
+            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ww-cell .thumb-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0;
+            padding: 0;
+            transition: transform 0.15s ease-in-out, filter 0.15s ease-in-out;
+        }
+
+        .ww-cell:hover .thumb-img {
+            transform: scale(1.03);
+            filter: saturate(0.4) brightness(1.05);
+        }
+
+        .ww-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.92);
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            cursor: zoom-out;
+        }
+
+        .ww-overlay.is-open {
+            display: flex;
+            animation: wwFade 0.15s ease-out;
+        }
+
+        @keyframes wwFade {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .ww-overlay img {
+            max-width: 95vw;
+            max-height: 92vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 4px;
+            display: block;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+        }
+
+        .ww-overlay::after {
+            content: "✕";
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            font-family: sans-serif;
+            font-size: 26px;
+            color: #fff;
+            background: rgba(60, 0, 0, 0.75);
+            width: 42px;
+            height: 42px;
+            line-height: 42px;
+            text-align: center;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout-with-sidebars">
+        <main id="containerprincipal">
+            <div id="webweaving-container">
+                <div class="ww-grid">
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/puter.jpeg">
+                        <img class="thumb-img" src="imgs/memes/puter.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/kitten.jpeg">
+                        <img class="thumb-img" src="imgs/memes/kitten.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/twt1.png">
+                        <img class="thumb-img" src="imgs/memes/twt1.png" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/perdonmama.jpg">
+                        <img class="thumb-img" src="imgs/memes/perdonmama.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/twt2.png">
+                        <img class="thumb-img" src="imgs/memes/twt2.png" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900">
+                        <img class="thumb-img" src="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/339.webp">
+                        <img class="thumb-img" src="imgs/memes/339.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/302.webp">
+                        <img class="thumb-img" src="imgs/memes/302.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/303.webp">
+                        <img class="thumb-img" src="imgs/memes/303.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/311.webp">
+                        <img class="thumb-img" src="imgs/memes/311.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/329.webp">
+                        <img class="thumb-img" src="imgs/memes/329.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/336.webp">
+                        <img class="thumb-img" src="imgs/memes/336.webp" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/scoliosis.jpg">
+                        <img class="thumb-img" src="imgs/memes/scoliosis.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/issoehmcr.jpg">
+                        <img class="thumb-img" src="imgs/memes/issoehmcr.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/ohallah.jpg">
+                        <img class="thumb-img" src="imgs/memes/ohallah.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg">
+                        <img class="thumb-img" src="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/representation.jpg">
+                        <img class="thumb-img" src="imgs/memes/representation.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/followinglist.jpg">
+                        <img class="thumb-img" src="imgs/memes/followinglist.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/playlists.jpg">
+                        <img class="thumb-img" src="imgs/memes/playlists.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/toomanyhobbies.jpg">
+                        <img class="thumb-img" src="imgs/memes/toomanyhobbies.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/cat.jpg">
+                        <img class="thumb-img" src="imgs/memes/cat.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/ttbh.jpg">
+                        <img class="thumb-img" src="imgs/memes/ttbh.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/sentimentaldemais.jpeg">
+                        <img class="thumb-img" src="imgs/memes/sentimentaldemais.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/frerard.jpeg">
+                        <img class="thumb-img" src="imgs/memes/frerard.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/computer.jpeg">
+                        <img class="thumb-img" src="imgs/memes/computer.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/party.jpeg">
+                        <img class="thumb-img" src="imgs/memes/party.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/youarenotimmuneto.jpeg">
+                        <img class="thumb-img" src="imgs/memes/youarenotimmuneto.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/eversinceiwasalittlegirl.png">
+                        <img class="thumb-img" src="imgs/memes/eversinceiwasalittlegirl.png" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/sejaotipodenb.png">
+                        <img class="thumb-img" src="imgs/memes/sejaotipodenb.png" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/consmen.jpg">
+                        <img class="thumb-img" src="imgs/memes/consmen.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/nobosses.jpg">
+                        <img class="thumb-img" src="imgs/memes/nobosses.jpg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/mamaedormiu.jpeg">
+                        <img class="thumb-img" src="imgs/memes/mamaedormiu.jpeg" alt="" loading="lazy" />
+                    </div>
+
+                    <div class="ww-cell" data-full="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg">
+                        <img class="thumb-img" src="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg" alt="" loading="lazy" />
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="ww-overlay" id="wwOverlay">
+        <img src="" alt="">
+    </div>
+
+    <script>
+        (function () {
+            var overlay = document.getElementById('wwOverlay');
+            var overlayImg = overlay.querySelector('img');
+            var container = document.getElementById('webweaving-container');
+
+            function openLightbox(src) {
+                overlayImg.src = src;
+                overlay.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                overlay.classList.remove('is-open');
+                overlayImg.src = '';
+                document.body.style.overflow = '';
+            }
+
+            container.querySelectorAll('.ww-cell').forEach(function (cell) {
+                cell.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var src = cell.getAttribute('data-full');
+                    if (src) openLightbox(src);
+                });
+            });
+
+            overlay.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeLightbox();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeLightbox();
+            });
+        })();
+    </script>
+
+    <script src="script.js"></script>
+    <script src="lastfm-widget.js"></script>
+</body>
+
+</html>

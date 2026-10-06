@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-4K5KDKEJ2E');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=0.4, minimum-scale=0.1, maximum-scale=2.0, user-scalable=yes">
+  <link rel="stylesheet" href="styles.css">
+  <title>prices & tos</title>
+  <link rel="icon" type="image/ico" href="imgs/favicon.ico" />
+  <div class="crt"></div>
+  <style>
+    @media (min-width: 400px) and (max-width: 1200px) {
+      body {
+        transform: scale(1.2);
+        transform-origin: top;
+      }
+
+      .caixamaisclara {
+        max-width: 50rem;
+      }
+    }
+
+
+
+    @font-face {
+      font-family: "MoreSugar";
+      src: url(fonts/MoreSugar-Regular.ttf) format('truetype');
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-image: url(imgs/wood2.png);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      font-family: "MoreSugar", sans-serif;
+      font-size: 16px;
+    }
+
+    header {
+      background-color: #1B1917;
+      padding: 5px;
+      margin-bottom: 2%;
+      border-radius: 0 0 1.25rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      max-height: 5rem;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+
+    .nav-item {
+      font-size: 1.5rem;
+    }
+
+    .navbar .divitems {
+      display: inline-flex;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+
+    .navbar .divitems .nav-item {
+      white-space: nowrap;
+      padding: 0.0625rem;
+      padding-right: 0.625rem;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #534F4A;
+      background-color: #24211e;
+      padding: 3px 10px;
+      border-radius: 0.625rem;
+      transition: background-color 0.3s;
+      display: inline-block;
+      border: 0.3125rem solid #272525;
+      box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+      margin: 0.625rem;
+    }
+
+    .navbar a:hover {
+      background-color: #534f4a;
+      color: #1B1917;
+      transform: scale(1.15);
+      transition: 0.2s;
+    }
+
+
+
+
+    #container {
+      background-color: #1B1917;
+      padding: 1.25rem;
+      border-radius: 1.25rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      color: #534F4A;
+    }
+
+    #logopatinha {
+      height: 5rem;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #logopatinha:hover {
+      transform: scale(1.10) translateY(2px);
+      transition: 0.1s;
+    }
+
+    #logobig {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      animation: breathing 2.5s infinite ease-in-out;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #logobig:hover {
+      transform: scale(1.15) translateY(10px);
+      transition: 0.2s;
+    }
+
+    @keyframes breathing {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-2px) scale(1);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .caixalogo {
+      background-color: rgba(68, 64, 60, 0.16);
+      border-radius: 0.625rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+    }
+
+    .caixamaisclara {
+      background-color: #24211e;
+      padding: 0.3125rem;
+      border-radius: 0.9375rem;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin: 2px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .caixamaisclara img {
+      border-radius: 0.3125rem;
+    }
+
+    .about-text {
+      max-width: 60%;
+    }
+
+    .caixamaisclara h2 {
+      margin-top: 0;
+    }
+
+    hr {
+      border: 0;
+      border-top: 0.0625rem solid #534f4a;
+      margin: 1.25rem 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin: 1.25rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #euvtuber,
+    #euirl {
+      height: 18.75rem;
+    }
+
+    .about-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .about-content img {
+      margin: 0 0.625rem;
+      border-radius: 1rem;
+    }
+
+    #euirl,
+    #euvtuber {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #euirl:hover,
+    #euvtuber:hover {
+      transform: scale(1.05);
+    }
+
+
+
+
+
+
+    .about-content .about-text {
+      flex-grow: 1;
+      text-align: center;
+    }
+
+    .boxfoto {
+      width: calc(25% - 2px);
+      display: flex;
+      gap: 2rem;
+      border-radius: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    h4 {
+      font-size: 1rem;
+    }
+
+    .h2text {
+      margin: 0;
+    }
+
+    .conjuntoblocos {
+      border-radius: 0rem;
+    }
+
+    .fotosworks {
+      height: 200px;
+      border-radius: 1rem;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .fotosworks:hover {
+      transform: scale(1.1) translateY(5px);
+    }
+
+
+    .caixaprices {}
+
+    #pricesimages {
+      max-width: 100%;
+    }
+
+    .pushable {
+      position: relative;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      outline-offset: 4px;
+      transition: filter 250ms;
+      display: inline-block;
+      margin: auto;
+      text-decoration: none;
+      display: block;
+      width: 40%;
+    }
+
+    .shadow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: hsl(0deg 0% 0% / 0.25);
+      will-change: transform;
+      transform: translateY(2px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .edge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: linear-gradient(to left,
+          hsl(43, 9%, 15%) 92%,
+          hsl(30, 4%, 18%) 8%,
+          hsl(43, 9%, 15%) 92%,
+          hsl(60, 2%, 11%) 100%);
+    }
+
+    .front {
+      display: block;
+      position: relative;
+      padding: 12px 42px;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      color: #7c756d;
+      background: hsl(30, 4%, 20%);
+      will-change: transform;
+      transform: translateY(-4px);
+      transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+    }
+
+    .pushable:hover {
+      filter: brightness(110%);
+    }
+
+    .pushable:hover .front {
+      transform: translateY(-6px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .front {
+      transform: translateY(-2px);
+      transition: transform 34ms;
+    }
+
+    .pushable:hover .shadow {
+      transform: translateY(4px);
+      transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+    }
+
+    .pushable:active .shadow {
+      transform: translateY(1px);
+      transition: transform 34ms;
+    }
+
+    .pushable:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    .terms {
+      text-align: justify;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.2;
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    td {
+      background-color: rgba(255, 255, 255, 0.05);
+
+    }
+
+    table {
+      border: 3px solid black;
+      border-collapse: collapse;
+      border-spacing: 2;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      border: 2px solid black;
+    }
+
+    video {
+      max
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="container">
+    <div class="caixamaisclara">
+      <div class="caixaprices">
+        <h2>pricings</h2>
+        <br>
+        <h3>terms of service:</h3>
+        <br>
+        <div class="terms">
+
+
+          <div class="button-container">
+            <div class="contact-links">
+              <a href="pricings.html" class="pushable" target="_self">
+                <span class="shadow"></span>
+                <span class="edge"></span>
+                <span class="front">portuguese version</span>
+              </a>
+
+              <div class="terms">
+                <p>- payment in usd only thru paypal.</p>
+                <p>- 50% of the payment upfront, 50% when ready.</p>
+                <p>- unlimited fixing revisions, but additional changes are charged.</p>
+                <p>- commercial use +60%.</p>
+                <p>- refund: 100% before starting, 40% during or proportional to progress.</p>
+                <p>- please credit me on social media.</p>
+                <p>- duration depends on complexity and my availability!! but i'll always update the client.</p>
+                <p>- NFT use prohibited unless previously agreed upon and I receive percentages >:3</p>
+                <p>- i do not create the model's artwork, I only do the rigging, that is, the animation, as I still find
+                  creating the model too laborous for me.</p>
+                <p>- the table prices are subject to change depending on the level of rigging complexity.
+                </p>
+                <p>- we can negotiate if you want to add complex rigging contents to the simple rig.
+                </p>
+              </div>
+
+
+
+
+              <br>
+              <h3>price table:</h3>
+              <table style="border-collapse: collapse; width: 100%; background-color: transparent;">
+                <tr>
+                  <th style="border: 1px solid black; padding: 8px;">description</th>
+                  <th style="border: 1px solid black; padding: 8px;">value</th>
+                </tr>
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig lite (almost like a pngtuber)</td>
+                  <td style="border: 1px solid black; padding: 8px;">$15</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig halfbody simple</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 50</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig fullbody simple</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 60</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig halfbody complex</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 100</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig fullbody complex</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 110</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig fullbody + vbridger + extra physics</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 200</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rig vtuber pet/chibi complex</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 60 +-</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">toggle (on/off)</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 3 +-</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">expression with phys/loop</td>
+                  <td style="border: 1px solid black; padding: 8px;">R$ 5</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">additional with detailed animation (.can3)</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 15-20</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">additional body parts (ears, tail, eyes)</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 15</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">wide-range head angles</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 14</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">vbridger parameters</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 30</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">physics augmentation @ vtube studio</td>
+                  <td style="border: 1px solid black; padding: 8px;">$ 5</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">rework any part</td>
+                  <td style="border: 1px solid black; padding: 8px;">debatable</td>
+                </tr>
+
+                <tr>
+                  <td style="border: 1px solid black; padding: 8px;">object/props animation</td>
+                  <td style="border: 1px solid black; padding: 8px;">debatable</td>
+                </tr>
+
+
+              </table>
+              <p> * prices can change bdepending on complexity and layer number.</p>
+              <br>
+              <div class="button-container">
+                <div class="button-container">
+                  <div class="contact-links">
+                    <a href="portfolio-rig.html" class="pushable" target="_self">
+                      <span class="shadow"></span>
+                      <span class="edge"></span>
+                      <span class="front">exemplos de rig!</span>
+                    </a>
+                  </div>
+
+                  <br>
+                  <div class="exp" <br>
+                    <hr>
+                    <br>
+
+                    <h3>todos os rigs incluem:</h3>
+                    <ul>
+                      <li>movimento da íris</li>
+                      <li>movimento de piscar</li>
+                      <li>movimento da sobrancelha cima-baixo (ângulo y)</li>
+                      <li>física do cabelo</li>
+                      <li>ângulo x da cabeça simples</li>
+                      <li>movimento de abrir, fechar e sorrir da boca</li>
+                    </ul>
+
+                    <h3>rig lite:</h3>
+                    <ul>
+                      <li>os itens básicos citados acima</li>
+                    </ul>
+
+                    <h3>rig simples:</h3>
+                    <ul>
+                      <li>itens do rig lite citados acima</li>
+                      <li>ângulos x e y da cabeça</li>
+                      <li>ângulos x e y do corpo</li>
+                      <li>movimento olho abrindo, fechando e sorrindo</li>
+                      <li>movimento da íris</li>
+                      <li>física básica do cabelo e busto (apenas ângulo x)</li>
+                      <li>sobrancelha y + forma</li>
+                      <li>movimento simples da boca</li>
+                      <li>1 toggle</li>
+                    </ul>
+
+                    <h3>rig detalhado inclui:</h3>
+                    <ul>
+                      <li>+ itens acima</li>
+                      <li>ângulos x, y e z da cabeça</li>
+                      <li>ângulos x, y e z do corpo</li>
+                      <li>física da perna e braços</li>
+                      <li>ângulo de inclinação da sobrancelha e mudança da forma</li>
+                      <li>movimento detalhado da boca</li>
+                      <li>físicas em ângulos x e y, mais complexas e mais detalhistas, no cabelo, corpo, roupas, olhos,
+                        etc.</li>
+                    </ul>
+
+                    <h3>adicional vbridger inclui:</h3>
+                    <ul>
+                      <li>+ itens acima</li>
+                      <li>modelo da boca detalhada</li>
+                      <li>boca x</li>
+                      <li>encher bochechas</li>
+                      <li>língua para fora</li>
+                      <li>eye squint</li>
+                      <li>mais variação de movimento dos lábios</li>
+                      <li> breathing</lis>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="exemplosrig" <br>
+              <br>
+            </div>
+</body>
+
+</html>

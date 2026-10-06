@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="gallery.css">
+
+    <style>
+      
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "MinFont";
+            background-image: none;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
+        }
+
+
+        .skin-grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            justify-content: center;
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .skin-item {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .skin-item img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .skin-title {
+            font-size: 0.9em;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+
+        .gallery {
+            display: flex;
+            flex-direction: column;   
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 636px;
+            margin: 0 auto;
+        }
+
+        .gallery .gallery-item {
+            position: relative;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            aspect-ratio: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery .gallery-item input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .gallery .gallery-item img:not(.full) {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .gallery .gallery-item .caption {
+            display: block;
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            height: auto;
+            max-height: none;
+            margin: 8px 0 0;
+            padding: 0;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+        .gallery .gallery-item:has(input:checked) img:not(.thumbnail) {
+            aspect-ratio: auto;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <main id="containerprincipal">
+        <div class="content-column">
+
+
+            <h3>skins i made during my life</h3>
+
+            <div class="skin-grid-container">
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me actual.png" alt="skin1">
+                    <p class="skin-title">current skin</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me2020.png" alt="">
+                    <p class="skin-title">pandemic me</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/christmas revenge inspired skin.png" alt="">
+                    <p class="skin-title">revenge inspired</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/survey corps with cape.png" alt="">
+                    <p class="skin-title">younger me as survey corp</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me as survey corps.png" alt="">
+                    <p class="skin-title">survey corps w/o cape</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/black parade old me.png" alt="">
+                    <p class="skin-title">younger me as black parade</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/fluttershy girl.png" alt="">
+                    <p class="skin-title">fluttershy girl</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/flowery deer.png" alt="">
+                    <p class="skin-title">flowery girl</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/cake pajamas.png" alt="">
+                    <p class="skin-title">cake pajamas girl</p>
+                </div>
+            </div>
+
+
+
+            <h3>screenshots</h3>
+
+            <h1 class="screenshotDescription">2025 w/ bf and friends</h1>
+
+            <div class="gallery">
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/2025serverselfie.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our 2025 realm selfie"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/village.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/gabmincorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/mycorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/sala.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/bedroom.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/picnic.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/lardocelar.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar.jpeg" alt="" loading="lazy">
+                    <span class="caption">"lar doce lar"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/lardocelar2.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar2.jpeg" alt="" loading="lazy">
+                    <span class="caption">""</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/eueovenomextreme.jpg" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/eueovenomextreme.jpeg" alt="" loading="lazy">
+                    <span class="caption">"when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/servervenom2023.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/servervenom2023.jpeg" alt="" loading="lazy">
+                    <span class="caption">"@ the same server"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/serverkonan2021.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan2021.jpeg" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/serverkonan20212.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan20212.jpeg" alt="" loading="lazy">
+                </label>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="gallery.js"></script>
+</body>
+
+</html>

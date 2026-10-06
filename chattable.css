@@ -1,0 +1,301 @@
+
+#top_banner {
+    display: none !important;
+}
+
+body, html {
+    background-color: #0a0a0a;
+    font-family: "MinFont", MS Gothic, Tahoma, sans-serif;
+    color: #747474;
+}
+
+::selection {
+    color: #747474;
+    background-color: #722c2c;
+}
+
+.msgWrapper {
+    display: flex;
+    width: calc(100% - 20px);
+    align-items: center;
+    margin: 10px;
+    position: relative;
+    margin-top: 36px;
+}
+
+.msgWrapper::before {
+    content: "New Message";
+    height: 16px;
+    width: calc(100% - 10px);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #747474;
+    font-weight: bold;
+    background-color: #722c2c;
+    padding: 5px;
+    border-radius: 2px 2px 0px 0px;
+    box-shadow: 
+        inset 0 4px 4px rgba(255, 255, 255, 0.05),
+        inset 0 -2px 2px rgba(0, 0, 0, 0.4);
+    user-select: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.allMessages {
+    display: block;
+    background: #141414;
+    border: 1px solid #722c2c;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    margin: 0;
+    line-height: 12px;
+    position: relative;
+    width: 100%;
+    cursor: default;
+    box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.allMessages > pre {
+    outline: dotted 1px #722c2c;
+    margin: 5px;
+    padding: 5px;
+    margin-top: 12pt;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 2px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.allMessages > pre::before {
+    content: "Message:";
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: calc(100% + 3px);
+    left: 0;
+    color: #722c2c;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.allMessages::before {
+    content: attr(time);
+    float: right;
+    pointer-events: none;
+    font-style: italic;
+    font-size: 8pt;
+    color: #722c2c;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.senderInfo {
+    margin-left: 5px !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.senderInfo::before {
+    content: "From:";
+    font-weight: normal;
+    font-size: 10pt;
+    color: #722c2c;
+    margin-right: 0.25em;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.sent .senderInfo,
+.received .senderInfo {
+    color: #722c2c !important;
+}
+
+::-webkit-scrollbar { 
+    width: 20px;
+ }
+::-webkit-scrollbar-track { 
+    background: linear-gradient(90deg, #0a0a0a, #141414);
+ }
+
+
+
+::-webkit-scrollbar-thumb {
+    background: #722c2c; 
+    border: solid 1px #722c2c;
+    border-radius: 2%;
+    box-shadow: 0 0 1px #000, 0 0 5px #722c2c inset;
+}
+::-webkit-scrollbar-button:single-button {
+    background-color: #141414;
+    width: calc(100% - 2px);
+    border: solid 1px #722c2c;
+    border-radius: 2%;
+    box-shadow: 0 0 5px #722c2c inset;
+    min-height: 20px;
+}
+::-webkit-scrollbar-button:hover { 
+    background: #722c2c; 
+
+
+}
+
+#textInput {
+    background-color: #141414;
+    padding: 5px;
+    border-top: 2px solid #722c2c;
+}
+
+#input, #nameEntry {
+    background-color: #0a0a0a;
+    border: inset 2px #722c2c;
+    padding: 3px;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 10pt;
+    color: #747474 !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+    min-height: 24px;
+    outline: none;
+}
+
+#input:empty::before {
+    content: "Send Message [Enter to send]";
+    color: #747474 !important;
+    opacity: 0.6;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+    pointer-events: none;
+}
+
+#input[data-placeholder]:empty::before,
+#input[placeholder]:empty::before {
+    content: attr(data-placeholder) !important;
+    color: #747474 !important;
+    opacity: 0.6;
+}
+
+#input::placeholder, #nameEntry::placeholder {
+    color: #747474 !important;
+    opacity: 0.6;
+}
+
+#input:focus, #nameEntry:focus {
+    outline: dotted 1px #722c2c;
+    border-color: #722c2c;
+}
+
+#chattable a, .chattable a {
+    color: #722c2c !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+input, button {
+    font-family: inherit;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+blockquote {
+    border: 1px solid #722c2c;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 6px 10px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+.mod, .owner {
+    background-color: transparent;
+    background-image: url('/media/crown.png');
+    background-size: 100% 100%;
+    border-radius: 0;
+    filter: saturate(0.1) brightness(0.8);
+}
+.owner { filter: hue-rotate(-60deg) saturate(0.1) brightness(0.8); }
+.mod   { filter: hue-rotate(-180deg) saturate(0.1) brightness(0.8); }
+
+
+
+#emojiTrayToggle {
+    background-size: 90% 90%;
+    background-position: center;
+    aspect-ratio: 1;
+    top: 12.5%;
+    border-radius: 0;
+    border: 2px inset #722c2c;
+    filter: saturate(0.1);
+    transition: filter 0.3s ease;
+}
+#emojiTrayToggle:hover { filter: saturate(1); }
+#emojiTray {
+    background-color: #141414;
+    border: 1px solid #722c2c;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+#settings { right: 25px; }
+
+
+#settingsWindow {
+    background-color: #0a0a0a !important;
+    border: 2px solid #722c2c !important;
+    border-radius: 3px !important;
+    box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.8) !important;
+}
+
+
+#settingsFrame {
+    background-color: #0a0a0a !important;
+    border: none !important;
+}
+
+
+#closeSettingsBtn {
+    background-color: #722c2c !important;
+    color: #747474 !important;
+    border: 2px outset #722c2c !important;
+    border-radius: 3px !important;
+    font-family: "MinFont", sans-serif !important;
+    cursor: pointer !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+}
+#closeSettingsBtn:hover {
+    background-color: #722c2c !important;
+    border-color: #722c2c !important;
+}
+
+
+#chattable-custom-css {
+   
+    
+}
+
+
+#ctxMenu {
+    min-width: 150px !important;
+    max-width: 50vw !important;
+    background-color: #141414 !important;
+    color: #722c2c !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    z-index: 100000000 !important;
+    border: 1px solid #b81010 !important;
+    border-radius: 1px !important;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.8) !important;
+    overflow: hidden !important;
+}
+.ctxMenuOption {
+    margin: 0px 0px 0px 25px !important;
+    padding: 3px 3px 3px 12px !important;
+    background-color: #0a0a0a !important;
+    cursor: default !important;
+    user-select: none !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #722c2c transparent #000 #000 !important;
+    border-image: initial !important;
+    border-radius: 3px !important;
+    box-shadow: none !important;
+    width: 100%;
+    color: #722c2c !important;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+.ctxMenuOption:hover {
+    background-color: #1a1a1a !important;
+    border: 1px solid #722c2c !important;
+    color: #722c2c !important;
+    cursor: pointer !important;
+}

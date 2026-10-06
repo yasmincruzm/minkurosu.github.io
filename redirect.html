@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>min kurosu</title>
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico"/>
+    <link rel="style" href="emo.css">
+    <style>
+        
+  @font-face {
+  font-family: "Born2bSportyFS";
+  src: url(fonts/Born2bSportyFS.otf) format('truetype');
+}
+
+  #logobig {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  animation: breathing 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+#logobig:hover {
+  transform: scale(1.15) translateY(10px);
+  transition: 0.4s;
+}
+
+@keyframes breathing {
+  0% {
+    transform: translateY(-1px) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1);
+  }
+  100% {
+    transform: translateY(-1px) scale(1);
+  }
+}
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('imgs/site_imgs/petcemetery.gif');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+          font-family: "Born2bSportyFS";
+            color: #524f4f; /* Cor do texto branco para contraste */
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            cursor: pointer; /* Adiciona o cursor de clique no corpo todo */
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente para o conteúdo */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 80%;
+           
+            box-shadow: 0 0 10px #000000, 0 0 20px #1f1f1f; /* Brilho neon */
+            animation: pulse 1.5s infinite alternate; /* Animação de pulsar */
+        }
+
+        .container img {
+            max-width: 100%;
+            height: auto;
+     
+        }
+
+  #logobig {
+  max-width: 100%;
+  max-height: 400px;!important
+  object-fit: contain;
+  animation: breathing 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container" onclick="window.location.href='https://minkurosu.github.io';">
+        <img src="imgs/site_imgs/logo.png" alt="logo" style="height: 300px;"  id="logobig">
+        <h1>boas-vindas ao meu site!!</h1>
+        <h2>
+           warning: <br>
+           - this site is not fully responsible<br>
+           - it contains blinky images<br>
+           - besides this page being hosted on neocities, <br>the rest of the blog is hosted on github for better usage
+        - the site is not recommended for minors, cuz im +18 and talk about anything i want there
+        </h2>
+        <p style="margin-top: 20px;">clique em qualquer lugar para continuar</p>
+    </div>
+
+    <script>
+        document.body.addEventListener('click', function() {
+            window.location.href = 'https://minkurosu.github.io';
+        });
+    </script>
+</body>
+</html>

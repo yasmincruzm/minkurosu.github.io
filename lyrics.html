@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="oneko.js"></script>
+    <script>NekoType = "black"</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4K5KDKEJ2E');
+    </script>
+    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1600px, initial-scale=0.4, maximum-scale=1.0, user-scalable=yes">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
+    <meta name="color-scheme" content="light only">
+
+
+    <title>@minkurosu</title>
+
+
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+
+    <div class="crt"></div>
+    <style>
+        /* Header */
+        header {
+            background-color: #1B1917;
+            padding: 5px;
+            margin-bottom: 2%;
+            border-radius: 0 0 1.25rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 50rem;
+            box-sizing: border-box;
+            max-height: 5rem;
+            margin-left: auto;
+            margin-right: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        .nav-item {
+            font-size: 1rem;
+        }
+
+        .navbar .divitems {
+            display: inline-flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+
+        .navbar .divitems .nav-item {
+            white-space: nowrap;
+            padding: 0.0625rem;
+            padding-right: 0.625rem;
+            font-size: 1.5rem;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #534F4A;
+            background-color: #24211e;
+            padding: 3px 10px;
+            border-radius: 0.625rem;
+            transition: background-color 0.3s;
+            display: inline-block;
+            border: 0.3125rem solid #272525;
+            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.5);
+            margin: 0.625rem;
+        }
+
+        .navbar a:hover {
+            background-color: #534f4a;
+            color: #1B1917;
+            transform: scale(1.15);
+            transition: 0.2s;
+            animation: ease-in-out;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        body {
+            font-family: "MinFont";
+            color: #534F4A;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            position: relative;
+            width: 100%;
+            padding-top: 5rem;
+            overflow-x: hidden;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .background-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .scattered-blocks-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 4800px;
+            margin: 20px 0;
+            z-index: 1;
+        }
+
+        .scattered-block {
+            position: absolute;
+            display: block;
+            width: auto;
+            height: auto;
+            transition: transform 0.3s ease-out, width 0.3s ease-out, height 0.3s ease-out;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scattered-block img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .note-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            text-align: center;
+            color: #333;
+            font-size: 1.5em;
+            word-wrap: break-word;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .layout-with-sidebars,
+        #containerprincipal,
+        main {
+            width: 100%;
+            max-width: none;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        @media (max-width: 1400px) {
+            .scattered-blocks-wrapper {
+                min-height: 4200px;
+            }
+
+            .scattered-block {
+                width: 400px !important;
+            }
+
+            .scattered-block:nth-child(1) {
+                top: 5%;
+                left: 2%;
+            }
+
+            .scattered-block:nth-child(2) {
+                top: 22%;
+                left: 78%;
+            }
+
+            .scattered-block:nth-child(3) {
+                top: 40%;
+                left: 10%;
+            }
+
+            .scattered-block:nth-child(4) {
+                top: 60%;
+                left: 85%;
+            }
+
+            .scattered-block:nth-child(5) {
+                top: 78%;
+                left: 35%;
+            }
+
+            .note-text {
+                font-size: 1.4em;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .scattered-blocks-wrapper {
+                min-height: 3800px;
+            }
+
+            .scattered-block {
+                width: 350px !important;
+            }
+
+            .scattered-block:nth-child(1) {
+                top: 5%;
+                left: 1%;
+            }
+
+            .scattered-block:nth-child(2) {
+                top: 20%;
+                left: 75%;
+            }
+
+            .scattered-block:nth-child(3) {
+                top: 38%;
+                left: 8%;
+            }
+
+            .scattered-block:nth-child(4) {
+                top: 55%;
+                left: 82%;
+            }
+
+            .scattered-block:nth-child(5) {
+                top: 72%;
+                left: 30%;
+            }
+
+            .note-text {
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .scattered-blocks-wrapper {
+                min-height: 3200px;
+            }
+
+            .scattered-block {
+                width: 300px !important;
+            }
+
+            .scattered-block:nth-child(1) {
+                top: 5%;
+                left: 1%;
+            }
+
+            .scattered-block:nth-child(2) {
+                top: 18%;
+                left: 70%;
+            }
+
+            .scattered-block:nth-child(3) {
+                top: 35%;
+                left: 5%;
+            }
+
+            .scattered-block:nth-child(4) {
+                top: 52%;
+                left: 78%;
+            }
+
+            .scattered-block:nth-child(5) {
+                top: 70%;
+                left: 25%;
+            }
+
+            .note-text {
+                font-size: 1.2em;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .scattered-blocks-wrapper {
+                min-height: 2800px;
+            }
+
+            .scattered-block {
+                width: 280px !important;
+                font-size: 1.0em;
+            }
+
+            .scattered-block:nth-child(1) {
+                top: 3%;
+                left: 0%;
+            }
+
+            .scattered-block:nth-child(2) {
+                top: 18%;
+                left: 60%;
+            }
+
+            .scattered-block:nth-child(3) {
+                top: 35%;
+                left: 2%;
+            }
+
+            .scattered-block:nth-child(4) {
+                top: 52%;
+                left: 68%;
+            }
+
+            .scattered-block:nth-child(5) {
+                top: 70%;
+                left: 10%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scattered-blocks-wrapper {
+                min-height: 2200px;
+            }
+
+            .scattered-block {
+                width: 220px !important;
+                font-size: 0.9em;
+            }
+
+            .scattered-block:nth-child(1) {
+                top: 2%;
+                left: 0%;
+            }
+
+            .scattered-block:nth-child(2) {
+                top: 12%;
+                left: 55%;
+            }
+
+            .scattered-block:nth-child(3) {
+                top: 25%;
+                left: 1%;
+            }
+
+            .scattered-block:nth-child(4) {
+                top: 40%;
+                left: 60%;
+            }
+
+            .scattered-block:nth-child(5) {
+                top: 55%;
+                left: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout-with-sidebars">
+
+
+        <main id="containerprincipal">
+            <header id="header" class="fixed-top">
+                <div id="divpatinha">
+                    <img src="imgs/site_imgs/patinha.png" id="logopatinha" alt="logo da barra de navegação">
+                </div>
+                <nav class="navbar">
+                    <div class="divitems">
+
+                        <div class="nav-item">
+                            <a href="#" onclick="history.back(); return false;" class="nav-link">back</a>
+                        </div>
+
+                        <div class="nav-item">
+                            <a href="index.html" target="_self" class="nav-link">home</a>
+                        </div>
+                        <div class="nav-item">
+                        <a href="pics.html" target="_self" class="nav-link">pics</a>
+                        </div>
+
+                        <div class="nav-item">
+                            <a href="blog.html" target="_self" class="nav-link">blog</a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="links.html" target="_self" class="nav-link">links</a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="portfolio-menu.html" target="_self" class="nav-link">portfolio</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <div class="scattered-blocks-wrapper">
+                    <div class="scattered-block" style="width: 450px; top: 5%; left: 2%; transform: rotate(5deg);">
+                        <img src="imgs/site_imgs/note.png" alt="Note">
+                        <div class="note-text"></div>
+                    </div>
+
+                    <div class="scattered-block" style="width: 400px; top: 20%; left: 75%; transform: rotate(-10deg);">
+                        <img src="imgs/site_imgs/note.png" alt="Note">
+                        <div class="note-text"></div>
+                    </div>
+
+                    <div class="scattered-block" style="width: 500px; top: 40%; left: 15%; transform: rotate(2deg);">
+                        <img src="imgs/site_imgs/note.png" alt="Note">
+                        <div class="note-text"></div>
+                    </div>
+
+                    <div class="scattered-block" style="width: 420px; top: 60%; left: 85%; transform: rotate(15deg);">
+                        <img src="imgs/site_imgs/note.png" alt="Note">
+                        <div class="note-text"></div>
+                    </div>
+
+                    <div class="scattered-block" style="width: 480px; top: 75%; left: 45%; transform: rotate(-7deg);">
+                        <img src="imgs/site_imgs/note.png" alt="Note">
+                        <div class="note-text"></div>
+                    </div>
+                </div>
+            </main>
+
+
+
+    </div>
+
+    <script src="script.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+    <script type="module" src="blog.js"></script>
+</body>
+
+</html>

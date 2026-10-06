@@ -1,0 +1,136 @@
+<style>
+    #mailbox-textarea {
+        width: 100%;
+        min-height: 90px;
+        max-height: 250px;
+        resize: none;
+        overflow-y: auto;
+        padding: 10px 12px;
+        background-color: var(--emo-bg-dark);
+        border: 0.3125rem solid var(--emo-border-dark);
+        border-radius: 3px;
+        color: var(--emo-text-muted);
+        font-family: "MinFont", monospace;
+        font-size: 1em;
+        line-height: 1.5;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.2s, background-color 0.2s;
+        -webkit-text-fill-color: var(--emo-text-muted);
+        caret-color: var(--emo-text-hover2);
+        text-shadow: var(--emo-text-shadow);
+    }
+    #mailbox-textarea:focus {
+        border-color: var(--emo-border-accent);
+        background-color: #0d0d0d;
+    }
+    #mailbox-textarea::placeholder { color: #333; }
+
+    button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+
+</style>
+
+<div id="container">
+    <div class="caixamaisclaraColumn" style="max-width: 520px; margin: 40px auto; padding: 20px;">
+
+        <h2>✉ mailbox</h2>
+
+        <p style="text-align:center; margin: 0 0 10px 0;">
+            send me an anonymous message if what u wanna say isnt sayable on guestbook<br>
+            or if you wanna get something off your chest, im all ears :) dont be a jerk
+        </p>
+
+        <textarea id="mailbox-textarea" placeholder="..." maxlength="1000"></textarea>
+
+        <button type="button" id="mailbox-send" class="pushable" style="margin-top: 14px;">
+            <span class="shadow"></span>
+            <span class="edge"></span>
+            <span class="front">send</span>
+        </button>
+
+        <div id="mailbox-status" class="message" style="display:none; margin-top: 10px;"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+        authDomain: "minkurosu.firebaseapp.com",
+        projectId: "minkurosu",
+        storageBucket: "minkurosu.firebasestorage.app",
+        messagingSenderId: "290821725607",
+        appId: "1:290821725607:web:5e39e561da53ac7c8a2a82"
+    };
+
+    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    const textarea = document.getElementById('mailbox-textarea');
+    const sendBtn  = document.getElementById('mailbox-send');
+    const status   = document.getElementById('mailbox-status');
+
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 250) + 'px';
+    });
+
+    sendBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const text = textarea.value.trim();
+        if (!text) return;
+
+        sendBtn.disabled = true;
+        status.style.display = 'none';
+        status.textContent = '';
+
+        let ip = 'unknown';
+        try {
+            const res  = await fetch('https://ip-api.com/json/?fields=query,country,city,regionName');
+            const data = await res.json();
+            ip = data.query || 'unknown';
+        } catch {}
+
+        try {
+            await addDoc(collection(db, 'mailbox'), {
+                message: text,
+                ip,
+                timestamp: serverTimestamp()
+            });
+
+            status.textContent = 'message sent ♥';
+            status.style.display = 'block';
+            status.style.background = '#0a1a0a';
+            status.style.border = '0.3125rem solid #1e3a1e';
+            status.style.color = '#5a9a5a';
+            status.style.padding = '10px';
+            status.style.borderRadius = '3px';
+            status.style.textAlign = 'center';
+            status.style.fontSize = '0.88em';
+
+            textarea.value = '';
+            textarea.style.height = '';
+        } catch (err) {
+            status.textContent = 'something went wrong. try again.';
+            status.style.display = 'block';
+            status.style.background = '#1a0a0a';
+            status.style.border = '0.3125rem solid #3a1e1e';
+            status.style.color = '#9a5a5a';
+            status.style.padding = '10px';
+            status.style.borderRadius = '3px';
+            status.style.textAlign = 'center';
+            status.style.fontSize = '0.88em';
+            console.error(err);
+        }
+
+        sendBtn.disabled = false;
+    });
+</script>

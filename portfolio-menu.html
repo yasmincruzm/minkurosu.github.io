@@ -1,0 +1,388 @@
+<div id="container">
+  <style>
+  
+    .caixamaisclara-conteudo {
+      text-align: center;
+      padding: 20px;
+    }
+.rig-page {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.rig-page .video-grid {
+  width: 100%;
+}
+
+
+    .section-title {
+      color: #534F4A;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin-bottom: 30px;
+    }
+
+    .section-label {
+      text-align: center;
+      padding: 16px 0 8px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .games-button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .contact-links {
+      margin: 10px auto;
+      max-width: 400px;
+    }
+
+    .grid-feed {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+    }
+
+    .grid-feed a {
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .grid-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s;
+    }
+
+    .grid-feed a:hover img {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
+      .grid-feed { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .video-cell {
+      display: flex;
+      flex-direction: column;
+      background: #0a0a0a;
+      border: 1px solid #1a1919;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .video-cell video {
+      width: 100%;
+     
+      display: block;
+      border: none;
+      background: #000;
+    }
+
+    .video-cell-wide {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      background: #0a0a0a;
+      border: 1px solid #1a1919;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .video-cell-wide iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: none;
+      background: #000;
+    }
+
+    .video-cell .caption,
+    .video-cell-wide .caption {
+      font-family: "MinFont", monospace;
+      font-size: 0.78rem;
+      color: #3a3836;
+      text-align: center;
+      padding: 4px 4px 5px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      min-height: 20px;
+    }
+
+    .rig-intro {
+      background: #0d0d0d;
+      border: 1px solid #2a0000;
+      border-radius: 2px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .rig-intro-title {
+      font-family: "MinFont", monospace;
+      font-size: 1rem;
+      color: #610000;
+      margin: 0 0 8px;
+      text-align: center;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-intro ul {
+      list-style: none;
+      margin: 0 0 8px;
+      padding: 0;
+    }
+
+    .rig-intro ul li {
+      font-family: "MinFont", monospace;
+      font-size: 0.9rem;
+      color: #534f4a;
+      padding: 2px 0;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-intro ul li::before {
+      content: "— ";
+      color: #610000;
+    }
+
+    .rig-intro .note {
+      font-family: "MinFont", monospace;
+      font-size: 0.8rem;
+      color: #3a3836;
+      text-align: center;
+      margin: 0;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-page h1 {
+      font-size: 1rem !important;
+      margin: 3px 0 !important;
+      padding: 0 !important;
+      text-align: left;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-page h2 {
+      font-size: 1.4rem !important;
+      margin: 0 0 8px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-page h3 {
+      font-size: 0.85rem !important;
+      margin: 6px 0 12px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #3a3836;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .rig-page h4 {
+      font-size: 0.8rem !important;
+      margin: 4px 0 6px !important;
+      padding: 0 !important;
+      text-align: center;
+      color: #3a3836;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .pricings-table {
+      border-collapse: collapse;
+      width: 100%;
+      background-color: transparent;
+      font-family: "MinFont", monospace;
+      font-size: 0.85rem;
+    }
+
+    .pricings-table th,
+    .pricings-table td {
+      border: 1px solid #3a0000;
+      padding: 7px 10px;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .pricings-table th {
+      color: #610000;
+      background: #0d0d0d;
+    }
+
+    .pricings-table tr:nth-child(even) td {
+      background: #0a0808;
+    }
+
+    .terms p,
+    .exp p,
+    .exp li {
+      font-family: "MinFont", monospace;
+      font-size: 0.85rem;
+      color: #534f4a;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      text-align: left;
+    }
+
+    .exp h3 {
+      font-family: "MinFont", monospace;
+      font-size: 0.9rem;
+      color: #610000;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 12px 0 4px;
+    }
+
+    #portfolio-conteudo {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    #portfolio-conteudo.loading {
+      text-align: center;
+      padding: 50px;
+      color: #534F4A;
+    }
+
+    .portfolioContent { width: 100%; }
+
+    .divportfolio {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .divportfolio img,
+    .divportfolio video {
+      max-width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .divportfolio h1,
+    .divportfolio h2,
+    .divportfolio h3,
+    .divportfolio h4 {
+      color: #534F4A;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 10px 0;
+    }
+  </style>
+
+  <div class="caixamaisclara">
+    <div class="caixamaisclara-conteudo">
+      <h1 class="section-title">choose one!</h1>
+
+      <div class="games-button-container">
+        <!-- Adapted link – credit: original script author -->
+<a href="portfolio-art.html" class="pushable portfolio-nav-button">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">drawings</span>
+        </a>
+        <!-- Adapted link – credit: original script author -->
+<a href="portfolio-rig.html" class="pushable portfolio-nav-button">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">live2d rigs</span>
+        </a>
+        <!-- Adapted link – credit: original script author -->
+<a href="pricings.html" class="pushable portfolio-nav-button">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">pricings</span>
+        </a>
+      </div>
+    </div>
+  </div>
+<br>
+  <div id="portfolio-conteudo">
+    <p style="text-align: center; color: #534F4A;">selecione uma seção do portfólio acima para ver o conteúdo</p>
+  </div>
+<br>
+  <script>
+    (function initPortfolio() {
+      setTimeout(function () {
+        const contentArea = document.getElementById('portfolio-conteudo');
+        const navButtons = document.querySelectorAll('.portfolio-nav-button');
+
+        if (navButtons.length === 0) return;
+
+        const loadPortfolioContent = async (pageUrl) => {
+          if (!contentArea) return;
+
+          contentArea.innerHTML = '<p style="text-align:center;color:#534F4A;">loading...</p>';
+          contentArea.classList.add('loading');
+
+          try {
+            const response = await fetch(pageUrl);
+            if (!response.ok) throw new Error(`http error: ${response.status}`);
+
+            const htmlText = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+
+            let contentNode =
+              doc.querySelector('.portfolioContent') ||
+              doc.querySelector('.rig-page') ||
+              doc.querySelector('.caixaprices') ||
+              doc.querySelector('.grid-feed') ||
+              doc.querySelector('.caixamaisclara');
+
+            contentArea.innerHTML = contentNode
+              ? contentNode.outerHTML
+              : doc.body.innerHTML;
+
+            contentArea.classList.remove('loading');
+
+            setTimeout(() => {
+              if (typeof Fancybox !== 'undefined') {
+                Fancybox.destroy();
+                if (typeof window.bindGalleryFancybox === 'function') {
+                  window.bindGalleryFancybox('[data-fancybox]');
+                } else {
+                  Fancybox.bind('[data-fancybox]', { Hash: false });
+                }
+              }
+            }, 300);
+
+          } catch (error) {
+            console.error('error loading content:', error);
+            contentArea.innerHTML = '<p style="color:red;text-align:center;">error loading content</p>';
+            contentArea.classList.remove('loading');
+          }
+        };
+
+        navButtons.forEach((button) => {
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            const pageFile = button.dataset.page;
+            if (pageFile) loadPortfolioContent(pageFile);
+          });
+        });
+
+        loadPortfolioContent('portfolio-art.html');
+
+      }, 500);
+    })();
+  </script>
+</div>

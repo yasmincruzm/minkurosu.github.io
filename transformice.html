@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href=" id="theme-stylesheet">
+    <link rel="stylesheet" href="gallery.css">
+
+    <style>
+      
+    
+        .transformicePage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+
+        .transformiceProfile {
+            position: relative;
+            width: 636px;
+            height: 569px;
+            background-image: url('imgs/games/transformice/profileclean.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            font-family: sans-serif;
+        }
+
+        .profileLevel {
+            position: absolute;
+            top: 235px;
+            left: 100px;
+            color: #f1e100;
+            font-size: 16px;
+        }
+
+        .profileAvatar {
+            position: absolute;
+            top: 150px;
+            left: 450px;
+            width: 140px;
+            height: 140px;
+            overflow: hidden;
+            border: 1px solid #1c363d;
+        }
+
+        .profileAvatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profileDetails {
+            position: absolute;
+            top: 365px;
+            left: 45px;
+            width: 545px;
+            height: 135px;
+            overflow-y: auto;
+            padding-right: 5px;
+            color: #cad8db;
+            font-size: 13px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .profileSectionTitle {
+            color: white;
+            text-align: left;
+        }
+
+        .profileStats {
+            color: rgb(94, 131, 187);
+            text-align: left;
+        }
+
+
+        .profileExtras {
+            width: 100%;
+            max-width: 636px;   
+            text-align: center;
+        }
+
+
+        .gallery {
+            display: flex;
+            flex-direction: column;   
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 636px;
+            margin: 0 auto;
+        }
+
+        .gallery .gallery-item {
+            position: relative;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            aspect-ratio: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery .gallery-item input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .gallery .gallery-item img:not(.full) {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .gallery .gallery-item .caption {
+            display: block;
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            height: auto;
+            max-height: none;
+            margin: 8px 0 0;
+            padding: 0;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+   
+
+
+
+    </style>
+</head>
+
+<body>
+    <div class="transformicePage" style="color: #525252; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+        <p>this is one of those games i've played since childhood, and have been playing sometimes over the years. i was 9 when i created this account, so its really precious to me hehe</p>
+        <br>
+        <div class="transformiceProfile">
+
+            <div class="profileLevel">75</div>
+
+            <div class="profileAvatar">
+                <img src="imgs/site_imgs/fridge/frerard2.jpg" alt="avatar">
+            </div>
+
+            <div class="profileDetails">
+
+                <p class="profileSectionTitle">Shaman</p>
+                <p class="profileStats">
+                    • Ratos salvos : 6721 / 2732 / 0<br>
+                    • Queijos coletados em primeiro : 70<br>
+                    • Queijos coletados : 19997<br>
+<br>
+                </p>
+
+               
+                
+
+            </div>
+
+        </div>
+
+
+        <div class="profileExtras">
+
+          
+
+            <div class="gallery">
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/caras.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/QCOISALINDA.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/faca.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/castle.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/telhadao.gif" alt="" loading="lazy">
+                </label>
+
+        
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/brasil.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/citanao.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy">
+                </label>
+            </div>
+
+
+
+            <div>
+                <img src="imgs/games/transformice/minlynn.png">
+                <img src="imgs/games/transformice/euu.png">
+                <img src="imgs/games/transformice/nois.png">
+         
+                <img src="imgs/games/transformice/lgbtgaleraanimada.png">
+                <img src="imgs/games/transformice/nois.png">
+                <img src="imgs/games/transformice/osmaismais.png">
+                <img src="imgs/games/transformice/fofin.png">
+                <img src="imgs/games/transformice/smoking.png">
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

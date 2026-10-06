@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="oneko.js"></script>
+    <script>NekoType = "black"</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-4K5KDKEJ2E');
+    </script>
+    <script> window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1600px, initial-scale=0.4, maximum-scale=1.0, user-scalable=yes">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <meta property="og:image" content="imgs/site_imgs/sitethumbnail.png" />
+
+
+
+    <title>@minkurosu</title>
+
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <div class="crt"></div>
+    <style>
+        html,
+        body,
+        iframe {
+            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
+        }
+
+
+        a,
+        button,
+        input[type="submit"],
+        input[type="button"],
+        select {
+            cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+        }
+
+
+        h4 {
+            font-size: 24px;
+        }
+
+        .layout-with-sidebars {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: flex-start !important;
+        }
+
+        .sidebar {
+            width: auto !important;
+            flex-shrink: 0 !important;
+        }
+
+        #containerprincipal {
+            flex-grow: 1 !important;
+            width: auto !important;
+            padding: 0 20px !important;
+            min-width: 0 !important;
+            max-width: auto !important;
+
+        }
+
+        #room-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+
+        #room-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+        }
+
+
+        #containerprincipal {
+            border-radius: 1.25rem;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 50rem;
+            box-sizing: border-box;
+
+        }
+
+        #container {
+
+
+            border-radius: 1.25rem;
+            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 50rem;
+            box-sizing: border-box;
+
+        }
+
+
+
+        @media (max-width: 768px) {
+            #container {
+                max-width: 50rem;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+
+            .layout-with-sidebars {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .sidebar {
+                width: 90%;
+            }
+
+            #containerprincipal {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        .maincollums {
+            width: 100% !important;
+        }
+
+        .column {
+            width: 100% !important;
+        }
+
+
+        .invisible-link {
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0);
+            cursor: pointer;
+            z-index: 10;
+            display: block;
+        }
+
+
+
+
+        #link-apollo {
+            top: 66% !important;
+            left: 25.51% !important;
+            width: 4.10% !important;
+            height: 3.75% !important;
+        }
+
+        #link-jupiter {
+            top: 83% !important;
+            left: 42.5% !important;
+            width: 4.08% !important;
+            height: 5% !important;
+        }
+
+        #link-estante-livros-nova {
+            top: 31.25% !important;
+            left: 10.20% !important;
+            width: 10.20% !important;
+            height: 68.75% !important;
+        }
+
+
+        #link-cavalete {
+            top: 45% !important;
+            left: 20.41% !important;
+            width: 10.20% !important;
+            height: 47.5% !important;
+        }
+
+
+        #link-mesa-digitalizadora {
+            top: 63.125% !important;
+            left: 55.10% !important;
+            width: 9.18% !important;
+            height: 7.5% !important;
+        }
+
+
+        #link-fotos-parede {
+            top: 36.25% !important;
+            left: 64.29% !important;
+            width: 13.27% !important;
+            height: 12.5% !important;
+        }
+
+
+        #link-notebook {
+            top: 63.75% !important;
+            left: 65.31% !important;
+            width: 7.14% !important;
+            height: 6.25% !important;
+        }
+
+
+        #link-desenhos-parede {
+            top: 36.25% !important;
+            left: 61.65% !important;
+            width: 7% !important;
+            height: 19.75% !important;
+        }
+
+
+        #link-caixa-musica {
+            top: 74% !important;
+            left: 58.45% !important;
+            width: 12.41% !important;
+            height: 12.5% !important;
+        }
+
+
+
+
+
+
+
+        .visible-img {
+            top: 430px;
+            left: 10%;
+            position: fixed;
+            height: 100px !important;
+            display: inline-block;
+            cursor: pointer;
+            z-index: 11;
+            display: block;
+        }
+
+        #theme-toggle-button {
+            background: none !important;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="layout-with-sidebars">
+
+
+
+
+        <main id="containerprincipal">
+
+            <div id="container">
+                <h4>(não é uma cópia do meu quarto de verdade rs, só um quarto fofo que fiz no habbo; vou adicionar links conforme
+                    where you click on it!!)</h4>
+                <br>
+                <div class="caixamaisclara">
+                    <div class="maincollums">
+                        <div class="column" id="room-container"> <img src="imgs/site_imgs/room-overlay.png"
+                                alt="Meu Quarto">
+
+                            <a href="apollo.html" class="invisible-link" id="link-apollo"></a>
+
+                            <a href="jupiter.html" class="invisible-link" id="link-jupiter"></a>
+
+                            <a href="reads.html" class="invisible-link" id="link-livro"></a>
+
+                            <a href="portfolio-art.html" class="invisible-link" id="link-mesa-digitalizadora"></a>
+                            <a href="readings.html" class="invisible-link" id="readings"></a>
+                            <a href="paintings.html" class="invisible-link" id="link-cavalete"></a>
+<a href="pics.html" class="invisible-link" id="pics"></a>
+                            <a href="blog.html" class="invisible-link" id="link-notebook"></a>
+                            <a href="link-desenhos-parede.html" class="invisible-link" id="link-desenhos-parede"></a>
+                            <a href="music.html" class="invisible-link" id="music"></a>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+        </main>
+
+
+
+
+    </div>
+    <script src="lastfm-widget.js"></script>
+    <script src="script.js"></script>
+    <script src="theme-switcher.js"></script>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="emo.css">
+
+    <style>
+
+.min-blog-wrap {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 22px 20px 28px;
+            background: #141414;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-family: "MinFont", monospace;
+            font-size: 15px;
+            color: #696969;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .min-blog-head {
+            text-align: center;
+            margin: 0 0 20px;
+        }
+
+        .min-blog-h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #521313;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0 0 6px;
+        }
+
+        .min-blog-sub {
+            font-size: 0.88rem;
+            color: #696969;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .min-month {
+            margin: 0 0 10px;
+        }
+
+        .min-month > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+            cursor: pointer;
+            padding: 6px 2px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #521313;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            user-select: none;
+        }
+
+        .min-month > summary::-webkit-details-marker { display: none; }
+        .min-month > summary::marker { display: none; content: ""; }
+
+        .min-month > summary:hover { color: #b81010; }
+
+        .min-month > summary::after {
+            content: "+";
+            color: rgb(139, 65, 65);
+            font-size: 1.15rem;
+            margin-left: 12px;
+        }
+
+        .min-month[open] > summary::after { content: "−"; }
+
+        .min-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 4px 2px 10px;
+        }
+
+        .min-text {
+            font-size: 0.96rem;
+            line-height: 1.4;
+            color: #696969;
+            white-space: pre-wrap;
+            text-align: left;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .min-text a {
+            color: #521313;
+            text-decoration: none;
+        }
+
+        .min-text a:hover {
+            text-decoration: underline;
+        }
+
+        .min-music {
+            margin: 8px 0 0;
+        }
+
+        .min-music-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #521313;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0 0 3px;
+        }
+
+        .min-music-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .min-music-list li {
+            font-size: 0.9rem;
+            line-height: 1.35;
+            color: #9a8f8f;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .min-music-list a {
+            color: #696969;
+            text-decoration: none;
+        }
+
+        .min-music-list a:hover {
+            color: #b81010;
+            text-decoration: underline;
+        }
+
+
+
+        .min-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin: 8px 0 0;
+        }
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        .min-blog-wrap hr {
+            border: none;
+            border-top: 1px solid #2a2a2a;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="crt"></div>
+
+    <main id="containerprincipal">
+        <div id="container">
+            <link rel="stylesheet" href="gallery.css">
+            <script src="gallery.js"></script>
+            <div class="min-blog-wrap">
+
+                <div class="min-blog-head">
+                    <h1 class="min-blog-h1">monthly blog</h1>
+                    <p class="min-blog-sub"><em>feel free to translate the page with the button on the sidebar on your left if you're interested enough :)</em></p>
+                </div>
+                <hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <details class="min-month">
+                    <summary><span>outubro 2026</span></summary>
+                    <div class="min-entries">
+                        <div class="min-text"> 
+                            
+                            <p>- tive aula o dia inteiro justo no dia do aniversario, mas pelo menos tive resultados bons na prova e nas esculturas :) é mto bom qnd as pessoas reconhecem suas qualidades <br>
+                            - e malditas eleições um dia depois do meu aniversário também, não queria ficar esquentando cabeça com isso.
+
+
+                        </p></div>
+
+                        <div class="min-music">
+                            <h4 class="min-music-title">músicas do mês</h4>
+                            <ul class="min-music-list">
+                                <li>https://open.spotify.com/playlist/3krDR24XpV1gkBMhKOJck6?si=76bfd051e14e4252<a href="">destroy boys</a></li>
+                                <li><a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr?si=1595713740014579" target="_blank">punk</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="gallery">
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/pedge.jpg" alt="" loading="lazy"></label>
+                        </div>
+                    </div>
+                </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <details class="min-month">
+                    <summary><span>setembro 2026</span></summary>
+                    <div class="min-entries">
+                        <div class="min-text">
+- sinto que estou andando pelo vale da sombra e da morte, preciso de um emprego bão
+logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preencher o vazio existencial, ja q fazer oq estamos no capitalismo
+<br>- fiz uma aula experimental de yoga, queria mto fazer mas o studio era na frente de uma avenida barulhenta :(
+<br>- pensando muito como algumas amizades virtuais, que fiz sem querer e sem expectativas, acabaram me compreendendo respeitando e fazendo mais questão da minha presença do que grande parte das amizades que fiz pessoalmente 🤡.
+              <br>- cara, a conta de anos de negligencia alimentar e de vida sedentaria ta batendo na porta, estou precisando muito de proteínas e talvez seja pq estou completando praticamente 10 anos de vegetarianismo, e ta sendo muito dificil me forçar a comer em grandes quantidades, pra tentar nao precisar recorrer a medidas drásticas que vao contra minha moral, ainda mais tendo algumas seletividades alimentares :( (update: estou comendo mta carne de soja ovo whey e homus!!)
+<br>- fui num evento de desenho aqui na cidade, foi em um bar perto da casa que morava antigamente. infelizmente fui embora cedo por perturbações de forças maiores, mas foi muito legal, no proxima vou ficar mais tempo!! n vejo a hora de marcarem o proximo
+              <br> - fui pela primeira vez num laboratório de protese, confesso q to um pouco ansiosa (ou desesperada) pra ter um emprego de vdd logo k
+       <br> - e falando em prótese, fui pegar pra praticar escultura em casa e minha lamparina, mesmo com os botões de escape de pressão todos ok, deu um mini pulinho de explosão, derrubou alcool na bancada do meu quarto, pensei que seria o momento que eu acidentalmente taco fogo na casa, e incrivelmente consegui apagar assoprando, mas fiquei apavorada. preciso urgentemente de um gotejador eletrônico.
+<br> - também tive uma nova descoberta alimentar, um tal de "biscoff", uma pasta de biscoito com caramelo, muito bom, pena que acabou antes do que deveria
+                        </div>
+
+                        <div class="min-music">
+                            <h4 class="min-music-title">músicas do mês</h4>
+                            <ul class="min-music-list">
+                                <li><a href="https://open.spotify.com/intl-pt/track/3ZffCQKLFLUvYM59XKLbVm" target="_blank">wake me up when september ends - green day</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/0YUVtMGgaJj55WAr7AHRvY" target="_blank">há tempos - legião urbana</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/2plbrEY59IikOBgBGLjaoe" target="_blank">die with a smile - bruno mars</a></li>
+                          https://open.spotify.com/intl-pt/track/72KK2zfWDMXDwHk2WEUUCv?si=b80b17cd949d40eb
+                            </ul>
+                        </div>
+
+                        <div class="gallery">
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/yoga.jpg" alt="" loading="lazy"></label>
+                        </div>
+                    </div>
+                </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <details class="min-month">
+                    <summary><span>agosto 2026</span></summary>
+                    <div class="min-entries">
+                        <div class="min-text">
+- só fui baixar meu historico da facul 6 meses depois de formar, e vi q meu cr fechou em 9, fica aqui um registro da minha gratidão e um pouco de orgulho proprio
+<br>- estou tendo aquela famosa crise de transição pra vida adulta, definir o que quero fazer da minha vida profissional, ê fase chata. mas sei que estou bem empolgada com protese tmb.
+<br>- andei de patins com meu namo, e ele de skate, foi irado mas ainda estou passando muito perrengue, preciso de uma roda maior e mais macia
+                        </div>
+
+                        <div class="min-music">
+                            <h4 class="min-music-title">músicas do mês</h4>
+                            <ul class="min-music-list">
+                                <li><a href="https://open.spotify.com/intl-pt/track/1rDJIKiabJGtDtT8y72aTr" target="_blank">desert song - mcr</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/089jl361OtZ6VpYvhgPiTS" target="_blank">join me in death - him</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/3zEN0ii6s4DHHBpnTp3RP7" target="_blank">we the people - empire of the sun</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="gallery">
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/gabminonwheels.jpg" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/bacardi.jpg" alt="" loading="lazy"></label>
+                        </div>
+                    </div>
+                </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <details class="min-month">
+                    <summary><span>julho 2026</span></summary>
+                    <div class="min-entries">
+                        <div class="min-text">
+estou pensando em tentar postar mensalmente aqui<br>
+- adivinha quem recebeu laudo pra Audhd?<br>
+- estou animada com meu curso de protética, é mto bom se sentir empolgada em aprender algo novo :)<br>
+- estou viciada dnv no jogo transformice, que jogo desde 2011, e fiz mais amizades legais la!!!<br>
+- tmb estou obcadissima com as midias recentes dos shows do mcr na europa, minha banda fav ta vivissima &lt;3<br>
+- também estou assistindo twin peaks com meu namorado e estou gostando bastante.<br>
+- tenho acompanhado também a copa, passando muita raiva com a argentina e mta admiraçao pelo haaland e bellingham.<br>
+- ganhei um prêmio no curso por ter tirado primeiro lugar na prova feita por kahoot kkkk<br>
+- criei também uma pagina para minha clínica psi, mas to super ansiosa e insegura k
+                        </div>
+
+                        <div class="min-music">
+                            <h4 class="min-music-title">músicas do mês</h4>
+                            <ul class="min-music-list">
+                                <li><a href="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm" target="_blank">silvering blade - jazmin bean</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5" target="_blank">high enough blade - k.flay</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="gallery">
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/tpd1.jpg" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/pedge.jpg" alt="" loading="lazy"></label>
+                        </div>
+                    </div>
+                </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <details class="min-month">
+                    <summary><span>laricas</span></summary>
+                    <div class="min-entries">
+                        <div class="min-text">
+esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer até enjoar. enquanto escrevo isso, estou passando por uma obsessão por geléias, mais precisamente com um biscoito quadrado "delicitá" com açúcar cristalizado, como um cream cracker doce. Já provei os sabores (em ordem de favoritos): morango com pimenta rosa e limão siciliano da queensberry, amora da olé, e outra de morango, quando provar mais atualizo aqui.
+<br><br>alguns dos outros "hiperfocos" e novas descobertas gastronômicas marcantes (também vou adicionando mais depois):
+<br>- chá de canela
+<br>- macarrão carbonara
+<br>- macarrão de legumes (cenoura e abobrinha cortadas finas igual macarrão)
+<br>- cenoura fatiada na frigideira, com temperos
+<br>- vitamina de abacate
+<br>- geléia (com biscoito com açucar, tapioca)
+<br>- tomate seco (assim, não fica crocante, muito gostoso)
+<br>- morango. morango com chocolate. morango com açucar.
+                        </div>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </main>
+
+
+
+  
+
+</body>
+</html>
