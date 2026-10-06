@@ -3,298 +3,256 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
+    <link rel="stylesheet" href=" id="theme-stylesheet">
+    <link rel="stylesheet" href="gallery.css">
 
-        .game-vertical-gallery {
+    <style>
+      
+    
+        .transformicePage {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 25px;
             width: 100%;
-            max-width: 960px; 
+            max-width: 960px;
             margin: 0 auto;
             padding: 15px;
             box-sizing: border-box;
         }
 
-        .game-photo-card {
-            width: 100%;
-            cursor: pointer;
+
+        .transformiceProfile {
             position: relative;
-            box-sizing: border-box;
-            background: transparent;
+            width: 636px;
+            height: 569px;
+            background-image: url('imgs/games/transformice/profileclean.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            font-family: sans-serif;
         }
 
-        .game-photo-card .preview-img {
+        .profileLevel {
+            position: absolute;
+            top: 235px;
+            left: 100px;
+            color: #f1e100;
+            font-size: 16px;
+        }
+
+        .profileAvatar {
+            position: absolute;
+            top: 150px;
+            left: 450px;
+            width: 140px;
+            height: 140px;
+            overflow: hidden;
+            border: 1px solid #1c363d;
+        }
+
+        .profileAvatar img {
             width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            transition: transform 0.2s ease, filter 0.2s ease;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .game-photo-card:hover .preview-img {
-            transform: scale(1.005);
-            filter: brightness(0.95);
-        }
-
-        .game-photo-card.active .preview-img {
-            display: none;
-        }
-
-        .game-photo-card .expanded-wrapper {
-            display: none;
-            width: 100%;
-            box-sizing: border-box;
-            animation: slideDownIn 0.25s ease;
-        }
-
-        .game-photo-card.active .expanded-wrapper {
-            display: block;
-        }
-
-        .game-photo-card .expanded-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 8px;
-        }
-
-        .game-photo-card .photo-caption {
+        .profileDetails {
+            position: absolute;
+            top: 365px;
+            left: 45px;
+            width: 545px;
+            height: 135px;
+            overflow-y: auto;
+            padding-right: 5px;
+            color: #cad8db;
+            font-size: 13px;
+            line-height: 1.5;
             text-align: center;
-            margin-top: 12px;
-            font-size: 1.15em;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: lowercase;
         }
 
-        @keyframes slideDownIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        .profileSectionTitle {
+            color: white;
+            text-align: left;
         }
- br{
-    height: 4px;
-    width: 4px;
- }
 
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+        .profileStats {
+            color: rgb(94, 131, 187);
+            text-align: left;
+        }
+
+
+        .profileExtras {
+            width: 100%;
+            max-width: 636px;   
+            text-align: center;
+        }
+
+
+        .gallery {
+            display: flex;
+            flex-direction: column;   
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 636px;
+            margin: 0 auto;
+        }
+
+        .gallery .gallery-item {
+            position: relative;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            aspect-ratio: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        .gallery .gallery-item input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .gallery .gallery-item img:not(.full) {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .gallery .gallery-item .caption {
+            display: block;
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            height: auto;
+            max-height: none;
+            margin: 8px 0 0;
+            padding: 0;
+            font-size: 0.8em;
+            text-align: center;
+        }
+
+   
+
 
 
     </style>
 </head>
 
 <body>
-    <div class="game-vertical-gallery">
-<div class="tfmprofile" style="position: relative; width: 636px; height: 569px; background-image: url('imgs/games/transformice/profileclean.png');
- background-size: contain; background-repeat: no-repeat; font-family: sans-serif;"><div style="position: absolute; top: 235px; left: 100px; color: #f1e100;
-  font-size: 16px;  justify-content: left;">69</div><div style="position: absolute; top: 150px; left: 450px; width: 140px; height: 140px; overflow: hidden; 
-  border: 1px solid #1c363d;"><img src="imgs/site_imgs/fridge/frerard2.jpg" alt="avatar" style="width: 100%; height: 100%; object-fit: cover;"></div>
-  <div style="position: absolute; top: 365px; left: 45px; width: 545px; height: 135px; overflow-y: auto; padding-right: 5px; color: #cad8db; font-size: 
-  13px; line-height: 1.5; text-align: center;">
-  
-  <p style= "    text-align: left; ">
-    <p style= "color: white; text-align: left; "> Shaman</p>
-  <p style= "color: rgb(94, 131, 187); text-align: left; ">• Ratos salvos : 6721 / 2732 / 0<br>
- • Ratos salvos sem habilidades : 5 / 5 / 0<br>
- • Queijos coletados como Shaman : 372<br>
+    <div class="transformicePage" style="color: #525252; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+        <p>this is one of those games i've played since childhood, and have been playing sometimes over the years. i was 9 when i created this account, so its really precious to me hehe</p>
+        <br>
+        <div class="transformiceProfile">
 
- <p style= "color: white; text-align: left; ">Rato</p>
-  <p style= "color: rgb(94, 131, 187); text-align: left; ">• Queijos coletados em primeiro : 28<br>
- • Queijos coletados : 11858<br>
- • Bootcamp : 0<br>
-</p>
+            <div class="profileLevel">75</div>
 
- <p style= "color: white; text-align: left; "> Títulos desbloqueados</p>
-  <p style= "color: rgb(94, 131, 187); text-align: left; ">«Ratinho»<br>
- • «Aprendiz de Shaman»<br>
- • «Shaman Graduado»<br>
- • «Shaman»<br>
- • «Mestre Shaman»<br>
- • «Rato Ambicioso»<br>
- • «Olha! Queijo!»<br>
- • «Obaaaaa Queijo ^^»<br>
- • «Queeeeeijo -»<br>
- • «Rato Veloz»<br>
- • «Ligeirinho»<br>
- • «Shaman Inspirado»<br>
- • «Shaman Campeão»<br>
- • «Shaman Glorioso»<br>
- • «Duque Shaman»<br>
- • «Rato Guloso»<br>
- • «Apanhador de Queijos»<br>
- • «Rato Fofinho»<br>
- • «Sr. Barriga»<br>
- • «Gorducho»<br>
- • «Rato Peludinho»<br>
- • «Rato Obeso»<br>
- • «Fofão»<br>
- • «O Sedentário»<br>
- • «Rato Militante»<br>
- • «Rato Sindicalista»<br>
- • «Rato em Greve»<br>
- • «O Recruta do Queijo»<br>
- • «O Adepto em Queijo»<br>
- • «O Guardião do Queijo»<br>
- • «Mestre do Queijo»<br>
- • «Rato Sherlock»<br>
- • «Cavaleiro do Queijo»<br>
- • «Cultivador de Queijo»<br>
- • «Seboso»<br>
- • «Rato Robusto»<br>
- • «Amante de Queijo»<br>
- • «Camembert»<br>
- • «Pont-L'Évêque»<br>
- • «Pega-Queijo»<br>
- • «É de Mais de 9000»<br>
- • «Colecionador»<br>
- • «Rato Descolado»<br>
- • «Rato Adorável»<br>
- • «Rato Charmoso»<br>
- • «Rato Atraente»<br>
- • «Rato Fofinho»<br>
- • «Rato Galã»<br>
- • «Rato Esnobe»<br>
- • «Rato Estiloso»<br>
- • «Divo»<br>
- • «Rato Fashion»<br>
- • «Sexy»<br>
- • «Floquinho de Neve»<br>
- • «Espírito Natalino»<br>
- • «Decorador»<br>
- • «Construtor»<br>
- • «Tonnerre de Brest»<br>
- • «Vampiro»<br>
- • «Rei Doce»<br>
- • «Filósofo»<br>
- • «Tutankhamouse»<br>
- • «Perdido no Tempo»<br>
- • «Vulcânico»<br>
- • «Mosquerato»<br>
- • «Clarividente»<br>
- • «Hmm...» <br>
- • «Sombra»<br>
- • «Empreguete»<br>
- • «Geomante»<br>
- • «Em Construção»<br></p></p></div></div>
-ind
-<div><img src="imgs/games/transformice/minlynn.png">  <img src="imgs/games/transformice/euu.png"> <img src="imgs/games/transformice/nois.png"></div> 
-<img src="imgs/games/transformice/lgbtgaleraanimada.png"> <img src="imgs/games/transformice/nois.png"> <img src="imgs/games/transformice/osmaismais.png">  <img src="imgs/games/transformice/fofin.png"> 
-       
-<img src="imgs/games/transformice/smoking.png">
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/caras.gif')">
-            <img class="preview-img" src="imgs/games/transformice/caras.gif" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
+            <div class="profileAvatar">
+                <img src="imgs/site_imgs/fridge/frerard2.jpg" alt="avatar">
             </div>
+
+            <div class="profileDetails">
+
+                <p class="profileSectionTitle">Shaman</p>
+                <p class="profileStats">
+                    • Ratos salvos : 6721 / 2732 / 0<br>
+                    • Queijos coletados em primeiro : 70<br>
+                    • Queijos coletados : 19997<br>
+<br>
+                </p>
+
+               
+                
+
+            </div>
+
         </div>
 
 
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/QCOISALINDA.gif')">
-            <img class="preview-img" src="imgs/games/transformice/QCOISALINDA.gif" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
+        <div class="profileExtras">
+
+          
+
+            <div class="gallery">
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/caras.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/QCOISALINDA.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/faca.gif" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/castle.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/telhadao.gif" alt="" loading="lazy">
+                </label>
+
+        
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/brasil.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/citanao.png" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy">
+                </label>
+            </div>
+
+
+
+            <div>
+                <img src="imgs/games/transformice/minlynn.png">
+                <img src="imgs/games/transformice/euu.png">
+                <img src="imgs/games/transformice/nois.png">
+         
+                <img src="imgs/games/transformice/lgbtgaleraanimada.png">
+                <img src="imgs/games/transformice/nois.png">
+                <img src="imgs/games/transformice/osmaismais.png">
+                <img src="imgs/games/transformice/fofin.png">
+                <img src="imgs/games/transformice/smoking.png">
             </div>
         </div>
 
-<div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/eventopesca.gif')">
-            <img class="preview-img" src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
-
-
-       <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/brasil.png')">
-            <img class="preview-img" src="imgs/games/transformice/faca.gif" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-                <div class="photo-caption"></div>
-            </div>
-        </div>
-        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/castle.png')">
-            <img class="preview-img" src="imgs/games/transformice/castle.png" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
-
-    <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/castle.png')">
-            <img class="preview-img" src="imgs/games/transformice/telhadao.gif" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
-
-
-
-        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png')">
-            <img class="preview-img" src="imgs/games/transformice/ de tela 2026-04-21 234137.png" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-                <div class="photo-caption"></div>
-            </div>
-        </div>
-
-        <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/brasil.png')">
-            <img class="preview-img" src="imgs/games/transformice/brasil.png" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-                <div class="photo-caption"></div>
-            </div>
-        </div>
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/castle.png')">
-            <img class="preview-img" src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
-   <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/citanao.png')">
-            <img class="preview-img" src="imgs/games/transformice/citanao.png" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-                <div class="photo-caption"></div>
-            </div>
-        </div>
-
- 
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/transformice/castle.png')">
-            <img class="preview-img" src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
-
-
-     
-     
     </div>
 
-    <script>
-        function togglePhoto(card, fullSrc) {
-            if (card.classList.contains('active')) {
-                card.classList.remove('active');
-                return;
-            }
-
-            document.querySelectorAll('.game-photo-card').forEach(c => c.classList.remove('active'));
-
-            var largeImg = card.querySelector('.expanded-wrapper img');
-            if (largeImg && fullSrc) {
-                largeImg.src = fullSrc;
-            }
-
-            card.classList.add('active');
-        }
-    </script>
 </body>
 
 </html>

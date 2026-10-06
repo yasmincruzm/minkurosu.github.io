@@ -5,7 +5,7 @@
     const LASTFM_API_KEY = 'a2ef624a3dff8ec934580b0577d18cb5';
 
     async function fetchLastFmTrack() {
-        console.log("[last.fm] searching for most recent track...");
+        console.log("[last.fm] searching...");
         const lastfmSongCell = document.getElementById('lastfm-song-cell');
 
         if (!lastfmSongCell) {

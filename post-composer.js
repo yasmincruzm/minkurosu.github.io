@@ -255,7 +255,7 @@ function mountComposer() {
     const submitBtn = document.getElementById("pc-submit");
     const status    = document.getElementById("pc-status");
     submitBtn.disabled = true;
-    status.textContent = "publicando…";
+    status.textContent = "posting";
     status.className = "";
 
     try {
@@ -270,7 +270,7 @@ function mountComposer() {
       setTimeout(closeModal, 900);
     } catch (err) {
       console.error(err);
-      status.textContent = "erro ao publicar. tente novamente.";
+      status.textContent = "error.";
       status.className = "err";
       submitBtn.disabled = false;
     }

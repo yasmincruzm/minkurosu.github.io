@@ -13,13 +13,13 @@
         border-collapse: collapse;
         font-family: "MinFont", sans-serif;
         font-size: 1rem;
-        color: #a7a7a7;
+        color: #5a5a5a;
         min-width: 600px;
     }
 
     .styled-table thead tr {
         background-color: #1a1a1a73;
-        color: #ffffff;
+        color: #5a5a5a;
         text-align: center;
     }
    tr:nth-of-type(odd) {
@@ -109,52 +109,132 @@
         }
 
 .frame-figure {
-	width:						100%;
-	max-width:				545px;
-	margin:						0.2em auto;
-	break-inside:			avoid;
+	width:100%;
+	max-width:545px;
+	margin:0.2em auto;
+	break-inside:avoid;
 	}
 .frame-figure,
 .frame-figure * {
-	box-sizing:				border-box;
+	box-sizing:border-box;
 	}
 .frame-figure .outerBevel { 
-	box-shadow:				4px 6px 12px 0 black;
-	border-width:			5px;
-	border-style:			solid;
-	border-color:			rgb(109, 84, 58) rgb(24, 19, 13) rgb(24, 19, 13) rgb(109, 84, 58);
-	}
-.frame-figure .flatSurface {
-	border:						12px solid rgb(65, 40, 16);
-	}
-.frame-figure .innerBevel {
-	border-width:			5px;
-	border-style:			solid;
-	border-color:			rgb(24, 19, 13)	rgb(109, 84, 58) rgb(109, 84, 58) rgb(24, 19, 13);
-	}
-.frame-figure .innerBevel a[data-fancybox="gallery"] {
-	display:					block;
-	width:						auto;
-	height:						auto;
-	overflow:					visible;
-	border-radius:		0;
-	line-height:			0;
-	}
-.frame-figure .innerBevel a[data-fancybox="gallery"] img {
-	width:						100%;
-	height:						auto;
-	object-fit:				unset;
-	}
-.frame-figure .map { 
-	display:					block;
-	width:						100%;
-	padding:					7.5% 7.5% 10% 7.5%; 
-	background-color:	rgb(255,249,224); 	
-	border-width:			3px;	
-	border-style:			solid;
-	border-color:			rgb(207, 166, 0) rgb(207, 166, 0) rgb(145, 110, 0) rgb(145, 110, 0);
+	box-shadow:4px 6px 12px 0 black;
+	border-width:5px;
+	border-style:	solid;
+	border-color:#6d543a rgb(24, 19, 13) rgb(24, 19, 13) rgb(109, 84, 58);
 	}
 
+
+.frame-figure .flatSurface {
+	border:12px solid rgb(65, 40, 16);
+	}
+
+
+.frame-figure .innerBevel {
+	border-width:5px;
+	border-style:solid;
+	}
+.frame-figure .innerBevel a[data-fancybox="gallery"] {
+	display:block;
+	width:auto;
+	height:auto;
+	overflow:visible;
+	border-radius:0;
+	line-height:0;
+	}.frame-figure .innerBevel a[data-fancybox="gallery"] img {
+	width:100%;
+	height:auto;
+	object-fit:unset;
+	}
+.frame-figure .map { 
+	display:block;
+	width:100%;
+	padding:8%
+	border-width:3px;	
+	border-style:solid;
+	border-color:rgb(207, 166, 0) rgb(207, 166, 0) rgb(145, 110, 0) rgb(145, 110, 0);
+	}
+
+.status-radio {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.status-slider-viewport {
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+}
+.status-slider-track {
+  display: flex;
+  transition: transform 0.35s ease-in-out;
+  width: 100%;
+}
+.status-slider-slide {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+}
+
+#status-slide-btn-1:checked ~ .status-slider-carousel .status-slider-track {
+  transform: translateX(0%);
+}
+
+
+#status-slide-btn-2:checked ~ .status-slider-carousel .status-slider-track {
+  transform: translateX(-100%);
+}
+
+
+
+#status-slide-btn-3:checked ~ .status-slider-carousel .status-slider-track {
+  transform: translateX(-200%);
+}
+
+.status-arrow {
+  display: none;
+  cursor: pointer;
+  color: #550303;
+  font-size: 1.2rem;
+  padding: 0 4px;
+  user-select: none;
+}
+#status-slide-btn-1:checked ~ .status-slider-carousel .for-slide-1,
+#status-slide-btn-2:checked ~ .status-slider-carousel .for-slide-2,
+#status-slide-btn-3:checked ~ .status-slider-carousel .for-slide-3 {
+  display: inline-block;
+}
+
+.caixamaisclaraColumn table {
+    table-layout: auto !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.caixamaisclaraColumn table td:first-child,
+.caixamaisclaraColumn table th:first-child {
+    width: 18% !important;
+    padding: 6px 4px !important;
+    font-size: 0.85rem !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+}
+
+.caixamaisclaraColumn table td:last-child,
+.caixamaisclaraColumn table th:last-child {
+    width: 82% !important;
+    padding: 6px 10px !important;
+    font-size: 0.85rem !important;
+    line-height: 1.3 !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+.caixamaisclaraColumn table td {
+    padding: 5px 8px !important;
+    font-size: 0.85rem !important;
+    line-height: 1.3 !important;
+}
 </style>
 <div id="container">
     <div class="caixamaisclara">
@@ -264,7 +344,7 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
 
             <div class="content-area">
                 <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 8rem;  overflow-y: auto; padding: 0rem; text-transform: lowercase;">
-                    <h3 style="color: rgb(85, 3, 3);">about me</h3>
+                    <h3 style="color: #550303;">about me</h3>
                     <h4 style="text-justify: auto; text-align: justify; font-size: 1rem; padd: ; padding:0px; margin:0px; color: #5a5a5a;">
                       hiiiii i'm Min, i'm 23 years old, 
                       and for as long as i can remember, i've liked drawing, messing with the pc and gaming. i also really always loved animals and nature, reading, making arts and crafts, photography and obssessing over my favorite medias.
@@ -331,7 +411,7 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
 
 
 
-                    <iframe src="https://minkurosu.atabook.org" width="100%" height="420px"
+                    <iframe src="https://minkurosu.atabook.org" width="100%" height="465px"
                         style="border:;overflow:hidden;" scrolling="yes" frameborder="0" allowfullscreen></iframe>
 
 
@@ -358,9 +438,9 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     <tr>
         <td style="border: 1px solid black; padding: 8px;">music</td>
         <td style="border: 1px solid black; padding: 8px;">my chemical romance & solo works, melanie martinez, muse, avanged sevenfold, type o negative, 
-             westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="marked-link">garden psychedelia</a>,
-              <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="marked-link">sign steelers</a>,
-               <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="marked-link">pusher174</a>, ghost, 
+             westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" style="text-decoration: underline;" class="marked-link">garden psychedelia</a>,
+              <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" style="text-decoration: underline;" class="marked-link">sign steelers</a>,
+               <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" style="text-decoration: underline;" class="marked-link">pusher174</a>, ghost, 
                korn, linkin park, rita lee, mitski, ls dunes, destroy boys, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down,
                 ptv, pitty, the hives, crystal castles, pinkpantheress, green day, h.i.m, garbage, tv girl, lil peep</td>
     </tr>
@@ -383,10 +463,7 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
         <td style="border: 1px solid black; padding: 8px;">foods</td>
         <td style="border: 1px solid black; padding: 8px;">chocolate, cinnamon tea, nerds candy!!!!, avocado smoothie, italian food, VEGAN FOOD FROM A SPECIFIC RESTAURANT WHERE I LIVE, carrot, cinnamon candy and gum, carbonara without bacon, milk with coffee and chocolate drink, strawberry jam, strawberries with chocolate, hummus, mashed potatoes, ice cream, pasta with tomato sauce and pesto, syrian-lebanese cuisine</td>
     </tr>
-    <tr>
-        <td style="border: 1px solid black; padding: 8px;">kins</td>
-        <td style="border: 1px solid black; padding: 8px;">fluttershy twilight (mlp), lapis lazuli (steven universe), jinx, vex, </td>
-    </tr>
+  
     <tr>
         <td style="border: 1px solid black; padding: 8px;">ships</td>
         <td style="border: 1px solid black; padding: 8px;"> frerard, eruri, bloodweave, vikturi, reibert, eremika, timebomb, jayvik,</td>
@@ -401,11 +478,11 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">actors/actresses/artists</td>
-        <td style="border: 1px solid black; padding: 8px;">rebeca sugar, kristen stewart, keanu reeves, mads mikkelsen, sophie tatcher, robert pattinson, gillian anderson, evan peters,</td>
+        <td style="border: 1px solid black; padding: 8px;">keanu reeves, gillian anderson, rebeca sugar, kristen stewart, mads mikkelsen, sophie tatcher,  evan peters, robert pattinson,</td>
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">characters</td>
-        <td style="border: 1px solid black; padding: 8px;">levi ackerman, erwin smith, mikasa, scully and mulder, fluttershy rainbowdash derpy and pfudor, chococat (sanrio), butters, wendy and the goths (south park), chloe price and kate, legoshi,  darwin watterson, lapis and pearl blue pearl, mimikyu litwick/chandelier/chandelure, saeran and saeyoung choi</td>
+        <td style="border: 1px solid black; padding: 8px;">levi ackerman, erwin smith, mikasa, scully and mulder, fluttershy!!! rainbowdash twilight derpy and pfudor, chococat (sanrio), butters, wendy and the goths (south park), chloe price and kate, legoshi,  darwin watterson, lapis and pearl blue pearl (steven universe), mimikyu litwick/chandelier/chandelure, chococat</td>
     </tr>
     <tr>
         <td style="border: 1px solid black; padding: 8px;">people have said i look like:</td>
@@ -418,48 +495,64 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     <div class="caixamaisclaraInterests" style="display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap;">
 
       <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 260px; max-height: 230px; overflow-y: auto; padding: 1rem; text-transform: lowercase; font-size: 1.2rem;">
-        <h3 style="color: rgb(85, 3, 3);">web manifesto?</h3>
+        <h3 style="color: #550303;">web manifesto?</h3>
         <p style="text-justify: auto; text-align: justify;">
-          my first contact with the internet was through social media (orkut, facebook) games (like pet mania, simcity, hayday), and flash games, like club penguin, transformice, habbo, and also the sims!! when i was little, i didn't have much access to the wider internet, only to my circle of known people.  i have this memory of using a cr4cked disk from my neighbors, with "rosebud" written on it. so, i created my family and built a totally rectangular house, with no room divisions or architectural sense. at some point the kitchen caught fire and i remember just closing the game and never opening it again, because i was afraid my family would die in real life lmao. that sums me up a little,: addiction to gaming/internet and ocd :D
-          although i didn't really live through the tumblr era (i was more into orkut/instagram/twitter), i remember seeing the most beautiful pages and aesthetics on tumblr and always wanting to make one like that, but i only sticked with making an "aesthetically pleasing" or color coordinated instagram feed. around 2024, my boyfriend encouraged me to take some programming courses, and my first steps were through the classics: html and css. i watched some classes from santander academy, ada tech and another sites with borrowed accounts. my first project was a landing page with my main links, like a "linktree", and over time i added more sections, like my 2d animation and photography portfolios; then i discovered neocities and started thinking of ways to help me use less social media  (instagram and the deceased twitter, now x), and the psychological impact is quite noticeable. society must be very compromised, considering how much all this is normalized and how even small businesses depend entirely on instagram for promotion. unfortunately, i can't leave completely, because most of my clients are on twitter (i've been there since before it was bought and ruined), and most people i know are on instagram.
+          my first contact with the internet was through social media (orkut, facebook) games (like pet mania, simcity, hayday),
+           and flash games, like club penguin, transformice, habbo, and also the sims!! when i was little, i didn't have much access to
+           the wider internet, only to my circle of known people.  i have this memory of using a cr4cked disk from my neighbors, with 
+           "rosebud" written on it. so, i created my family and built a totally rectangular house, with no room divisions or architectural sense.
+            at some point the kitchen caught fire and i remember just closing the game and never opening it again, because i was afraid my family 
+            would die in real life lmao. that sums me up a little,: addiction to gaming/internet and ocd :D
+          although i didn't really live through the tumblr era (i was more into orkut/instagram/twitter), i remember seeing the most beautiful 
+          pages and aesthetics on tumblr and always wanting to make one like that, but i only sticked with making an "aesthetically pleasing" 
+          or color coordinated instagram feed. around 2024, my boyfriend encouraged me to take some programming courses, and my first steps were
+           through the classics: html and css. i watched some classes from santander academy, ada tech and another sites with borrowed accounts.
+            my first project was a landing page with my main links, like a "linktree", and over time i added more sections, like my 2d animation 
+            and photography portfolios; then i discovered neocities and started thinking of ways to help me use less social media  (instagram and
+             the deceased twitter, now x), and the psychological impact is quite noticeable. society must be very compromised, considering 
+             how much all this is normalized and how even small businesses depend entirely on instagram for promotion. unfortunately, 
+             i can't leave completely, because most of my clients are on twitter (i've been there since before it was bought and ruined), 
+             and most people i know are on instagram.
         </p>
       </div>
       <div class="divider"></div>
 
     
-<div class="mrn-wrap" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
+<div class="status-slider-wrap" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
+  <input type="radio" name="status-slide-group" id="status-slide-btn-1" class="status-radio" checked>
+  <input type="radio" name="status-slide-group" id="status-slide-btn-2" class="status-radio">
+  <input type="radio" name="status-slide-group" id="status-slide-btn-3" class="status-radio">
 
- <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
-    <h3 style="color:rgb(85,3,3); font-size:16px; margin:0;">me now</h3>
+  <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
+    <h3 style="color:#550303; font-size:16px; margin:0;">status</h3>
   </div>
 
-  <div style="display:flex; align-items:center; gap:8px;">
-    <a href="#mrn-2" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">←</a>
-    <div class="mrn-viewport" style="overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; flex:1; -webkit-overflow-scrolling:touch;">
-      <div style="display:flex;">
+  <div class="status-slider-carousel" style="display:flex; align-items:center; gap:8px;">
+    <label for="status-slide-btn-3" class="status-arrow for-slide-1">←</label>
+    <label for="status-slide-btn-1" class="status-arrow for-slide-2">←</label>
+    <label for="status-slide-btn-2" class="status-arrow for-slide-3">←</label>
 
-        
-        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+    <div class="status-slider-viewport">
+      <div class="status-slider-track">
+        <div class="status-slider-slide">
           <img src="https://i.pinimg.com/1200x/c4/3b/da/c43bda2f334e302d8f6f06747d766e32.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-          <p style="font-size:12px; color:#888; margin:6px 0 0;">07/07/2026</p>
+          <p style="font-size:12px; color:#5a5a5a; margin:6px 0 0;">07/07/2026</p>
         </div>
 
-
-
-
-        <div id="mrn-1" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+        <div class="status-slider-slide">
           <img src="https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-          <p style="font-size:12px; color:#888; margin:6px 0 0;">29/06/2026</p>
+          <p style="font-size:12px; color:#5a5a5a; margin:6px 0 0;">29/06/2026</p>
         </div>
 
-        <div id="mrn-2" class="mrn-slide" style="scroll-snap-align:start; flex:0 0 100%;">
+        <div class="status-slider-slide">
           <img src="https://minkurosu.site/imgs/memes/txf.jpg" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius:3px;">
-          <p style="font-size:12px; color:#888; margin:6px 0 0;">02/06/2026</p>
+          <p style="font-size:12px; color:#5a5a5a; margin:6px 0 0;">02/06/2026</p>
         </div>
-
       </div>
     </div>
-    <a href="#mrn-1" style="text-decoration:none; color:rgb(85,3,3); font-size:1rem; padding:0;">→</a>
+    <label for="status-slide-btn-2" class="status-arrow for-slide-1">→</label>
+    <label for="status-slide-btn-3" class="status-arrow for-slide-2">→</label>
+    <label for="status-slide-btn-1" class="status-arrow for-slide-3">→</label>
   </div>
 
 </div>
@@ -580,4 +673,3 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
         </div>
     </div>
 </div>
-<script type="module" src="reactions.js"></script>

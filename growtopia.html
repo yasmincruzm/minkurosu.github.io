@@ -18,7 +18,8 @@
             overflow-x: hidden;
 
         }
-     h3 {
+
+        h3 {
             text-align: center;
             margin-top: 25px;
             margin-bottom: 20px;
@@ -80,7 +81,7 @@
             align-items: center;
             gap: 25px;
             width: 100%;
-            max-width: 960px; 
+            max-width: 960px;
             margin: 0 auto;
             padding: 15px;
             box-sizing: border-box;
@@ -141,25 +142,21 @@
             from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
- br{
-    height: 4px;
-    width: 4px;
- }
 
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-
+        br {
+            height: 4px;
+            width: 4px;
+        }
     </style>
 </head>
 
 <body>
     <main id="containerprincipalColumn">
 
-        <div class="row-container">
+        <div class="row-container" style="color: #525252; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
 
-            <p>growtopia foi um dos jogos mais importantes da minha infância, e minha conta tem <span
-                    id="growtopia-days-counter">calculando...</span>+ dias.</p>
+            <p>growtopia foi um dos jogos mais importantes da minha infância, e minha conta tem, aproximadamente,
+                <span data-desde="2014-07-14">calculando...</span>+ dias.</p>
 
             <p> infelizmente, o jogo não é mais o mesmo daquela época; agora a ubisoft o comprou e ele está cheio de cassinos e bots.
             </p>
@@ -169,45 +166,34 @@
 
             <p> é muito doido pensar que o jogo que eu jogava aos 10 anos foi tão importante que ficou gravado no meu cérebro/nos meus sonhos.</p>
 
-              <a href="#gt-1" class="lightbox-trigger">
+            <a href="#gt-1" class="lightbox-trigger">
                 <img src="imgs/games/growtopiacharacter.png" alt="my character" style="height: 200px;">
             </a>
 
 
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan20212.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/Screenshot_20250711_163217_Growtopia.jpg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
+            <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan20212.jpeg')">
+                <img class="preview-img" src="imgs/games/minecraft/Screenshot_20250711_163217_Growtopia.jpg" loading="lazy">
+                <div class="expanded-wrapper">
+                    <img src="">
+                </div>
             </div>
+            <h5 class="screenshotDescription"> meu mundo</h5>
+            <br>
+
         </div>
- <h5 class="screenshotDescription"> meu mundo</h5>
-<br>
-
-
-
-        
 
     </main>
+
+    <script>
+   
+        document.querySelectorAll('[data-desde]').forEach(function (el) {
+            var p = el.dataset.desde.split('-');
+            var inicio = new Date(p[0], p[1] - 1, p[2]);
+            var hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+            el.textContent = Math.round((hoje - inicio) / 86400000);
+        });
+    </script>
 </body>
 
-  <script>
-(function () {
-    const MS_PER_DAY = 24 * 60 * 60 * 1000;
-
-    const GT_REF_DATE = new Date('2026-07-04T00:00:00Z');
-    const GT_REF_DAYS = 4373;
-
-    const GT_CREATION_DATE = new Date(GT_REF_DATE.getTime() - (GT_REF_DAYS * MS_PER_DAY));
-
-    function getAccountAgeInDays() {
-        const elapsedMs = Date.now() - GT_CREATION_DATE.getTime();
-        return Math.floor(elapsedMs / MS_PER_DAY);
-    }
-
-    const counterEl = document.getElementById('growtopia-days-counter');
-    if (counterEl) {
-        counterEl.textContent = getAccountAgeInDays();
-    }
-})();
-</script>
 </html>

@@ -1,172 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-4K5KDKEJ2E');
-  </script>
-  <meta charset="UTF-8">
-  <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <title>@minkurosu — live2d rigs</title>
-  <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-  <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
-  <div class="crt"></div>
-  <style>
-    .rig-page { padding: 1rem 0; }
+    <meta charset="UTF-8">
+    <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
 
-    .rig-intro { margin-bottom: 1.5rem; text-align: center; }
-    .rig-intro-title { font-size: 1.2rem; margin-bottom: 0.5rem; }
-    .rig-intro ul { list-style: none; padding: 0; margin: 0.5rem 0; }
-    .rig-intro li { margin: 0.25rem 0; }
-    .note { font-size: 0.85rem; opacity: 0.75; margin-top: 0.75rem; }
+    <div class="crt"></div>
 
-    .btn-wrap { display: flex; justify-content: center; margin: 1rem 0 1.5rem; }
+    <style>
+        .rig-page { padding: 1rem 0; }
 
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+        .rig-intro {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
 
-    .video-cell {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
+        .rig-intro-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .video-cell iframe,
-    .video-cell video {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      border-radius: 6px;
-      display: block;
-    }
+        .rig-intro ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
 
-    .caption {
-      font-size: 0.78rem;
-      opacity: 0.7;
-      text-align: center;
-      min-height: 1em;
-    }
+        .rig-intro li { margin: 0.25rem 0; }
 
-    @media (max-width: 500px) {
-      .video-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+        .note {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 0.75rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .video-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .video-cell iframe,
+        .video-cell video {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+            border: none;
+            background: #000;
+        }
+
+        .caption {
+            font-size: 0.78rem;
+            opacity: 0.7;
+            text-align: center;
+            min-height: 1em;
+        }
+
+        @media (max-width: 500px) {
+            .video-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 
 <body>
-  <div class="layout-with-sidebars">
-    <main id="containerprincipal">
-      <div id="container">
+    <div class="layout-with-sidebars">
+        <main id="containerprincipal">
+            <div id="container">
 
-        <div class="rig-page">
+                <div class="rig-page">
 
-          <div class="rig-intro">
-            <p class="rig-intro-title">por que me escolher como sua animadora/rigger?</p>
-            <ul>
-              <li>tenho trabalhado com live2d desde dezembro de 2020, após aprender a fazer meu próprio modelo</li>
-              <li>a maioria dos meus clientes me encontram por recomendação de clientes antigos </li>
-              <li>já fiz mais de 50 encomendas para vtubers (e ainda contando!)</li>
-            </ul>
-            <p class="note">*minha webcam não é uma das melhores, por favor releve problemas de tracking nos videose foque nos ângulos e nas físicas :-)</p>
-          </div>
+                    <div class="rig-intro">
+                        <p class="rig-intro-title">por que me escolher como sua animadora/rigger?</p>
+                        <ul>
+                            <li>tenho trabalhado com live2d desde dezembro de 2020, após aprender a fazer meu próprio modelo</li>
+                            <li>a maioria dos meus clientes me encontram por recomendação de clientes antigos</li>
+                            <li>já fiz mais de 50 encomendas para vtubers (e ainda contando!)</li>
+                        </ul>
+                        <p class="note">*minha webcam não é uma das melhores, por favor releve problemas de tracking nos vídeos e foque nos ângulos e nas físicas :-)</p>
+                    </div>
 
-     
+                    <div class="video-grid">
 
-          <div class="video-grid">
+                        <div class="video-cell">
+                            <iframe src="https://www.youtube.com/embed/A17-WoCIdEU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
 
-            <div class="video-cell">
-              <iframe src="https://www.youtube.com/embed/A17-WoCIdEU" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="video-cell">
+                            <iframe src="https://www.youtube.com/embed/PVNAQT6cO4s" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="video-cell">
+                            <iframe src="https://www.youtube.com/embed/IaWCWhw90eI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4"></video></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4"></video></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4"></video></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/shirotakami.mp4" type="video/mp4"></video></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/dentes.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4"></video><span class="caption">lite rig ("pngtuber")</span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4"></video></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4"></video><span class="caption"></span></div>
+                        <div class="video-cell"><video controls><source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4"></video><span class="caption"></span></div>
+
+                    </div>
+
+                </div>
+                <hr>
             </div>
-
-           
- <div class="video-cell">
-            <iframe  src="https://www.youtube.com/embed/PVNAQT6cO4s?si=VLlNl5UHuS0hAdPu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
-
-
- <div class="video-cell">
-<iframe src="https://www.youtube.com/embed/IaWCWhw90eI?si=ZFu0R71PsJklyFNW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
-
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4"></video>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4"></video>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4"></video>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/shirotakami.mp4" type="video/mp4"></video>
-            </div>
+        </main>
+    </div>
 
     
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/dentes.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4"></video>
-              <span class="caption">lite rig ("pngtuber")</span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4"></video>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-            <div class="video-cell">
-              <video controls><source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4"></video>
-              <span class="caption"></span>
-            </div>
-
-          </div>
-
-        </div>
-        <hr>
-      </div>
-    </main>
-  </div>
-
-  <script src="lastfm-widget.js"></script>
-  <script src="script.js"></script>
-  <script src="theme-switcher.js"></script>
 </body>
+
 </html>

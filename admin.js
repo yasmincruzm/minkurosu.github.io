@@ -20,29 +20,19 @@ const firebaseConfig = {
     measurementId: "G-M7PWC6DDRH"
 };
 
-/* ═══════════════════════════════════════════════════════
-   ADMIN — 2 e-mails autorizados
-   ═══════════════════════════════════════════════════════ */
 
 const ALLOWED_EMAILS = [
     'mincruzm@gmail.com',
     'yasmincruzm@hotmail.com'
 ];
 
-// helper que checa se o e-mail tá na lista
 function isAllowed(email) {
     return !!email && ALLOWED_EMAILS.includes(email);
 }
 
-/* ═══════════════════════════════════════════════════════
-   IMGBB — coloque sua chave real aqui
-   ═══════════════════════════════════════════════════════ */
 
 const IMGBB_API_KEY = 'SUA_API_KEY_AQUI';
 
-/* ═══════════════════════════════════════════════════════
-   INIT
-   ═══════════════════════════════════════════════════════ */
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -67,9 +57,7 @@ setPersistence(auth, browserLocalPersistence).catch(err => {
     console.warn('[admin] setPersistence falhou:', err);
 });
 
-/* ═══════════════════════════════════════════════════════
-   getRedirectResult — fora do DOMContentLoaded
-   ═══════════════════════════════════════════════════════ */
+
 
 getRedirectResult(auth)
     .then(cred => {
@@ -92,9 +80,6 @@ getRedirectResult(auth)
         msg(lm, `erro no login: ${err.code || err.message}`, 'error');
     });
 
-/* ═══════════════════════════════════════════════════════
-   UPLOAD → ImgBB
-   ═══════════════════════════════════════════════════════ */
 
 async function uploadImageToImgBB(file) {
     if (!IMGBB_API_KEY || IMGBB_API_KEY === 'SUA_API_KEY_AQUI') {
@@ -133,9 +118,6 @@ async function uploadImageToImgBB(file) {
     return json.data.url;
 }
 
-/* ═══════════════════════════════════════════════════════
-   DOM
-   ═══════════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -148,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-    // ── observa estado de auth ───────────────────────────────
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
@@ -175,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── login email/senha ────────────────────────────────────
     loginEmailForm?.addEventListener('submit', async e => {
         e.preventDefault();
         try {
@@ -193,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── login com google ─────────────────────────────────────
     googleLoginBtn?.addEventListener('click', async () => {
         msg(loginMessage, 'abrindo login do google...', 'info');
 
@@ -247,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── logout ───────────────────────────────────────────────
     logoutBtn?.addEventListener('click', async () => {
         try {
             await signOut(auth);
@@ -258,9 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ═══════════════════════════════════════════════════════
-       NOVO POST
-       ═══════════════════════════════════════════════════════ */
 
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
@@ -309,9 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ═══════════════════════════════════════════════════════
-       ENTRADA PRIVADA
-       ═══════════════════════════════════════════════════════ */
 
     const privateContent = document.getElementById('private-entry-content');
     const publishPrivate = document.getElementById('publish-private-entry-btn');
@@ -330,10 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ═══════════════════════════════════════════════════════
-       SONHO
-       ═══════════════════════════════════════════════════════ */
-
     const dreamContent = document.getElementById('dream-content');
     const publishDream = document.getElementById('publish-dream-btn');
     const dreamMsg     = document.getElementById('dream-message');
@@ -351,9 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ═══════════════════════════════════════════════════════
-       POST DO BLOG
-       ═══════════════════════════════════════════════════════ */
 
     const blogTitle   = document.getElementById('blog-title');
     const blogContent = document.getElementById('blog-content');
@@ -378,9 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-/* ═══════════════════════════════════════════════════════
-   MAILBOX
-   ═══════════════════════════════════════════════════════ */
 
 function loadMailbox(db) {
     const container = document.getElementById('mailbox-list');
@@ -428,10 +390,6 @@ function loadMailbox(db) {
         container.innerHTML = `<p class="tracker-empty">erro ao carregar mensagens.</p>`;
     });
 }
-
-/* ═══════════════════════════════════════════════════════
-   COMENTÁRIOS
-   ═══════════════════════════════════════════════════════ */
 
 function loadComments(db) {
     const container = document.getElementById('comments-admin-list');

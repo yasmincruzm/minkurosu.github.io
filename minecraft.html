@@ -4,19 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="gallery.css">
+
     <style>
+      
         html,
         body {
             margin: 0;
             padding: 0;
-
             font-family: "MinFont";
             background-image: none;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             overflow-x: hidden;
-
         }
 
 
@@ -30,10 +31,8 @@
         }
 
         .skin-item {
-
             height: 200px;
             overflow: hidden;
-
         }
 
         .skin-item img {
@@ -57,88 +56,72 @@
         }
 
 
-        .game-vertical-gallery {
+        .gallery {
             display: flex;
-            flex-direction: column;
+            flex-direction: column;   
             align-items: center;
-            gap: 25px;
+            gap: 20px;
             width: 100%;
-            max-width: 960px; 
+            max-width: 636px;
             margin: 0 auto;
-            padding: 15px;
-            box-sizing: border-box;
         }
 
-        .game-photo-card {
-            width: 100%;
-            cursor: pointer;
+        .gallery .gallery-item {
             position: relative;
-            box-sizing: border-box;
-            background: transparent;
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            aspect-ratio: auto;
+            margin: 0;
+            padding: 0;
         }
 
-        .game-photo-card .preview-img {
+        .gallery .gallery-item input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .gallery .gallery-item img:not(.full) {
+            display: block;
             width: 100%;
             height: auto;
-            border-radius: 8px;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .gallery .gallery-item .caption {
             display: block;
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
-
-        .game-photo-card:hover .preview-img {
-            transform: scale(1.005);
-            filter: brightness(0.95);
-        }
-
-        .game-photo-card.active .preview-img {
-            display: none;
-        }
-
-        .game-photo-card .expanded-wrapper {
-            display: none;
-            width: 100%;
-            box-sizing: border-box;
-            animation: slideDownIn 0.25s ease;
-        }
-
-        .game-photo-card.active .expanded-wrapper {
-            display: block;
-        }
-
-        .game-photo-card .expanded-wrapper img {
-            width: 100%;
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
             height: auto;
-            display: block;
-            border-radius: 8px;
-        }
-
-        .game-photo-card .photo-caption {
+            max-height: none;
+            margin: 8px 0 0;
+            padding: 0;
+            font-size: 0.8em;
             text-align: center;
-            margin-top: 12px;
-            font-size: 1.15em;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            text-transform: lowercase;
         }
 
-        @keyframes slideDownIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+        .gallery .gallery-item:has(input:checked) img:not(.thumbnail) {
+            aspect-ratio: auto;
+            object-fit: contain;
         }
- br{
-    height: 4px;
-    width: 4px;
- }
-
-          background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-
     </style>
 </head>
 
 <body>
     <main id="containerprincipal">
         <div class="content-column">
+
+
             <h3>skins i made during my life</h3>
 
             <div class="skin-grid-container">
@@ -166,7 +149,6 @@
                     <img src="imgs/games/skins/black parade old me.png" alt="">
                     <p class="skin-title">younger me as black parade</p>
                 </div>
-
                 <div class="skin-item">
                     <img src="imgs/games/skins/fluttershy girl.png" alt="">
                     <p class="skin-title">fluttershy girl</p>
@@ -181,169 +163,100 @@
                 </div>
             </div>
 
+
+
             <h3>screenshots</h3>
 
- 
+            <h1 class="screenshotDescription">2025 w/ bf and friends</h1>
 
+            <div class="gallery">
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/2025serverselfie.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our 2025 realm selfie"</span>
+                </label>
 
-            <br>
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/village.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
 
-             <h1 class="screenshotDescription"> 2025 w/ bf and friends</h1>
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/gabmincorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
 
-      <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/2025serverselfie.jpeg')">
-            <img class="preview-img";" src="imgs/games/minecraft/2025serverselfie.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-                <div class="photo-caption"></div>
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/mycorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/sala.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/bedroom.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img src="imgs/games/minecraft/picnic.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/lardocelar.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar.jpeg" alt="" loading="lazy">
+                    <span class="caption">"lar doce lar"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/lardocelar2.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar2.jpeg" alt="" loading="lazy">
+                    <span class="caption">""</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/eueovenomextreme.jpg" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/eueovenomextreme.jpeg" alt="" loading="lazy">
+                    <span class="caption">"when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/servervenom2023.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/servervenom2023.jpeg" alt="" loading="lazy">
+                    <span class="caption">"@ the same server"</span>
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/serverkonan2021.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan2021.jpeg" alt="" loading="lazy">
+                </label>
+
+                <label class="gallery-item">
+                    <input type="radio" name="galeria">
+                    <img class="thumbnail" src="imgs/games/minecraft/serverkonan20212.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan20212.jpeg" alt="" loading="lazy">
+                </label>
             </div>
-        </div>
- <h5 class="screenshotDescription"> "our 2025 realm selfie"</h5>
-  <br>
-
-
-
-   <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/village.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/village.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/gabmincorner.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/gabmincorner.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
-  <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/mycorner.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/mycorner.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/sala.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/sala.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
-
-  <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/bedroom.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/bedroom.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/picnic.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/picnic.jpeg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/lardocelar.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/lardocelar.png" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/lardocelar2.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/lardocelar2.png" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "our village"</h5>
-<br>
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/eueovenomextreme.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/eueovenomextreme.jpg" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme"</h5>
-<br>
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/servervenom2023.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/servervenom2023.png" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> "@ the same server"</h5>
-<br>
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan2021.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/serverkonan2021.png" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> ""</h5>
-<br>
-
-
- <div class="game-photo-card" onclick="togglePhoto(this, 'imgs/games/minecraft/serverkonan20212.jpeg')">
-            <img class="preview-img" src="imgs/games/minecraft/serverkonan20212.png" loading="lazy">
-            <div class="expanded-wrapper">
-                <img src="">
-            </div>
-        </div>
- <h5 class="screenshotDescription"> ""</h5>
-<br>
-
-
 
         </div>
-        </div>
-
     </main>
+
+    <script src="gallery.js"></script>
 </body>
 
-    <script>
-        function togglePhoto(card, fullSrc) {
-            if (card.classList.contains('active')) {
-                card.classList.remove('active');
-                return;
-            }
-
-            document.querySelectorAll('.game-photo-card').forEach(c => c.classList.remove('active'));
-
-            var largeImg = card.querySelector('.expanded-wrapper img');
-            if (largeImg && fullSrc) {
-                largeImg.src = fullSrc;
-            }
-
-            card.classList.add('active');
-        }
-    </script>
 </html>

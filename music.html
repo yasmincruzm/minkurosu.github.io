@@ -20,78 +20,12 @@
     <title>@minkurosu</title>
 
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <div class="crt"></div>
     <style>
         html, body, iframe {
             cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
         }
         a, button, input[type="submit"], input[type="button"], select {
             cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-        }
-
-        .all-playlists-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            width: 100%;
-            max-width: 860px;
-            margin: 0 auto;
-            box-sizing: border-box;
-            padding: 10px 0;
-        }
-
-
-        .playlist-text {
-            flex: 0 0 28%;
-            max-width: 28%;
-            min-width: 120px;
-            text-align: left;
-            box-sizing: border-box;
-        }
-
-        .playlist-text h1 {
-            font-size: 1.3em;
-            margin: 0 0 6px 0;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .playlist-text p {
-            font-size: 0.85em;
-            line-height: 1.5;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin: 0;
-        }
-
-        .playlist-iframe-placeholder {
-            flex: 1 1 0;
-            min-width: 0;
-            height: 152px;
-            border-radius: 4px;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-
-        .playlist-iframe-placeholder iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        @media (max-width: 600px) {
-            .playlist-section-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .playlist-text {
-                flex: none;
-                max-width: 100%;
-                width: 100%;
-            }
-            .playlist-iframe-placeholder {
-                width: 100%;
-                height: 152px;
-            }
         }
 
         #theme-toggle-button {
@@ -106,10 +40,10 @@
             outline: none;
         }
     </style>
-
 </head>
 
 <body>
+    <div class="crt"></div>
 
     <div class="layout-with-sidebars">
 
@@ -117,298 +51,221 @@
 
             <div id="container">
 
-                <div class="caixamaisclara">
-                    <div class="all-playlists-wrapper">
+                <!-- Layout das playlists. Fica aqui dentro (com #container e !important) para valer
+                     mesmo quando a página é injetada no #container do index.html.
+                     Cada <article> é uma grade de 2 colunas: título + descrição (30%) | player. -->
+                <style>
+                    /* caixa que envolve todas as playlists */
+                    #container .playlists {
+                        display: flex !important;
+                        flex-direction: column !important;
+                        align-items: stretch !important;
+                        justify-content: flex-start !important;
+                        gap: 44px;                        /* espaço entre as playlists */
+                        width: 100%;
+                        max-width: 860px;
+                        margin: 0 auto !important;
+                        padding: 32px 36px !important;    /* respiro das bordas da caixa */
+                        text-align: left;
+                    }
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>my main playlist</h1>
-                                <p style="font-size: smaller;">this is the playlist i use to listen to the songs i wanna
-                                    shuffle, i dont like to click on "liked songs" and random a song. i'd rather listen
-                                    to few music at the time, as i get tired of them i just remove, so this playlist is
-                                    always changing!</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/6B8MXoqO8DFZ0nWEHrM4cG?utm_source=generator&theme=0"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                    /* cada playlist: texto à esquerda (30%), player no resto */
+                    #container .playlists article {
+                        display: grid !important;
+                        grid-template-columns: 30% minmax(0, 1fr) !important;
+                        column-gap: 28px;
+                        row-gap: 6px;
+                        align-items: start;
+                    }
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>emo</h1>
-                                <p>i know theres a lot of songs missing, but this is just my favorites of the genre!!</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/5NntEb3Dpl8hLXDKGhZHJk?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                    #container .playlists h1,
+                    #container .playlists p {
+                        grid-column: 1;
+                        margin: 0;
+                        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+                    }
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>rock</h1>
-                                <p>rock, emo, nu metal, grunge, punk, metal, screamo, etc</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/6EZKTyzJ7cc2M5hGjvpE09?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                    #container .playlists h1 { font-size: 1.3em; }
+                    #container .playlists p  { font-size: 0.85em; line-height: 1.5; }
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>girlhood experience</h1>
-                                <p>songs that reminds me of growing up as a girl (unfortunately)</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/14pB8uxMXcNkr6LZVTAeuY?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                    #container .playlists iframe {
+                        grid-column: 2;
+                        grid-row: 1 / span 2;
+                        display: block;
+                        width: 100%;
+                        height: 152px;
+                        border: 0;
+                        border-radius: 12px;
+                    }
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>against the system</h1>
-                                <p>songs that shows my insatisfaction for the way the world works (not just punk songs)</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/2qwWJlO7UjbVvc311tAiqr?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                    /* celular: texto em cima, player embaixo */
+                    @media (max-width: 600px) {
+                        #container .playlists { padding: 24px 18px !important; gap: 36px; }
+                        #container .playlists article { grid-template-columns: minmax(0, 1fr) !important; }
+                        #container .playlists h1,
+                        #container .playlists p,
+                        #container .playlists iframe { grid-column: 1; grid-row: auto; }
+                        #container .playlists iframe { margin-top: 8px; }
+                    }
+                </style>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>anger</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/2jooU4U9khOimVc8xWqx2I?utm_source=generator&theme=0"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+                <section class="caixamaisclara playlists">
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>literally me!!</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/6a0dsTdx2EevOCedXy77Br?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>my main playlist</h1>
+                <p>this is the playlist i use to listen to the songs i wanna shuffle, i dont like to click on "liked songs" and random a song. i'd rather listen to few music at the time, as i get tired of them i just remove, so this playlist is always changing!</p>
+                <iframe src="https://open.spotify.com/embed/playlist/6B8MXoqO8DFZ0nWEHrM4cG?utm_source=generator&amp;theme=0" title="my main playlist" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                           <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>calm minecraft</h1>
-                                <p>i like to listen to this while studying</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                              <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6pw9QdQjG3U62xymAfsNTt?utm_source=generator&si=dda6eec4952f40f6" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>emo</h1>
+                <p>i know theres a lot of songs missing, but this is just my favorites of the genre!!</p>
+                <iframe src="https://open.spotify.com/embed/playlist/5NntEb3Dpl8hLXDKGhZHJk?utm_source=generator" title="emo" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>rock</h1>
+                <p>rock, emo, nu metal, grunge, punk, metal, screamo, etc</p>
+                <iframe src="https://open.spotify.com/embed/playlist/6EZKTyzJ7cc2M5hGjvpE09?utm_source=generator" title="rock" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>nostalgia</h1>
-                                <p>probably from my childhood</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/4BU2LOOK8EcRJxwD8B2MmN?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>girlhood experience</h1>
+                <p>songs that reminds me of growing up as a girl (unfortunately)</p>
+                <iframe src="https://open.spotify.com/embed/playlist/14pB8uxMXcNkr6LZVTAeuY?utm_source=generator" title="girlhood experience" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>mania</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/59LKFSIPaLYJyndyCkVuOU?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>against the system</h1>
+                <p>songs that shows my insatisfaction for the way the world works (not just punk songs)</p>
+                <iframe src="https://open.spotify.com/embed/playlist/2qwWJlO7UjbVvc311tAiqr?utm_source=generator" title="against the system" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>love</h1>
-                                <p>love songs that i like</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/2jSZjgiY9n0cOsRLTuQYPP?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>anger</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/2jooU4U9khOimVc8xWqx2I?utm_source=generator&amp;theme=0" title="anger" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                         <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>yearning</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                               <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4tuzUn1quTvp9jaNnbtS6e?utm_source=generator&si=5ebe533140e6413a" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>literally me!!</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/6a0dsTdx2EevOCedXy77Br?utm_source=generator" title="literally me!!" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>calm minecraft</h1>
+                <p>i like to listen to this while studying</p>
+                <iframe src="https://open.spotify.com/embed/playlist/6pw9QdQjG3U62xymAfsNTt?utm_source=generator&amp;si=dda6eec4952f40f6" title="calm minecraft" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>nostalgia</h1>
+                <p>probably from my childhood</p>
+                <iframe src="https://open.spotify.com/embed/playlist/4BU2LOOK8EcRJxwD8B2MmN?utm_source=generator" title="nostalgia" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>mania</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/59LKFSIPaLYJyndyCkVuOU?utm_source=generator" title="mania" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>around me</h1>
-                                <p>songs that i shazam'ed</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/4uJLsRZrLdoQrhCDOtA3BE?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>love</h1>
+                <p>love songs that i like</p>
+                <iframe src="https://open.spotify.com/embed/playlist/2jSZjgiY9n0cOsRLTuQYPP?utm_source=generator" title="love" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>brasil</h1>
-                                <p>só nacional (also, a big part of my musical taste comes from my dad! thanks for
-                                    passing down the genes of good musical taste)</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/1rHhOO9IDu6CTU2fbShWKW?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>yearning</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/4tuzUn1quTvp9jaNnbtS6e?utm_source=generator&amp;si=5ebe533140e6413a" title="yearning" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                    
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>frerard</h1>
-                                <p>songs that, in my head, are frerard coded</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7A3GTyguCGs8ef8C01Z02i?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>around me</h1>
+                <p>songs that i shazam'ed</p>
+                <iframe src="https://open.spotify.com/embed/playlist/4uJLsRZrLdoQrhCDOtA3BE?utm_source=generator" title="around me" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                            <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>eletronic</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3eo6WHj2jVWXnTVaA1KIOL?utm_source=generator&si=2dd2f83dbfbc458f" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>                            </div>
-                        </div>
+            <article>
+                <h1>brasil</h1>
+                <p>só nacional (also, a big part of my musical taste comes from my dad! thanks for passing down the genes of good musical taste)</p>
+                <iframe src="https://open.spotify.com/embed/playlist/1rHhOO9IDu6CTU2fbShWKW?utm_source=generator" title="brasil" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>frerard</h1>
+                <p>songs that, in my head, are frerard coded</p>
+                <iframe src="https://open.spotify.com/embed/playlist/7A3GTyguCGs8ef8C01Z02i?utm_source=generator&amp;theme=0" title="frerard" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>sadness</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/441kRzFCYUoisu6Xh9uONK?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                    loading="lazy"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>eletronic</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/3eo6WHj2jVWXnTVaA1KIOL?utm_source=generator&amp;si=2dd2f83dbfbc458f" title="eletronic" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>obsession</h1>
-                                <p>sorry im ocd</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/02vL8iCqFmoNaumcXpxY5Y?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>sadness</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/441kRzFCYUoisu6Xh9uONK?utm_source=generator" title="sadness" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>dependency</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/6m9htKbW0TAJfJqTsVa5EQ?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
- 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>jinx!!</h1>
-                                <p>songs that remind me of my fav</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/1DXJV7xcCHi3bgcD6ektfX?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>obsession</h1>
+                <p>sorry im ocd</p>
+                <iframe src="https://open.spotify.com/embed/playlist/02vL8iCqFmoNaumcXpxY5Y?utm_source=generator" title="obsession" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>dependency</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/6m9htKbW0TAJfJqTsVa5EQ?utm_source=generator" title="dependency" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>gay</h1>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                               <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6F3qoFl8BPkDuSO4dk6I8B?utm_source=generator&si=383fb44fd40d426f" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>jinx!!</h1>
+                <p>songs that remind me of my fav</p>
+                <iframe src="https://open.spotify.com/embed/playlist/1DXJV7xcCHi3bgcD6ektfX?utm_source=generator" title="jinx!!" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
+            <article>
+                <h1>gay</h1>
+                <iframe src="https://open.spotify.com/embed/playlist/6F3qoFl8BPkDuSO4dk6I8B?utm_source=generator&amp;si=383fb44fd40d426f" title="gay" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                        <div class="playlist-section-item">
-                            <div class="playlist-text">
-                                <h1>colaborative</h1>
-                                <p>if you're seeing this, add a song here!!</p>
-                            </div>
-                            <div class="playlist-iframe-placeholder">
-                                <iframe data-testid="embed-iframe" style="border-radius:12px"
-                                    src="https://open.spotify.com/embed/playlist/1Q9TxvHJP8As8Z069l42UK?utm_source=generator"
-                                    width="100%" height="100%" frameBorder="0" allowfullscreen=""
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-                            </div>
-                        </div>
+            <article>
+                <h1>colaborative</h1>
+                <p>if you're seeing this, add a song here!!</p>
+                <iframe src="https://open.spotify.com/embed/playlist/1Q9TxvHJP8As8Z069l42UK?utm_source=generator" title="colaborative" loading="lazy" allowfullscreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+            </article>
 
-                    </div>
-                </div>
+                </section>
+
             </div>
 
         </main>
 
-        <aside id="sidebar-direita-container" class="sidebar">
-        </aside>
+        <aside id="sidebar-direita-container" class="sidebar"></aside>
 
     </div>
-    <script src="lastfm-widget.js"></script>
-    <script src="script.js"></script>
-    <script src="theme-switcher.js"></script>
 
 </body>
 

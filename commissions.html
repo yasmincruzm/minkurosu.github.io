@@ -1,680 +1,584 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K5KDKEJ2E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-4K5KDKEJ2E');
-  </script>
-  <meta charset="UTF-8">
-  <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png" />
-  <title>@minkurosu — commissions</title>
+    <meta charset="UTF-8">
+    <title>@minkurosu — encomendas</title>
+    <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
+    <link rel="stylesheet" href="emo.css">
 
-  <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-  <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <style>
+        /* ===== RESET ===== */
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
 
-  <style>
-    .caixaprices {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 4px;
-      text-align: center;
-    }
-body{
-  background-image: url(imgs/site_imgs/petcemetery.gif); !important
-   height: 100vh;
-  width: 100%;
-  background-image: url(imgs/site_imgs/petcemetery.gif);
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-align: center;
-}
-    .caixaprices h2 {
-      font-family: "MinFont", monospace;
-      font-size: 1.4rem;
-      color: #534f4a;
-      text-align: center;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin: 0 0 16px;
-    }
+        /* ===== TABELAS DE PREÇO ===== */
+        .caixaprices {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4px;
+            text-align: center;
+            margin: 0 auto;
+        }
 
-    .prices-section {
-      margin-bottom: 1.5rem;
-    }
+        .caixaprices h2 {
+            font-family: "MinFont", monospace;
+            font-size: 1.4rem;
+            color: #534f4a;
+            margin: 0 0 16px;
+        }
 
-    .prices-section h3 {
-      font-family: "MinFont", monospace;
-      font-size: 0.95rem;
-      color: #534f4a;
-      text-align: center;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin-bottom: 0.6rem;
-    }
+        .prices-section {
+            margin-bottom: 1.5rem;
+        }
 
-    .prices-section .note {
-      font-family: "MinFont", monospace;
-      font-size: 0.75rem;
-      color: #3a3836;
-      text-align: center;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin-top: 6px;
-    }
+        .prices-section h3 {
+            font-family: "MinFont", monospace;
+            font-size: 0.95rem;
+            color: #534f4a;
+            margin-bottom: 0.6rem;
+        }
 
-    .caixaprices table {
-      border-collapse: collapse;
-      width: 90%;
-      margin: 0 auto 0.5rem;
-      background-color: transparent;
-      font-family: "MinFont", monospace;
-      font-size: 0.85rem;
-    }
+        .caixaprices table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 0 auto 0.5rem;
+            font-family: "MinFont", monospace;
+            font-size: 0.85rem;
+        }
 
-    .caixaprices table th {
-      border: 1px solid #222;
-      padding: 7px 10px;
-      color: #534f4a;
-      background: #111;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
+        .caixaprices table th {
+            border: 1px solid #222;
+            padding: 7px 10px;
+            color: #534f4a;
+            background: #111;
+        }
 
-    .caixaprices table td {
-      border: 1px solid #1e1e1e;
-      padding: 7px 10px;
-      color: #534f4a;
-      text-align: left;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
+        .caixaprices table td {
+            border: 1px solid #1e1e1e;
+            padding: 7px 10px;
+            color: #534f4a;
+            text-align: left;
+        }
 
-    .caixaprices table tr:nth-child(even) td {
-      background: #1b1b1b;
-    }
+        .caixaprices table tr:nth-child(even) td {
+            background: #1b1b1b;
+        }
 
- 
+        /* ===== PORTFÓLIO ===== */
+        .pf-wrap {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    .rig-page {
-      width: 100%;
-      box-sizing: border-box;
-    }
+        .pf-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 16px 0 20px;
+        }
 
-    .rig-intro {
-      background: #0d0d0d;
-      border: 1px solid #1e1e1e;
-      border-radius: 2px;
-      padding: 10px 14px;
-      margin-bottom: 12px;
-      text-align: left;
-    }
+        /* Botões usam .pushable do emo.css — só ajusta o tamanho */
+        .pf-buttons .pushable {
+            width: auto;
+        }
+        .pf-buttons .pushable .front {
+            min-width: 120px;
+        }
+        .pf-buttons .pushable.is-active .front {
+            background: #2a0000;
+    color: #5a5a5a; !important
+        }
+        .pf-buttons .pushable.is-active .edge {
+            background: #3a0000;
+        }
 
-    .rig-intro-title {
-      font-family: "MinFont", monospace;
-      font-size: 1rem;
-      color: #534f4a;
-      margin: 0 0 8px;
-      text-align: center;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
+        /* Botão de idioma */
+        .pf-lang {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #1b1b1b;
+            border: 1px solid #310000;
+            color: #888;
+            font-family: "MinFont", monospace;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .pf-lang:hover {
+            background: #2a2a2a;
+    color: #5a5a5a; !important
+        }
 
-    .rig-intro ul {
-      list-style: none;
-      margin: 0 0 8px;
-      padding: 0;
-    }
+        /* Páginas do portfólio */
+        .pf-page {
+            display: none;
+        }
+        .pf-page.is-active {
+            display: block;
+        }
 
-    .rig-intro ul li {
-      font-family: "MinFont", monospace;
-      font-size: 0.88rem;
-      color: #534f4a;
-      padding: 2px 0;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
+        /* ===== GALERIA (drawings + photography) ===== */
+        .pf-page .section-label {
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+        .pf-page .section-label h2 {
+            color: #534F4A;
+            margin: 0;
+        }
 
-    .rig-intro ul li::before { content: "— "; color: #3a3836; }
+        .pf-page .grid-feed {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-    .rig-intro .note {
-      font-family: "MinFont", monospace;
-      font-size: 0.78rem;
-      color: #3a3836;
-      text-align: center;
-      margin: 0;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
+        .pf-page .feed-cell {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 2px;
+            cursor: pointer;
+        }
 
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
+        .pf-page .feed-cell .thumb-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.2);
+            transition: filter 0.25s, transform 0.25s;
+        }
 
-    .video-cell {
-      display: flex;
-      flex-direction: column;
-      background: #0a0a0a;
-      border: 1px solid #1a1919;
-      border-radius: 2px;
-      overflow: hidden;
-    }
+        .pf-page .feed-cell:hover .thumb-img {
+            filter: saturate(1);
+            transform: scale(1.04);
+        }
 
-    .video-cell video,
-    .video-cell iframe {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      display: block;
-      border: none;
-      background: #000;
-    }
+        .pf-page .full-img-wrap {
+            display: none;
+        }
 
-    .video-cell .caption {
-      font-family: "MinFont", monospace;
-      font-size: 0.75rem;
-      color: #3a3836;
-      text-align: center;
-      padding: 4px;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      min-height: 18px;
-    }
+        .pf-page .feed-cell.expanded {
+            grid-column: 1 / -1;
+            aspect-ratio: auto;
+        }
 
-    @media (max-width: 500px) {
-      .video-grid { grid-template-columns: 1fr; }
-    }
+        .pf-page .feed-cell.expanded .thumb-img {
+            display: none;
+        }
 
-    #google_translate_element .goog-te-gadget-simple {
-      background-color: #1a1a1a !important;
-      border: 1px solid #444 !important;
-      border-radius: 8px !important;
-      padding: 2px 6px !important;
-      font-family: "MinFont", sans-serif !important;
-    }
-    .goog-te-gadget-simple .goog-te-gadget-icon { display: none !important; }
-    .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, div#goog-gt- { display: none !important; }
-    #google_translate_element .goog-te-gadget-simple span,
-    #google_translate_element .goog-te-gadget-simple a,
-    #google_translate_element .goog-te-gadget-simple a span,
-    .goog-te-gadget-simple .goog-te-menu-value span {
-      color: #d5d5d5 !important;
-      font-family: "MinFont", sans-serif !important;
-      font-size: 12px !important;
-      text-shadow: none !important;
-      text-decoration: none !important;
-    }
-    #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:last-child { color: #888 !important; }
-    #google_translate_element a { text-shadow: none !important; text-decoration: none !important; }
+        .pf-page .feed-cell.expanded .full-img-wrap {
+            display: block;
+        }
 
-    .translate-wrap {
-      text-align: center;
-      margin: 0.5rem 0 1rem;
-    }
+        .pf-page .full-img-wrap img {
+            display: block;
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+        }
 
-    .ds-tooltip {
-      position: relative;
-    }
-    .ds-tooltip::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 6px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: #0a0a0a;
-      color: #534f4a;
-      font-family: "MinFont", monospace;
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      white-space: nowrap;
-      border-radius: 1px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      z-index: 999;
-      text-shadow: none;
-    }
-    .ds-tooltip::before {
-      content: "";
-      position: absolute;
-      bottom: calc(100% - 6px);
-      left: 50%;
-      transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: #0a0a0a;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-      z-index: 1000;
-    }
-    .ds-tooltip:hover::after,
-    .ds-tooltip:hover::before { opacity: 1; }
+        /* ===== VÍDEOS (live2d rigs) ===== */
+        .pf-page .rig-intro {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .pf-page .rig-intro ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        .pf-page .note {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 0.75rem;
+        }
 
-    .portfolio-embed .caixamaisclara-conteudo {
-      text-align: center;
-      padding: 20px;
-    }
+        .pf-page .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
 
-    .portfolio-embed .section-title {
-      color: #534F4A;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin-bottom: 30px;
-    }
+        .pf-page .video-cell iframe,
+        .pf-page .video-cell video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            border: none;
+            background: #000;
+            border-radius: 6px;
+        }
 
-    .portfolio-embed .games-button-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-    }
+        /* ===== PRICINGS ===== */
+        .pf-page .pricing-table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 0 auto 1rem;
+            font-family: "MinFont", monospace;
+            font-size: 0.85rem;
+        }
 
-    .portfolio-embed .grid-feed {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 0 auto;
-    }
+        .pf-page .pricing-table th,
+        .pf-page .pricing-table td {
+            border: 1px solid #3a0000;
+            padding: 7px 10px;
+            color: #534f4a;
+            text-align: left;
+        }
 
-    .portfolio-embed .grid-feed a {
-      display: block;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      border-radius: 2px;
-      position: relative;
-    }
+        .pf-page .pricing-table th {
+            background: #0d0d0d;
+            color: #610000;
+        }
 
-    .portfolio-embed .grid-feed img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.2s;
-    }
+        /* ===== MOBILE ===== */
+        @media (max-width: 600px) {
+            .pf-page .grid-feed { grid-template-columns: repeat(2, 1fr); }
+            .pf-page .video-grid { grid-template-columns: 1fr; }
+        }
 
-    .portfolio-embed .grid-feed a:hover img {
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 768px), (max-device-width: 768px), (pointer: coarse) {
-      .portfolio-embed .grid-feed { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .portfolio-embed .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .portfolio-embed .video-cell-wide {
-      grid-column: 1 / -1;
-      display: flex;
-      flex-direction: column;
-      background: #0a0a0a;
-      border: 1px solid #1a1919;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .portfolio-embed .video-cell-wide iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: block;
-      border: none;
-      background: #000;
-    }
-
-    .portfolio-embed .video-cell-wide .caption {
-      font-family: "MinFont", monospace;
-      font-size: 0.78rem;
-      color: #3a3836;
-      text-align: center;
-      padding: 4px 4px 5px;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      min-height: 20px;
-    }
-
-    .portfolio-embed .rig-intro {
-      border: 1px solid #2a0000;
-    }
-
-    .portfolio-embed .rig-intro-title {
-      color: #610000;
-    }
-
-    .portfolio-embed .rig-intro ul li::before {
-      color: #610000;
-    }
-
-    .portfolio-embed .rig-page h1 {
-      font-size: 1rem !important;
-      margin: 3px 0 !important;
-      padding: 0 !important;
-      text-align: left;
-      color: #534f4a;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .portfolio-embed .rig-page h2 {
-      font-size: 1.4rem !important;
-      margin: 0 0 8px !important;
-      padding: 0 !important;
-      text-align: center;
-      color: #534f4a;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .portfolio-embed .rig-page h3 {
-      font-size: 0.85rem !important;
-      margin: 6px 0 12px !important;
-      padding: 0 !important;
-      text-align: center;
-      color: #3a3836;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .portfolio-embed .rig-page h4 {
-      font-size: 0.8rem !important;
-      margin: 4px 0 6px !important;
-      padding: 0 !important;
-      text-align: center;
-      color: #3a3836;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .portfolio-embed .pricings-table {
-      border-collapse: collapse;
-      width: 100%;
-      background-color: transparent;
-      font-family: "MinFont", monospace;
-      font-size: 0.85rem;
-    }
-
-    .portfolio-embed .pricings-table th,
-    .portfolio-embed .pricings-table td {
-      border: 1px solid #3a0000;
-      padding: 7px 10px;
-      color: #534f4a;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-
-    .portfolio-embed .pricings-table th {
-      color: #610000;
-      background: #0d0d0d;
-    }
-
-    .portfolio-embed .pricings-table tr:nth-child(even) td {
-      background: #0a0808;
-    }
-
-    .portfolio-embed .terms p,
-    .portfolio-embed .exp p,
-    .portfolio-embed .exp li {
-      font-family: "MinFont", monospace;
-      font-size: 0.85rem;
-      color: #534f4a;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      text-align: left;
-    }
-
-    .portfolio-embed .exp h3 {
-      font-family: "MinFont", monospace;
-      font-size: 0.9rem;
-      color: #610000;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin: 12px 0 4px;
-    }
-
-    .portfolio-embed #portfolio-conteudo {
-      width: 100%;
-      margin-top: 20px;
-      padding: 10px;
-      box-sizing: border-box;
-    }
-
-    .portfolio-embed #portfolio-conteudo.loading {
-      text-align: center;
-      padding: 50px;
-      color: #534F4A;
-    }
-
-    .portfolio-embed .divportfolio {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .portfolio-embed .divportfolio img,
-    .portfolio-embed .divportfolio video {
-      max-width: 100%;
-      height: auto;
-      border-radius: 2px;
-    }
-
-    .portfolio-embed .divportfolio h1,
-    .portfolio-embed .divportfolio h2,
-    .portfolio-embed .divportfolio h3,
-    .portfolio-embed .divportfolio h4 {
-      color: #534F4A;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      margin: 10px 0;
-    }
-
-  </style>
+        /* ===== BANNER PORTAL ===== */
+        .site-banner-link { display: inline-block; margin-top: 8px; }
+        .site-banner { height: 80px; }
+    </style>
 </head>
 
 <body>
-  <div class="crt"></div>
-  <div id="containerprincipal">
-    <div id="container">
-        <div class="caixamaisclara">
-          <div class="caixaprices">
 
+    <div class="caixamaisclara">
+        <div class="caixaprices">
 
-<br>
-   <div class="">
-        <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" data-position="center">
-    </div>   
-             <h2 style="font-size: 30px;">encomendas</h2>
-
-          
-
-            <div class="translate-wrap">
-              translate:<br> <div id="google_translate_element" style="display:inline-block;vertical-align:middle;"></div>
-            </div>
-
-            <hr>
-            <div class="prices-section">
-              <table class="tos-table">
-                <tr><th>termos de serviço</th></tr>
-                <tr><td>pagamento em BRL (R$) por pix ou transferência</td></tr>
-                <tr><td>50% do pagamento no início, 50% no final</td></tr>
-                <tr><td>revisões ilimitadas, mas mudanças serão cobradas de acordo</td></tr>
-                <tr><td>uso comercial: +60% do valor</td></tr>
-                <tr><td>reembolso: 100% antes do início, 40% durante ou proporcional ao progresso</td></tr>
-                <tr><td>por favor, me dê os creditos nas redes sociais ou na apresentação do modelo:)</td></tr>
-                <tr><td>a duração do processo depende da complexidade e da minha disponibilidade, pois também faço outras coisas da vida, mas sempre irei avisando e atualizando!</td></tr>
-                <tr><td>proibido uso como NFT, a menos que acordado previamente e eu receba porcentagens</td></tr>
-                <tr><td>eu não faço a arte do modelo, apenas o rig (animação), pois acho muito trabalhoso pra mim por ora</td></tr>
-                <tr><td>os valores estão sujeitos a variações dependendo do nível de complexidade do rig, a tabela é uma estimativa</td></tr>
-                <tr><td>podemos negociar caso queira adicionar conteúdos do rig complexo no simples</td></tr>
-              </table>
-            </div>
-
-           
             <br>
 
-            <div class="prices-section">
-              <h3>o que cada rig inclui</h3>
+            <img id="logobig" src="imgs/site_imgs/logo.png" alt="Logo" />
 
-              <table><tr><th>todos os rigs incluem</th></tr>
-                <tr><td>movimento da íris</td></tr>
-                <tr><td>movimento de piscar</td></tr>
-                <tr><td>movimento da sobrancelha cima-baixo (ângulo y)</td></tr>
-                <tr><td>física do cabelo</td></tr>
-                <tr><td>ângulo x da cabeça simples</td></tr>
-                <tr><td>movimento de abrir, fechar e sorrir da boca</td></tr>
-              </table><br>
-
-              <table><tr><th>rig lite</th></tr>
-                <tr><td>os itens básicos citados acima</td></tr>
-              </table><br>
-
-              <table><tr><th>rig simples</th></tr>
-                <tr><td>tudo do rig lite +</td></tr>
-                <tr><td>ângulos x e y da cabeça</td></tr>
-                <tr><td>ângulos x e y do corpo</td></tr>
-                <tr><td>movimento olho abrindo, fechando e sorrindo</td></tr>
-                <tr><td>movimento da íris</td></tr>
-                <tr><td>física básica do cabelo e busto (apenas ângulo x)</td></tr>
-                <tr><td>sobrancelha y + forma</td></tr>
-                <tr><td>movimento simples da boca</td></tr>
-                <tr><td>1 toggle</td></tr>
-              </table><br>
-
-              <table><tr><th>rig detalhado</th></tr>
-                <tr><td>tudo do rig simples +</td></tr>
-                <tr><td>ângulos x, y e z da cabeça</td></tr>
-                <tr><td>ângulos x, y e z do corpo</td></tr>
-                <tr><td>física da perna e braços</td></tr>
-                <tr><td>ângulo de inclinação da sobrancelha e mudança da forma</td></tr>
-                <tr><td>movimento detalhado da boca</td></tr>
-                <tr><td>físicas em ângulos x e y mais complexas no cabelo, corpo, roupas, olhos, etc.</td></tr>
-              </table><br>
-
-              <table><tr><th>adicional vbridger</th></tr>
-                <tr><td>tudo do rig detalhado +</td></tr>
-                <tr><td>modelo da boca detalhada</td></tr>
-                <tr><td>boca x</td></tr>
-                <tr><td>encher bochechas</td></tr>
-                <tr><td>língua para fora</td></tr>
-                <tr><td>eye squint</td></tr>
-                <tr><td>mais variação de movimento dos lábios</td></tr>
-                <tr><td>breathing</td></tr>
-              </table>
-            </div>
-            
+            <h2 style="font-size: 30px;">encomendas</h2>
 
             <hr>
 
-
-            <div class="prices-section portfolio-embed">
-              <h3>portfólio</h3>
-              <div class="caixamaisclara-conteudo">
-                <div class="games-button-container">
-                  <a href="#" class="pushable portfolio-nav-button" data-page="portfolio-art.html">
-                    <span class="shadow"></span>
-                    <span class="edge"></span>
-                    <span class="front">drawings</span>
-                  </a>
-                  <a href="#" class="pushable portfolio-nav-button" data-page="portfolio-rig.html">
-                    <span class="shadow"></span>
-                    <span class="edge"></span>
-                    <span class="front">live2d rigs</span>
-                  </a>
-                  <a href="#" class="pushable portfolio-nav-button" data-page="pricings.html">
-                    <span class="shadow"></span>
-                    <span class="edge"></span>
-                    <span class="front">pricings</span>
-                  </a>
-                </div>
-              </div>
-              <div id="portfolio-conteudo">
-                <p style="text-align: center; color: #534F4A;">selecione uma seção do portfólio acima para ver o conteúdo</p>
-              </div>
+            <!-- ===== TOS ===== -->
+            <div class="prices-section">
+                <table class="tos-table">
+                    <tr><th>termos de serviço</th></tr>
+                    <tr><td>pagamento em BRL (R$) por pix ou transferência</td></tr>
+                    <tr><td>50% do pagamento no início, 50% no final</td></tr>
+                    <tr><td>revisões ilimitadas, mas mudanças serão cobradas de acordo</td></tr>
+                    <tr><td>uso comercial: +60% do valor</td></tr>
+                    <tr><td>reembolso: 100% antes do início, 40% durante ou proporcional ao progresso</td></tr>
+                    <tr><td>por favor, me dê os créditos nas redes sociais ou na apresentação do modelo :)</td></tr>
+                    <tr><td>a duração do processo depende da complexidade e da minha disponibilidade</td></tr>
+                    <tr><td>proibido uso como NFT, a menos que acordado previamente</td></tr>
+                    <tr><td>eu não faço a arte do modelo, apenas o rig (animação)</td></tr>
+                    <tr><td>os valores estão sujeitos a variações dependendo da complexidade</td></tr>
+                    <tr><td>podemos negociar caso queira adicionar conteúdos</td></tr>
+                </table>
             </div>
 
-<hr>
+            <br>
+
+            <!-- ===== O QUE CADA RIG INCLUI ===== -->
+            <div class="prices-section">
+                <h3>o que cada rig inclui</h3>
+                <table>
+                    <tr><th>todos os rigs incluem</th></tr>
+                    <tr><td>movimento da íris</td></tr>
+                    <tr><td>movimento de piscar</td></tr>
+                    <tr><td>movimento da sobrancelha (ângulo y)</td></tr>
+                    <tr><td>física do cabelo</td></tr>
+                    <tr><td>ângulo x da cabeça simples</td></tr>
+                    <tr><td>movimento de abrir/fechar/sorrir da boca</td></tr>
+                </table><br>
+
+                <table><tr><th>rig lite</th></tr><tr><td>os itens básicos citados acima</td></tr></table><br>
+
+                <table>
+                    <tr><th>rig simples</th></tr>
+                    <tr><td>tudo do rig lite +</td></tr>
+                    <tr><td>ângulos x e y da cabeça</td></tr>
+                    <tr><td>ângulos x e y do corpo</td></tr>
+                    <tr><td>movimento olho abrindo, fechando e sorrindo</td></tr>
+                    <tr><td>movimento da íris</td></tr>
+                    <tr><td>física básica do cabelo e busto</td></tr>
+                    <tr><td>sobrancelha y + forma</td></tr>
+                    <tr><td>movimento simples da boca</td></tr>
+                    <tr><td>1 toggle</td></tr>
+                </table><br>
+
+                <table>
+                    <tr><th>rig detalhado</th></tr>
+                    <tr><td>tudo do rig simples +</td></tr>
+                    <tr><td>ângulos x, y e z da cabeça</td></tr>
+                    <tr><td>ângulos x, y e z do corpo</td></tr>
+                    <tr><td>física da perna e braços</td></tr>
+                    <tr><td>ângulo de inclinação da sobrancelha</td></tr>
+                    <tr><td>movimento detalhado da boca</td></tr>
+                    <tr><td>físicas mais complexas</td></tr>
+                </table><br>
+
+                <table>
+                    <tr><th>adicional vbridger</th></tr>
+                    <tr><td>tudo do rig detalhado +</td></tr>
+                    <tr><td>modelo da boca detalhada</td></tr>
+                    <tr><td>boca x</td></tr>
+                    <tr><td>encher bochechas</td></tr>
+                    <tr><td>língua para fora</td></tr>
+                    <tr><td>eye squint</td></tr>
+                    <tr><td>variação de movimento dos lábios</td></tr>
+                    <tr><td>breathing</td></tr>
+                </table>
+            </div>
+
+            <hr>
+
+            <!-- ===== PORTFÓLIO ===== -->
+            <div class="prices-section">
+                <h3>portfólio</h3>
+
+                <div class="pf-wrap">
+
+                    <button type="button" class="pf-lang" id="pfLang">
+                        <span id="pfLangLabel">en</span>
+                    </button>
+
+                    <div class="pf-buttons">
+                        <a href="#" class="pushable pf-nav" data-page="page-art">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">drawings</span>
+                        </a>
+                        <a href="#" class="pushable pf-nav is-active" data-page="page-rig">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">live2d rigs</span>
+                        </a>
+                        <a href="#" class="pushable pf-nav" data-page="page-photos">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">photography</span>
+                        </a>
+                        <a href="#" class="pushable pf-nav" data-page="page-pricing">
+                            <span class="shadow"></span>
+                            <span class="edge"></span>
+                            <span class="front">pricings</span>
+                        </a>
+                    </div>
+
+                    <!-- ============ LIVE2D RIGS ============ -->
+                    <div class="pf-page is-active" id="page-rig">
+                        <div class="rig-intro">
+                            <p class="rig-intro-title">por que me escolher como sua animadora/rigger?</p>
+                            <ul>
+                                <li>tenho trabalhado com live2d desde dezembro de 2020, após aprender a fazer meu próprio modelo</li>
+                                <li>a maioria dos meus clientes me encontram por recomendação de clientes antigos</li>
+                                <li>já fiz mais de 50 encomendas para vtubers (e ainda contando!)</li>
+                            </ul>
+                            <p class="note">*minha webcam não é uma das melhores, por favor releve problemas de tracking nos vídeos e foque nos ângulos e nas físicas :-)</p>
+                        </div>
+
+                        <div class="video-grid">
+                            <div class="video-cell"><iframe src="https://www.youtube.com/embed/A17-WoCIdEU" allowfullscreen></iframe></div>
+                            <div class="video-cell"><iframe src="https://www.youtube.com/embed/PVNAQT6cO4s" allowfullscreen></iframe></div>
+                            <div class="video-cell"><iframe src="https://www.youtube.com/embed/IaWCWhw90eI" allowfullscreen></iframe></div>
+
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/lollypopmp4.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-00-18.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-22-14.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/shirotakami.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/dentes.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-27-31.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-32-01.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-37-13.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-34-09.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-49-22.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/2024-07-16 14-53-22.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/aaaaaaaaa.mp4" type="video/mp4"></video></div>
+                            <div class="video-cell"><video controls><source src="imgs/portfolio/padoruartandrig.mp4" type="video/mp4"></video></div>
+                        </div>
+                    </div>
+
+                    <!-- ============ DRAWINGS ============ -->
+                    <div class="pf-page" id="page-art">
+                        <div class="section-label"><h2>digital</h2></div>
+                        <br>
+                        <div class="grid-feed">
+                            <div class="feed-cell" data-full="imgs/art portfolio/pixelicon.jpeg"><img class="thumb-img" src="imgs/art portfolio/pixelicon.jpeg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg"><img class="thumb-img" src="imgs/art portfolio/GcgzfGTWkAArcsp.jpeg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/jupitercat.png"><img class="thumb-img" src="imgs/art portfolio/jupitercat.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/7.png"><img class="thumb-img" src="imgs/art portfolio/7.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/no min holding it in.jpg"><img class="thumb-img" src="imgs/art portfolio/no min holding it in.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/wplace.png"><img class="thumb-img" src="imgs/art portfolio/wplace.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/padorupnggrey.png"><img class="thumb-img" src="imgs/art portfolio/padorupnggrey.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/5.png"><img class="thumb-img" src="imgs/art portfolio/5.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/madeline.png"><img class="thumb-img" src="imgs/art portfolio/madeline.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/jotaro2020.png"><img class="thumb-img" src="imgs/art portfolio/jotaro2020.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/lispng.jpg"><img class="thumb-img" src="imgs/art portfolio/lispng.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/icon1.png"><img class="thumb-img" src="imgs/art portfolio/icon1.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/APOLLO.png"><img class="thumb-img" src="imgs/art portfolio/APOLLO.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/eueapollo.png"><img class="thumb-img" src="imgs/art portfolio/eueapollo.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                        </div>
+
+                        <br>
+                        <div class="section-label"><h2>traditional</h2></div>
+                        <br>
+                        <div class="grid-feed">
+                            <div class="feed-cell" data-full="imgs/art portfolio/2026.jpg"><img class="thumb-img" src="imgs/art portfolio/2026-tradicional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/2025.jpg"><img class="thumb-img" src="imgs/art portfolio/2025.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/jinx-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/jinx-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/mymuse-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/mymuse-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/ponysona-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/ponysona-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/2023.jpg"><img class="thumb-img" src="imgs/art portfolio/2023.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/mcr-traditional-2.jpg"><img class="thumb-img" src="imgs/art portfolio/mcr-traditional-2.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/2023(2).jpg"><img class="thumb-img" src="imgs/art portfolio/2023(2).jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/erenyeager-2021.jpg"><img class="thumb-img" src="imgs/art portfolio/erenyeager-2021.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/konan-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/konan-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/carl-grimes-2020.jpg"><img class="thumb-img" src="imgs/art portfolio/carl-grimes-2020.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/loboguara.jpg"><img class="thumb-img" src="imgs/art portfolio/loboguara.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/carl-and-rick-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/carl-and-rick-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/gma-house-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/gma-house-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/madelinewoolfelting2021.jpg"><img class="thumb-img" src="imgs/art portfolio/madelinewoolfelting2021.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/haru_needlefelting.jpg"><img class="thumb-img" src="imgs/art portfolio/haru_needlefelting.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/ninestones-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/ninestones-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/killingstalking-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/killingstalking-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/attackontitan-traditional-2017.jpg"><img class="thumb-img" src="imgs/art portfolio/attackontitan-traditional-2017.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/marcobodt-traditional-2017.jpg"><img class="thumb-img" src="imgs/art portfolio/marcobodt-traditional-2017.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/2017-1-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/2017-1-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/armin-2017-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/armin-2017-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/watercolor-2017-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/watercolor-2017-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/worms-traditional.jpg"><img class="thumb-img" src="imgs/art portfolio/worms-traditional.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/melanie-2016.jpg"><img class="thumb-img" src="imgs/art portfolio/melanie-2016.jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/2013(2).jpg"><img class="thumb-img" src="imgs/art portfolio/2013(2).jpg" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                        </div>
+
+                        <br>
+                        <div class="section-label"><h2>live2d model art</h2></div>
+                        <div class="grid-feed">
+                            <div class="feed-cell" data-full="imgs/art portfolio/minkurosu-vtuber.png"><img class="thumb-img" src="imgs/art portfolio/minkurosu-vtuber.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                        </div>
+
+                        <br>
+                        <div class="section-label"><h2>twitch emotes</h2></div>
+                        <div class="grid-feed">
+                            <div class="feed-cell" data-full="imgs/art portfolio/AYAYAMinPNG.png"><img class="thumb-img" src="imgs/art portfolio/AYAYAMinPNG.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                            <div class="feed-cell" data-full="imgs/art portfolio/ApolloLove.png"><img class="thumb-img" src="imgs/art portfolio/ApolloLove.png" alt=""><div class="full-img-wrap"><img src=""></div></div>
+                        </div>
+                    </div>
 
 
-            <h2 style="margin: 3px; font-size: 18px;">entre no portal para ir ao meu site</h2>
-     <a href="/" class="site-banner-link ds-tooltip" data-tooltip="minkurosu.site">
-        <img
-          src="/imgs/site_imgs/portal.gif"
-          alt="minkurosu.site"
-          class="site-banner"
-          style="height: 80px;">
-      </a>
-          </div>
-          
+                    <div class="pf-page" id="page-pricing">
+                        <div class="pf-lang-block" data-lang="pt">
+                            <h3 style="text-align:center;color:#610000;font-family:MinFont,monospace;">pricings (PT)</h3>
+
+                            <table class="pricing-table">
+                                <tr><th>descrição</th><th>valor</th></tr>
+                                <tr><td>rig lite (quase um pngtuber)</td><td>R$ 95</td></tr>
+                                <tr><td>rig halfbody</td><td>R$ 380</td></tr>
+                                <tr><td>rig fullbody</td><td>R$ 420</td></tr>
+                                <tr><td>rig fullbody + vbridger + extra physics</td><td>R$ 450</td></tr>
+                                <tr><td>rig vtuber pet/chibi</td><td>R$ 200 +-</td></tr>
+                                <tr><td>adicional toggle (on/off)</td><td>R$ 5 +-</td></tr>
+                                <tr><td>adicional com expressão / movimento / física</td><td>R$ 10</td></tr>
+                                <tr><td>adicional com motion / animação (.can3)</td><td>R$ 15–20</td></tr>
+                                <tr><td>adicional partes do corpo extra</td><td>R$ 15</td></tr>
+                                <tr><td>adicional ângulos da cabeça wide-range</td><td>R$ 50</td></tr>
+                                <tr><td>adicional boca vbridger</td><td>R$ 50</td></tr>
+                                <tr><td>physics augmentation @ vtube studio</td><td>R$ 20</td></tr>
+                            </table>
+                        </div>
+
+                        <div class="pf-lang-block" data-lang="en" style="display:none;">
+                            <h3 style="text-align:center;color:#610000;font-family:MinFont,monospace;">pricings (EN)</h3>
+
+                            <table class="pricing-table">
+                                <tr><th>description</th><th>value</th></tr>
+                                <tr><td>rig lite (almost like a pngtuber)</td><td>$15</td></tr>
+                
+                                <tr><td>rig halfbody</td><td>$100</td></tr>
+                                <tr><td>rig fullbody</td><td>$110</td></tr>
+                                <tr><td>rig fullbody + vbridger + extra physics</td><td>$200</td></tr>
+                                <tr><td>rig vtuber pet/chibi complex</td><td>$60 +-</td></tr>
+                                <tr><td>toggle (on/off)</td><td>$3 +-</td></tr>
+                                <tr><td>expression with phys/loop</td><td>$5</td></tr>
+                                <tr><td>additional with detailed animation (.can3)</td><td>$15–20</td></tr>
+                                <tr><td>additional body parts (ears, tail, eyes)</td><td>$15</td></tr>
+                                <tr><td>wide-range head angles</td><td>$14</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <hr>
+
+            <h2 style="margin: 3px; font-size: 18px;">go to site</h2>
+            <a href="/" class="site-banner-link">
+                <img src="/imgs/site_imgs/portal.gif" alt="minkurosu.site" class="site-banner" />
+            </a>
+
+        </div>
     </div>
 
+    <script>
+        var botoes = document.querySelectorAll('.pf-nav');
+        var paginas = document.querySelectorAll('.pf-page');
 
-  </div>
+        botoes.forEach(function (botao) {
+            botao.addEventListener('click', function (e) {
+                e.preventDefault();
 
-  <script src="lastfm-widget.js"></script>
-  <script src="script.js"></script>
-  <script src="theme-switcher.js"></script>
+                paginas.forEach(function (p) { p.classList.remove('is-active'); });
+                botoes.forEach(function (b) { b.classList.remove('is-active'); });
 
-  <script>
-    (function initPortfolioEmbed() {
-      const contentArea = document.getElementById('portfolio-conteudo');
-      const navButtons = document.querySelectorAll('.portfolio-nav-button');
-
-      if (!contentArea || navButtons.length === 0) return;
-
-      const loadPortfolioContent = async (pageUrl) => {
-        contentArea.innerHTML = '<p style="text-align:center;color:#534F4A;">loading...</p>';
-        contentArea.classList.add('loading');
-
-        try {
-          const response = await fetch(pageUrl);
-          if (!response.ok) throw new Error(`http error: ${response.status}`);
-
-          const htmlText = await response.text();
-          const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-
-          let contentNode =
-            doc.querySelector('.portfolioContent') ||
-            doc.querySelector('.rig-page') ||
-            doc.querySelector('.caixaprices') ||
-            doc.querySelector('.grid-feed') ||
-            doc.querySelector('.caixamaisclara');
-
-          contentArea.innerHTML = contentNode ? contentNode.outerHTML : doc.body.innerHTML;
-          contentArea.classList.remove('loading');
-
-          setTimeout(() => {
-            if (typeof Fancybox !== 'undefined') {
-              Fancybox.destroy();
-              if (typeof window.bindGalleryFancybox === 'function') {
-                window.bindGalleryFancybox('[data-fancybox]');
-              } else {
-                Fancybox.bind('[data-fancybox]', { Hash: false });
-              }
-            }
-          }, 300);
-
-        } catch (error) {
-          console.error('error loading content:', error);
-          contentArea.innerHTML = '<p style="color:red;text-align:center;">error loading content</p>';
-          contentArea.classList.remove('loading');
-        }
-      };
-
-      navButtons.forEach((button) => {
-        button.addEventListener('click', (event) => {
-          event.preventDefault();
-          const pageFile = button.dataset.page;
-          if (pageFile) loadPortfolioContent(pageFile);
+                // Ativa a página clicada
+                var id = botao.getAttribute('data-page');
+                document.getElementById(id).classList.add('is-active');
+                botao.classList.add('is-active');
+            });
         });
-      });
 
-      loadPortfolioContent('portfolio-rig.html');
-    })();
-  </script>
-  <script>
-    (function() {
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'pt-br',
-          includedLanguages: '',
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false
-        }, 'google_translate_element');
-      }
-      window.googleTranslateElementInit = googleTranslateElementInit;
-    })();
-  </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        document.addEventListener('click', function (e) {
+            var cell = e.target.closest('.feed-cell');
+            if (!cell) return;
 
+            if (cell.classList.contains('expanded')) {
+                cell.classList.remove('expanded');
+                var imgFechar = cell.querySelector('.full-img-wrap img');
+                if (imgFechar) imgFechar.src = '';
+                return;
+            }
+            var aberta = document.querySelector('.feed-cell.expanded');
+            if (aberta) {
+                aberta.classList.remove('expanded');
+                var imgAberta = aberta.querySelector('.full-img-wrap img');
+                if (imgAberta) imgAberta.src = '';
+            }
+            var img = cell.querySelector('.full-img-wrap img');
+            if (img) img.src = cell.getAttribute('data-full');
+            cell.classList.add('expanded');
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                var aberta = document.querySelector('.feed-cell.expanded');
+                if (aberta) {
+                    aberta.classList.remove('expanded');
+                    var img = aberta.querySelector('.full-img-wrap img');
+                    if (img) img.src = '';
+                }
+            }
+        });
+
+    </script>
 </body>
+
 </html>
