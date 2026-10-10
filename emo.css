@@ -1,11 +1,31 @@
+
+
+
+
+
+
+
+
 @font-face {
   font-family: "OldEnglishGothicPixelRegular";
   src: url(fonts/OldEnglishGothicPixelRegular.ttf) format('truetype');
 }
+
 @font-face {
   font-family: "MinFont";
   src: url(fonts/minFont.ttf) format('truetype');
 }
+
+
+
+
+
+
+
+
+
+
+
 
 body {
   background-image: url(imgs/site_imgs/petcemetery.gif);
@@ -15,6 +35,21 @@ body {
   width: 100%;
   text-align: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .crt::before {
   content: " ";
@@ -69,6 +104,17 @@ body {
   animation: flicker 0.15s infinite;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 html,
 body {
   color: #0a0a0a;
@@ -84,6 +130,8 @@ html {
   background-repeat: no-repeat;
   text-size-adjust: 100%;
 }
+
+
 
 a,
 button,
@@ -121,23 +169,38 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+
+
+
+
+
+
+
+
+
+
+
 html, body {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
 }
+
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   width: 5px;
 }
+
 html::-webkit-scrollbar-track,
 body::-webkit-scrollbar-track {
   background: transparent;
 }
+
 html::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.45);
   border-radius: 99px;
 }
+
 html::-webkit-scrollbar-thumb:hover,
 body::-webkit-scrollbar-thumb:hover {
   background: #000000b3;
@@ -147,19 +210,41 @@ body::-webkit-scrollbar-thumb:hover {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.45) transparent;
 }
+
 .scroller::-webkit-scrollbar {
   width: 5px;
 }
+
 .scroller::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .scroller::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.45);
   border-radius: 99px;
 }
+
 .scroller::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.7);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .marked-link {
   font-size: inherit;
@@ -181,6 +266,20 @@ a:hover {
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 body > .layout-with-sidebars {
   display: grid !important;
@@ -205,6 +304,18 @@ header {
   position: relative;
   overflow: visible;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 .navbar {
   display: flex;
@@ -260,6 +371,25 @@ header {
   border: 5px solid #310000;
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .caixamaisclara {
   background-color: #141414;
@@ -362,6 +492,21 @@ header {
   line-height: 1.4;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #containerprincipal {
   border-radius: 2px;
   text-align: center;
@@ -383,6 +528,15 @@ header {
   box-sizing: border-box;
   color: #5a5a5a;
 }
+
+
+
+
+
+
+
+
+
 
 #logopatinha {
   height: 5rem;
@@ -420,6 +574,20 @@ header {
   border-radius: 2px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .caixamaisclaraCenterSimple {
   background-color: #141414;
@@ -479,6 +647,18 @@ header {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 .about-text {
   max-width: 60%;
 }
@@ -504,6 +684,18 @@ header {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 hr {
   display: block !important;
   height: 0 !important;
@@ -528,6 +720,16 @@ hr {
   height: 300px;
 }
 
+
+
+
+
+
+
+
+
+
+
 .about-content {
   display: flex;
   align-items: center;
@@ -546,6 +748,18 @@ hr {
   gap: 2rem;
   border-radius: 2px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 h1 {
   font-size: 2rem;
@@ -584,6 +798,15 @@ h5 {
   margin: 0;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+
+
+
+
+
+
+
+
+
 
 .fotosworks {
   height: 150px;
@@ -631,6 +854,19 @@ h5 {
 .caixamaisclara img {
   border-radius: 2px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .fancybox__caption {
   font-size: 14px;
@@ -698,6 +934,22 @@ h5 {
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 480px) {
   .fancybox__slide {
     padding: 48px 4px 52px;
@@ -706,6 +958,15 @@ h5 {
     display: none;
   }
 }
+
+
+
+
+
+
+
+
+
 
 .boxfoto video {
   width: 200px;
@@ -734,6 +995,22 @@ h5 {
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
   transition: all 0.2s ease-in-out;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sidebar {
   width: 300px !important;
@@ -784,6 +1061,22 @@ h5 {
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #sidepic {
   max-height: 340px;
   border-radius: 2px;
@@ -816,6 +1109,18 @@ h5 {
   opacity: 1;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 .sidebar .box {
   background: #0a0a0a;
   border-radius: 2px;
@@ -836,6 +1141,25 @@ h5 {
   width: 100%;
   height: 33px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .scroll {
   margin: 5px;
@@ -865,6 +1189,26 @@ h5 {
 .scroll-box::-webkit-scrollbar {
   display: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .button-wall {
   display: grid;
@@ -919,6 +1263,22 @@ h5 {
   background: #111;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .desaturate {
   filter: saturate(0.1);
   transition: filter 0.3s ease;
@@ -956,6 +1316,15 @@ h5 {
   filter: saturate(1);
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
 }
+
+
+
+
+
+
+
+
+
 
 .maincollums {
   display: flex;
@@ -1011,6 +1380,14 @@ h5 {
   align-self: center;
 }
 
+
+
+
+
+
+
+
+
 .caixamaisclaraInterests {
   display: flex;
   flex-direction: row;
@@ -1021,6 +1398,16 @@ h5 {
   box-shadow: 0 0 20px #00000080;
   margin: 2px;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+
+
+
+
+:root {
+  --tableOddRowColor:  #171717;   
+  --tableEvenRowColor: #1a1a1a;   
+  --tableHeaderColor:  #212121;  
 }
 
 table {
@@ -1038,7 +1425,8 @@ table th {
   border-bottom: 1px solid rgba(180, 180, 180, 0.18) !important;
   text-align: center !important;
   padding: 4px !important;
-  background-color: #ffffff0d !important;
+  background-color: var(--tableOddRowColor) !important;
+  color: #525252;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
   font-size: 0.95rem !important;
   font-family: "MinFont", sans-serif;
@@ -1057,8 +1445,13 @@ table th:first-child {
   width: 15% !important;
 }
 
+
+table tr:nth-child(even) td {
+  background-color: var(--tableEvenRowColor) !important;
+}
+
 table th {
-  background-color: #ffffff1a !important;
+  background-color: var(--tableHeaderColor) !important;
   font-weight: bold;
 }
 
@@ -1069,6 +1462,17 @@ table a {
 table a:hover {
   color: #570000 !important;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 .track {
   width: 100%;
@@ -1105,6 +1509,34 @@ table a:hover {
   100% { transform: translateX(0%); }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .skin-item {
   background-color: #0a0a0a;
   border: 4px solid #310000;
@@ -1135,6 +1567,32 @@ table a:hover {
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
   font-weight: 500;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .pushable {
   position: relative;
@@ -1218,6 +1676,19 @@ table a:hover {
   outline: none;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 .game-button-link.active .front {
   transform: translateY(-2px);
   background: #1b1b1b;
@@ -1227,6 +1698,23 @@ table a:hover {
 .game-button-link.active .shadow {
   transform: translateY(1px);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .screenshots {
   max-height: 500px;
@@ -1241,6 +1729,19 @@ table a:hover {
   padding: 10px;
   margin-top: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .grid-container {
   display: grid;
@@ -1289,6 +1790,15 @@ table a:hover {
   width: 85%;
   height: 32%;
 }
+
+
+
+
+
+
+
+
+
 
 .tooltip {
   position: relative;
@@ -1379,6 +1889,18 @@ table a:hover {
   opacity: 1;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 .feed-cell {
   position: relative;
   width: 100%;
@@ -1429,7 +1951,9 @@ table a:hover {
   box-sizing: border-box;
 }
 
-.feed-cell.expanded .full-img-wrap { display: block; }
+.feed-cell.expanded .full-img-wrap {
+  display: block;
+}
 
 .full-img-wrap img {
   width: 100%;
@@ -1459,7 +1983,9 @@ table a:hover {
   display: none;
 }
 
-.feed-cell.expanded .close-btn { display: block; }
+.feed-cell.expanded .close-btn {
+  display: block;
+}
 
 .caption-text {
   display: none;
@@ -1474,7 +2000,22 @@ table a:hover {
   text-align: center;
 }
 
-.feed-cell.expanded .caption-text { display: block; }
+.feed-cell.expanded .caption-text {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #lastfm-song-cell a {
   text-decoration: underline;
@@ -1484,6 +2025,14 @@ table a:hover {
   color: #610000;
   text-decoration: underline;
 }
+
+
+
+
+
+
+
+
 
 .overlay {
   display: none;
@@ -1520,15 +2069,51 @@ table a:hover {
   cursor: pointer;
 }
 
-.thumb-link { cursor: pointer; }
 
-.min-full-wrap { display: none; }
-.min-cell.expanded .min-full-wrap { display: block; }
+
+
+
+
+
+
+
+
+
+
+
+.thumb-link {
+  cursor: pointer;
+}
+
+.min-full-wrap {
+  display: none;
+}
+
+.min-cell.expanded .min-full-wrap {
+  display: block;
+}
 
 .feed-cell .close-btn,
 .min-cell .close-btn { display: none; }
+
 .feed-cell.expanded .close-btn,
 .min-cell.expanded .close-btn { display: block; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .lb-cell {
   position: relative;

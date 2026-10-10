@@ -289,8 +289,11 @@ export async function loadVisitorTracker(app) {
             const key = (d.sessionId || '') + (d.page || '');
             if (key && !exitMap[key]) exitMap[key] = d;
         });
+<<<<<<< HEAD
     }, err => {
         console.warn('[tracker] visitors_exit error:', err.code, err.message);
+=======
+>>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     });
 
     onSnapshot(q, snapshot => {
@@ -328,8 +331,11 @@ export async function loadVisitorTracker(app) {
         }).join('');
 
         container.innerHTML = html;
+<<<<<<< HEAD
     }, err => {
         console.error('[tracker] visitors error:', err.code, err.message);
         container.innerHTML = `<p class="tracker-empty" style="color:#bf6a6a;">erro ao carregar visitas: ${err.code || err.message}<br><small>verifique as regras do Firestore no Firebase Console</small></p>`;
+=======
+>>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     });
 }

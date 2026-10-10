@@ -130,8 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
+<<<<<<< HEAD
     let ltfLoaded = false;
 
+=======
+>>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
@@ -146,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
+<<<<<<< HEAD
 
             // Carrega LiveTrafficFeed só uma vez, após o painel estar visível
             if (!ltfLoaded) {
@@ -153,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadLiveTrafficFeed();
             }
 
+=======
+>>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
             loadVisitorTracker(app);
             loadCityList(app);
             loadDrawings(app);
@@ -504,6 +510,7 @@ function escapeHtml(str) {
     return String(str)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+<<<<<<< HEAD
 }
 
 function loadLiveTrafficFeed() {
@@ -531,4 +538,6 @@ function loadLiveTrafficFeed() {
         s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
         container.appendChild(s2);
     };
+=======
+>>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
 }
