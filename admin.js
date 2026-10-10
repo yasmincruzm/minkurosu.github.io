@@ -130,6 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
+    let ltfLoaded = false;
+
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
@@ -144,6 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
+
+            // Carrega LiveTrafficFeed só uma vez, após o painel estar visível
+            if (!ltfLoaded) {
+                ltfLoaded = true;
+                loadLiveTrafficFeed();
+            }
+
             loadVisitorTracker(app);
             loadCityList(app);
             loadDrawings(app);
@@ -495,4 +504,31 @@ function escapeHtml(str) {
     return String(str)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function loadLiveTrafficFeed() {
+    const container = document.getElementById('ltf-widget-container');
+    if (!container) return;
+
+    // Carrega o script de tracking (não cria elemento visual)
+    const s1 = document.createElement('script');
+    s1.type = 'text/javascript';
+    s1.src  = 'https://livetrafficfeed.com/static/v5/livetrafficfeed.js';
+    document.head.appendChild(s1);
+
+    // Carrega o script do widget visual dentro do container visível
+    s1.onload = () => {
+        const s2 = document.createElement('script');
+        s2.type = 'text/javascript';
+        s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
+        container.appendChild(s2);
+    };
+
+    // Fallback: carrega mesmo se s1 falhar
+    s1.onerror = () => {
+        const s2 = document.createElement('script');
+        s2.type = 'text/javascript';
+        s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
+        container.appendChild(s2);
+    };
 }

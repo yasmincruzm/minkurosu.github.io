@@ -806,18 +806,15 @@
 
             <h2>estatísticas</h2>
 
-            <div id="analytics-section">
-                <!-- LiveTrafficFeed Widget -->
-                <div style="margin-bottom: 20px; display: flex; justify-content: center; width: 100%;">
-                    <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js"></script>
-                    <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F"></script>
-                    <noscript><a href="http://livetrafficfeed.com"></a></noscript>
-                </div>
+            <!-- LiveTrafficFeed Widget: carregado via JS após login -->
+            <div id="ltf-widget-container" style="margin-bottom: 20px; display: flex; justify-content: center; width: 100%;"></div>
 
-                <!-- Firebase custom tracker -->
-                <div id="visitor-tracker">
-                    <p class="tracker-empty">carregando...</p>
-                </div>
+            <!-- #analytics-section: renderAnalytics() escreve aqui (resumo de stats) -->
+            <div id="analytics-section"></div>
+
+            <!-- Firebase custom tracker: visitor cards individuais -->
+            <div id="visitor-tracker">
+                <p class="tracker-empty">carregando...</p>
             </div>
 
             <hr>
