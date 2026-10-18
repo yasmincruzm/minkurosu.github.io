@@ -27,12 +27,31 @@
 
 
 
+html,
 body {
-  background-image: url(imgs/site_imgs/petcemetery.gif);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+html {
+  background-image: url('imgs/site_imgs/petcemetery.gif');
   background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #000;
+}
+
+body {
+  background-image: url('imgs/site_imgs/petcemetery.gif');
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
   background-attachment: fixed;
   width: 100%;
+  min-height: 100vh;
   text-align: center;
 }
 

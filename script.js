@@ -338,6 +338,7 @@ function initRouter() {
         
         'comissions': 'commission',
         'commissions': 'commission',
+        'trip': 'visualizer',
     };
 
     const container = document.getElementById('container');

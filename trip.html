@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; }
+
+    #container:has(.visualizer-box) {
+      padding: 0 !important;
+      background: #000 !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .visualizer-box {
+      width: 100%;
+      min-height: 850px;
+      height: 100%;
+      position: relative;
+      background: #000;
+      overflow: hidden;
+      margin: 0 auto;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    #viz-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 850px;
+      display: block;
+      background: #000;
+      border: none;
+    }
+
+    #fade-overlay {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 1;
+      transition: opacity 1.5s ease;
+      pointer-events: none;
+    }
+
+    #fade-overlay.hidden {
+      opacity: 0;
+    }
+
+    #start-blocker {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.9);
+      user-select: none;
+    }
+
+    #start-blocker .main-text {
+      color: rgba(255, 255, 255, 0.95);
+      font-family: sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+    }
+
+    #start-blocker .warning-text {
+      color: #ff5555;
+      font-family: sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div class="visualizer-box" id="viz-wrapper">
+      <canvas id="viz-canvas"></canvas>
+      <div id="fade-overlay"></div>
+      <div id="start-blocker">
+        <span class="main-text">starting trip in 3s...</span>
+        <span class="warning-text">(flashing / epilepsy warning)</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById('viz-canvas');
+      var overlay = document.getElementById('fade-overlay');
+      var blocker = document.getElementById('start-blocker');
+      var wrapper = document.getElementById('viz-wrapper');
+      var visualizer = null;
+      var animId = null;
+      var intervalId = null;
+      var countdownTimer = null;
+      var isStarted = false;
+
+      var audioCtx = null;
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+      } catch (e) {}
+
+      function resize() {
+        if (!canvas) return;
+        var w = (wrapper && wrapper.clientWidth) || canvas.parentElement.clientWidth || window.innerWidth;
+        var h = (wrapper && wrapper.clientHeight) || canvas.parentElement.clientHeight || window.innerHeight;
+        if (!w || !h) return;
+        canvas.width = w;
+        canvas.height = h;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        if (visualizer) visualizer.setRendererSize(w, h);
+      }
+      resize();
+
+      function onResize() {
+        if (!document.getElementById('viz-canvas')) {
+          cleanup();
+          return;
+        }
+        resize();
+      }
+      window.addEventListener('resize', onResize);
+
+      function cleanup() {
+        window.removeEventListener('resize', onResize);
+        if (countdownTimer) clearInterval(countdownTimer);
+        if (animId) cancelAnimationFrame(animId);
+        if (intervalId) clearInterval(intervalId);
+        if (audioCtx && audioCtx.state === 'running') {
+          audioCtx.close().catch(function () {});
+        }
+      }
+
+      function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+          var existing = document.querySelector('script[src="' + src + '"]');
+          if (existing) {
+            resolve();
+            return;
+          }
+          var s = document.createElement('script');
+          s.src = src;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.body.appendChild(s);
+        });
+      }
+
+      var scriptsPromise = (!window.butterchurn || !window.butterchurnPresets)
+        ? Promise.all([
+            loadScript('https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js'),
+            loadScript('https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js')
+          ])
+        : Promise.resolve();
+
+      async function startViz() {
+        if (isStarted) return;
+        isStarted = true;
+        if (countdownTimer) clearInterval(countdownTimer);
+        if (blocker) blocker.remove();
+
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+          }
+          if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+          }
+
+          var analyser = audioCtx.createAnalyser();
+          analyser.fftSize = 2048;
+          analyser.smoothingTimeConstant = 0.85;
+
+          var scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
+          scriptNode.onaudioprocess = function (e) {
+            var out = e.outputBuffer.getChannelData(0);
+            for (var i = 0; i < out.length; i++) {
+              var t = (audioCtx.currentTime * 44100 + i) / 44100;
+              out[i] =
+                Math.sin(2 * Math.PI * 60 * t) * 0.3 +
+                Math.sin(2 * Math.PI * 120 * t) * 0.15 +
+                Math.sin(2 * Math.PI * 240 * t) * 0.1 +
+                Math.sin(2 * Math.PI * 480 * t + Math.sin(t * 0.5) * 2) * 0.08 +
+                Math.sin(2 * Math.PI * 1200 * t) * 0.04 +
+                (Math.random() * 2 - 1) * 0.02;
+            }
+          };
+          scriptNode.connect(analyser);
+
+          resize();
+
+          var bc = window.butterchurn.default || window.butterchurn;
+          visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
+          var presets = window.butterchurnPresets.getPresets
+            ? window.butterchurnPresets.getPresets()
+            : window.butterchurnPresets;
+          var keys = Object.keys(presets);
+          var idx = Math.floor(Math.random() * keys.length);
+          visualizer.loadPreset(presets[keys[idx]], 0.0);
+          visualizer.connectAudio(analyser);
+
+          intervalId = setInterval(function () {
+            if (!document.getElementById('viz-canvas')) {
+              cleanup();
+              return;
+            }
+            idx = (idx + 1) % keys.length;
+            visualizer.loadPreset(presets[keys[idx]], 2.7);
+          }, 15000);
+
+          function render() {
+            if (!document.getElementById('viz-canvas')) {
+              cleanup();
+              return;
+            }
+            visualizer.render();
+            animId = requestAnimationFrame(render);
+          }
+          render();
+
+          setTimeout(function () {
+            if (overlay) overlay.classList.add('hidden');
+          }, 1500);
+        } catch (e) {
+          console.error('[butterchurn] erro:', e);
+        }
+      }
+
+      var secondsLeft = 3;
+      function updateBlockerText() {
+        if (!blocker || isStarted) return;
+        blocker.innerHTML =
+          '<span class="main-text">starting trip in ' + secondsLeft + 's...</span>' +
+          '<span class="warning-text">(flashing / epilepsy warning)</span>';
+      }
+
+      countdownTimer = setInterval(function () {
+        if (!document.getElementById('viz-canvas')) {
+          cleanup();
+          return;
+        }
+        secondsLeft--;
+        if (secondsLeft > 0) {
+          updateBlockerText();
+        } else {
+          clearInterval(countdownTimer);
+          scriptsPromise.then(function () {
+            startViz();
+          }).catch(function (err) {
+            console.error(err);
+            startViz();
+          });
+        }
+      }, 1000);
+
+      if (blocker) {
+        blocker.addEventListener('click', function () {
+          scriptsPromise.then(startViz).catch(startViz);
+        }, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>

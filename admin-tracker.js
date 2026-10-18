@@ -289,11 +289,8 @@ export async function loadVisitorTracker(app) {
             const key = (d.sessionId || '') + (d.page || '');
             if (key && !exitMap[key]) exitMap[key] = d;
         });
-<<<<<<< HEAD
     }, err => {
         console.warn('[tracker] visitors_exit error:', err.code, err.message);
-=======
->>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     });
 
     onSnapshot(q, snapshot => {
@@ -307,7 +304,6 @@ export async function loadVisitorTracker(app) {
             const d = doc.data();
             const hasIp = d.ip && d.ip !== 'unknown';
             const key = d.sessionId ? `sid:${d.sessionId}` : (hasIp ? d.ip : `doc:${doc.id}`);
-            if (hasIp && d.ip === myIp) return;
 
             if (!byIp[key]) {
                 byIp[key] = { ...d, pagesVisited: d.page ? [d.page] : [] };
@@ -319,23 +315,20 @@ export async function loadVisitorTracker(app) {
         renderAnalytics(byIp);
 
         const sorted = Object.values(byIp).sort((a, b) => {
-            const ta = a.timestamp?.toDate?.()?.getTime() || 0;
-            const tb = b.timestamp?.toDate?.()?.getTime() || 0;
+            const ta = a.timestamp?.toDate?.()?.getTime() || (a.timestamp?.seconds ? a.timestamp.seconds * 1000 : Date.now());
+            const tb = b.timestamp?.toDate?.()?.getTime() || (b.timestamp?.seconds ? b.timestamp.seconds * 1000 : Date.now());
             return tb - ta;
         });
 
         const html = sorted.map(d => {
             const exit = exitMap[(d.sessionId || '') + (d.page || '')] || {};
-            const isMe = myIp && d.ip === myIp;
+            const isMe = (myIp && d.ip === myIp) || d.isAdmin === true;
             return renderCard(d, exit, isMe);
         }).join('');
 
         container.innerHTML = html;
-<<<<<<< HEAD
     }, err => {
         console.error('[tracker] visitors error:', err.code, err.message);
         container.innerHTML = `<p class="tracker-empty" style="color:#bf6a6a;">erro ao carregar visitas: ${err.code || err.message}<br><small>verifique as regras do Firestore no Firebase Console</small></p>`;
-=======
->>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     });
 }

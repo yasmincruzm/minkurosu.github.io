@@ -29,24 +29,21 @@
 
 
 
-    <div style="display: none;">
-        <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js"></script>
-        <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F"></script>
-        <noscript><a href="http://livetrafficfeed.com"></a></noscript>
-    </div>
-    <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js"></script>
-    <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F"></script>
-    <noscript><a href="http://livetrafficfeed.com"></a></noscript>
+    <script>
+        window._trackQueue = window._trackQueue || [];
+        if (typeof window.markVisit !== 'function') {
+            window.markVisit = window.trackPage = function(pageName) {
+                window._trackQueue.push(pageName);
+            };
+        }
+    </script>
+    <script type="module" src="coleta.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="https://iframe.chat/scripts/main.min.js"></script>
 
     <script>NekoType = "black"</script>
     <script src="oneko.js"></script>
-
-    <div class="crt"></div>
 
     <style>
 
@@ -86,12 +83,30 @@
             to   { transform: rotate(359deg); }
         }
 
-        body {
-            background-image: url(imgs/site_imgs/petcemetery.gif);
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        html {
+            background-image: url('imgs/site_imgs/petcemetery.gif');
             background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #000;
+        }
+
+        body {
+            background-image: url('imgs/site_imgs/petcemetery.gif');
+            background-repeat: no-repeat;
+            background-position: center center;
             background-size: cover;
             background-attachment: fixed;
             width: 100%;
+            min-height: 100vh;
             text-align: center;
         }
 
@@ -608,44 +623,7 @@
 
 
 
-        #butterchurn-container {
-            position: relative;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            aspect-ratio: 4 / 3;
-            background: #000;
-            border-radius: 2px;
-            overflow: hidden;
-            cursor: pointer;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
 
-        #butterchurn-container canvas {
-            width: 100% !important;
-            height: 100% !important;
-            display: block;
-        }
-
-        #viz-eye-btn {
-            position: absolute;
-            bottom: 8px;
-            right: 10px;
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            opacity: 0.5;
-            font-size: 13px;
-            line-height: 1;
-            color: #fff;
-            z-index: 10;
-            pointer-events: all;
-            text-shadow: 0 0 4px #000;
-            transition: opacity 0.2s;
-        }
-        #viz-eye-btn:hover { opacity: 1; }
 
  
 
@@ -751,6 +729,12 @@
     </style>
 </head>
 <body>
+    <div class="crt"></div>
+    <div style="display: none;">
+        <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js"></script>
+        <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F"></script>
+        <noscript><a href="http://livetrafficfeed.com"></a></noscript>
+    </div>
 
     <div class="layout-with-sidebars">
         <aside id="sidebar-esquerda-container" class="sidebar">
@@ -799,6 +783,7 @@
                     <div class="side-item"><a href="#" data-page="yaoifridge" class="nav-link">yaoi fridge</a></div>
                     <div class="side-item"><a href="#" data-page="bookmarks" class="nav-link">bookmarks</a></div>
                     <div class="side-item"><a href="#" data-page="credits" class="nav-link">credits</a></div>
+                    <div class="side-item"><a href="#" data-page="visualizer" class="nav-link">trippy (flashing warning)</a></div>
                 </div>
 
                 <hr>
@@ -849,7 +834,7 @@
         </tr>
         <tr>
             <td>playing:</td>
-            <td id="discord-game">probably working :(</td>
+            <td id="discord-game">probably sleeping or working/studying</td>
         </tr>
        <tr>
           <td>listening:</td>
@@ -857,15 +842,15 @@
         </tr>
         <tr>
             <td>reading:</td>
-            <td>piaget, vigotski, wallon</td>
+            <td>dental anatomy books</td>
         </tr>
         <tr>
             <td>watching:</td>
-            <td>south park, twin peaks</td>
+            <td>south park</td>
         </tr>
         <tr>
             <td>current obsession:</td>
-            <td>transformice, sculpting,</td>
+            <td>transformice and revolution.</td>
         </tr>
     </table>
 </div>
@@ -1299,123 +1284,8 @@
 
                 <hr>
                 <img src="imgs/webgraphics/random/revengehd.webp" class="rotate" style="height:260px;" alt="">
-                <hr>
 
-                <div class="desaturate" id="butterchurn-container">
-                    <canvas id="viz-canvas"></canvas>
-                    <div id="fade-overlay" style="position: absolute; inset: 0; background: #000; opacity: 1; transition: opacity 1.5s ease; pointer-events: none;"></div>
-                    <button id="viz-eye-btn" title="hide visualizer">👁</button>
-                </div>
 
-                <script>
-                (function () {
-                    var canvas = document.getElementById('viz-canvas');
-                    var overlay = document.getElementById('fade-overlay');
-                    var container = document.getElementById('butterchurn-container');
-                    var eyeBtn = document.getElementById('viz-eye-btn');
-                    if (!canvas || !container) return;
-                    var visualizer;
-
-                    eyeBtn.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                        container.style.transition = 'opacity 1s ease, max-height 0.8s ease 0.9s';
-                        container.style.opacity = '0';
-                        container.style.pointerEvents = 'none';
-                        setTimeout(function () { container.style.display = 'none'; }, 1800);
-                    });
-
-                    container.addEventListener('click', function () {
-                        window.location.href = 'visualizer.html';
-                    });
-
-                    function resize() {
-                        var w = container.clientWidth;
-                        var h = container.clientHeight;
-                        if (!w || !h) return;
-                        canvas.width = w;
-                        canvas.height = h;
-                        canvas.style.width = w + 'px';
-                        canvas.style.height = h + 'px';
-                    }
-                    resize();
-                    window.addEventListener('resize', function () {
-                        resize();
-                        if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
-                    });
-
-                    function loadScriptOnce(src) {
-                        return new Promise(function (resolve, reject) {
-                            var existing = document.querySelector('script[src="' + src + '"]');
-                            if (existing) {
-                                if (existing.dataset.loaded === '1') { resolve(); return; }
-                                existing.addEventListener('load', resolve, { once: true });
-                                existing.addEventListener('error', reject, { once: true });
-                                return;
-                            }
-                            var s = document.createElement('script');
-                            s.src = src;
-                            s.onload = function () { s.dataset.loaded = '1'; resolve(); };
-                            s.onerror = reject;
-                            document.body.appendChild(s);
-                        });
-                    }
-
-                    function startViz() {
-                        try {
-                            var audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
-                            var analyser = audioCtx.createAnalyser();
-                            analyser.fftSize = 2048;
-                            analyser.smoothingTimeConstant = 0.85;
-
-                            var scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
-                            scriptNode.onaudioprocess = function (e) {
-                                var out = e.outputBuffer.getChannelData(0);
-                                for (var i = 0; i < out.length; i++) {
-                                    var t = (audioCtx.currentTime * 44100 + i) / 44100;
-                                    out[i] =
-                                        Math.sin(2 * Math.PI * 60 * t) * 0.3 +
-                                        Math.sin(2 * Math.PI * 120 * t) * 0.15 +
-                                        Math.sin(2 * Math.PI * 240 * t) * 0.1 +
-                                        Math.sin(2 * Math.PI * 480 * t + Math.sin(t * 0.5) * 2) * 0.08 +
-                                        Math.sin(2 * Math.PI * 1200 * t) * 0.04 +
-                                        (Math.random() * 2 - 1) * 0.02;
-                                }
-                            };
-                            scriptNode.connect(analyser);
-
-                            var bc = window.butterchurn.default || window.butterchurn;
-                            visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
-                            var presets = window.butterchurnPresets.getPresets
-                                ? window.butterchurnPresets.getPresets()
-                                : window.butterchurnPresets;
-                            var keys = Object.keys(presets);
-                            var idx = Math.floor(Math.random() * keys.length);
-                            visualizer.loadPreset(presets[keys[idx]], 0.0);
-                            visualizer.connectAudio(analyser);
-
-                            setInterval(function () {
-                                idx = (idx + 1) % keys.length;
-                                visualizer.loadPreset(presets[keys[idx]], 2.7);
-                            }, 15000);
-
-                            (function render() { visualizer.render(); requestAnimationFrame(render); })();
-
-                            setTimeout(function () { if (overlay) overlay.style.opacity = '0'; }, 5000);
-                        } catch (e) {
-                            console.error('[butterchurn] erro:', e);
-                        }
-                    }
-
-                    if (window.butterchurn && window.butterchurnPresets) {
-                        startViz();
-                    } else {
-                        Promise.all([
-                            loadScriptOnce('https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js'),
-                            loadScriptOnce('https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js')
-                        ]).then(startViz).catch(function (err) { console.error('falha ao carregar butterchurn:', err); });
-                    }
-                })();
-                </script>
 
                 <hr>
 
@@ -1541,12 +1411,12 @@
     </div>
     <script>
         document.addEventListener('click', function (e) {
-            var botao = e.target.closest('.portfolio-nav');
-            if (!botao) return;
+            var button = e.target.closest('.portfolio-nav');
+            if (!button) return;
             e.preventDefault();
             e.stopPropagation();
 
-            var id = botao.dataset.frame;
+            var id = button.dataset.frame;
             var frame = document.getElementById(id);
             if (!frame) return;
 
@@ -1559,7 +1429,7 @@
 
             if (!frame.src && frame.dataset.src) frame.src = frame.dataset.src;
             frame.classList.add('is-active');
-            botao.classList.add('is-active');
+            button.classList.add('is-active');
 
             var msg = document.getElementById('portfolio-empty');
             if (msg) msg.classList.add('is-hidden');
@@ -1567,66 +1437,6 @@
 
 
 
-(function() {
-    'use strict';
-
-    const LASTFM_USERNAME = 'minkurosu';
-    const LASTFM_API_KEY = 'a2ef624a3dff8ec934580b0577d18cb5';
-
-    async function fetchLastFmTrack() {
-        console.log("[last.fm] searching...");
-        const lastfmSongCell = document.getElementById('lastfm-song-cell');
-
-        if (!lastfmSongCell) {
-            console.error("[last.fm] error");
-            return;
-        }
-        console.log("[last.fm] element 'lastfm-song-cell' found successfully.");
-
-        const apiUrl = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
-
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error(`http error! status: ${response.status}`);
-            }
-            const data = await response.json();
-
-            if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
-                const track = data.recenttracks.track[0];
-                const songName = track.name;
-                const artistName = track.artist['#text'];
-                const trackUrl = track.url;
-
-                const newContent = `<a href="${trackUrl}" target="_blank">${songName.toLowerCase()} - ${artistName.toLowerCase()}</a>`;
-                lastfmSongCell.innerHTML = newContent;
-                console.log(`[last.fm] success!: ${songName} - ${artistName}`);
-
-            } else {
-                lastfmSongCell.textContent = 'no recent tracks.';
-                console.log("[last.fm] no recent tracks found.");
-            }
-        } catch (error) {
-            console.error("[last.fm] failed to fetch api data:", error);
-            lastfmSongCell.textContent = 'error.';
-        }
-    }
-
-    window.inicializarLastFmWidget = function() {
-        console.log("[last.fm] initializing widget...");
-        setTimeout(() => {
-            fetchLastFmTrack();
-        }, 100);
-    };
-
-    console.log("[last.fm] widget script loaded!");
-
-})();
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => window.inicializarLastFmWidget());
-} else {
-    window.inicializarLastFmWidget();
-}
 </script>
 
     <script type="text/javascript">
@@ -1640,8 +1450,6 @@ if (document.readyState === 'loading') {
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <script src="https://cdn.jsdelivr.net/gh/snd-lib/snd-lib@v1.2.4/dist/browser/snd.js?kit=01"></script>
 </body>
 
 </html>

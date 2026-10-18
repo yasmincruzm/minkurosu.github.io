@@ -209,10 +209,11 @@ let isAdmin = false;
 geoPromise.then(geo => {
     if (geo.ip) sessionStorage.setItem('mku_ip', geo.ip);
 });
-if (localStorage.getItem('mku_admin') === '1') isAdmin = true;
+if (localStorage.getItem('mku_admin') === '1' || localStorage.getItem('min_admin') === '1') {
+    isAdmin = true;
+}
 
 let currentVisitDocRef = null;
-
 
 const pendingRetries = [];
 
@@ -221,7 +222,7 @@ async function withRetry(fn, label, attempts = 3) {
         try {
             return await fn();
         } catch (err) {
-            
+            console.warn(`session-utils ${label} (tentativa ${i + 1}):`, err.message || err);
             if (i === attempts - 1) throw err;
             await new Promise(res => setTimeout(res, 500 * (i + 1)));
         }
@@ -229,7 +230,6 @@ async function withRetry(fn, label, attempts = 3) {
 }
 
 async function recordPageView(pageName) {
-    if (isAdmin) return;
     try {
         currentVisitDocRef = await withRetry(() => addDoc(collection(db, 'visitors'), {
             ip:           'unknown',
@@ -247,13 +247,14 @@ async function recordPageView(pageName) {
             visitCount:   sessionData.visitCount,
             isNewVisitor: sessionData.isNewVisitor,
             firstVisit:   sessionData.firstVisit,
+            isAdmin:      isAdmin,
             maxScroll:    0,
             timestamp:    serverTimestamp()
         }), 'pageview');
 
         const docRefAtCreation = currentVisitDocRef;
         geoPromise.then(async geo => {
-            if (isAdmin || !geo.ip || geo.ip === 'unknown') return;
+            if (!geo.ip || geo.ip === 'unknown') return;
             try {
                 await withRetry(() => updateDoc(docRefAtCreation, {
                     ip:      geo.ip,
@@ -263,17 +264,19 @@ async function recordPageView(pageName) {
                     cc:      geo.cc      || ''
                 }), 'geo update');
             } catch (err) {
-                
+                console.warn('error geo update:', err);
             }
-            await logCityVisit(geo);
+            if (!isAdmin) {
+                await logCityVisit(geo);
+            }
         });
     } catch (err) {
-        
+        console.warn('error recordPageView:', err);
     }
 }
 
 async function recordPageExit(pageName) {
-    if (isAdmin || !pageName) return;
+    if (!pageName) return;
     updateMaxScroll();
     const activeTime = Math.round((Date.now() - pageStartTime - hiddenTime) / 1000);
     try {
@@ -283,25 +286,42 @@ async function recordPageExit(pageName) {
             maxScroll,
             activeTime,
             clickCount,
+            isAdmin:    isAdmin,
             timestamp:  serverTimestamp()
         });
     } catch {  }
     await flushSubpageClicks();
 }
 
-window.markVisit = async function(pageName) {
+async function trackPageHandler(pageName) {
+    if (!pageName) pageName = 'home';
     if (currentPage !== null) {
         await recordPageExit(currentPage);
     }
     resetPageState(pageName);
     await recordPageView(pageName);
-};
+}
 
+window.trackPage = window.markVisit = trackPageHandler;
+
+window._trackerReadyFired = true;
 window._appReadyFired = true;
+window.dispatchEvent(new CustomEvent('tracker:ready'));
 window.dispatchEvent(new CustomEvent('app:ready'));
 
+// Process queue or initial page load
+if (window._trackQueue && window._trackQueue.length > 0) {
+    const queue = [...window._trackQueue];
+    window._trackQueue = [];
+    const last = queue[queue.length - 1];
+    trackPageHandler(last);
+} else if (!currentPage) {
+    const initialPage = location.pathname.replace(/^\/|\.html$/g, '') || 'home';
+    trackPageHandler(initialPage);
+}
+
 window.addEventListener('pagehide', () => {
-    if (!isAdmin && currentPage) {
+    if (currentPage) {
         recordPageExit(currentPage);
         flushSubpageClicks();
     }

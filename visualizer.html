@@ -4,83 +4,248 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #000; overflow: hidden; }
-    canvas { display: block; }
+    #container:has(.visualizer-frame) {
+      padding: 0 !important;
+      background: #000 !important;
+      border: none !important;
+      box-shadow: none !important;
+      overflow: hidden;
+    }
+
+    .visualizer-frame {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      min-height: 840px;
+      border: 0;
+      margin: 0 auto;
+      background: #000;
+    }
+  </style>
+</head>
+<body style="margin:0;background:#000;">
+  <div id="container">
+    <div id="viz-mount"></div>
+
+    <template id="viz-frame-src">
+<style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+
+    .visualizer-box {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000;
+      overflow: hidden;
+    }
+
+    #viz-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+      border: none;
+      margin: 0;
+    }
+
     #fade-overlay {
-      position: fixed; inset: 0;
+      position: absolute;
+      inset: 0;
       background: #000;
       opacity: 1;
       transition: opacity 1.5s ease;
       pointer-events: none;
+      z-index: 5;
     }
+
     #fade-overlay.hidden { opacity: 0; }
-    #start-blocker {
-      position: fixed; inset: 0;
-      z-index: 99;
-      cursor: pointer;
+
+    #viz-status {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      gap: 10px;
-    }
-    #start-blocker .main-text {
-      color: rgba(255,255,255,0.85);
+      color: rgba(255, 255, 255, 0.9);
       font-family: sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 0.1em;
+      text-align: center;
+      padding: 14px 1rem 1rem;
+      pointer-events: none;
     }
-    #start-blocker .warning-text {
-      color: rgba(255,255,255,0.35);
+
+    #viz-warning {
+      position: absolute;
+      left: 10px;
+      top: 12px;
+      z-index: 7;
+      color: #ff5555;
       font-family: sans-serif;
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.05em;
+      opacity: 0.55;
+      pointer-events: none;
+      user-select: none;
     }
+  
+    #viz-fs {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 8;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+    #viz-fs:hover { opacity: 1; }
   </style>
-</head>
-<body>
-  <canvas id="viz-canvas"></canvas>
-  <div id="fade-overlay"></div>
-  <div id="start-blocker">
-    <span class="main-text">click to start the trip</span>
-    <span class="warning-text">(epilepsy warning)</span>
+
+  <div class="visualizer-box" id="viz-wrapper">
+    <canvas id="viz-canvas"></canvas>
+    <div id="fade-overlay"></div>
+    <div id="viz-status">starting trip...</div>
+    <button id="viz-fs" type="button" title="tela cheia">&#x26F6;</button>
+    <div id="viz-warning">(flashing / epilepsy warning)</div>
   </div>
 
-  <script src="https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js"></script>
-  <script src="https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js"></script>
   <script>
     (function () {
-      const canvas = document.getElementById('viz-canvas');
-      const overlay = document.getElementById('fade-overlay');
-      const blocker = document.getElementById('start-blocker');
-      let visualizer;
+      var canvas  = document.getElementById('viz-canvas');
+      var overlay = document.getElementById('fade-overlay');
+      var status  = document.getElementById('viz-status');
+      var wrapper = document.getElementById('viz-wrapper');
+
+      var visualizer = null;
+      var animId = null;
+      var intervalId = null;
+      var resizeObs = null;
+      var scriptNode = null;
+      var audioCtx = null;
+      var dead = false;
+
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+      } catch (e) {}
+
+      function alive() {
+        return !dead && canvas && canvas.isConnected;
+      }
 
       function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
+        if (!canvas || !wrapper) return;
+        var w = wrapper.clientWidth;
+        var h = wrapper.clientHeight;
+        if (!w || !h) return;
+        canvas.width = w;
+        canvas.height = h;
+        if (visualizer) visualizer.setRendererSize(w, h);
       }
+
+      function cleanup() {
+        if (dead) return;
+        dead = true;
+        window.removeEventListener('resize', resize);
+        if (resizeObs) resizeObs.disconnect();
+        if (animId) cancelAnimationFrame(animId);
+        if (intervalId) clearInterval(intervalId);
+        try { if (scriptNode) { scriptNode.onaudioprocess = null; scriptNode.disconnect(); } } catch (e) {}
+        if (audioCtx && audioCtx.state !== 'closed') {
+          audioCtx.close().catch(function () {});
+        }
+      }
+      window.addEventListener('pagehide', cleanup);
+
       resize();
-      window.addEventListener('resize', () => {
-        resize();
-        if (visualizer) visualizer.setRendererSize(canvas.width, canvas.height);
-      });
+      window.addEventListener('resize', resize);
+      if ('ResizeObserver' in window) {
+        resizeObs = new ResizeObserver(function () {
+          if (!alive()) { cleanup(); return; }
+          resize();
+        });
+        resizeObs.observe(wrapper);
+      }
+
+      function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.onload = resolve;
+          s.onerror = function () { reject(new Error('falha ao carregar ' + src)); };
+          document.body.appendChild(s);
+        });
+      }
+
+      function loadFirst(sources, isReady) {
+        if (isReady()) return Promise.resolve();
+        var p = Promise.reject();
+        sources.forEach(function (src) {
+          p = p.catch(function () {
+            return loadScript(src).then(function () {
+              if (!isReady()) throw new Error('script carregou mas nao exportou nada: ' + src);
+            });
+          });
+        });
+        return p;
+      }
+
+      function loadLibs() {
+        return loadFirst([
+          'butterchurn_min.js',
+          'https://cdn.jsdelivr.net/npm/butterchurn@2.6.7/lib/butterchurn.min.js',
+          'https://unpkg.com/butterchurn@2.6.7/lib/butterchurn.min.js'
+        ], function () { return !!window.butterchurn; })
+        .then(function () {
+          return loadFirst([
+            'butterchurn_presets_min.js',
+            'https://cdn.jsdelivr.net/npm/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js',
+            'https://unpkg.com/butterchurn-presets@2.4.7/lib/butterchurnPresets.min.js'
+          ], function () { return !!window.butterchurnPresets; });
+        });
+      }
+
+      function showError(msg) {
+        if (status) status.textContent = msg;
+      }
 
       async function startViz() {
-        blocker.remove();
+        if (!alive()) { cleanup(); return; }
+
         try {
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
-          await audioCtx.resume();
-          const analyser = audioCtx.createAnalyser();
+          if (!audioCtx || audioCtx.state === 'closed') {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 44100 });
+          }
+          if (audioCtx.state === 'suspended') {
+            try { await audioCtx.resume(); } catch (e) {}
+          }
+          if (audioCtx.state === 'suspended') {
+            var unlock = function () {
+              if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            };
+            document.addEventListener('pointerdown', unlock, { once: true });
+            document.addEventListener('keydown', unlock, { once: true });
+          }
+
+          var analyser = audioCtx.createAnalyser();
           analyser.fftSize = 2048;
           analyser.smoothingTimeConstant = 0.85;
-          const scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
-          scriptNode.onaudioprocess = function(e) {
-            const out = e.outputBuffer.getChannelData(0);
-            for (let i = 0; i < out.length; i++) {
-              const t = (audioCtx.currentTime * 44100 + i) / 44100;
+
+          scriptNode = audioCtx.createScriptProcessor(2048, 0, 1);
+          scriptNode.onaudioprocess = function (e) {
+            var out = e.outputBuffer.getChannelData(0);
+            for (var i = 0; i < out.length; i++) {
+              var t = (audioCtx.currentTime * 44100 + i) / 44100;
               out[i] =
                 Math.sin(2 * Math.PI * 60 * t) * 0.3 +
                 Math.sin(2 * Math.PI * 120 * t) * 0.15 +
@@ -91,26 +256,76 @@
             }
           };
           scriptNode.connect(analyser);
-          const bc = window.butterchurn.default || window.butterchurn;
+          var mute = audioCtx.createGain();
+          mute.gain.value = 0;
+          analyser.connect(mute);
+          mute.connect(audioCtx.destination);
+
+          resize();
+
+          var bc = window.butterchurn.default || window.butterchurn;
           visualizer = bc.createVisualizer(audioCtx, canvas, { width: canvas.width, height: canvas.height });
-          const presets = window.butterchurnPresets.getPresets
+
+          var presets = window.butterchurnPresets.getPresets
             ? window.butterchurnPresets.getPresets()
             : window.butterchurnPresets;
-          const keys = Object.keys(presets);
-          let idx = Math.floor(Math.random() * keys.length);
+          var keys = Object.keys(presets);
+          var idx = Math.floor(Math.random() * keys.length);
           visualizer.loadPreset(presets[keys[idx]], 0.0);
           visualizer.connectAudio(analyser);
-          setInterval(() => {
+
+          intervalId = setInterval(function () {
+            if (!alive()) { cleanup(); return; }
             idx = (idx + 1) % keys.length;
             visualizer.loadPreset(presets[keys[idx]], 2.7);
           }, 15000);
-          (function render() { visualizer.render(); requestAnimationFrame(render); })();
-          setTimeout(() => { overlay.classList.add('hidden'); }, 5000);
-        } catch(e) { console.error(e); }
+
+          function render() {
+            if (!alive()) { cleanup(); return; }
+            visualizer.render();
+            animId = requestAnimationFrame(render);
+          }
+          render();
+
+          if (status) status.remove();
+          setTimeout(function () {
+            if (overlay) overlay.classList.add('hidden');
+          }, 300);
+        } catch (e) {
+          console.error('[butterchurn] erro:', e);
+          showError('could not start the trip :(  (' + (e && e.message ? e.message : e) + ')');
+        }
       }
 
-      blocker.addEventListener('click', startViz, { once: true });
+      var fsBtn = document.getElementById('viz-fs');
+      if (fsBtn) fsBtn.addEventListener('click', function () {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (wrapper.requestFullscreen) wrapper.requestFullscreen();
+      });
+
+      loadLibs().then(startViz).catch(function (err) {
+        console.error('[butterchurn] libs:', err);
+        showError('could not load the trip :(');
+      });
     })();
   </script>
+
+    </template>
+
+    <script>
+      (function () {
+        var tpl = document.getElementById('viz-frame-src');
+        var mount = document.getElementById('viz-mount');
+        if (!tpl || !mount) return;
+        var f = document.createElement('iframe');
+        f.className = 'visualizer-frame';
+        f.title = 'trip (flashing / epilepsy warning)';
+        f.setAttribute('allow', 'autoplay; fullscreen');
+        f.setAttribute('allowfullscreen', '');
+        f.srcdoc = '<' + '!DOCTYPE html>' + tpl.innerHTML;
+        mount.appendChild(f);
+      })();
+    </script>
+  </div>
 </body>
 </html>

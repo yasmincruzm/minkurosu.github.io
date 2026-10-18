@@ -71,6 +71,7 @@ getRedirectResult(auth)
             return;
         }
         localStorage.setItem('min_admin', '1');
+        localStorage.setItem('mku_admin', '1');
         const lm = document.getElementById('login-message');
         msg(lm, 'logged in!', 'success');
     })
@@ -130,11 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn      = document.getElementById('logout-btn');
     const googleLoginBtn = document.getElementById('google-login-btn');
 
-<<<<<<< HEAD
     let ltfLoaded = false;
 
-=======
->>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
     onAuthStateChanged(auth, user => {
         if (!adminPanel || !loginForm) return;
 
@@ -149,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             adminPanel.style.display = 'block';
             loginForm.style.display  = 'none';
-<<<<<<< HEAD
 
             // Carrega LiveTrafficFeed só uma vez, após o painel estar visível
             if (!ltfLoaded) {
@@ -157,15 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadLiveTrafficFeed();
             }
 
-=======
->>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
             loadVisitorTracker(app);
             loadCityList(app);
             loadDrawings(app);
             loadMailbox(db);
-            loadComments(db);
         } else {
             console.log('[admin] deslogado');
+            ltfLoaded = false;
             adminPanel.style.display = 'none';
             loginForm.style.display  = 'block';
         }
@@ -182,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             localStorage.setItem('min_admin', '1');
+            localStorage.setItem('mku_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             msg(loginMessage, `erro: ${err.message}`, 'error');
@@ -211,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             localStorage.setItem('min_admin', '1');
+            localStorage.setItem('mku_admin', '1');
             msg(loginMessage, 'logged in!', 'success');
         } catch (err) {
             console.error('[admin] popup login error:', err.code, err.message);
@@ -245,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             await signOut(auth);
             localStorage.removeItem('min_admin');
+            localStorage.removeItem('mku_admin');
             msg(loginMessage, 'logged out.', 'info');
         } catch (err) {
             msg(loginMessage, `logout error: ${err.message}`, 'error');
@@ -252,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    // Novo post (pessoal)
     const postContent   = document.getElementById('post-content');
     const postImageUrl  = document.getElementById('post-image-url');
     const postImageFile = document.getElementById('post-image-file');
@@ -264,16 +263,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = postImageFile?.files[0];
 
         if (!content && !enteredUrl && !file) {
-            msg(postMsg, 'write something first.', 'error');
+            msg(postMsg, 'escreva algo primeiro.', 'error');
             return;
         }
 
         try {
-            msg(postMsg, 'publishing...', 'info');
+            msg(postMsg, 'publicando...', 'info');
 
             let fileUrl = '';
             if (file) {
-                msg(postMsg, 'uploading image...', 'info');
+                msg(postMsg, 'enviando imagem...', 'info');
                 fileUrl = await uploadImageToImgBB(file);
             }
 
@@ -286,16 +285,72 @@ document.addEventListener('DOMContentLoaded', () => {
             await addDoc(collection(db, 'posts'), {
                 content: finalContent,
                 imageUrl: fileUrl || enteredUrl || '',
+                type: 'personal',
+                profile: 'personal',
                 timestamp: serverTimestamp()
             });
 
-            msg(postMsg, 'posted!', 'success');
+            msg(postMsg, 'post pessoal publicado!', 'success');
             if (postContent)   postContent.value  = '';
             if (postImageUrl)  postImageUrl.value  = '';
             if (postImageFile) postImageFile.value = '';
         } catch (err) {
             console.error(err);
-            msg(postMsg, `error: ${err.message}`, 'error');
+            msg(postMsg, `erro: ${err.message}`, 'error');
+        }
+    });
+
+    // Novo post (arte digital / profissional)
+    const artPostContent   = document.getElementById('art-post-content');
+    const artPostImageUrl  = document.getElementById('art-post-image-url');
+    const artPostImageFile = document.getElementById('art-post-image-file');
+    const publishArtBtn    = document.getElementById('publish-art-post-btn');
+    const artPostMsg       = document.getElementById('art-post-message');
+
+    publishArtBtn?.addEventListener('click', async () => {
+        let content = (artPostContent?.value || '').trim();
+        const enteredUrl = (artPostImageUrl?.value || '').trim();
+        const file = artPostImageFile?.files[0];
+
+        if (!content && !enteredUrl && !file) {
+            msg(artPostMsg, 'adicione uma imagem ou descrição da arte.', 'error');
+            return;
+        }
+
+        try {
+            msg(artPostMsg, 'publicando arte...', 'info');
+
+            let fileUrl = '';
+            if (file) {
+                msg(artPostMsg, 'enviando arte...', 'info');
+                fileUrl = await uploadImageToImgBB(file);
+            }
+
+            const parts = [];
+            if (content)    parts.push(content);
+            if (enteredUrl) parts.push(enteredUrl);
+            if (fileUrl)    parts.push(fileUrl);
+            const finalContent = parts.join('\n');
+
+            const artDoc = {
+                content: finalContent,
+                imageUrl: fileUrl || enteredUrl || '',
+                type: 'art',
+                profile: 'professional_art',
+                category: 'digital_art',
+                timestamp: serverTimestamp()
+            };
+
+            await addDoc(collection(db, 'posts'), artDoc);
+            await addDoc(collection(db, 'art_posts'), artDoc);
+
+            msg(artPostMsg, 'arte profissional publicada!', 'success');
+            if (artPostContent)   artPostContent.value  = '';
+            if (artPostImageUrl)  artPostImageUrl.value  = '';
+            if (artPostImageFile) artPostImageFile.value = '';
+        } catch (err) {
+            console.error(err);
+            msg(artPostMsg, `erro: ${err.message}`, 'error');
         }
     });
 
@@ -406,138 +461,33 @@ function loadMailbox(db) {
     });
 }
 
-function loadComments(db) {
-    const container = document.getElementById('comments-admin-list');
-    const filterEl  = document.getElementById('comments-filter');
-    if (!container) return;
-
-    let allComments = [];
-    let currentFilter = '';
-
-    const q = query(collection(db, 'comments'));
-
-    onSnapshot(q, snapshot => {
-        allComments = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-        allComments.sort((a, b) => {
-            const ta = a.timestamp?.seconds || 0;
-            const tb = b.timestamp?.seconds || 0;
-            return tb - ta;
-        });
-        render();
-    }, err => {
-        console.warn('loadComments:', err);
-        container.innerHTML = `<p class="tracker-empty">erro ao carregar comentários.</p>`;
-    });
-
-    function countryFlag(cc) {
-        if (!cc || cc.length !== 2) return '🌐';
-        return [...cc.toUpperCase()]
-            .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
-            .join('');
-    }
-
-    function fmtWhen(ts) {
-        if (!ts) return '—';
-        const time = ts.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        const date = ts.toLocaleDateString('pt-BR');
-        return `${time} - ${date}`;
-    }
-
-    function render() {
-        const filtered = currentFilter
-            ? allComments.filter(c => c.postId === currentFilter)
-            : allComments;
-
-        if (filtered.length === 0) {
-            container.innerHTML = `<p class="tracker-empty">nenhum comentário${currentFilter ? ' nesse post' : ''} ainda.</p>`;
-            return;
-        }
-
-        container.innerHTML = filtered.map(c => {
-            const ts  = c.timestamp?.toDate ? c.timestamp.toDate() : null;
-            const when = fmtWhen(ts);
-
-            const siteHtml = c.site
-                ? `<a class="cmt-site" href="${escapeHtml(c.site)}" target="_blank" rel="noopener">${escapeHtml(c.site)}</a>`
-                : '';
-
-            const location = [c.city, c.region, c.country]
-                .filter(v => v && v !== 'unknown' && v !== '')
-                .join(', ') || 'localização desconhecida';
-
-            const flag    = countryFlag(c.cc || '');
-            const device  = c.device  || '—';
-            const browser = c.browser || '—';
-            const os      = c.os      || '—';
-
-            return `
-            <div class="cmt-card" data-id="${c.id}">
-                <div class="cmt-head">
-                    <span class="cmt-name">${escapeHtml(c.name || 'anônimo')}</span>
-                    ${siteHtml}
-                    <span class="cmt-post">${escapeHtml(c.postId || '')}</span>
-                </div>
-                <div class="cmt-msg">${escapeHtml(c.message || '')}</div>
-                <div class="cmt-meta">
-                    <span class="cmt-loc">${flag} ${escapeHtml(location)}</span>
-                    <span class="cmt-dev">${escapeHtml(device)} · ${escapeHtml(browser)} · ${escapeHtml(os)}</span>
-                    <span class="cmt-ip">🌐 ${escapeHtml(c.ip || 'unknown')}</span>
-                    <span class="cmt-when">${when}</span>
-                </div>
-                <button class="cmt-delete" data-id="${c.id}">deletar</button>
-            </div>`;
-        }).join('');
-
-        container.querySelectorAll('.cmt-delete').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                if (!confirm('deletar esse comentário?')) return;
-                try {
-                    await deleteDoc(doc(db, 'comments', btn.dataset.id));
-                } catch (err) {
-                    alert('erro ao deletar: ' + err.message);
-                }
-            });
-        });
-    }
-
-    filterEl?.addEventListener('change', () => {
-        currentFilter = filterEl.value;
-        render();
-    });
-}
-
 function escapeHtml(str) {
     return String(str)
         .replace(/&/g,'&amp;').replace(/</g,'&lt;')
         .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-<<<<<<< HEAD
 }
 
 function loadLiveTrafficFeed() {
     const container = document.getElementById('ltf-widget-container');
     if (!container) return;
 
-    // Carrega o script de tracking (não cria elemento visual)
-    const s1 = document.createElement('script');
-    s1.type = 'text/javascript';
-    s1.src  = 'https://livetrafficfeed.com/static/v5/livetrafficfeed.js';
-    document.head.appendChild(s1);
+    container.innerHTML = '';
 
-    // Carrega o script do widget visual dentro do container visível
-    s1.onload = () => {
+    const loadWidget = () => {
         const s2 = document.createElement('script');
         s2.type = 'text/javascript';
         s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
         container.appendChild(s2);
     };
 
-    // Fallback: carrega mesmo se s1 falhar
-    s1.onerror = () => {
-        const s2 = document.createElement('script');
-        s2.type = 'text/javascript';
-        s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
-        container.appendChild(s2);
-    };
-=======
->>>>>>> 372ad22b7251b3b0db4a4dcbfbfae56edd154958
+    if (!document.querySelector('script[src*="livetrafficfeed.com/static/v5/livetrafficfeed.js"]')) {
+        const s1 = document.createElement('script');
+        s1.type = 'text/javascript';
+        s1.src  = 'https://livetrafficfeed.com/static/v5/livetrafficfeed.js';
+        s1.onload = loadWidget;
+        s1.onerror = loadWidget;
+        document.head.appendChild(s1);
+    } else {
+        loadWidget();
+    }
 }
