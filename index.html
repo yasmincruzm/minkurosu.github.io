@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name='LTF_verify' content='4414502b3e1c201f0023688de06f390b' />
     <meta name="description" content="min's personal site">
@@ -28,7 +28,6 @@
     </script>
 
 
-
     <script>
         window._trackQueue = window._trackQueue || [];
         if (typeof window.markVisit !== 'function') {
@@ -46,690 +45,690 @@
     <script src="oneko.js"></script>
 
     <style>
-
-#chat-container {
-    width: 100%;
-    max-width: 90%;
-    margin: 0 auto;
-}
-
-#chat-container #chattable,
-#chat-container iframe {
-    display: block;
-    width: 100%;
-    height: 300px;
-    border: 1px solid #b81010;
-    border-radius: 3px;
-    background-color: #0a0a0a;
-    box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
-}
-
-
-#chat-container table td,
-#chat-container table th {
-        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
-}
-
-
-        .rotate { 
-            animation: rotation 6s infinite linear;
-         }
-
-
-
-
-        @keyframes rotation {
-            from { transform: rotate(0deg); }
-            to   { transform: rotate(359deg); }
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-        }
-
-        html {
-            background-image: url('imgs/site_imgs/petcemetery.gif');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            background-attachment: fixed;
-            background-color: #000;
-        }
-
-        body {
-            background-image: url('imgs/site_imgs/petcemetery.gif');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            background-attachment: fixed;
-            width: 100%;
-            min-height: 100vh;
-            text-align: center;
-        }
-
-        #google_translate_element .goog-te-gadget-simple {
-            background-color: #1a1a1a !important;
-            border: 1px solid #444 !important;
-            border-radius: 8px !important;
-            padding: 2px 6px !important;
-            font-family: "MinFont", sans-serif !important;
-        }
-        .goog-te-gadget-simple .goog-te-gadget-icon { 
-            display: none !important; 
-        }
-        .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, div#goog-gt- 
-        { display: none !important; 
-        }
-        #google_translate_element .goog-te-gadget-simple span,
-        #google_translate_element .goog-te-gadget-simple a,
-        #google_translate_element .goog-te-gadget-simple a span,
-        .goog-te-gadget-simple .goog-te-menu-value span {
-            color: #525252 !important;
-            font-family: "MinFont", sans-serif !important;
-            font-size: 12px !important;
-            text-shadow: none !important;
-            text-decoration: none !important;
-        }
-
-        #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-            color: #888 !important;
-         }
-
-        #google_translate_element a { 
-            text-shadow: none !important;
-             text-decoration: none !important; 
-            }
-
-
-
-        .goog-te-menu-frame {
-             border-radius: 8px !important; 
-             overflow: hidden !important;
-            }
-
-
-
-       
-        a, button, input[type="submit"], input[type="button"], select {
-        cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
-        }
-
-
-
-        a {
-            display: inline-block;
-            margin-top: 0.25rem;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-
-        a:hover { 
-            text-decoration: none; 
-        }
-
-        #containerprincipal {
-            border-radius: 1.25rem;
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 50rem;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        #container {
-            padding: 1.25rem;
-            border-radius: 1.25rem;
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 50rem;
-            box-sizing: border-box;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-        }
-
-        #container * {
-             max-width: 100% !important; 
-             box-sizing: border-box; 
-            }
-
-
-        #container iframe { 
-            max-width: 100% !important; 
-            width: 100% !important; 
-        }
-
-        .about-me-container {
-            display: flex; 
-            flex-direction: row;
-            border-radius: 15px; 
-            padding: 10px; 
-            overflow: hidden;
-            height: 350px;
-            width: 100%;
-             max-width: 900px; 
-             margin: auto;
-        }
-        
-        .slideshow-area {
-             flex: 2.5;
-              position: relative;
-               overflow: hidden; 
-            }
-
-
-        .slideshow-area img {
-            position: absolute; 
-            top: 0;
-             left: 0;
-            width: 100%;
-             height: 100%; 
-            object-fit: cover; 
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-
-        .slideshow-area img.active { 
-            opacity: 1;
-         }
-
-
-        .badges-area{ 
-            flex: 1;
-            padding: 1px; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: flex-start;
-             align-items: center;
-             }
-
-
-
-        .badge-img {
-            max-width: 100%; 
-            height: 18px; 
-            border-radius: 2px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease-in-out;
-             cursor: pointer;
-            filter: saturate(0%) brightness(80%);
-        }
-
-
-
-        .badge-img:hover {
-             filter: brightness(100%);
-              transform: translateY(-3px);
-             }
-
-
-        .content-area{ 
-            flex: 2; 
-            display: flex;
-             flex-direction: column; 
-             justify-content: center;
-             }
-
-
-
-
-        .content-area p{ 
-            font-size: 1.2em;
-             line-height: 1.6;
-              margin: 0; 
-              text-align: left;
-            
-            }
-
-
-        #gallery{
-
-            width: min(700px, 100%); 
-            overflow: auto;
-             padding: 10px;
-            box-sizing: border-box;
-             margin-left: auto; margin-right: auto;
-            column-count: 3;
-            column-gap: 15px;
-        }
-
-
-
-        #gallery .image-container {
-            display: inline-block;
-             width: 100%; 
-             margin-bottom: 15px;
-            padding: 5px; 
-            text-align: center;
-             break-inside: avoid;
-            border-radius: 0; 
-            transition: transform 0.2s ease;
-        }
-
-
-        #gallery .image-container:hover { 
-            transform: scale(1.05);
-         }
-
-
-        #gallery .image-container img { 
-            max-width: 100%; 
-            height: auto; 
-            display: block; 
-        }
-
-
-        .scrollthin{ 
-            height: 380px; 
-            overflow-y: scroll; 
-            overflow: auto;
-             scrollbar-width:
-              none; -ms-overflow-style:
-               none;
-             }
-
-
-        table, tr, td { 
-            border: none;
-             border-collapse: collapse; 
-             border-style: hidden !important;
-            }
-
-
-
-
-        .caixa-iframe-onlnbrd { 
-            padding: 10px; 
-            margin-bottom: 20px; 
-        }
-
-
-        .caixa-iframe-minkurosu { 
-            padding: 15px; 
-            margin-bottom: 20px;
-         }
-
-
-        .caixa-iframe-drawbox { 
-            padding: 5px; 
-        }
-
-        a[data-fancybox="gallery"] { 
-            display: block;
-             width: 250px; height:
-              250px; overflow: hidden;
-               border-radius: 8px;
-            }
-
-
-
-        a[data-fancybox="gallery"] img { 
-            width: 100%; 
-            height: 100%;
-             object-fit: cover; 
-             object-position: center;
-             }
-
-        .galeria-pin table, .galeria-pin .results { 
-            width: 100% !important;
-             box-sizing: border-box 
-             !important; line-height: 1.4 !important;
-              display: block !important;
-             }
-
-
-        .galeria-pin{ 
-            column-count: 3 !important;
-             column-gap: 4px !important; 
-             display: block !important;
-              width: 100% !important;
-               box-sizing: border-box !important; 
-               padding: 4px !important;
-             }
-
-        .galeria-pin > * { 
-            display: inline-block !important; 
-            width: 100% !important; 
-            vertical-align: top !important; 
-            margin-bottom: 4px !important;
-             box-sizing: border-box !important;
-              line-height: 0 !important;
-             }
-
-
-
-        .galeria-pin > table, .galeria-pin > div { 
-            line-height: 1.4 !important; }
-
-        .galeria-pin a[data-fancybox="gallery"] { 
-            width: 100% !important;
-             height: auto !important; 
-             overflow: hidden !important; 
-             border-radius: 0 !important;
-              display: inline-block !important;
-             }
-
-        .galeria-pin a[data-fancybox="gallery"] img, .galeria-pin img { 
-            width: 100% !important;
-             height: auto !important; 
-            object-fit: unset !important; 
-            display: block !important; 
-            line-height: 0 !important;
-         }
-
-
-        #fancybox-title{ 
-            padding: 1.5rem !important; 
-            max-width: 800px !important;
-             margin: 0 auto !important; 
-            }
-
-        #fancybox-title div { 
-            padding: 1.5rem !important; 
-            max-width: 800px !important;
-             margin: 0 auto !important;
-             }
-
-
-        #crt-toggle{
-            display: block; 
-            margin: 6px auto 0;
-             background: none;
-
-            border: 1px solid #555;
-             color: #525252;
-            font-family: "MinFont", sans-serif; 
-            font-size: 10px;
-            padding: 2px 6px; 
-            cursor: pointer;
-            letter-spacing: 0.05em;
-             opacity: 0.6;
-            transition: opacity 0.2s, color 0.2s;
-        }
-
-        #crt-toggle:hover {
-             opacity: 1; 
-             color: #808080;
-            }
-
-        .crt-off .crt { 
-            display: none; 
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        .borda-img {
-            position: absolute; width: 60px; height: auto;
-            pointer-events: auto; z-index: 10;
-            image-rendering: pixelated;
-        }
-
-        .avatar-ring {
-            width: 230px;
-             height: 230px;
-              border-radius: 50%;
-            padding: 4px; 
-            border: 4px solid transparent;
-            display: inline-block;
-             box-sizing: border-box;
-        }
-
-
-        .avatar-ring img {
-             width: 100%; 
-             height: 100%;
-              border-radius: 50%; 
-              object-fit: cover; 
-              display: block; 
-            }
-
-
-
-        .avatar-ring.live {
-            border-color: #3a2052;
-             box-shadow: 0 0 8px #a855f7;
-             }
-
-        .live-badge {
-             display: none;
-              color: #3a2052; 
-              font-weight: bold;
-               margin-top: 4px;
-             }
-
-
-        .image-grid-container {
-             display: grid;
-              grid-template-columns: repeat(3, 1fr);
-               gap: 6px; 
-               width: 100%;
-                box-sizing: border-box;
-                 margin: 10px 0;
-                 }
-
-
-        .grid-item { 
-            display: flex; 
-            flex-direction: column;
-             align-items: center;
-             gap: 4px;
-             }
-
-
-        .grid-item img {
-             width: 100%;
-              aspect-ratio: 3 / 4;
-               object-fit: cover;
-                display: block; 
-                border-radius: 2px;
-                 transition: transform 0.2s ease; 
-                }
-
-
-        .grid-item img:hover {
-             transform: scale(1.04);
-             }
-
-
-        .grid-item h3 {
-            font-size: 0.8rem;
-             text-align: center;
-              margin: 2px 0 0 0;
-               padding: 0; 
-               line-height: 1.2;
-             }
-
-
-        .picrew-grid-container {
-             display: grid; 
-             grid-template-columns: repeat(4, 1fr); 
-             gap: 6px; width: 100%;
-             box-sizing: border-box; 
-             : 10px 0; 
-            }
-
-
-        .picrew-grid-item a{
-             display: block;
-              line-height: 0; 
-            }
-
-        .picrew-grid-item img {
-            width: 100%; 
-            aspect-ratio: 1 / 1;
-             object-fit: cover; 
-             display: block;
-              border-radius: 2px; 
-              transition: transform 0.2s ease; 
-            }
-
-
-        .picrew-grid-item img:hover {
-             transform: scale(1.04); 
-            }
-
-        #posts-container, .blog-post { 
-            text-align: left !important; 
-        }
-
-        .blog-post .post-info-header { 
-            display: flex; 
-            align-items: center;
-             gap: 6px; 
-             font-size: 0.8rem;
-              color: var(--emo-text-muted); margin-bottom: 2px;
-             }
-
-
-        .blog-post .post-title {
-             font-size: 1.2rem !important;
-              text-align: left !important;
-              margin: 0 0 6px 0;
-             }
-
-
-        .blog-post .post-text {
-             text-align: left !important;
-              font-size: 0.9rem;
-               line-height: 1.6;
-             }
-
-
-        .blog-post h2.post-title { 
-            font-size: 1.2rem !important; 
-        }
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-.status-table td:first-child,
-.status-table th:first-child {
-    width: 33% !important; 
-    text-align: center;       
-            justify-items: center;
-
-        color: #525252;
-
-}
-
-.status-table td:last-child,
-.status-table th:last-child {
-    width: 66% !important;
-        justify-items: center;
-    text-align: center;    
-    text-align:justify;        
-        color: #525252;
-
-}
+    #chat-container {
+      width: 100%;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    #chat-container #chattable,
+    #chat-container iframe {
+      display: block;
+      width: 100%;
+      height: 300px;
+      border: 1px solid var(--rose-deep);
+      border-radius: 2px;
+      background-color: #0a0a0a;
+      box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
+    }
+
+    #chat-container table td,
+    #chat-container table th {
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
+    }
+
+    .rotate {
+      animation: rotation 6s infinite linear;
+    }
+
+    @keyframes rotation {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    html {
+      background-image: url('imgs/site_imgs/petcemetery.gif');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+      background-color: #000;
+    }
+
+    body {
+      background-image: url('imgs/site_imgs/petcemetery.gif');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+      width: 100%;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+
+    #google_translate_element .goog-te-gadget-simple {
+      background-color: #1a1a1a !important;
+      border: 1px solid #444 !important;
+      border-radius: 8px !important;
+      padding: 2px 6px !important;
+      font-family: "MinFont", sans-serif !important;
+    }
+
+    .goog-te-gadget-simple .goog-te-gadget-icon {
+      display: none !important;
+    }
+
+    .goog-te-banner-frame,
+    #goog-gt-tt,
+    .goog-te-balloon-frame,
+    div#goog-gt- {
+      display: none !important;
+    }
+
+    #google_translate_element .goog-te-gadget-simple span,
+    #google_translate_element .goog-te-gadget-simple a,
+    #google_translate_element .goog-te-gadget-simple a span,
+    .goog-te-gadget-simple .goog-te-menu-value span {
+      color: var(--text) !important;
+      font-family: "MinFont", sans-serif !important;
+      font-size: 0.8rem !important;
+      text-shadow: none !important;
+      text-decoration: none !important;
+    }
+
+    #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:last-child {
+      color: var(--text) !important;
+    }
+
+    #google_translate_element a {
+      text-shadow: none !important;
+      text-decoration: none !important;
+    }
+
+    .goog-te-menu-frame {
+      border-radius: 8px !important;
+      overflow: hidden !important;
+    }
+
+    a,
+    button,
+    input[type="submit"],
+    input[type="button"],
+    select {
+      cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 0.25rem;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    #containerprincipal {
+      border-radius: 1.25rem;
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    #container {
+      padding: 1.25rem;
+      border-radius: 1.25rem;
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 50rem;
+      box-sizing: border-box;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    #container * {
+      max-width: 100% !important;
+      box-sizing: border-box;
+    }
+
+    #container iframe {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    .about-me-container {
+      display: flex;
+      flex-direction: row;
+      border-radius: 15px;
+      padding: 10px;
+      overflow: hidden;
+      height: 350px;
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .slideshow-area {
+      flex: 2.5;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slideshow-area img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .slideshow-area img.active {
+      opacity: 1;
+    }
+
+    .badges-area {
+      flex: 1;
+      padding: 1px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .badge-img {
+      max-width: 100%;
+      height: 18px;
+      border-radius: 2px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+      filter: saturate(0%) brightness(80%);
+    }
+
+    .badge-img:hover {
+      filter: brightness(100%);
+      transform: translateY(-4px);
+    }
+
+    .content-area {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .content-area p {
+      font-size: 1.2em;
+      line-height: 1.6;
+      margin: 0;
+      text-align: left;
+    }
+
+    #gallery {
+      width: min(700px, 100%);
+      overflow: auto;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-left: auto;
+      margin-right: auto;
+      column-count: 3;
+      column-gap: 15px;
+    }
+
+    #gallery .image-container {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 5px;
+      text-align: center;
+      break-inside: avoid;
+      border-radius: 0;
+      transition: transform 0.2s ease;
+    }
+
+    #gallery .image-container:hover {
+      transform: scale(1.05);
+    }
+
+    #gallery .image-container img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .scrollthin {
+      height: 380px;
+      overflow-y: scroll;
+      overflow: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    table,
+    tr,
+    td {
+      border: none;
+      border-collapse: collapse;
+      border-style: hidden !important;
+    }
+
+    .caixa-iframe-onlnbrd {
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .caixa-iframe-minkurosu {
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .caixa-iframe-drawbox {
+      padding: 5px;
+    }
+
+    a[data-fancybox="gallery"] {
+      display: block;
+      width: 250px;
+      height: 250px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    a[data-fancybox="gallery"] img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .galeria-pin table,
+
+    .galeria-pin .results {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      line-height: 1.4 !important;
+      display: block !important;
+    }
+
+    .galeria-pin {
+      column-count: 3 !important;
+      column-gap: 4px !important;
+      display: block !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 4px !important;
+    }
+
+    .galeria-pin > * {
+      display: inline-block !important;
+      width: 100% !important;
+      vertical-align: top !important;
+      margin-bottom: 4px !important;
+      box-sizing: border-box !important;
+      line-height: 0 !important;
+    }
+
+    .galeria-pin > table,
+    .galeria-pin > div {
+      line-height: 1.4 !important;
+    }
+
+    .galeria-pin a[data-fancybox="gallery"] {
+      width: 100% !important;
+      height: auto !important;
+      overflow: hidden !important;
+      border-radius: 0 !important;
+      display: inline-block !important;
+    }
+
+    .galeria-pin a[data-fancybox="gallery"] img,
+    .galeria-pin img {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: unset !important;
+      display: block !important;
+      line-height: 0 !important;
+    }
+
+    #fancybox-title {
+      padding: 1.5rem !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+    }
+
+    #fancybox-title div {
+      padding: 1.5rem !important;
+      max-width: 800px !important;
+      margin: 0 auto !important;
+    }
+
+    #crt-toggle,
+    #motionToggle {
+      display: block;
+      margin: 6px auto 0;
+      background: none;
+      border: 1px solid #555;
+      color: var(--text);
+      font-family: "MinFont", sans-serif;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+      transition: opacity 0.2s, color 0.2s;
+    }
+
+    #crt-toggle:hover,
+    #motionToggle:hover {
+      opacity: 1;
+      color: #b0b0b0;
+    }
+
+    .crt-off .crt {
+      display: none;
+    }
+
+    .borda-img {
+      position: absolute;
+      width: 60px;
+      height: auto;
+      pointer-events: auto;
+      z-index: 10;
+      image-rendering: pixelated;
+    }
+
+    .avatar-ring {
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      padding: 4px;
+      border: 4px solid transparent;
+      display: inline-block;
+      box-sizing: border-box;
+    }
+
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-ring.live {
+      border-color: #3a2052;
+      box-shadow: 0 0 8px #a855f7;
+    }
+
+    .live-badge {
+      display: none;
+      color: #a070d0;
+      font-weight: bold;
+      margin-top: 4px;
+    }
+
+    .image-grid-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 10px 0;
+    }
+
+    .grid-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .grid-item img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+      transition: transform 0.2s ease;
+    }
+
+    .grid-item img:hover {
+      transform: scale(1.04);
+    }
+
+    .grid-item h3 {
+      font-size: 0.8rem;
+      text-align: center;
+      margin: 2px 0 0 0;
+      padding: 0;
+      line-height: 1.2;
+    }
+
+    .picrew-grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 10px 0;
+    }
+
+    .picrew-grid-item a {
+      display: block;
+      line-height: 0;
+    }
+
+    .picrew-grid-item img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 2px;
+      transition: transform 0.2s ease;
+    }
+
+    .picrew-grid-item img:hover {
+      transform: scale(1.04);
+    }
+
+    #posts-container,
+
+    .blog-post {
+      text-align: left !important;
+    }
+
+    .blog-post .post-info-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--emo-text-muted, var(--text));
+      margin-bottom: 2px;
+    }
+
+    .blog-post .post-title {
+      font-size: 1.2rem !important;
+      text-align: left !important;
+      margin: 0 0 6px 0;
+    }
+
+    .blog-post .post-text {
+      text-align: left !important;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .blog-post h2.post-title {
+      font-size: 1.2rem !important;
+    }
+
+    .status-table td:first-child,
+    .status-table th:first-child {
+      width: 35% !important;
+      text-align: center;
+      justify-items: center;
+      color: var(--text);
+    }
+
+    .status-table td:last-child,
+    .status-table th:last-child {
+      width: 65% !important;
+      justify-items: center;
+      text-align: center;
+      text-align: justify;
+      color: var(--text);
+    }
 
     .sidebar-right .stamps,
     .sidebar-right .carousel-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-        overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .sidebar-right .carousel-container hr {
-        margin: 3px 0 !important;
+      margin: 4px 0 !important;
     }
 
     .sidebar-right .track {
-        width: 100%;
-        min-width: 0;
-        padding: 3px 0;
-        overflow: hidden;
+      width: 100%;
+      min-width: 0;
+      padding: 4px 0;
+      overflow: hidden;
     }
 
     .sidebar-right .track-inner,
     .sidebar-right .track-inner2 {
-        display: flex;
-        align-items: center;
-        width: max-content;
-        animation: scroll-right var(--track-duration, 120s) linear infinite;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: scroll-right var(--track-duration, 120s) linear infinite;
     }
 
     .sidebar-right .track:hover .track-inner,
     .sidebar-right .track:hover .track-inner2 {
-        animation-play-state: paused;
+      animation-play-state: paused;
     }
 
     .sidebar-right .track-inner img,
     .sidebar-right .track-inner2 img {
-        flex-shrink: 0;
-        margin: 0 5px;
+      flex-shrink: 0;
+      margin: 0 5px;
     }
 
     .sidebar-right .track-inner img {
-        width: 99px;
-        height: 56px;
+      width: 99px;
+      height: 56px;
     }
 
     .sidebar-right .track-inner2 img {
-        width: 88px;
-        height: 31px;
+      width: 88px;
+      height: 31px;
     }
 
     .sidebar-right .scroll {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        height: 798px;
-        margin: 0;
-        padding: 0 6px;
-        box-sizing: border-box;
-        overflow-y: scroll;
-        scrollbar-width: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 800px;
+      margin: 5px;
+      padding: 0 6px;
+      box-sizing: border-box;
+      overflow-y: scroll;
+      scrollbar-width: none;
     }
 
     .sidebar-right .scroll::-webkit-scrollbar {
-        display: none;
+      display: none;
     }
 
     .sidebar-right .scroll .blinkie {
-        display: block;
-        flex-shrink: 0;
-        width: 100%;
-        height: auto;
-        image-rendering: ;
+      display: block;
+      flex-shrink: 0;
+      width: 100%;
+      height: auto;
     }
 
     @keyframes scroll-right {
-        0%   { transform: translateX(-50%); }
-        100% { transform: translateX(0%); }
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0%); }
     }
+
+
+    @media (max-width: 1200px) {
+      .sidebar-right .scroll {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      #container {
+        padding: 10px;
+      }
+
+      .about-me-container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .slideshow-area {
+        flex: none;
+        min-height: 300px;
+      }
+
+      .badges-area {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+      }
+
+      .content-area {
+        flex: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      #gallery {
+        column-count: 2;
+      }
+
+      .galeria-pin {
+        column-count: 2 !important;
+      }
+
+      .picrew-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .image-grid-container,
+      .picrew-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .avatar-ring {
+        width: 200px;
+        height: 200px;
+      }
+    }
+
     </style>
 </head>
 <body>
-    <div class="crt"></div>
+    <a href="#container" class="skipLink" onclick="document.getElementById('container').focus(); return false;">skip to content</a>
+    <div class="crt" aria-hidden="true"></div>
     <div style="display: none;">
         <script type="text/javascript" src="//livetrafficfeed.com/static/v5/livetrafficfeed.js"></script>
         <script type="text/javascript" src="https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F"></script>
@@ -737,13 +736,13 @@
     </div>
 
     <div class="layout-with-sidebars">
-        <aside id="sidebar-esquerda-container" class="sidebar">
+        <aside id="sidebar-esquerda-container" class="sidebar" aria-label="about min and all pages">
 
             <div class="box">
 
                 <div class="sidepic-wrap">
-                    <img id="sidepic" class="desaturate50" src="imgs/feed/jun20262.jpg" alt="" height="1400px">
-                    <img class="desaturate50 sidepic-hover" src="imgs/feed/jun2026.jpg" alt="" height="1400px">
+                    <img id="sidepic" class="desaturate50" src="imgs/feed/jun20262.jpg" alt="photo of min">
+                    <img class="desaturate50 sidepic-hover" src="imgs/feed/jun2026.jpg" alt="">
                 </div>
 
                 <h2 id="nomeSide">min</h2>
@@ -751,11 +750,11 @@
                 <h3>digital art & live2d &</h3>
                 <h3>psychology graduate &</h3>
                 <h3>dental lab tech student</h3>
-                <h3><a href="psi.html" target="_blank">Ψ</a> • ⚧</h3>
+                <h3><a href="psi.html" target="_blank" rel="noopener noreferrer" aria-label="psychology page, opens in a new tab">Ψ</a> • ⚧</h3>
 
                 <hr>
 
-                <div class="nav-side">
+                <nav class="nav-side" aria-label="all pages">
                     <div class="side-item"><a href="#" data-page="commission" class="nav-link">commissions</a></div>
                     <div class="side-item"><a href="#" data-page="pics" class="nav-link">photos</a></div>
                                         <div class="side-item"><a href="#" data-page="portfolio-art" class="nav-link">art</a></div>
@@ -775,6 +774,8 @@
                     <div class="side-item"><a href="#" data-page="thoughts" class="nav-link">thoughts</a></div>
                     <div class="side-item"><a href="#" data-page="webweaving" class="nav-link">webweaving</a></div>
                     <div class="side-item"><a href="#" data-page="minverso" class="nav-link">minverso</a></div>
+                                        <div class="side-item"><a href="#" data-page="cats" class="nav-link">cats</a></div>
+
                     <div class="side-item"><a href="#" data-page="quizzes" class="nav-link">quiz/tests</a></div>
                     <div class="side-item"><a href="#" data-page="guestbook" class="nav-link">guestbook</a></div>
                     <div class="side-item"><a href="#" data-page="mailbox" class="nav-link">mailbox</a></div>
@@ -784,7 +785,7 @@
                     <div class="side-item"><a href="#" data-page="bookmarks" class="nav-link">bookmarks</a></div>
                     <div class="side-item"><a href="#" data-page="credits" class="nav-link">credits</a></div>
                     <div class="side-item"><a href="#" data-page="visualizer" class="nav-link">trippy (flashing warning)</a></div>
-                </div>
+                </nav>
 
                 <hr>
 
@@ -794,7 +795,9 @@
                 <script>
                     (function () {
                         var btn = document.getElementById('crt-toggle');
-                        var on = localStorage.getItem('crt') !== 'off';
+                        var savedCrt = localStorage.getItem('crt');
+                        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        var on = savedCrt ? savedCrt === 'on' : !prefersReduced;
 
                         function apply() {
                             document.documentElement.classList.toggle('crt-off', !on);
@@ -812,25 +815,49 @@
                     })();
                 </script>
 
+                <button id="motionToggle" type="button" title="pause animations and gifs"> motion: on </button>
+                <script>
+                    (function () {
+                        var btn = document.getElementById('motionToggle');
+                        var savedMotion = localStorage.getItem('motion');
+                        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        var on = savedMotion ? savedMotion === 'on' : !prefersReduced;
+
+                        function apply() {
+                            document.documentElement.classList.toggle('motionOff', !on);
+                            btn.textContent = on ? ' motion: on ' : ' motion: off ';
+                            localStorage.setItem('motion', on ? 'on' : 'off');
+                        }
+
+                        apply();
+
+                        btn.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            on = !on;
+                            apply();
+                            if (window.initializeSlideshow) window.initializeSlideshow();
+                            if (window.applyMotion) window.applyMotion();
+                        });
+                    })();
+                </script>
+
                 <div class="caixamaisclaraColumn" style="margin:10px">
 
                     <script src="oneko.js"></script>
 
                     <script language="javascript" type="text/javascript" src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script>
                     <noscript>
-                        <img src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" />
+                        <img src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" alt="visitor counter" />
                     </noscript>
                 </div>
-
-              
 
                 <hr style="margin: 1.5px;">
 
 <div class="table-container" style="margin: 0px;">
-    <table class="status-table" style="border-collapse: collapse; width: 100%; background-color: transparent;">
+    <table class="status-table" aria-label="my current status" style="border-collapse: collapse; width: 100%; background-color: transparent;">
         <tr>
             <td>feeling:</td>
-            <td><img src="imgs/emotes/emote22.png" style="height: 1.9rem;"></td>
+            <td><img src="imgs/emotes/emote22.png" alt="my current mood emote" style="height: 2rem;"></td>
         </tr>
         <tr>
             <td>playing:</td>
@@ -842,7 +869,7 @@
         </tr>
         <tr>
             <td>reading:</td>
-            <td>dental anatomy books</td>
+            <td>the mass psychology of fascism - wilhelm reich</td>
         </tr>
         <tr>
             <td>watching:</td>
@@ -856,8 +883,8 @@
 </div>
                 <hr>
 
-               <div style="
-  color: #b30f0f;
+               <div aria-hidden="true" style="
+  color: #b11313;
   font-weight: bold;
   line-height: 1.4;
   margin: 0px;
@@ -916,7 +943,7 @@
                 <hr>
 
 <div id="chat-container" class="desaturate">
-    <iframe src="https://iframe.chat/embed?chat=minkurosu" id="chattable"></iframe>
+    <iframe src="https://iframe.chat/embed?chat=minkurosu" id="chattable" title="chat box, leave a message for min"></iframe>
 </div>
 
 <script>
@@ -932,54 +959,54 @@
                 <a href="https://tamanotchi.world/33672c"><img src="https://tamanotchi.world/i/33672" style="height: 70px;" alt="It's tamaNOTchi! Click to feed!"></a>
                 <a href="https://flowergame.net/view/1157724"><img src="https://img.flowergame.net/1157724.png" alt="Visit my Bleeding Heart in Flowergame!" /></a>
                 <br>
-                <a href=""><img loading="lazy" src="imgs/games/transformice/selfie-current.png" style="max-height:100px;"></a>
-                                <a href=""><img loading="lazy" src="imgs/games/transformice/selfie-punk.png" style="max-height:100px;"></a>
+                <a href=""><img loading="lazy" src="imgs/games/transformice/selfie-current.png" alt="my transformice mouse, current outfit" style="max-height:100px;"></a>
+                                <a href=""><img loading="lazy" src="imgs/games/transformice/selfie-punk.png" alt="my transformice mouse, punk outfit" style="max-height:100px;"></a>
 </div> 
                 <br>
 
-                <h3 style="font-size: 14px;">if you see your content anywhere without credit or want it removed, please let me know!!</h3>
+                <h3 style="font-size: 1rem;">if you see your content anywhere without credit or want it removed, please let me know!!</h3>
                 <br>
 
                 <div style="display: flex; gap: 10px; align-items: center; justify-content: center;">
                     <div style="display: flex; align-items: center; gap: 4px;">
-                        <a href="https://nanacore.net/cliques/brs?action=prev" title="previous">←</a>
+                        <a href="https://nanacore.net/cliques/brs?action=prev" title="previous" aria-label="previous site in the webcirculo br ring">←</a>
                         <a href="https://nanacore.net/cliques/brs">
-                            <img src="https://nanacore.net/imgs/brs/bandeira.png" title="esse site faz parte do WebCírculo BR!">
+                            <img src="https://nanacore.net/imgs/brs/bandeira.png" alt="webcirculo br" title="esse site faz parte do WebCírculo BR!">
                         </a>
-                        <a href="https://nanacore.net/cliques/brs?action=next" title="next">→</a>
+                        <a href="https://nanacore.net/cliques/brs?action=next" title="next" aria-label="next site in the webcirculo br ring">→</a>
                     </div>
 
                     <div id="palestinering" style="display: flex; align-items: center; gap: 4px;">
-                        <a href="https://catboo.leprd.space/webring/redirect.php?prv&s=min" title="previous">←</a>
-                        <a href="https://websitesforpalestine.neocities.org/" target="_blank">
+                        <a href="https://catboo.leprd.space/webring/redirect.php?prv&s=min" title="previous" aria-label="previous site in the palestine ring">←</a>
+                        <a href="https://websitesforpalestine.neocities.org/" target="_blank" rel="noopener noreferrer">
                             <img src="https://websitesforpalestine.neocities.org/widget/mini.png" alt="websites for a free palestine">
                         </a>
-                        <a href="https://catboo.leprd.space/webring/redirect.php?nxt&s=min" title="next">→</a>
+                        <a href="https://catboo.leprd.space/webring/redirect.php?nxt&s=min" title="next" aria-label="next site in the palestine ring">→</a>
                     </div>
                 </div>
 
                 <hr>
 
-                <a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" id="playlist-link" style="display:inline-block;">
-                    <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="playlist" class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" />
+                <a href="https://open.spotify.com/playlist/2qwWJlO7UjbVvc311tAiqr" target="_blank" rel="noopener noreferrer" id="playlist-link" style="display:inline-block;">
+                    <img id="cover" src="imgs/site_imgs/punksnotdead.jpg" alt="punks not dead playlist on spotify" class="desaturate" style="width:250px; border-radius:12px; object-fit:cover; display:block;" />
                 </a>
 
                 <hr>
 
                 <form method="post" action="https://poll.pollcode.com/76794555">
-                    <div style="background-color:#0A0A0A;padding:2px;width:100%;font-family:MinFont;font-size:medium;color:#4B4B4B;">
-                        <div style="padding:2px 0px 4px 2px; font-family: MinFont;"><strong>what piercing color fits me best?</strong></div>
+                    <div style="background-color:#0A0A0A;padding:2px;width:100%;font-family:MinFont;font-size:medium;color:var(--text);" role="group" aria-labelledby="pollQuestion">
+                        <div id="pollQuestion" style="padding:2px 0px 4px 2px; font-family: MinFont;"><strong>what piercing color fits me best?</strong></div>
                         <input type="radio" name="answer" value="1" id="answer767945551" style="float:left; color: #444;" />
                         <label for="answer767945551" style="float:left;width:110px;">black</label>
                         <div style="clear:both;height:2px;"></div>
                         <input type="radio" name="answer" value="2" id="answer767945552" style="float:left; color: #444;" />
                         <label for="answer767945552" style="float:left;width:110px;">silver</label>
                         <div style="clear:both;height:2px;"></div>
-                        <div align="center" style="padding:3px;">
+                        <div align="center" style="padding:4px;">
                             <input type="submit" value=" Vote ">&nbsp;
                             <input type="submit" name="view" value=" View ">
                         </div>
-                        <div align="right" style="font-size:10px">
+                        <div align="right" style="font-size:0.8rem">
                             pollcode.com <a href="https://pollcode.com/">free polls</a>
                         </div>
                     </div>
@@ -987,7 +1014,7 @@
 
                 <hr>
 
-                <img src="imgs/webgraphics/mcr124240A4.gif" class="desaturate" style="width: 100%;">
+                <img src="imgs/webgraphics/mcr124240A4.gif" alt="my chemical romance banner" class="desaturate" style="width: 100%;">
 
             </div>
         </aside>
@@ -997,10 +1024,10 @@
             <header id="header" class="fixed-top">
                 <div id="divpatinha">
                     <img loading="lazy" src="imgs/site_imgs/patinha.png" class="desaturatepics" id="logopatinha"
-                        alt="logo da barra de navegação">
+                        alt="paw logo">
                 </div>
 
-                <nav class="navbar">
+                <nav class="navbar" aria-label="main menu">
                     <div class="divitems">
                         <div class="nav-item">
                             <a href="#" data-page="home" class="nav-link">home</a>
@@ -1020,25 +1047,25 @@
                     </div>
                 </nav>
 
-                <h1 id="nl"></h1>
+                <h1 id="nl" aria-hidden="true"></h1>
 
-                <a href="https://brenna111.wixsite.com" target="_blank" title="brenna111.wixsite.com"
-                   style="position:absolute; bottom:-25px; left:6%; display:block; z-index:999;">
+                <a href="https://brenna111.wixsite.com" target="_blank" rel="noopener noreferrer" title="brenna111.wixsite.com"
+                   style="position:absolute; bottom:-25px; left:5%; display:block; z-index:999;">
                     <img src="https://static.wixstatic.com/media/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif/v1/fit/w_750,h_750,q_90,enc_avif,quality_auto/efbf8e_61d5a5c2d241434ebdee0dbb02684908~mv2.gif"
-                         style="height:80px;image-rendering:pixelated;display:block;">
+                         alt="brenna111.wixsite.com" style="height:80px;image-rendering:pixelated;display:block;">
                 </a>
             </header>
 
             <br>
 
-            <div id="container"></div>
+            <div id="container" tabindex="-1"></div>
 
-            <footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:#4b0000; text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
+            <footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:var(--rose); text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
                 minkurosu © 2024 - forever
             </footer>
 
         </main>
-        <aside id="sidebar-direita-container" class="sidebar sidebar-right"
+        <aside id="sidebar-direita-container" class="sidebar sidebar-right" aria-label="decorations, updates and to do list"
                style="overflow:visible !important; position:relative !important;">
 
             <div style="height:0; overflow:visible; position:sticky; top:80px; z-index:10;"></div>
@@ -1179,102 +1206,102 @@
                         
 <br>
 
-                        <div class="scroll" style="margin: 5px; height: 810px;">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/catlover.png" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/artistblinkie.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/nightperson.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/psychology.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/catBlinkie.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/minecraftvegetarian.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/sensitive.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/piercingobsessed.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/brasil.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/grumpy.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/nonbinary.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/naturelover.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/catsovereverything.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/cats.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/peace.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/iwanttobelieve.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/cringebutfree.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/sillycat.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/231.gif" class="desaturate blinkie">
-                                                        <img loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/animator.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/tumblr_ed8172750baf0046999be976d64c1172_8fe26d5c_250.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/0f3887ff.gif" class="desaturate blinkie">
+                        <div class="scroll">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catlover.png" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/artistblinkie.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/nightperson.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/psychology.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catBlinkie.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/minecraftvegetarian.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sensitive.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/piercingobsessed.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/brasil.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/grumpy.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/nonbinary.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/naturelover.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catsovereverything.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cats.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/peace.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iwanttobelieve.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cringebutfree.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sillycat.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/231.gif" class="desaturate blinkie">
+                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/animator.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/tumblr_ed8172750baf0046999be976d64c1172_8fe26d5c_250.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/0f3887ff.gif" class="desaturate blinkie">
 
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/hopelessromantic.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/iloveblack.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/118.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/demolitionlovers.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/vampires.gif" class="desaturate blinkie" style="height: 33px;">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/darkmode.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/ilovemybf.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/gothicandloneliness.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/ilovemycomputer.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/chocoholic.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/typeonegative2.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/youmaynotrestnow.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/ocd.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/dontlikeit.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/neurodivergent.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/mybackhurts.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/libra.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/greeneyedcat.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/catnip.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/atmyfuckinglimit.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/icant.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/yaoi.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/oldcatlady.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/iloverevenge.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/277.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/ego.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/iwannagohome.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/normal-ppl-worry-me.gif" class="desaturate blinkie">
-                                                        <img loading="lazy" src="imgs/webgraphics/blinkies/ignoranceisbliss.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/hopelessromantic.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iloveblack.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/118.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/demolitionlovers.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/vampires.gif" class="desaturate blinkie" style="height: 30px;">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/darkmode.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovemybf.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/gothicandloneliness.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovemycomputer.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/chocoholic.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/typeonegative2.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/youmaynotrestnow.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ocd.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/dontlikeit.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/neurodivergent.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/mybackhurts.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/libra.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/greeneyedcat.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catnip.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/atmyfuckinglimit.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/icant.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/yaoi.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/oldcatlady.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iloverevenge.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/277.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ego.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iwannagohome.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/normal-ppl-worry-me.gif" class="desaturate blinkie">
+                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ignoranceisbliss.gif" class="desaturate blinkie">
 
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/horrormovies.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/y10.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/bigsis.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/ilovethesea.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/bekindtoanimals.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/sebastian.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/stevenuniverse.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/scully.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/opinionated.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/copycat.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/revenge.gif" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/stalking.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/arrrg.webp" class="desaturate blinkie">
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/washyourhands.gif" class="desaturate blinkie">
-                                                        <img loading="lazy" src="imgs/webgraphics/blinkies/fluttershymarijuana.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/horrormovies.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/y10.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/bigsis.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovethesea.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/bekindtoanimals.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sebastian.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/stevenuniverse.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/scully.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/opinionated.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/copycat.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/revenge.gif" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/stalking.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/arrrg.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/washyourhands.gif" class="desaturate blinkie">
+                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/fluttershymarijuana.webp" class="desaturate blinkie">
 
-                            <img loading="lazy" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" class="desaturate blinkie">
+                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" class="desaturate blinkie">
                         </div>
 
 <br>
                         <div class="track track-1">
                             <div class="track-inner2">
-                                <img src="imgs/webgraphics/buttons/antifa.gif" class="desaturate">
-                                <img src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/nop.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/eattherich.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/toebeans.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/transrights.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/bestvieweddesktop.gif" class="desaturate">
-                                <img src="imgs/webgraphics/buttons/button (4).gif" class="desaturate">
-                                <img src="imgs/webgraphics/buttons/exwhuh.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/rainbow.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/button (7).gif" class="desaturate">
-                                <img src="imgs/webgraphics/buttons/notforchildren.jpg" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/this-website-is-emo.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/piracy.gif" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/crush.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/fuck_zios.png" class="desaturate" style="height: 31px; width: 88px;">
-                                <img src="imgs/webgraphics/buttons/neocities.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/antifa.gif" class="desaturate">
+                                <img alt="" src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/nop.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/eattherich.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/toebeans.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/transrights.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/bestvieweddesktop.gif" class="desaturate">
+                                <img alt="" src="imgs/webgraphics/buttons/button (4).gif" class="desaturate">
+                                <img alt="" src="imgs/webgraphics/buttons/exwhuh.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/rainbow.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/button (7).gif" class="desaturate">
+                                <img alt="" src="imgs/webgraphics/buttons/notforchildren.jpg" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/this-website-is-emo.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/piracy.gif" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/crush.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/fuck_zios.png" class="desaturate" style="height: 31px; width: 88px;">
+                                <img alt="" src="imgs/webgraphics/buttons/neocities.gif" class="desaturate" style="height: 31px; width: 88px;">
                             </div>
                         </div>
 
@@ -1286,84 +1313,82 @@
                 <img src="imgs/webgraphics/random/revengehd.webp" class="rotate" style="height:260px;" alt="">
 
 
-
                 <hr>
 
                 <div class="caixamaisclaraColumn" style="background-color: transparent; !important">
-                    <h3>my button! feel free to link :3
-                        <h3 style="font-size: smaller;">(also tell me at the chat box on the left if you link me, ill link you back!!)</h3>
-                    </h3>
+                    <h3>my button! feel free to link :3</h3>
+                    <h3 style="font-size: smaller;">(also tell me at the chat box on the left if you link me, ill link you back!!)</h3>
                     <br>
                     <img loading="lazy" src="imgs/minkurosu-button.png" style="height: 31px;" alt="minkurosu button">
                     <br><br>
-                    <textarea style="margin-top: 10px; margin-bottom: 10px;">&lt;a href="https://minkurosu.site/"&gt;&lt;img src="https://minkurosu.site/imgs/minkurosu-button.png" alt="minkurosu" width="88px" height="31px"&gt;&lt;/a&gt;</textarea>
+                    <textarea aria-label="html code for min's 88x31 button" style="margin-top: 10px; margin-bottom: 10px;">&lt;a href="https://minkurosu.site/"&gt;&lt;img src="https://minkurosu.site/imgs/minkurosu-button.png" alt="minkurosu" width="88px" height="31px"&gt;&lt;/a&gt;</textarea>
                     <br>
 
-                    <div class="scrollMedium" style="padding:10px">
+                    <div class="scrollMedium" style="padding:10px" tabindex="0" role="region" aria-label="link buttons from other sites">
                         <h3 class="desaturate">🇧🇷 vizinhos</h3>
                         <div class="button-wall">
-                            <a href="https://edhmr.neocities.org" target="_blank"><img loading="lazy" src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate"></a>
-                            <a href="https://morangocorner.neocities.org/"><img loading="lazy" src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate"></a>
-                            <a href="https://dudalog.neocities.org/links/" target="_blank"><img loading="lazy" src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate"></a>
-                            <a href="https://falodemais.neocities.org/"><img src="https://falodemais.neocities.org/assets/blinkies/meuuu.gif" class="desaturate" style="image-rendering: pixelated;"></a>
-                            <a href="https://outrolucas.neocities.org/"><img loading="lazy" src="https://outrolucas.neocities.org/assets/menus/vizinhanca/outrolucas.gif" class="desaturate"></a>
-                            <a href='https://disinformation.neocities.org'><img loading="lazy" src='https://disinformation.neocities.org/images/button.gif' class="desaturate"></a>
-                            <a href="https://mozartsempiano.com" target="_blank"><img loading="lazy" src="https://mozartsempiano.com/assets/img/mozartsempiano-btn-1.gif" class="desaturate"></a>
-                            <a href="https://aaeri.neocities.org/" target="_blank"><img loading="lazy" src="imgs/webgraphics/buttons/button_aaeri.gif" class="desaturate"></a>
-                            <a href="https://sargx.net"><img loading="lazy" src="https://sargx.net/assets/links/banners/sargx.gif" class="desaturate"></a>
-                            <a href="https://blueazul.neocities.org/"><img loading="lazy" src="https://blueazul.neocities.org/assets/buttons/blueazul.png" class="desaturate"></a>
-                            <a href="https://voxnoturna.neocities.org/" target="_blank"><img loading="lazy" src="https://voxnoturna.neocities.org/voxnoturna%20button.gif" class="desaturate"></a>
-                            <a href="https://hnrikaster.neocities.org/" target="_blank"><img loading="lazy" src="https://hnrikaster.neocities.org/button_rike.gif" class="desaturate"></a>
-                            <a href="https://melankorin.net/"><img loading="lazy" src="https://melankorin.net/assets/img/buttons/button-1.gif" class="desaturate"></a>
-                            <a href="https://marinados.neocities.org/" target="_blank"><img loading="lazy" src="https://marinados.neocities.org/button%20(4).png" class="desaturate"></a>
-                            <a target="_blank" href="https://nanacore.net/"><img src="https://nanacore.net/imgs/buttons/nanacore.gif" class="desaturate"></a>
-                            <a href="https://tevito.neocities.org"><img loading="lazy" src="https://file.garden/Zx6xDK2qeAn-d7p4/TEVITO-BUTTON.gif" class="desaturate"></a>
-                            <a href="https://planicie.neocities.org/"><img loading="lazy" src="https://planicie.neocities.org/images/icons/planicie-button.gif" class="desaturate"></a>
-                            <a href="https://magspace.neocities.org/"><img loading="lazy" src="https://magspace.neocities.org/images/button.png" class="desaturate"></a>
-                            <a href="https://eduu.neocities.org/"><img loading="lazy" src="https://eduu.neocities.org/buttons/edu-button.gif" class="desaturate"></a>
-                            <a href="https://groselhas.com.br/"><img loading="lazy" src="https://groselhas.com.br/assets/img/88x31/groselhasv1.gif" class="desaturate"></a>
-                            <a href="https://malune.net/"><img loading="lazy" src="https://malune.net/assets/resources/buttons/malune-2.gif" class="desaturate"></a>
+                            <a href="https://edhmr.neocities.org" target="_blank" rel="noopener noreferrer"><img alt="edhmr" loading="lazy" src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate"></a>
+                            <a href="https://morangocorner.neocities.org/"><img alt="morangocorner" loading="lazy" src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate"></a>
+                            <a href="https://dudalog.neocities.org/links/" target="_blank" rel="noopener noreferrer"><img alt="dudalog" loading="lazy" src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate"></a>
+                            <a href="https://falodemais.neocities.org/"><img alt="falodemais" src="https://falodemais.neocities.org/assets/blinkies/meuuu.gif" class="desaturate" style="image-rendering: pixelated;"></a>
+                            <a href="https://outrolucas.neocities.org/"><img alt="outrolucas" loading="lazy" src="https://outrolucas.neocities.org/assets/menus/vizinhanca/outrolucas.gif" class="desaturate"></a>
+                            <a href='https://disinformation.neocities.org'><img alt="disinformation" loading="lazy" src='https://disinformation.neocities.org/images/button.gif' class="desaturate"></a>
+                            <a href="https://mozartsempiano.com" target="_blank" rel="noopener noreferrer"><img alt="mozartsempiano" loading="lazy" src="https://mozartsempiano.com/assets/img/mozartsempiano-btn-1.gif" class="desaturate"></a>
+                            <a href="https://aaeri.neocities.org/" target="_blank" rel="noopener noreferrer"><img alt="aaeri" loading="lazy" src="imgs/webgraphics/buttons/button_aaeri.gif" class="desaturate"></a>
+                            <a href="https://sargx.net"><img alt="sargx" loading="lazy" src="https://sargx.net/assets/links/banners/sargx.gif" class="desaturate"></a>
+                            <a href="https://blueazul.neocities.org/"><img alt="blueazul" loading="lazy" src="https://blueazul.neocities.org/assets/buttons/blueazul.png" class="desaturate"></a>
+                            <a href="https://voxnoturna.neocities.org/" target="_blank" rel="noopener noreferrer"><img alt="voxnoturna" loading="lazy" src="https://voxnoturna.neocities.org/voxnoturna%20button.gif" class="desaturate"></a>
+                            <a href="https://hnrikaster.neocities.org/" target="_blank" rel="noopener noreferrer"><img alt="hnrikaster" loading="lazy" src="https://hnrikaster.neocities.org/button_rike.gif" class="desaturate"></a>
+                            <a href="https://melankorin.net/"><img alt="melankorin" loading="lazy" src="https://melankorin.net/assets/img/buttons/button-1.gif" class="desaturate"></a>
+                            <a href="https://marinados.neocities.org/" target="_blank" rel="noopener noreferrer"><img alt="marinados" loading="lazy" src="https://marinados.neocities.org/button%20(4).png" class="desaturate"></a>
+                            <a target="_blank" rel="noopener noreferrer" href="https://nanacore.net/"><img alt="nanacore" src="https://nanacore.net/imgs/buttons/nanacore.gif" class="desaturate"></a>
+                            <a href="https://tevito.neocities.org"><img alt="tevito" loading="lazy" src="https://file.garden/Zx6xDK2qeAn-d7p4/TEVITO-BUTTON.gif" class="desaturate"></a>
+                            <a href="https://planicie.neocities.org/"><img alt="planicie" loading="lazy" src="https://planicie.neocities.org/images/icons/planicie-button.gif" class="desaturate"></a>
+                            <a href="https://magspace.neocities.org/"><img alt="magspace" loading="lazy" src="https://magspace.neocities.org/images/button.png" class="desaturate"></a>
+                            <a href="https://eduu.neocities.org/"><img alt="eduu" loading="lazy" src="https://eduu.neocities.org/buttons/edu-button.gif" class="desaturate"></a>
+                            <a href="https://groselhas.com.br/"><img alt="groselhas" loading="lazy" src="https://groselhas.com.br/assets/img/88x31/groselhasv1.gif" class="desaturate"></a>
+                            <a href="https://malune.net/"><img alt="malune" loading="lazy" src="https://malune.net/assets/resources/buttons/malune-2.gif" class="desaturate"></a>
                         </div>
 
                         <h3>other sites i like:</h3>
                         <div class="button-wall">
-                            <a href="https://crushcapitalism.neocities.org/"><img loading="lazy" src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate"></a>
-                            <a href="https://lilithdev.neocities.org/"><img loading="lazy" src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate"></a>
-                            <a href="https://kkul.neocities.org/"><img src="https://file.garden/aS-t0Aj4K3mdDujK/kkulbutton.gif" class="desaturate"></a>
+                            <a href="https://crushcapitalism.neocities.org/"><img alt="crushcapitalism" loading="lazy" src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate"></a>
+                            <a href="https://lilithdev.neocities.org/"><img alt="lilithdev" loading="lazy" src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate"></a>
+                            <a href="https://kkul.neocities.org/"><img alt="kkul" src="https://file.garden/aS-t0Aj4K3mdDujK/kkulbutton.gif" class="desaturate"></a>
                             <a href="https://ghostk.id/"><img loading="lazy" src="https://ghostk.id/i/88x31.gif" alt="https://ghostk.id button" class="desaturate"></a>
-                            <a href="https://miserabledolly.neocities.org/"><img loading="lazy" src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate"></a>
-                            <a href="https://mudflower.earth/"><img loading="lazy" src="https://mudflower.earth/buttons/mudflower-potion_88.gif" class="desaturate"></a>
-                            <a href="https://torrentempress.neocities.org"><img loading="lazy" src="https://torrentempress.neocities.org/Torrent-empress-88x31.png" class="desaturate"></a>
-                            <a href="https://sunshine.nekoweb.org/" target="_blank"><img loading="lazy" src="https://sunshine.nekoweb.org/assets/sitebutton.gif" class="desaturate"></a>
-                            <a href="https://rice.place/" target="_blank"><img loading="lazy" class="desaturate" src="https://rice.place/button/riceus.gif"></a>
-                            <a href="https://melody-nomas.neocities.org/"><img loading="lazy" src="https://melody-nomas.neocities.org/img_index/button-88x31.png" class="desaturate"></a>
-                            <a href="https://yaoiwarrior.neocities.org/" target="_blank" class="desaturate"><img loading="lazy" src="https://yaoiwarrior.neocities.org/IMAGES/yaoiwarrior_button.gif" class="desaturate"></a>
-                            <a href="https://nyscyra.net/" target="_blank"><img loading="lazy" src="https://nyscyra.net/img/button.png"></a>
-                            <a href="https://moonpr1sm.com/" target="_blank"><img loading="lazy" src="https://moonpr1sm.com/pixelart/june25/newbuttoncorrect.png" class="desaturate"></a>
+                            <a href="https://miserabledolly.neocities.org/"><img alt="miserabledolly" loading="lazy" src="https://miserabledolly.neocities.org/miserabledolly.gif" class="desaturate"></a>
+                            <a href="https://mudflower.earth/"><img alt="mudflower" loading="lazy" src="https://mudflower.earth/buttons/mudflower-potion_88.gif" class="desaturate"></a>
+                            <a href="https://torrentempress.neocities.org"><img alt="torrentempress" loading="lazy" src="https://torrentempress.neocities.org/Torrent-empress-88x31.png" class="desaturate"></a>
+                            <a href="https://sunshine.nekoweb.org/" target="_blank" rel="noopener noreferrer"><img alt="sunshine" loading="lazy" src="https://sunshine.nekoweb.org/assets/sitebutton.gif" class="desaturate"></a>
+                            <a href="https://rice.place/" target="_blank" rel="noopener noreferrer"><img alt="rice" loading="lazy" class="desaturate" src="https://rice.place/button/riceus.gif"></a>
+                            <a href="https://melody-nomas.neocities.org/"><img alt="melody-nomas" loading="lazy" src="https://melody-nomas.neocities.org/img_index/button-88x31.png" class="desaturate"></a>
+                            <a href="https://yaoiwarrior.neocities.org/" target="_blank" rel="noopener noreferrer" class="desaturate"><img alt="yaoiwarrior" loading="lazy" src="https://yaoiwarrior.neocities.org/IMAGES/yaoiwarrior_button.gif" class="desaturate"></a>
+                            <a href="https://nyscyra.net/" target="_blank" rel="noopener noreferrer"><img alt="nyscyra" loading="lazy" src="https://nyscyra.net/img/button.png"></a>
+                            <a href="https://moonpr1sm.com/" target="_blank" rel="noopener noreferrer"><img alt="moonpr1sm" loading="lazy" src="https://moonpr1sm.com/pixelart/june25/newbuttoncorrect.png" class="desaturate"></a>
                             <a href="https://maddycha.com/"><img loading="lazy" style="image-rendering: pixelated;" src="https://maddycha.com/maddycha.gif" alt="maddycha"></a>
-                            <a href="https://doqmeat.com/" target="_blank"><img loading="lazy" src="https://archive.doqmeat.com/!g/web/doqmeat-2.png" class="desaturate"></a>
-                            <a href="https://mcr5isreal.neocities.org/"><img loading="lazy" src="https://mcr5isreal.neocities.org/button.png" title="MCR 5 IS REAL" class="desaturate"></a>
-                            <a href="https://petrapixel.neocities.org/" target="_blank"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/petracoding/petrapixel.neocities.org@latest/public/assets/img/linkback.gif" alt="petrapixel" class="desaturate"></a>
-                            <a href="https://sephlow.net" target="_blank"><img src="imgs/webgraphics/buttons/Sephlow88x31Button.png" class="desaturate"></a>
-                            <a href="https://hal.nekoweb.org/" target="_blank"><img loading="lazy" src="https://hal.nekoweb.org/sitebutton.png" class="desaturate" alt="HAL"></a>
-                            <a href="https://cinni.net" target="_blank"><img loading="lazy" src="https://cinni.net/images/button/cinni-88x31-hamham.gif" class="desaturate"></a>
-                            <a href="https://catboo.neocities.org/" target="_blank"><img loading="lazy" src="https://catboo.neocities.org/images/sitebuttons/catboo.png" class="desaturate"></a>
-                            <a href="https://coffeeplant.neocities.org"><img loading="lazy" src="https://coffeeplant.neocities.org/images/coffeeplant.png" class="desaturate"></a>
-                            <a href="https://usprisoner.neocities.org/"><img loading="lazy" src="https://usprisoner.neocities.org/momoa_button.png" class="desaturate"></a>
-                            <a href="https://qtbeans.neocities.org" target="_blank"><img loading="lazy" src="https://files.catbox.moe/2u4cq3.png" class="desaturate"></a>
-                            <a href="https://nomnomnami.com/" target="_blank"><img loading="lazy" src="https://nomnomnami.com/images/site_button.gif" alt="nomnomnami" class="desaturate"></a>
+                            <a href="https://doqmeat.com/" target="_blank" rel="noopener noreferrer"><img alt="doqmeat" loading="lazy" src="https://archive.doqmeat.com/!g/web/doqmeat-2.png" class="desaturate"></a>
+                            <a href="https://mcr5isreal.neocities.org/"><img alt="mcr5isreal" loading="lazy" src="https://mcr5isreal.neocities.org/button.png" title="MCR 5 IS REAL" class="desaturate"></a>
+                            <a href="https://petrapixel.neocities.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://cdn.jsdelivr.net/gh/petracoding/petrapixel.neocities.org@latest/public/assets/img/linkback.gif" alt="petrapixel" class="desaturate"></a>
+                            <a href="https://sephlow.net" target="_blank" rel="noopener noreferrer"><img alt="sephlow" src="imgs/webgraphics/buttons/Sephlow88x31Button.png" class="desaturate"></a>
+                            <a href="https://hal.nekoweb.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://hal.nekoweb.org/sitebutton.png" class="desaturate" alt="HAL"></a>
+                            <a href="https://cinni.net" target="_blank" rel="noopener noreferrer"><img alt="cinni" loading="lazy" src="https://cinni.net/images/button/cinni-88x31-hamham.gif" class="desaturate"></a>
+                            <a href="https://catboo.neocities.org/" target="_blank" rel="noopener noreferrer"><img alt="catboo" loading="lazy" src="https://catboo.neocities.org/images/sitebuttons/catboo.png" class="desaturate"></a>
+                            <a href="https://coffeeplant.neocities.org"><img alt="coffeeplant" loading="lazy" src="https://coffeeplant.neocities.org/images/coffeeplant.png" class="desaturate"></a>
+                            <a href="https://usprisoner.neocities.org/"><img alt="usprisoner" loading="lazy" src="https://usprisoner.neocities.org/momoa_button.png" class="desaturate"></a>
+                            <a href="https://qtbeans.neocities.org" target="_blank" rel="noopener noreferrer"><img alt="qtbeans" loading="lazy" src="https://files.catbox.moe/2u4cq3.png" class="desaturate"></a>
+                            <a href="https://nomnomnami.com/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://nomnomnami.com/images/site_button.gif" alt="nomnomnami" class="desaturate"></a>
                             <a href="https://jeith.com/"><img loading="lazy" src="https://neocities.jeith.com/jeith.gif" class="desaturate" alt="jeith"></a>
-                            <a href="https://sakuradreams.neocities.org/" target="_blank"><img loading="lazy" src="https://sakuradreams.neocities.org/SakuraDreams01.gif" alt="sakura dreams" class="desaturate"></a>
-                            <a href="https://ianuarii.neocities.org/" target="_blank"><img loading="lazy" src="https://ianuarii.neocities.org/ianuarii-button.png" alt="ianuarii" class="desaturate"></a>
-                            <a href="https://howsoonisnow.org/" target="_blank"><img loading="lazy" src="imgs/webgraphics/buttons/howsoonisnow.gif" class="desaturate" alt="how soon is now"></a>
+                            <a href="https://sakuradreams.neocities.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://sakuradreams.neocities.org/SakuraDreams01.gif" alt="sakura dreams" class="desaturate"></a>
+                            <a href="https://ianuarii.neocities.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="https://ianuarii.neocities.org/ianuarii-button.png" alt="ianuarii" class="desaturate"></a>
+                            <a href="https://howsoonisnow.org/" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="imgs/webgraphics/buttons/howsoonisnow.gif" class="desaturate" alt="how soon is now"></a>
                         </div>
                     </div>
                 </div>
 
                 <hr>
 
-                <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
-                    <div class="scrollSmaller">
+                <div class="caixamaisclaraColumn" style="border: 4px solid var(--rose-deep) !important; outline: none !important;">
+                    <div class="scrollSmaller" tabindex="0" role="region" aria-label="site updates">
                         <h3>UPDATES</h3>
                         <hr>
                         <h4>17/09/2026 - added more lists, changed blog format, added favorite characters, etc</h4>
@@ -1392,8 +1417,8 @@
 
                 <hr>
 
-                <div class="caixamaisclaraColumn" style="border: 4px solid #330101 !important; outline: none !important;">
-                    <div class="scrollSmaller">
+                <div class="caixamaisclaraColumn" style="border: 4px solid var(--rose-deep) !important; outline: none !important;">
+                    <div class="scrollSmaller" tabindex="0" role="region" aria-label="to do list">
                         <h3>TO DO LIST</h3>
                         <hr>
                         <h4>- caption all my pics</h4>
@@ -1434,8 +1459,6 @@
             var msg = document.getElementById('portfolio-empty');
             if (msg) msg.classList.add('is-hidden');
         });
-
-
 
 </script>
 

@@ -1,7 +1,6 @@
-
 (function () {
-if (window.__siteScriptLoaded) return;   
-window.__siteScriptLoaded = true;
+if (window.siteScriptLoaded) return;   
+window.siteScriptLoaded = true;
 
 
 
@@ -127,7 +126,7 @@ window.initializeDrag = initializeDrag;
 
 
 
-const SLIDESHOW_IMAGES = [
+const slideshowImages = [
     'imgs/feed/gabmin.jpg',
     'imgs/feed/icon.jpeg',
     'imgs/feed/1483620479423991031_229670069.jpg',
@@ -168,7 +167,6 @@ const SLIDESHOW_IMAGES = [
     'imgs/feed/a.jpg',
     'imgs/feed/buzi-us.JPG',
     'imgs/feed/carnaval2025.jpg',
-    'imgs/feed/gabmin.jpg',
     'imgs/feed/mcrshow1.jpg',
     'imgs/feed/mcrshow2.jpg',
     'imgs/feed/mcrshow6.jpg',
@@ -190,8 +188,12 @@ function initializeSlideshow() {
         return items;
     };
 
-    const shuffled = shuffle([...new Set(SLIDESHOW_IMAGES)]);
+    const shuffled = shuffle([...new Set(slideshowImages)]);
 
+    const motionOff = document.documentElement.classList.contains('motionOff');
+
+    slideshowArea.setAttribute('role', 'img');
+    slideshowArea.setAttribute('aria-label', 'slideshow with photos from my feed');
     slideshowArea.innerHTML = shuffled
         .map(src => `<img src="${src}" loading="lazy" alt="">`)
         .join('');
@@ -221,12 +223,68 @@ function initializeSlideshow() {
         if (activeSlide && activeSlide !== slide) activeSlide.classList.remove('active');
         slide.classList.add('active');
         activeSlide = slide;
+        if (motionOff) return;
         window.slideshowTimeout = setTimeout(showRandomSlide, 2000);
     }
 
     showRandomSlide();
 }
 window.initializeSlideshow = initializeSlideshow;
+
+
+
+
+
+
+
+// pausa os gifs: troca pelo primeiro quadro (canvas) e guarda o original pra voltar depois
+function freezeGif(img) {
+    try {
+        if (img.dataset.gifSrc || img.dataset.gifFail) return;
+        const src = img.currentSrc || img.src;
+        if (!/\.(gif|webp)(\?|$)/i.test(src)) return;
+        if (!img.naturalWidth) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+
+        const still = canvas.toDataURL('image/png');
+        img.dataset.gifSrc = img.getAttribute('src');
+        img.src = still;
+    } catch (e) {
+        // imagem de outro site nao deixa copiar o quadro, fica animada mesmo
+        img.dataset.gifFail = '1';
+    }
+}
+
+function playGif(img) {
+    if (!img.dataset.gifSrc) return;
+    img.src = img.dataset.gifSrc;
+    delete img.dataset.gifSrc;
+}
+
+function applyMotion() {
+    try {
+        const motionOff = document.documentElement.classList.contains('motionOff');
+
+        document.querySelectorAll('img').forEach(img => {
+            if (!motionOff) {
+                playGif(img);
+                return;
+            }
+            if (img.complete) {
+                freezeGif(img);
+            } else {
+                img.addEventListener('load', () => {
+                    if (document.documentElement.classList.contains('motionOff')) freezeGif(img);
+                }, { once: true });
+            }
+        });
+    } catch (e) { console.error('[motion]', e); }
+}
+window.applyMotion = applyMotion;
 
 
 
@@ -277,14 +335,14 @@ document.addEventListener('click', function (event) {
 
 (function () {
     'use strict';
-    const LASTFM_USERNAME = 'minkurosu';
-    const LASTFM_API_KEY = 'a2ef624a3dff8ec934580b0577d18cb5';
+    const lastFmUsername = 'minkurosu';
+    const lastFmApiKey = 'a2ef624a3dff8ec934580b0577d18cb5';
 
     async function fetchLastFmTrack() {
         try {
             const cell = document.getElementById('lastfm-song-cell');
             if (!cell) return;
-            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USERNAME}&api_key=${LASTFM_API_KEY}&format=json&limit=1`;
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${lastFmUsername}&api_key=${lastFmApiKey}&format=json&limit=1`;
             const res = await fetch(url);
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
@@ -293,7 +351,7 @@ document.addEventListener('click', function (event) {
                 const song = track.name;
                 const artist = track.artist['#text'];
                 const link = track.url;
-                cell.innerHTML = `<a href="${link}" target="_blank">${song.toLowerCase()} - ${artist.toLowerCase()}</a>`;
+                cell.innerHTML = `<a href="${link}" target="_blank" rel="noopener noreferrer">${song.toLowerCase()} - ${artist.toLowerCase()}</a>`;
             } else {
                 cell.textContent = 'no recent tracks.';
             }
@@ -333,8 +391,8 @@ function initGtObserver() {
 }
 
 function initRouter() {
-    const HOME = 'home';
-    const ALIASES = {
+    const homePage = 'home';
+    const pageAliases = {
         
         'comissions': 'commission',
         'commissions': 'commission',
@@ -344,11 +402,13 @@ function initRouter() {
     const container = document.getElementById('container');
     if (!container) return;
 
+    const baseTitle = document.title;
+
     const cache = new Map();
     let controller = null;
 
-    const resolve = name => ALIASES[name] || name;
-    const urlFor = name => (name === HOME ? '/' : '/' + name);
+    const resolve = name => pageAliases[name] || name;
+    const urlFor = name => (name === homePage ? '/' : '/' + name);
 
     function loadPage(name, pushState) {
         name = resolve(name);
@@ -415,20 +475,26 @@ function initRouter() {
 
 
             document.querySelectorAll('.nav-link').forEach(l => {
-                l.classList.toggle('active', resolve(l.getAttribute('data-page')) === name);
+                const isActive = resolve(l.getAttribute('data-page')) === name;
+                l.classList.toggle('active', isActive);
+                if (isActive) l.setAttribute('aria-current', 'page');
+                else l.removeAttribute('aria-current');
             });
 
+            document.title = name === homePage ? baseTitle : name + ' - ' + baseTitle;
 
-            [initCarrossel, initializeDrag, initializeSlideshow].forEach(fn => {
+
+            [initCarrossel, initializeDrag, initializeSlideshow, applyMotion].forEach(fn => {
                 try { fn(); } catch (e) { console.error('[pos-load] ' + fn.name, e); }
             });
 
             if (typeof window.markVisit === 'function') window.markVisit(name);
             if (pushState) history.pushState({ page: name }, '', urlFor(name));
+            if (pushState) container.focus({ preventScroll: true });
         }).catch(err => {
             if (err.name === 'AbortError') return;
             console.error('[router] erro:', err);
-            container.innerHTML = '<p style="text-align:center;color:#888;">erro ao carregar</p>';
+            container.innerHTML = '<p role="alert" style="text-align:center;color:#888;">erro ao carregar</p>';
         });
     }
 
@@ -446,12 +512,12 @@ function initRouter() {
     });
 
     window.addEventListener('popstate', function (e) {
-        loadPage((e.state && e.state.page) || HOME, false);
+        loadPage((e.state && e.state.page) || homePage, false);
     });
 
-    history.replaceState({ page: HOME }, '', urlFor(HOME));
+    history.replaceState({ page: homePage }, '', urlFor(homePage));
     console.log('[router] iniciado');
-    loadPage(HOME, false);
+    loadPage(homePage, false);
 }
 
 
@@ -462,7 +528,7 @@ function initRouter() {
 
 function initAll() {
 
-    [lockTheme, initRouter, initCarrossel, initializeDrag, initializeSlideshow, initGtObserver].forEach(fn => {
+    [lockTheme, initRouter, initCarrossel, initializeDrag, initializeSlideshow, applyMotion, initGtObserver].forEach(fn => {
         try { fn(); } catch (e) { console.error('[init] ' + fn.name, e); }
     });
 }

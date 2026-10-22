@@ -3,211 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>monthly blog</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="stylesheet" href="emo.css">
 
     <style>
+    .min-blog-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 20px 30px;
+      background: #141414;
+      border-radius: 2px;
+      box-sizing: border-box;
+      font-family: "MinFont", monospace;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.4;
+      text-align: left;
+    }
 
-.min-blog-wrap {
-            width: 100%;
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 22px 20px 28px;
-            background: #141414;
-            border-radius: 3px;
-            box-sizing: border-box;
-            font-family: "MinFont", monospace;
-            font-size: 15px;
-            color: #696969;
-            line-height: 1.4;
-            text-align: left;
-        }
+    .min-blog-head {
+      text-align: center;
+      margin: 0 0 20px;
+    }
 
-        .min-blog-head {
-            text-align: center;
-            margin: 0 0 20px;
-        }
+    .min-blog-h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--rose);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 0 0 6px;
+    }
 
-        .min-blog-h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: #521313;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin: 0 0 6px;
-        }
-
-        .min-blog-sub {
-            font-size: 0.88rem;
-            color: #696969;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .min-month {
-            margin: 0 0 10px;
-        }
-
-        .min-month > summary {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            list-style: none;
-            cursor: pointer;
-            padding: 6px 2px;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #521313;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            user-select: none;
-        }
-
-        .min-month > summary::-webkit-details-marker { display: none; }
-        .min-month > summary::marker { display: none; content: ""; }
-
-        .min-month > summary:hover { color: #b81010; }
-
-        .min-month > summary::after {
-            content: "+";
-            color: rgb(139, 65, 65);
-            font-size: 1.15rem;
-            margin-left: 12px;
-        }
-
-        .min-month[open] > summary::after { content: "−"; }
-
-        .min-entries {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 4px 2px 10px;
-        }
-
-        .min-text {
-            font-size: 0.96rem;
-            line-height: 1.4;
-            color: #696969;
-            white-space: pre-wrap;
-            text-align: left;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .min-text a {
-            color: #521313;
-            text-decoration: none;
-        }
-
-        .min-text a:hover {
-            text-decoration: underline;
-        }
-
-        .min-music {
-            margin: 8px 0 0;
-        }
-
-        .min-music-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #521313;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-            margin: 0 0 3px;
-        }
-
-        .min-music-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .min-music-list li {
-            font-size: 0.9rem;
-            line-height: 1.35;
-            color: #9a8f8f;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        }
-
-        .min-music-list a {
-            color: #696969;
-            text-decoration: none;
-        }
-
-        .min-music-list a:hover {
-            color: #b81010;
-            text-decoration: underline;
-        }
+    .min-blog-sub {
+      font-size: 0.88rem;
+      color: var(--text);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
 
 
+    .min-month {
+      margin: 0 0 10px;
+    }
 
-        .min-gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            margin: 8px 0 0;
-        }
+    .min-month > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style: none;
+      cursor: pointer;
+      padding: 6px 2px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--rose);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      user-select: none;
+    }
+
+    .min-month > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .min-month > summary::marker {
+      display: none;
+      content: "";
+    }
+
+    .min-month > summary:hover {
+      color: var(--rose-lift);
+    }
+
+    .min-month > summary::after {
+      content: "+";
+      content: "+" / "";
+      color: var(--rose);
+      font-size: 1.15rem;
+      margin-left: 12px;
+    }
+
+    .min-month[open] > summary::after {
+      content: "−";
+      content: "−" / "";
+    }
+
+    .min-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 4px 2px 10px;
+    }
+
+    .min-text {
+      font-size: 0.96rem;
+      line-height: 1.4;
+      color: var(--text);
+      white-space: pre-wrap;
+      text-align: left;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .min-text a {
+      color: var(--rose);
+      text-decoration: underline;
+    }
+
+    .min-text a:hover {
+      text-decoration: underline;
+    }
 
 
-        
+    .min-music {
+      margin: 8px 0 0;
+    }
+
+    .min-music-title {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--rose);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      margin: 0 0 4px;
+    }
+
+    .min-music-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .min-music-list li {
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--text);
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    .min-music-list a {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    .min-music-list a:hover {
+      color: var(--rose-lift);
+      text-decoration: underline;
+    }
+
+    .min-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin: 8px 0 0;
+    }
+
+    .min-blog-wrap hr {
+      border: none;
+      border-top: 1px solid #2a2a2a;
+      margin: 1rem 0;
+    }
 
 
+    @media (max-width: 600px) {
+      .min-blog-wrap {
+        padding: 20px 10px 30px;
+      }
 
-
-
-
-
-
-
-
-
-
-        .min-blog-wrap hr {
-            border: none;
-            border-top: 1px solid #2a2a2a;
-            margin: 1rem 0;
-        }
+      .min-blog-h1 {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+      }
+    }
     </style>
 </head>
 <body>
 
-    <div class="crt"></div>
+    <div class="crt" aria-hidden="true"></div>
 
     <main id="containerprincipal">
         <div id="container">
             <link rel="stylesheet" href="gallery.css">
             <script src="gallery.js"></script>
-            <div class="min-blog-wrap">
+            <div class="min-blog-wrap" lang="pt-BR">
 
                 <div class="min-blog-head">
                     <h1 class="min-blog-h1">monthly blog</h1>
-                    <p class="min-blog-sub"><em>feel free to translate the page with the button on the sidebar on your left if you're interested enough :)</em></p>
+                    <p class="min-blog-sub" lang="en"><em>feel free to translate the page with the button on the sidebar on your left if you're interested enough :)</em></p>
                 </div>
                 <hr>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <details class="min-month">
                     <summary><span>outubro 2026</span></summary>
                     <div class="min-entries">
                         <div class="min-text"> 
                             
-<p>- tive aula o dia inteiro justo no dia do aniversario, mas pelo menos tive resultados bons na prova e nas esculturas :) é mto bom qnd as pessoas reconhecem suas qualidades <br>
-  - e malditas eleições um dia depois do meu aniversário também, não queria mais uma coisa pra me estressar perto do meu aniversário, e olha que eu já fico meio estranha perto da data. acontece que não condiz com minha moral fechar os olhos para tanta injustiça e não me manifestar ou fazer minha parte. fui na minha primeira manifestação, e ralei meus dedos de tanto bater meu leque com força kkkkk, mas o que também parece fazer diferença, infelizmente, é pelas redes sociais, o que já não é muito saudável por si só. todos ao meu redor falam pra parar de ver as notícias e apagar os apps, dizendo que isso adoece (e olha que realmente, eles não estão errados), mas é exatamente isso que o sistema e os poderosos querem, conivência por silêncio. sempre pensei como eu me sacrificaria facilmente se isso garantisse que eu conseguisse fazer algum impacto positivo no mundo (altruísmo masoquista, talvez? freud já dizia como o masoquismo pode ser interpretado como uma necessidade de ser reconhecido pelo outro), então espero que perder um pouco de sanidade e paz valha a pena. por mais que eu tenha muita vontade de sair de todas as redes sociais e ficar só no meu blog, é muito dificil quebrar um hábito que faz parte da minha vida desde pequena, e a sociedade também não consegue sair pelo visto, já que tudo foi arquitetado justamente pra construir essa dependência. cada vez que posto um stories fico embasbacada como praticamente todos que eu conheço vêem as coisas que eu posto, e penso que talvez isso pode ser útil pra tentar divulgar informações contra a ascensão do f4scism0, e ainda assim parece não ser suficiente, pois tem gente que não aceita mais dialogar. não consigo enfiar na minha cabeça como, por exemplo, meus pais, que prezaram tanto que eu tivesse uma educação de qualidade, que tanto me elogiam pela minha inteligência, não querem mais me ouvir quando o assunto é política. sinto que não entra na minha cabeça como eles ainda caem nessa alienação da 3xtrem4-d1re1t4, sendo que as próprias ideias são tão ABSURDAS que vão contra os próprios valores e princípios, principalmente os influenciados pela religião deles, como por exemplo, jesus que andou com os pobres, dividiu o pão e disse que é mais provável um camelo passar pelo buraco de uma agulha do que um rico entrar no céu, enquanto eles caem na manipulação que seu líder tanto os avisou sobre. família, é muito difícil pensar que vocês realmente me amam, sabendo que votam nessas pessoas, mas ao mesmo tempo, entendo que vocês também são vitimas desse projeto de controle social da 3lit3 bancária e p3d0fil4 dos estragos-fudidos, e vindo de um império tão controlador com tanto investimento em controle social, ainda sou surpreendida dia pós dia com a força dessa alienação.
+<p>- tive aula o dia inteiro justo no dia do aniversario, mas pelo menos tive resultados bons na prova e nas esculturas, e pelo visto o professor mais carrasco do curso até q gosta de mim kkkkk :) é mto bom qnd as pessoas reconhecem suas qualidades. me presenteei também com umas roupinhas da loja  <br>
+  - e malditas eleições um dia depois do meu aniversário também, não queria mais uma coisa pra me estressar perto do meu aniversário, e olha que eu já fico meio estranha perto da data. acontece que não condiz com minha moral fechar os olhos para tanta injustiça e não me manifestar ou fazer minha parte. fui na minha primeira manifestação, e ralei meus dedos de tanto bater meu leque com força kkkkk, mas o que também parece fazer diferença, infelizmente, é pelas redes sociais, o que já não é muito saudável por si só. todos ao meu redor falam pra parar de ver as notícias e apagar os apps, dizendo que isso adoece (e olha que realmente, eles não estão errados), mas é exatamente isso que o sistema e os poderosos querem, conivência por silêncio. sempre pensei como eu me sacrificaria facilmente se isso garantisse que eu conseguisse fazer algum impacto positivo no mundo (altruísmo masoquista, talvez? freud já dizia como o masoquismo pode ser interpretado como uma necessidade de ser reconhecido pelo outro), então espero que perder um pouco de sanidade e paz valha a pena. por mais que eu tenha muita vontade de sair de todas as redes sociais e ficar só no meu blog, é muito dificil quebrar um hábito que faz parte da minha vida desde pequena, e a sociedade também não consegue sair pelo visto, já que tudo foi arquitetado justamente pra construir essa dependência. cada vez que posto um stories fico embasbacada como praticamente todos que eu conheço vêem as coisas que eu posto, e penso que talvez isso pode ser útil pra tentar divulgar informações contra a ascensão do f4s.cism0, e ainda assim parece não ser suficiente, pois tem gente que não aceita mais dialogar. não consigo enfiar na minha cabeça como, por exemplo, meus pais, que prezaram tanto que eu tivesse uma educação de qualidade, que tanto me elogiam pela minha inteligência, não querem mais me ouvir quando o assunto é política. sinto que não entra na minha cabeça como eles ainda caem nessa alienação da 3xtrem4-d1re1t4, sendo que as próprias ideias são tão ABSURDAS que vão contra os próprios valores e princípios, principalmente os influenciados pela religião deles, como por exemplo, jesus que andou com os pobres, dividiu o pão e disse que é mais provável um camelo passar pelo buraco de uma agulha do que um rico entrar no céu, enquanto eles caem na manipulação que seu líder tanto os avisou sobre. mas ao mesmo tempo, entendo que vocês também são vitimas desse projeto de controle social da 3lit3 bancária e p3d0fil4 dos estragos-fudidos, e vindo de um império tão controlador com tanto investimento em controle social, ainda sou surpreendida dia pós dia com a força dessa alienação. enfim, nada me radicaliza mais do que a propria realidade.
 (censurei as palavras pois logo após commitar cada update desse mês no site, vi muitos acessos suspeitos dos 3str4g0s-fud1d0s, vindo do mesmo lugar, e a esse ponto nao sei se estou em neurose p0lític4 ou paranóica ou os dois. pelo visto a pesquisa ta sendo automatizada)
-  - e também descobri a possivel causa dos meus problemas de saude recentes: espondilite anquilosante. apesar do sofrimento pro resto da vida, tem chance de eu conseguir me aposentar mais cedo, mas a chance da nossa geração não ter aposentadoria é imensa kk desgraça de mundo morte horrivel
+ 
                         </p>
                     </div>
 
@@ -219,23 +216,13 @@
                         </div>
 
                         <div class="gallery">
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/games/tfmoct.png" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/games/tfmoct.png" alt="transformice screenshot from october" loading="lazy"></label>
+                                                   <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/oct2026.jpg" alt="photo from october 2026" loading="lazy"></label>
+
+
                         </div>
                     </div>
                 </details>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <details class="min-month">
                     <summary><span>setembro 2026</span></summary>
@@ -255,37 +242,18 @@ logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preenc
                         <div class="min-music">
                             <h4 class="min-music-title">músicas do mês</h4>
                             <ul class="min-music-list">
-                                <li><a href="https://open.spotify.com/intl-pt/track/3ZffCQKLFLUvYM59XKLbVm" target="_blank">wake me up when september ends - green day</a></li>
-                                <li><a href="https://open.spotify.com/intl-pt/track/0YUVtMGgaJj55WAr7AHRvY" target="_blank">há tempos - legião urbana</a></li>
-                                <li><a href="https://open.spotify.com/intl-pt/track/2plbrEY59IikOBgBGLjaoe" target="_blank">die with a smile - bruno mars</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/3ZffCQKLFLUvYM59XKLbVm" target="_blank" rel="noopener noreferrer">wake me up when september ends - green day</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/0YUVtMGgaJj55WAr7AHRvY" target="_blank" rel="noopener noreferrer">há tempos - legião urbana</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/2plbrEY59IikOBgBGLjaoe" target="_blank" rel="noopener noreferrer">die with a smile - bruno mars</a></li>
                           https://open.spotify.com/intl-pt/track/72KK2zfWDMXDwHk2WEUUCv?si=b80b17cd949d40eb
                             </ul>
                         </div>
 
                         <div class="gallery">
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/yoga.jpg" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/yoga.jpg" alt="yoga photo" loading="lazy"></label>
                         </div>
                     </div>
                 </details>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <details class="min-month">
                     <summary><span>agosto 2026</span></summary>
@@ -299,35 +267,18 @@ logo pra ocupar mais ainda minha mente e comprar coisinhas q eu gosto pra preenc
                         <div class="min-music">
                             <h4 class="min-music-title">músicas do mês</h4>
                             <ul class="min-music-list">
-                                <li><a href="https://open.spotify.com/intl-pt/track/1rDJIKiabJGtDtT8y72aTr" target="_blank">desert song - mcr</a></li>
-                                <li><a href="https://open.spotify.com/intl-pt/track/089jl361OtZ6VpYvhgPiTS" target="_blank">join me in death - him</a></li>
-                                <li><a href="https://open.spotify.com/intl-pt/track/3zEN0ii6s4DHHBpnTp3RP7" target="_blank">we the people - empire of the sun</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/1rDJIKiabJGtDtT8y72aTr" target="_blank" rel="noopener noreferrer">desert song - mcr</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/089jl361OtZ6VpYvhgPiTS" target="_blank" rel="noopener noreferrer">join me in death - him</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/3zEN0ii6s4DHHBpnTp3RP7" target="_blank" rel="noopener noreferrer">we the people - empire of the sun</a></li>
                             </ul>
                         </div>
 
                         <div class="gallery">
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/gabminonwheels.jpg" alt="" loading="lazy"></label>
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/bacardi.jpg" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/gabminonwheels.jpg" alt="photo from the roller skating day" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/feed/bacardi.jpg" alt="bacardi photo" loading="lazy"></label>
                         </div>
                     </div>
                 </details>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 <details class="min-month">
@@ -348,31 +299,17 @@ estou pensando em tentar postar mensalmente aqui<br>
                         <div class="min-music">
                             <h4 class="min-music-title">músicas do mês</h4>
                             <ul class="min-music-list">
-                                <li><a href="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm" target="_blank">silvering blade - jazmin bean</a></li>
-                                <li><a href="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5" target="_blank">high enough blade - k.flay</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/6DLGneuo55lvn0l0rEuDZm" target="_blank" rel="noopener noreferrer">silvering blade - jazmin bean</a></li>
+                                <li><a href="https://open.spotify.com/intl-pt/track/1D9HQactbJoUudf9B119Y5" target="_blank" rel="noopener noreferrer">high enough blade - k.flay</a></li>
                             </ul>
                         </div>
 
                         <div class="gallery">
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/tpd1.jpg" alt="" loading="lazy"></label>
-                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/pedge.jpg" alt="" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/tpd1.jpg" alt="photo from the blog post, july 2026" loading="lazy"></label>
+                            <label class="gallery-item"><input type="radio" name="galeria"><img src="imgs/blog/pedge.jpg" alt="photo from the blog post, july 2026" loading="lazy"></label>
                         </div>
                     </div>
                 </details>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 <details class="min-month">
@@ -398,10 +335,6 @@ esses tempos percebi que tenho muitas fases com comida, onde eu começo a comer 
             </div>
         </div>
     </main>
-
-
-
-  
 
 </body>
 </html>

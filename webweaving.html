@@ -22,41 +22,46 @@
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
 
     <style>
+    
 
-        #webweaving-container,
-        #webweaving-container * {
+        #masonryContainer,
+        #masonryContainer * {
             box-sizing: border-box;
         }
 
-        #webweaving-container {
+        #masonryContainer {
+            --masonryCols: 3;
+            --masonryGap: 6px;
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 6px;
+            padding: 0 var(--masonryGap);
         }
 
-        .ww-grid {
-            column-count: 3;
-            column-gap: 6px;
+        .masonryGrid {
+            column-count: var(--masonryCols);
+            column-gap: var(--masonryGap);
             padding: 0;
             margin: 0 auto;
             width: 100%;
+            font-size: 20px;
+            line-height: 1;
         }
 
         @media (max-width: 600px) {
-            .ww-grid {
+            .masonryGrid {
                 column-count: 2;
             }
         }
 
-        .ww-cell {
+        .masonryCell {
             break-inside: avoid;
             page-break-inside: avoid;
             -webkit-column-break-inside: avoid;
 
             display: block;
             width: 100%;
-            margin: 0 0 6px 0;
+            margin: 0 0 var(--masonryGap) 0;
             padding: 0;
             position: relative;
             line-height: 0;
@@ -70,7 +75,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .ww-cell .thumb-img {
+        .masonryCell .masonryImg {
             width: 100%;
             height: auto;
             display: block;
@@ -79,12 +84,53 @@
             transition: transform 0.15s ease-in-out, filter 0.15s ease-in-out;
         }
 
-        .ww-cell:hover .thumb-img {
+        .masonryCell:hover .masonryImg {
             transform: scale(1.03);
             filter: saturate(0.4) brightness(1.05);
         }
 
-        .ww-overlay {
+        .masonryCell.masonryFrame {
+            padding: 8px;
+            background: #fff;
+            border: none;
+            overflow: visible;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .masonryFrame:hover .masonryImg {
+            transform: none;
+        }
+
+        .masonryCaption {
+            display: block;
+            padding: 10px 0 4px 0;
+            font-size: 14px;
+            line-height: 1.2;
+            color: #0a0a0a;
+            text-align: center;
+        }
+
+        .masonryCell.masonryText {
+            padding: 0;
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: left;
+            color: #5a5a5a;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            background: transparent;
+            border: none;
+            overflow: visible;
+            cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto;
+            user-select: text;
+        }
+
+        @media (max-width: 600px) {
+            .masonryCell.masonryFrame {
+                padding: 6px;
+            }
+        }
+
+        .masonryOverlay {
             display: none;
             position: fixed;
             inset: 0;
@@ -96,17 +142,17 @@
             cursor: zoom-out;
         }
 
-        .ww-overlay.is-open {
+        .masonryOverlay.is-open {
             display: flex;
-            animation: wwFade 0.15s ease-out;
+            animation: masonryFade 0.15s ease-out;
         }
 
-        @keyframes wwFade {
+        @keyframes masonryFade {
             from { opacity: 0; }
             to   { opacity: 1; }
         }
 
-        .ww-overlay img {
+        .masonryOverlay img {
             max-width: 95vw;
             max-height: 92vh;
             width: auto;
@@ -118,7 +164,12 @@
             pointer-events: none;
         }
 
-        .ww-overlay::after {
+        .masonryOverlay.isFramed img {
+            border: 8px solid #fff;
+            border-radius: 2px;
+        }
+
+        .masonryOverlay::after {
             content: "✕";
             position: fixed;
             top: 16px;
@@ -140,195 +191,195 @@
 <body>
     <div class="layout-with-sidebars">
         <main id="containerprincipal">
-            <div id="webweaving-container">
-                <div class="ww-grid">
+            <div id="masonryContainer" style="--masonryCols: 3; --masonryGap: 6px;">
+                <div class="masonryGrid">
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/76/dc/3c/76dc3c59d3c3c875f5bd49b8e8ba36e4.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/puter.jpeg">
-                        <img class="thumb-img" src="imgs/memes/puter.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/puter.jpeg">
+                        <img class="masonryImg" src="imgs/memes/puter.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/kitten.jpeg">
-                        <img class="thumb-img" src="imgs/memes/kitten.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/kitten.jpeg">
+                        <img class="masonryImg" src="imgs/memes/kitten.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/twt1.png">
-                        <img class="thumb-img" src="imgs/memes/twt1.png" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/twt1.png">
+                        <img class="masonryImg" src="imgs/memes/twt1.png" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/perdonmama.jpg">
-                        <img class="thumb-img" src="imgs/memes/perdonmama.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/perdonmama.jpg">
+                        <img class="masonryImg" src="imgs/memes/perdonmama.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/twt2.png">
-                        <img class="thumb-img" src="imgs/memes/twt2.png" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/twt2.png">
+                        <img class="masonryImg" src="imgs/memes/twt2.png" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900">
-                        <img class="thumb-img" src="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900">
+                        <img class="masonryImg" src="https://pbs.twimg.com/media/Gx7e99jXQAAiMVQ?format=jpg&name=900x900" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/8c/08/81/8c08814fe804d68864bfb11b57ae88c3.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/ce/29/0c/ce290ce95a19dc681f5812526cc330cf.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/ed/4a/d9/ed4ad93954bfae0540ff41c0e2a33115.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/339.webp">
-                        <img class="thumb-img" src="imgs/memes/339.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/339.webp">
+                        <img class="masonryImg" src="imgs/memes/339.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/1f/fc/b5/1ffcb56f8442b576bedfa807be32dacc.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/6f/17/65/6f17658edea2d5ea0a5811c75e3a50cd.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/3c/2f/2f/3c2f2ff1882aff04493f1fad0844fb8c.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/8e/67/6e/8e676e228fe6167a18b799bff30d3623.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/20/4a/55/204a5595226b13687c3a8166ec8da93e.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/21/f8/e0/21f8e0cb5ebe85a6bdbda180aa1edfc2.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/8b/69/bc/8b69bcad77847a4aa416172e3dbc9270.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/92/2a/17/922a170bba418bf481fe530a97be0824.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/302.webp">
-                        <img class="thumb-img" src="imgs/memes/302.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/302.webp">
+                        <img class="masonryImg" src="imgs/memes/302.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/303.webp">
-                        <img class="thumb-img" src="imgs/memes/303.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/303.webp">
+                        <img class="masonryImg" src="imgs/memes/303.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/311.webp">
-                        <img class="thumb-img" src="imgs/memes/311.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/311.webp">
+                        <img class="masonryImg" src="imgs/memes/311.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/329.webp">
-                        <img class="thumb-img" src="imgs/memes/329.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/329.webp">
+                        <img class="masonryImg" src="imgs/memes/329.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/336.webp">
-                        <img class="thumb-img" src="imgs/memes/336.webp" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/336.webp">
+                        <img class="masonryImg" src="imgs/memes/336.webp" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/scoliosis.jpg">
-                        <img class="thumb-img" src="imgs/memes/scoliosis.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/scoliosis.jpg">
+                        <img class="masonryImg" src="imgs/memes/scoliosis.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/issoehmcr.jpg">
-                        <img class="thumb-img" src="imgs/memes/issoehmcr.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/issoehmcr.jpg">
+                        <img class="masonryImg" src="imgs/memes/issoehmcr.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/ohallah.jpg">
-                        <img class="thumb-img" src="imgs/memes/ohallah.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/ohallah.jpg">
+                        <img class="masonryImg" src="imgs/memes/ohallah.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/5e/11/05/5e1105589df1654f8ff22c10c6a79539.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/1200x/e5/da/c2/e5dac2729971c41054888052d9890390.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg">
-                        <img class="thumb-img" src="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg">
+                        <img class="masonryImg" src="https://i.pinimg.com/736x/66/37/9b/66379be36acea8fd990529d8c7aa6e2e.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/representation.jpg">
-                        <img class="thumb-img" src="imgs/memes/representation.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/representation.jpg">
+                        <img class="masonryImg" src="imgs/memes/representation.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/followinglist.jpg">
-                        <img class="thumb-img" src="imgs/memes/followinglist.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/followinglist.jpg">
+                        <img class="masonryImg" src="imgs/memes/followinglist.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/playlists.jpg">
-                        <img class="thumb-img" src="imgs/memes/playlists.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/playlists.jpg">
+                        <img class="masonryImg" src="imgs/memes/playlists.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/toomanyhobbies.jpg">
-                        <img class="thumb-img" src="imgs/memes/toomanyhobbies.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/toomanyhobbies.jpg">
+                        <img class="masonryImg" src="imgs/memes/toomanyhobbies.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/cat.jpg">
-                        <img class="thumb-img" src="imgs/memes/cat.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/cat.jpg">
+                        <img class="masonryImg" src="imgs/memes/cat.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/ttbh.jpg">
-                        <img class="thumb-img" src="imgs/memes/ttbh.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/ttbh.jpg">
+                        <img class="masonryImg" src="imgs/memes/ttbh.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/sentimentaldemais.jpeg">
-                        <img class="thumb-img" src="imgs/memes/sentimentaldemais.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/sentimentaldemais.jpeg">
+                        <img class="masonryImg" src="imgs/memes/sentimentaldemais.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/frerard.jpeg">
-                        <img class="thumb-img" src="imgs/memes/frerard.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/frerard.jpeg">
+                        <img class="masonryImg" src="imgs/memes/frerard.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/computer.jpeg">
-                        <img class="thumb-img" src="imgs/memes/computer.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/computer.jpeg">
+                        <img class="masonryImg" src="imgs/memes/computer.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/party.jpeg">
-                        <img class="thumb-img" src="imgs/memes/party.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/party.jpeg">
+                        <img class="masonryImg" src="imgs/memes/party.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/youarenotimmuneto.jpeg">
-                        <img class="thumb-img" src="imgs/memes/youarenotimmuneto.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/youarenotimmuneto.jpeg">
+                        <img class="masonryImg" src="imgs/memes/youarenotimmuneto.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/eversinceiwasalittlegirl.png">
-                        <img class="thumb-img" src="imgs/memes/eversinceiwasalittlegirl.png" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/eversinceiwasalittlegirl.png">
+                        <img class="masonryImg" src="imgs/memes/eversinceiwasalittlegirl.png" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/sejaotipodenb.png">
-                        <img class="thumb-img" src="imgs/memes/sejaotipodenb.png" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/sejaotipodenb.png">
+                        <img class="masonryImg" src="imgs/memes/sejaotipodenb.png" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/consmen.jpg">
-                        <img class="thumb-img" src="imgs/memes/consmen.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/consmen.jpg">
+                        <img class="masonryImg" src="imgs/memes/consmen.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/nobosses.jpg">
-                        <img class="thumb-img" src="imgs/memes/nobosses.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/nobosses.jpg">
+                        <img class="masonryImg" src="imgs/memes/nobosses.jpg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/mamaedormiu.jpeg">
-                        <img class="thumb-img" src="imgs/memes/mamaedormiu.jpeg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/mamaedormiu.jpeg">
+                        <img class="masonryImg" src="imgs/memes/mamaedormiu.jpeg" alt="" loading="lazy" />
                     </div>
 
-                    <div class="ww-cell" data-full="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg">
-                        <img class="thumb-img" src="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg" alt="" loading="lazy" />
+                    <div class="masonryCell" data-full="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg">
+                        <img class="masonryImg" src="imgs/memes/neverforgetwhowasthereforuaturlowest.jpg" alt="" loading="lazy" />
                     </div>
 
                 </div>
@@ -336,18 +387,21 @@
         </main>
     </div>
 
-    <div class="ww-overlay" id="wwOverlay">
+    <div class="masonryOverlay" id="masonryOverlay">
         <img src="" alt="">
     </div>
 
     <script>
         (function () {
-            var overlay = document.getElementById('wwOverlay');
+            var overlay = document.getElementById('masonryOverlay');
             var overlayImg = overlay.querySelector('img');
-            var container = document.getElementById('webweaving-container');
+            var container = document.getElementById('masonryContainer');
 
-            function openLightbox(src) {
+            var rots = [-4, -2, 2, 4];
+
+            function openLightbox(src, framed) {
                 overlayImg.src = src;
+                overlay.classList.toggle('isFramed', !!framed);
                 overlay.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
             }
@@ -358,12 +412,20 @@
                 document.body.style.overflow = '';
             }
 
-            container.querySelectorAll('.ww-cell').forEach(function (cell) {
+            container.querySelectorAll('.masonryFrame').forEach(function (cell) {
+                if (!cell.style.transform) {
+                    var r = rots[Math.floor(Math.random() * rots.length)];
+                    cell.style.transform = 'rotate(' + r + 'deg)';
+                }
+            });
+
+            container.querySelectorAll('.masonryCell').forEach(function (cell) {
                 cell.addEventListener('click', function (e) {
+                    var src = cell.getAttribute('data-full');
+                    if (!src) return;
                     e.preventDefault();
                     e.stopPropagation();
-                    var src = cell.getAttribute('data-full');
-                    if (src) openLightbox(src);
+                    openLightbox(src, cell.classList.contains('masonryFrame'));
                 });
             });
 
@@ -380,6 +442,15 @@
 
     <script src="script.js"></script>
     <script src="lastfm-widget.js"></script>
+
+    <!-- =========================================================
+        
+
+         <div class="masonryCell" data-full="imgs/memes/ARQUIVO.jpg">
+             <img class="masonryImg" src="imgs/memes/ARQUIVO.jpg" alt="" loading="lazy" />
+         </div>
+
+         ========================================================= -->
 </body>
 
 </html>
