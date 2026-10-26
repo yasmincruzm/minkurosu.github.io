@@ -9,6 +9,13 @@
   --tableOddRowColor:  #171717;
   --tableEvenRowColor: #1a1a1a;
   --tableHeaderColor:  #212121;
+
+  --scrollbarThumbColor:      rgba(140, 140, 140, 0.45);
+  --scrollbarThumbHoverColor: rgba(160, 160, 160, 0.75);
+  --scrollbarTrackColor:      transparent;
+  --scrollbarSizeThin:        4px;
+
+  --pageDesignWidth: 1400px;
 }
 
 
@@ -28,6 +35,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
+  min-width: var(--pageDesignWidth);
   min-height: 100vh;
 }
 
@@ -118,6 +126,7 @@ html {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
@@ -158,52 +167,35 @@ textarea:disabled {
 }
 
 
-html, body {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarTrackColor);
+  }
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: 5px;
-}
+@supports selector(::-webkit-scrollbar) {
+  *::-webkit-scrollbar {
+    width: var(--scrollbarSizeThin);
+    height: var(--scrollbarSizeThin);
+  }
 
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbarTrackColor);
+  }
 
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 100px;
-}
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbarThumbColor);
+    border-radius: 100px;
+  }
 
-html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
-  background: #000000b3;
-}
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbarThumbHoverColor);
+  }
 
-.scroller {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
-}
-
-.scroller::-webkit-scrollbar {
-  width: 5px;
-}
-
-.scroller::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scroller::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 100px;
-}
-
-.scroller::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.8);
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
 
 
@@ -763,15 +755,6 @@ h5 {
 .fancybox__nav .f-button:active {
   background: rgba(28, 18, 18, 0.85);
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
-}
-
-@media (max-width: 480px) {
-  .fancybox__slide {
-    padding: 48px 4px 52px;
-  }
-  .fancybox__nav {
-    display: none;
-  }
 }
 
 .boxfoto video {
@@ -1800,149 +1783,4 @@ summary:focus-visible,
 
 .motionOff .track {
   overflow-x: auto;
-}
-
-@media (max-width: 1200px) {
-  body > .layout-with-sidebars {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  #containerprincipal {
-    grid-column: 1 / -1;
-    order: -1;
-  }
-
-
-  .sidebar {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 300px !important;
-    margin: 0 auto;
-  }
-
-  .scroll {
-    height: 400px;
-  }
-}
-
-@media (max-width: 800px) {
-  html,
-  body {
-    background-attachment: scroll;
-  }
-
-
-  header {
-    flex-wrap: wrap;
-    justify-content: center;
-    max-height: none;
-  }
-
-  .navbar {
-    flex-wrap: wrap;
-    overflow-x: visible;
-  }
-
-  .navbar .divitems {
-    flex-wrap: wrap;
-  }
-
-  .navbar .divitems .nav-item {
-    font-size: 1.2rem;
-    padding-right: 0;
-  }
-
-  .navbar a {
-    margin: 5px;
-    border-width: 4px;
-  }
-}
-
-@media (max-width: 600px) {
-  body > .layout-with-sidebars {
-    grid-template-columns: minmax(0, 1fr) !important;
-    padding: 0 5px;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.4rem;
-  }
-
-  h5 {
-    font-size: 1.4rem;
-  }
-
-  .about-content {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .about-content .about-text {
-    max-width: 100%;
-  }
-
-  .about-content img {
-    margin: 0;
-    max-width: 100%;
-  }
-
-  .boxfoto {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .maincollums {
-    flex-direction: column;
-  }
-
-  .divider {
-    width: 80px;
-    height: 4px;
-    margin: 10px 0;
-  }
-
-  .column h4 {
-    max-width: 100%;
-  }
-
-  .likes,
-  .deslikes {
-    margin-left: 0;
-    margin-right: 0;
-    text-align: center;
-  }
-
-  table td:first-child,
-  table th:first-child {
-    width: 25% !important;
-  }
-
-  .tooltip .tooltiptext {
-    white-space: normal;
-    width: max-content;
-    max-width: 200px;
-  }
-
-  .screenshots {
-    max-width: 100%;
-    height: auto;
-  }
-}
-
-@media (max-width: 400px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  .grid-feed,
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
