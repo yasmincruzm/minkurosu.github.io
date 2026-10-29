@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="reactions.css" />
 <script src="lastfm-widget.js"></script>
 <style>
-    .table-container {
+    .tableContainer {
       overflow-x: auto;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       margin: 25px 0;
     }
 
-    .styled-table {
+    .styledTable {
       width: 100%;
       border-collapse: collapse;
       font-family: "MinFont", sans-serif;
@@ -17,7 +17,7 @@
       min-width: 600px;
     }
 
-    .styled-table thead tr {
+    .styledTable thead tr {
       background-color: #1a1a1a73;
       color: var(--text);
       text-align: center;
@@ -27,30 +27,30 @@
       background-color: #72727217;
     }
 
-    .styled-table th,
-    .styled-table td {
+    .styledTable th,
+    .styledTable td {
       padding: 12px 15px;
     }
 
-    .styled-table tbody tr {
+    .styledTable tbody tr {
       border-bottom: 1px solid #2a2a2a;
     }
 
-    .styled-table tbody tr:nth-of-type(even) {
+    .styledTable tbody tr:nth-of-type(even) {
       background-color: #242424;
     }
 
-    .styled-table tbody tr:last-of-type {
+    .styledTable tbody tr:last-of-type {
       border-bottom: none;
     }
 
-    .styled-table td:nth-child(2),
-    .styled-table td:nth-child(3) {
+    .styledTable td:nth-child(2),
+    .styledTable td:nth-child(3) {
       text-align: center;
     }
 
 
-    .slideshow-area {
+    .slideshowArea {
       position: relative;
       width: 100%;
       max-width: 270px;
@@ -60,7 +60,7 @@
       background: #000;
     }
 
-    .slideshow-area img {
+    .slideshowArea img {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -71,7 +71,7 @@
       transition: opacity 450ms ease-in-out;
     }
 
-    .slideshow-area img.active {
+    .slideshowArea img.active {
       opacity: 1;
     }
 
@@ -87,7 +87,7 @@
       column-gap: 8px;
     }
 
-    .image-container {
+    .imageContainer {
       display: inline-block;
       width: 100%;
       margin-bottom: 6px;
@@ -98,30 +98,30 @@
       transition: transform 0.2s ease;
     }
 
-    .image-container:hover {
+    .imageContainer:hover {
       transform: scale(1.05);
       cursor: url('imgs/cursor/ROCKcursorselect.cur') !important;
     }
 
-    .image-container img {
+    .imageContainer img {
       max-width: 100%;
       height: auto;
       display: block;
     }
 
-    .frame-figure {
+    .frameFigure {
       width: 100%;
       max-width: 545px;
       margin: 0.2em auto;
       break-inside: avoid;
     }
 
-    .frame-figure,
-    .frame-figure * {
+    .frameFigure,
+    .frameFigure * {
       box-sizing: border-box;
     }
 
-    .frame-figure.desaturatepics {
+    .frameFigure.desaturatepics {
       filter: none;
       --fr-hi:     rgb(94, 84, 73);
       --fr-lo:     rgb(21, 19, 16);
@@ -130,7 +130,7 @@
       --fr-golddk: rgb(102, 88, 44);
     }
 
-    .frame-figure.desaturatepics:hover {
+    .frameFigure.desaturatepics:hover {
       --fr-hi:     rgb(109, 84, 58);
       --fr-lo:     rgb(24, 19, 13);
       --fr-flat:   rgb(65, 40, 16);
@@ -138,7 +138,7 @@
       --fr-golddk: rgb(145, 110, 0);
     }
 
-    .frame-figure .outerBevel {
+    .frameFigure .outerBevel {
       box-shadow: 4px 6px 12px 0 black;
       border-width: 5px;
       border-style: solid;
@@ -146,17 +146,17 @@
       transition: border-color 0.3s ease;
     }
 
-    .frame-figure .flatSurface {
+    .frameFigure .flatSurface {
       border: 12px solid var(--fr-flat);
       transition: border-color 0.3s ease;
     }
 
-    .frame-figure .innerBevel {
+    .frameFigure .innerBevel {
       border-width: 5px;
       border-style: solid;
     }
 
-    .frame-figure .innerBevel a[data-fancybox="gallery"] {
+    .frameFigure .innerBevel a[data-fancybox="gallery"] {
       display: block;
       width: auto;
       height: auto;
@@ -168,67 +168,67 @@
       transition: border-color 0.3s ease;
     }
 
-    .frame-figure .innerBevel a[data-fancybox="gallery"] img {
+    .frameFigure .innerBevel a[data-fancybox="gallery"] img {
       width: 100%;
       height: auto;
       object-fit: unset;
     }
 
-    .frame-figure .map {
+    .frameFigure .map {
       display: block;
       width: 100%;
     }
 
-    .frame-figure.desaturatepics .map {
+    .frameFigure.desaturatepics .map {
       filter: saturate(0.2);
       transition: filter 0.3s ease;
     }
 
-    .frame-figure.desaturatepics:hover .map {
+    .frameFigure.desaturatepics:hover .map {
       filter: saturate(1);
     }
 
 
-    .status-radio {
+    .statusRadio {
       position: absolute;
       opacity: 0;
       pointer-events: none;
     }
 
-    .status-slider-viewport {
+    .statusSliderViewport {
       overflow: hidden;
       flex: 1;
       width: 100%;
     }
 
-    .status-slider-track {
+    .statusSliderTrack {
       display: flex;
       transition: transform 0.35s ease-in-out;
       width: 100%;
     }
 
-    .status-slider-slide {
+    .statusSliderSlide {
       flex: 0 0 100%;
       box-sizing: border-box;
     }
 
-    #status-slide-btn-1:checked ~ .status-slider-carousel .status-slider-track {
+    #statusSlideBtn1:checked ~ .statusSliderCarousel .statusSliderTrack {
       transform: translateX(0%);
     }
 
-    #status-slide-btn-2:checked ~ .status-slider-carousel .status-slider-track {
+    #statusSlideBtn2:checked ~ .statusSliderCarousel .statusSliderTrack {
       transform: translateX(-100%);
     }
 
-    #status-slide-btn-3:checked ~ .status-slider-carousel .status-slider-track {
+    #statusSlideBtn3:checked ~ .statusSliderCarousel .statusSliderTrack {
       transform: translateX(-200%);
     }
 
-    #status-slide-btn-4:checked ~ .status-slider-carousel .status-slider-track {
+    #statusSlideBtn4:checked ~ .statusSliderCarousel .statusSliderTrack {
       transform: translateX(-300%);
     }
 
-    .status-arrow {
+    .statusArrow {
       display: none;
       cursor: pointer;
       color: var(--rose);
@@ -237,10 +237,10 @@
       user-select: none;
     }
 
-    #status-slide-btn-1:checked ~ .status-slider-carousel .for-slide-1,
-    #status-slide-btn-2:checked ~ .status-slider-carousel .for-slide-2,
-    #status-slide-btn-3:checked ~ .status-slider-carousel .for-slide-3,
-    #status-slide-btn-4:checked ~ .status-slider-carousel .for-slide-4 {
+    #statusSlideBtn1:checked ~ .statusSliderCarousel .forSlide1,
+    #statusSlideBtn2:checked ~ .statusSliderCarousel .forSlide2,
+    #statusSlideBtn3:checked ~ .statusSliderCarousel .forSlide3,
+    #statusSlideBtn4:checked ~ .statusSliderCarousel .forSlide4 {
       display: inline-block;
     }
 
@@ -275,7 +275,7 @@
       line-height: 1.3 !important;
     }
 
-    .status-radio:focus-visible ~ .status-slider-carousel .status-slider-viewport {
+    .statusRadio:focus-visible ~ .statusSliderCarousel .statusSliderViewport {
       outline: 2px solid var(--rose);
       outline-offset: 2px;
     }
@@ -296,7 +296,7 @@
         column-count: 2;
       }
 
-      .frame-figure .flatSurface {
+      .frameFigure .flatSurface {
         border-width: 8px;
       }
     }
@@ -363,62 +363,62 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     </div>
     <hr>
     <div class="caixamaisclara" style="margin: 20px;">
-        <div class="about-me-container">
-            <div class="slideshow-area" id="slideshow-area">
+        <div class="aboutMeContainer">
+            <div class="slideshowArea" id="slideshowArea">
                 <img src="imgs/feed/gabmin.jpg" alt="" class="active" fetchpriority="high" style="display:block; opacity:1;">
             </div>
 
-            <div class="badges-area">
-                <div class="badges-container">
+            <div class="badgesArea">
+                <div class="badgesContainer">
                     <div class="scrollthin">
-                        <img src="imgs/webgraphics/identitybuttons/cat.png" alt="cat" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/artist.png" alt="artist" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/brasil.png" alt="brasil" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/cat.png" alt="cat" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/artist.png" alt="artist" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/brasil.png" alt="brasil" class="badgeImg">
                
-                        <img src="imgs/webgraphics/identitybuttons/emo.png" alt="emo" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/punk.png" alt="punk" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/art.png" alt="art" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/pc.png" alt="pc" class="badge-img">
-                                                <img src="imgs/webgraphics/identitybuttons/Roller-Skating.png" alt="roller skating" class="badge-img">
-         <img src="imgs/webgraphics/identitybuttons/demi.png" alt="demi" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/Nonbinary.png" alt="nonbinary" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/queer.png" alt="queer" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/taken.png" alt="taken" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/vampirekin.png" alt="vampirekin" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/veg.png" alt="veg" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/nature.gif" alt="nature" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/eng2lng.png" alt="english as a second language" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/sun.png" alt="sun" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/horse.png" alt="horse" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/student.png" alt="student" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/intro.png" alt="intro" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/neurodivergent.png" alt="neurodivergent" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/sensitive.png" alt="sensitive" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/Highly_Sensitive_Person.png" alt="highly sensitive person" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/hSzgn50.png" alt="" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/ypcKWM0.png" alt="" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/infp.png" alt="infp" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/emo.png" alt="emo" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/punk.png" alt="punk" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/art.png" alt="art" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/pc.png" alt="pc" class="badgeImg">
+                                                <img src="imgs/webgraphics/identitybuttons/Roller-Skating.png" alt="roller skating" class="badgeImg">
+         <img src="imgs/webgraphics/identitybuttons/demi.png" alt="demi" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/Nonbinary.png" alt="nonbinary" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/queer.png" alt="queer" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/taken.png" alt="taken" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/vampirekin.png" alt="vampirekin" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/veg.png" alt="veg" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/nature.gif" alt="nature" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/eng2lng.png" alt="english as a second language" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/sun.png" alt="sun" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/horse.png" alt="horse" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/student.png" alt="student" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/intro.png" alt="intro" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/neurodivergent.png" alt="neurodivergent" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/sensitive.png" alt="sensitive" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/Highly_Sensitive_Person.png" alt="highly sensitive person" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/hSzgn50.png" alt="" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/ypcKWM0.png" alt="" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/infp.png" alt="infp" class="badgeImg">
 
-                        <img src="imgs/webgraphics/identitybuttons/agWlVws.png" alt="" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/iJL1j5x.png" alt="" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/minecraft.png" alt="minecraft" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/My_Little_Pony.png" alt="my little pony" class="badge-img">
-                                                <img src="imgs/webgraphics/identitybuttons/Baldur's_Gate_3_Full.png" alt="baldur's gate 3" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/anime.png" alt="anime" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/iykyk.png" alt="iykyk" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/agWlVws.png" alt="" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/iJL1j5x.png" alt="" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/minecraft.png" alt="minecraft" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/My_Little_Pony.png" alt="my little pony" class="badgeImg">
+                                                <img src="imgs/webgraphics/identitybuttons/Baldur's_Gate_3_Full.png" alt="baldur's gate 3" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/anime.png" alt="anime" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/iykyk.png" alt="iykyk" class="badgeImg">
 
-                        <img src="imgs/webgraphics/identitybuttons/v50Ipgt.png" alt="" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/righthand.png" alt="right-handed" class="badge-img">
-                        <img src="imgs/webgraphics/identitybuttons/+18.png" alt="+18" class="badge-img">
+                        <img src="imgs/webgraphics/identitybuttons/v50Ipgt.png" alt="" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/righthand.png" alt="right-handed" class="badgeImg">
+                        <img src="imgs/webgraphics/identitybuttons/+18.png" alt="+18" class="badgeImg">
                     </div>
                 </div>
             </div>
 
-            <div class="content-area">
+            <div class="contentArea">
                 <div class="caixamaisclaraColumn" id="scrollable" style="flex: 1; min-width: 8rem;  overflow-y: auto; padding: 0rem; text-transform: lowercase;">
                     <h3 style="color: var(--rose);">about me</h3>
                     <h4 style="text-justify: auto; text-align: justify; font-size: 1rem; padding:0px; margin:0px; color: var(--text);">
-                      hiiiii i'm Min, i'm 23 years old, 
+                      hiiiii i'm Min, i'm 24 years old, 
                       and for as long as i can remember, i've liked drawing, messing with the pc and gaming. i also really always loved animals and nature, reading, making arts and crafts, photography and obssessing over my favorite medias.
                                            on this site you can find a bit of the things i like and do.<br>
  sometimes i think that defining yourself with labels can be a bit limiting, but language and categorizations are the tools we have to describe our interests,
@@ -464,7 +464,7 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
         </div>
     </div>
     <hr>
-    <div class="caixa-iframe-onlnbrd">
+    <div class="caixaIframeOnlnbrd">
         <h3>draw something, write your name,<br>leave your mark here!! just be nice</h3>
         <br><h3 style="font-size: 1rem;">( by the way, I loooove seeing updates here ❤︎ ) </h3> <br>
         <br>
@@ -496,9 +496,9 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     <tr>
         <td>music</td>
         <td>my chemical romance & solo works, melanie martinez, muse, avanged sevenfold, type o negative, 
-             westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="marked-link">garden psychedelia</a>,
-              <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="marked-link">sign steelers</a>,
-               <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="marked-link">pusher174</a>, ghost, 
+             westkust, jazmin bean, <a href="https://open.spotify.com/intl-pt/artist/2Gz78gC3i0E5nLHKwzfGGh?si=79cbe94a830942ec" class="markedLink">garden psychedelia</a>,
+              <a href="https://open.spotify.com/intl-pt/artist/5ipDa4Bo9qGij1dWTHkigd?si=S9sINJAuS0WMoYa07wJN6Q" class="markedLink">sign steelers</a>,
+               <a href="https://open.spotify.com/intl-pt/artist/1KUk2wUJmhbTRUyAXge5Lv?si=jJnrlPxfS-q1rfL-PI1MCA" class="markedLink">pusher174</a>, ghost, 
                korn, linkin park, rita lee, mitski, ls dunes, destroy boys, alice in chains, leathermouth, self, michael jackson, deftones, paramore, system of a down,
                 ptv, pitty, the hives, crystal castles, pinkpantheress, green day, h.i.m, garbage, tv girl, lil peep</td>
     </tr>
@@ -576,53 +576,53 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
       <div class="divider"></div>
 
     
-<div class="status-slider-wrap" role="group" aria-label="status memes" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
-  <input type="radio" name="status-slide-group" id="status-slide-btn-1" class="status-radio"  checked>
-  <input type="radio" name="status-slide-group" id="status-slide-btn-2" class="status-radio">
-  <input type="radio" name="status-slide-group" id="status-slide-btn-3" class="status-radio">
-  <input type="radio" name="status-slide-group" id="status-slide-btn-4" class="status-radio" >
+<div class="statusSliderWrap" role="group" aria-label="status memes" style="flex: 1; min-width: 260px; text-transform: lowercase; padding: 1rem;">
+  <input type="radio" name="status-slide-group" id="statusSlideBtn1" class="statusRadio"  checked>
+  <input type="radio" name="status-slide-group" id="statusSlideBtn2" class="statusRadio">
+  <input type="radio" name="status-slide-group" id="statusSlideBtn3" class="statusRadio">
+  <input type="radio" name="status-slide-group" id="statusSlideBtn4" class="statusRadio" >
 
 
   <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:12px;">
     <h3 style="color:var(--rose); font-size: 1rem; margin:0;">status</h3>
   </div>
 
-  <div class="status-slider-carousel" style="display:flex; align-items:center; gap:8px;">
-    <label for="status-slide-btn-4" class="status-arrow for-slide-1" aria-hidden="true">←</label>
-    <label for="status-slide-btn-1" class="status-arrow for-slide-2" aria-hidden="true">←</label>
-    <label for="status-slide-btn-2" class="status-arrow for-slide-3" aria-hidden="true">←</label>
-    <label for="status-slide-btn-3" class="status-arrow for-slide-4" aria-hidden="true">←</label>
+  <div class="statusSliderCarousel" style="display:flex; align-items:center; gap:8px;">
+    <label for="statusSlideBtn4" class="statusArrow forSlide1" aria-hidden="true">←</label>
+    <label for="statusSlideBtn1" class="statusArrow forSlide2" aria-hidden="true">←</label>
+    <label for="statusSlideBtn2" class="statusArrow forSlide3" aria-hidden="true">←</label>
+    <label for="statusSlideBtn3" class="statusArrow forSlide4" aria-hidden="true">←</label>
 
 
-    <div class="status-slider-viewport">
-      <div class="status-slider-track">
+    <div class="statusSliderViewport">
+      <div class="statusSliderTrack">
 
-         <div class="status-slider-slide">
+         <div class="statusSliderSlide">
           <img src="imgs/memes/psiL.jpeg" alt="meme" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius: 2px;">
           <p style="font-size: 0.8rem; color:var(--text); margin:6px 0 0;">13/13/13</p>
         </div>
 
 
-        <div class="status-slider-slide">
+        <div class="statusSliderSlide">
           <img src="https://i.pinimg.com/1200x/c4/3b/da/c43bda2f334e302d8f6f06747d766e32.jpg" alt="meme" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius: 2px;">
           <p style="font-size: 0.8rem; color:var(--text); margin:6px 0 0;">07/07/2026</p>
         </div>
 
-        <div class="status-slider-slide">
+        <div class="statusSliderSlide">
           <img src="https://i.pinimg.com/1200x/d3/04/a4/d304a472333f51202db2a18f95145031.jpg" alt="meme" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius: 2px;">
           <p style="font-size: 0.8rem; color:var(--text); margin:6px 0 0;">29/06/2026</p>
         </div>
 
-        <div class="status-slider-slide">
+        <div class="statusSliderSlide">
           <img src="https://minkurosu.site/imgs/memes/txf.jpg" alt="meme" class="desaturate" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-radius: 2px;">
           <p style="font-size: 0.8rem; color:var(--text); margin:6px 0 0;">02/06/2026</p>
         </div>
       </div>
     </div>
-    <label for="status-slide-btn-2" class="status-arrow for-slide-1" aria-hidden="true">→</label>
-    <label for="status-slide-btn-3" class="status-arrow for-slide-2" aria-hidden="true">→</label>
-    <label for="status-slide-btn-4" class="status-arrow for-slide-3" aria-hidden="true">→</label>
-    <label for="status-slide-btn-1" class="status-arrow for-slide-4" aria-hidden="true">→</label>
+    <label for="statusSlideBtn2" class="statusArrow forSlide1" aria-hidden="true">→</label>
+    <label for="statusSlideBtn3" class="statusArrow forSlide2" aria-hidden="true">→</label>
+    <label for="statusSlideBtn4" class="statusArrow forSlide3" aria-hidden="true">→</label>
+    <label for="statusSlideBtn1" class="statusArrow forSlide4" aria-hidden="true">→</label>
 
   </div>
 
@@ -638,8 +638,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
     <div id="gallery">
         <h2>art made by you ❤︎ </h2>
         
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -651,8 +651,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -664,8 +664,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -677,8 +677,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -690,8 +690,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -703,8 +703,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -716,8 +716,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
-        <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+        <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">
@@ -729,8 +729,8 @@ also, know that i have a boyfriend, if you are here to harass me or cross my int
                 </div>
             </figure>
         </div>
- <div class="image-container">
-            <figure class="frame-figure desaturatepics">
+ <div class="imageContainer">
+            <figure class="frameFigure desaturatepics">
                 <div class="outerBevel">
                     <div class="flatSurface">
                         <div class="innerBevel">

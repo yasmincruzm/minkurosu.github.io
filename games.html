@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="emo.css">
+    <link rel="stylesheet" href="gallery.css">
     <style>
-        .caixamaisclaraInterests {
+
+        .games-section {
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
         }
 
         .games-title {
@@ -30,109 +33,358 @@
             padding: 0;
         }
 
-        .games-button-container .pushable {
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0;
-            font: inherit;
+        .games-button-container .pushable { display: inline-block; cursor: pointer; }
+
+        .tabInput {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            margin: 0;
+            pointer-events: none;
+        }
+
+        .pushable:has(.tabInput:checked) .front { filter: brightness(1.35); transform: translateY(-2px); }
+        .pushable:has(.tabInput:focus-visible) { outline: 2px solid var(--rose); outline-offset: 4px; }
+
+        .gamePanel { display: none; }
+
+        .games-section:has(input[value="minecraft"]:checked) #p-minecraft,
+        .games-section:has(input[value="bg3"]:checked) #p-bg3,
+        .games-section:has(input[value="transformice"]:checked) #p-transformice,
+        .games-section:has(input[value="tomodachi"]:checked) #p-tomodachi,
+        .games-section:has(input[value="growtopia"]:checked) #p-growtopia,
+        .games-section:has(input[value="stardew"]:checked) #p-stardew {
+            display: flex;
         }
 
         #gameContent {
             width: 100%;
-            padding: 10px;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 10px 10px 20px;
             box-sizing: border-box;
         }
 
-        .game-frame {
-            display: none; 
-            width: 100%;
-            height: 700px;
-            border: none;
-            border-radius: 8px;
-            overflow: hidden;
+        .gamePanel {
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
         }
 
-        .game-frame.active {
+        .gamePanel h3 {
+            margin: 14px 0 0;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            text-transform: lowercase;
+        }
+
+        .gameText {
+            color: #525252;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        .gameText p { margin: 0 0 8px; line-height: 1.4; }
+
+        .screenshots {
             display: block;
-            animation: expandIn 0.25s ease;
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
         }
 
-        @keyframes expandIn {
-            from { opacity: 0.6; transform: scaleY(0.97); }
-            to { opacity: 1; transform: scaleY(1); }
+        .gamePanel .gallery { margin: 0 auto; }
+
+        .skin-grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
         }
+
+        .skin-item { height: 200px; overflow: hidden; }
+
+        .skin-item img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .skin-title {
+            font-size: 0.9em;
+            color: #534F4A;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .skin-grid-container { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .profileFit {
+            container-type: inline-size;
+            position: relative;
+            width: 100%;
+            max-width: 636px;
+            aspect-ratio: 636 / 569;
+            margin: 0 auto;
+        }
+
+        .transformiceProfile {
+            position: absolute;
+            inset: 0;
+            background: url('imgs/games/transformice/profileclean.png') center / contain no-repeat;
+            font-family: sans-serif;
+            text-shadow: none;
+        }
+
+        .profileLevel {
+            position: absolute;
+            top: 41.3%;
+            left: 15.72%;
+            color: #f1e100;
+            font-size: 2.52cqw;
+        }
+
+        .profileAvatar {
+            position: absolute;
+            top: 26.36%;
+            left: 70.75%;
+            width: 22.01%;
+            height: 24.6%;
+            overflow: hidden;
+            border: 1px solid #1c363d;
+            box-sizing: border-box;
+        }
+
+        .profileAvatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        .profileDetails {
+            position: absolute;
+            top: 64.15%;
+            left: 7.08%;
+            width: 85.69%;
+            height: 23.73%;
+            overflow-y: auto;
+            color: #cad8db;
+            font-size: 2.04cqw;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .profileDetails p { margin: 0 0 .5em; }
+        .profileSectionTitle { color: white; text-align: left; }
+        .profileStats { color: rgb(94, 131, 187); text-align: left; }
+
+        .stickerRow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .stickerRow img { max-width: 100%; height: auto; }
+
+        .charImg { height: 200px; width: auto; max-width: 100%; }
+
+        .stardewFrame { width: 100%; height: 700px; border: none; border-radius: 8px; }
     </style>
 </head>
 
 <body>
     <div class="games-section">
 
-        <div class="caixamaisclaraInterests">
-            <h1 class="games-title">escolha um jogo!</h1>
-            <div class="games-button-container">
-                <button data-game="minecraft" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">minecraft</span></button>
-                <button data-game="bg3" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">baldurs gate 3</span></button>
-                <button data-game="transformice" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">transformice</span></button>
-                <button data-game="tomodachi" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">tomodachi life</span></button>
-                <button data-game="growtopia" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">growtopia</span></button>
-                <button data-game="stardew" class="pushable"><span class="shadow"></span><span class="edge"></span><span class="front">stardew valley</span></button>
-            </div>
+        <h1 class="games-title">escolha um jogo!</h1>
+
+        <div class="games-button-container">
+                <label class="pushable"><input type="radio" name="game" value="minecraft" class="tabInput" checked><span class="shadow"></span><span class="edge"></span><span class="front">minecraft</span></label>
+                <label class="pushable"><input type="radio" name="game" value="bg3" class="tabInput"><span class="shadow"></span><span class="edge"></span><span class="front">baldurs gate 3</span></label>
+                <label class="pushable"><input type="radio" name="game" value="transformice" class="tabInput"><span class="shadow"></span><span class="edge"></span><span class="front">transformice</span></label>
+                <label class="pushable"><input type="radio" name="game" value="tomodachi" class="tabInput"><span class="shadow"></span><span class="edge"></span><span class="front">tomodachi life</span></label>
+                <label class="pushable"><input type="radio" name="game" value="growtopia" class="tabInput"><span class="shadow"></span><span class="edge"></span><span class="front">growtopia</span></label>
+                <label class="pushable"><input type="radio" name="game" value="stardew" class="tabInput"><span class="shadow"></span><span class="edge"></span><span class="front">stardew valley</span></label>
         </div>
 
         <div id="gameContent">
-            <iframe id="frame-minecraft" class="game-frame active" src="minecraft.html"></iframe>
-            <iframe id="frame-bg3" class="game-frame" src="baldursgate.html"></iframe>
-            <iframe id="frame-transformice" class="game-frame" src="transformice.html"></iframe>
-            <iframe id="frame-tomodachi" class="game-frame" src="tomodachi.html"></iframe>
-            <iframe id="frame-growtopia" class="game-frame" src="growtopia.html"></iframe>
-            <iframe id="frame-stardew" class="game-frame" src="stardewvalley.html"></iframe>
+
+            <section class="gamePanel" id="p-minecraft">
+                <h3>skins i made during my life</h3>
+                <div class="skin-grid-container">
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me actual.png" alt="skin1">
+                    <p class="skin-title">current skin</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me2020.png" alt="">
+                    <p class="skin-title">pandemic me</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/christmas revenge inspired skin.png" alt="">
+                    <p class="skin-title">revenge inspired</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/survey corps with cape.png" alt="">
+                    <p class="skin-title">younger me as survey corp</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/me as survey corps.png" alt="">
+                    <p class="skin-title">survey corps w/o cape</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/black parade old me.png" alt="">
+                    <p class="skin-title">younger me as black parade</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/fluttershy girl.png" alt="">
+                    <p class="skin-title">fluttershy girl</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/flowery deer.png" alt="">
+                    <p class="skin-title">flowery girl</p>
+                </div>
+                <div class="skin-item">
+                    <img src="imgs/games/skins/cake pajamas.png" alt="">
+                    <p class="skin-title">cake pajamas girl</p>
+                </div>
+            </div>
+
+                <h3>screenshots</h3>
+                <h4 class="screenshotDescription">2025 w/ bf and friends</h4>
+
+                <div class="gallery gallery--list">
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/2025serverselfie.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our 2025 realm selfie"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/village.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/gabmincorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/mycorner.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/sala.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/bedroom.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/picnic.jpeg" alt="" loading="lazy">
+                    <span class="caption">"our village"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/lardocelar.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar.jpeg" alt="" loading="lazy">
+                    <span class="caption">"lar doce lar"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/lardocelar2.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/lardocelar2.jpeg" alt="" loading="lazy">
+                    <span class="caption">""</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/eueovenomextreme.jpg" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/eueovenomextreme.jpeg" alt="" loading="lazy">
+                    <span class="caption">"when i took a picture with my childhood's favorite minecraft youtuber, @venom_extreme"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/servervenom2023.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/servervenom2023.jpeg" alt="" loading="lazy">
+                    <span class="caption">"@ the same server"</span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/serverkonan2021.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan2021.jpeg" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/serverkonan20212.png" alt="" loading="lazy">
+                    <img class="full" src="imgs/games/minecraft/serverkonan20212.jpeg" alt="" loading="lazy"></summary></details>
+                </div>
+            </section>
+
+            <section class="gamePanel" id="p-bg3">
+            <img class="screenshots" src="imgs/games/bg3/me.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/mev1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/gale3.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/gale4.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/gale1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/dream.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/squad.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/20251230030436_1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/karlach.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/20251228144905_1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/20260118192934_1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/20260110000605_1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/20260107220438_1.jpg" alt="">
+            <img class="screenshots" src="imgs/games/bg3/tree.jpg" alt="">
+            </section>
+
+            <section class="gamePanel" id="p-transformice">
+                <div class="gameText">
+                    <p>this is one of those games i've played since childhood, and have been playing sometimes over the years. i was 9 when i created this account, so its really precious to me hehe</p>
+                </div>
+
+                <div class="profileFit">
+                    <div class="transformiceProfile">
+                        <div class="profileLevel">75</div>
+                        <div class="profileAvatar"><img src="imgs/site_imgs/fridge/frerard2.jpg" alt="avatar"></div>
+                        <div class="profileDetails">
+                            <p class="profileSectionTitle">Shaman</p>
+                            <p class="profileStats">
+                        • Ratos salvos : 6721 / 2732 / 0<br>
+                        • Queijos coletados em primeiro : 70<br>
+                        • Queijos coletados : 19997<br>
+    <br>
+                    </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery gallery--list">
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/caras.gif" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/QCOISALINDA.gif" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/faca.gif" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/castle.png" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/telhadao.gif" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/brasil.png" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/citanao.png" alt="" loading="lazy"></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy"></summary></details>
+                </div>
+
+                <div class="stickerRow">
+                <img src="imgs/games/transformice/minlynn.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/euu.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/nois.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/lgbtgaleraanimada.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/nois.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/osmaismais.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/fofin.png" alt="" loading="lazy">
+                <img src="imgs/games/transformice/smoking.png" alt="" loading="lazy">
+            </div>
+            </section>
+
+            <section class="gamePanel" id="p-tomodachi">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-13 191748.png" alt="">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" alt="">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" alt="">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" alt="">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" alt="">
+            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" alt="">
+            </section>
+
+            <section class="gamePanel" id="p-growtopia">
+                <div class="gameText">
+                    <p>growtopia foi um dos jogos mais importantes da minha infância, e minha conta tem mais de 12 anos (criada em 14/07/2014).</p>
+                    <p>infelizmente, o jogo não é mais o mesmo daquela época; agora a ubisoft o comprou e ele está cheio de cassinos e bots.</p>
+                    <p>às vezes até sonho com o jogo: minha conta sendo hackeada ou meu mundo sendo destruído. em alguns desses sonhos, lembro de mandar /msg para os moderadores porque um hacker estava acabando com meu mundo...</p>
+                    <p>é muito doido pensar que o jogo que eu jogava aos 10 anos foi tão importante que ficou gravado no meu cérebro/nos meus sonhos.</p>
+                </div>
+                <img class="charImg" src="imgs/games/growtopiacharacter.png" alt="my character">
+                <img class="screenshots" src="imgs/games/minecraft/Screenshot_20250711_163217_Growtopia.jpg" alt="meu mundo" loading="lazy">
+                <h5 class="screenshotDescription">meu mundo</h5>
+            </section>
+
+            <section class="gamePanel" id="p-stardew">
+                <iframe class="stardewFrame" src="stardewvalley.html" loading="lazy"></iframe>
+            </section>
+
         </div>
     </div>
-
-    <script>
-        (function () {
-            function resizeFrame(iframe) {
-                try {
-                    var doc = iframe.contentDocument || iframe.contentWindow.document;
-                    if (!doc || !doc.body) return;
-                    var h = doc.documentElement.scrollHeight || doc.body.scrollHeight;
-                    if (h > 0) iframe.style.height = h + 'px';
-                } catch (e) {}
-            }
-
-            document.querySelectorAll('.game-frame').forEach(function (iframe) {
-                iframe.addEventListener('load', function () {
-                    resizeFrame(iframe);
-                    try {
-                        var doc = iframe.contentDocument || iframe.contentWindow.document;
-                        if (doc && doc.body && typeof ResizeObserver !== 'undefined') {
-                            new ResizeObserver(function () { resizeFrame(iframe); }).observe(doc.body);
-                        }
-                    } catch (e) {}
-                });
-            });
-
-            const buttons = document.querySelectorAll('.games-button-container .pushable');
-            const frames = document.querySelectorAll('.game-frame');
-
-            buttons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    const gameTarget = button.getAttribute('data-game');
-
-                    frames.forEach(function (frame) {
-                        frame.classList.remove('active');
-                    });
-
-                    const targetFrame = document.getElementById('frame-' + gameTarget);
-                    if (targetFrame) {
-                        targetFrame.classList.add('active');
-                        resizeFrame(targetFrame);
-                    }
-                });
-            });
-        })();
-    </script>
 </body>
 
 </html>

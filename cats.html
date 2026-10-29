@@ -22,13 +22,7 @@
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
 
     <style>
-        /* =====================================================
-           MASONRY - mesmo CSS em webweaving.html e cats.html
-           Só mudam as variáveis no style do #masonryContainer:
-             --masonryCols  (número de colunas)
-             --masonryGap   (espaço entre as células)
-           ===================================================== */
-
+    
         #masonryContainer,
         #masonryContainer * {
             box-sizing: border-box;
@@ -49,7 +43,6 @@
             padding: 0;
             margin: 0 auto;
             width: 100%;
-            /* font-size + line-height definem a altura de cada <br> (20px) */
             font-size: 20px;
             line-height: 1;
         }
@@ -60,7 +53,6 @@
             }
         }
 
-        /* ---------- CÉLULA PADRÃO (igual ao antigo ww-cell) ---------- */
         .masonryCell {
             break-inside: avoid;
             page-break-inside: avoid;
@@ -96,7 +88,6 @@
             filter: saturate(0.4) brightness(1.05);
         }
 
-        /* ---------- VARIAÇÃO: moldura branca + inclinação ---------- */
         .masonryCell.masonryFrame {
             padding: 8px;
             background: #fff;
@@ -109,7 +100,6 @@
             transform: none;
         }
 
-        /* legenda dentro da moldura branca */
         .masonryCaption {
             display: block;
             padding: 10px 0 4px 0;
@@ -119,7 +109,6 @@
             text-align: center;
         }
 
-        /* ---------- VARIAÇÃO: célula só de texto ---------- */
         .masonryCell.masonryText {
             padding: 0;
             font-size: 16px;
@@ -140,7 +129,6 @@
             }
         }
 
-        /* ---------- LIGHTBOX ---------- */
         .masonryOverlay {
             display: none;
             position: fixed;
@@ -175,7 +163,6 @@
             pointer-events: none;
         }
 
-        /* aberta a partir de uma moldura branca: leva a borda junto */
         .masonryOverlay.isFramed img {
             border: 8px solid #fff;
             border-radius: 2px;
@@ -211,12 +198,11 @@
                     </div>
 
                     <div class="masonryCell masonryText">
-                        ele me olhou assim e eu entendi tudo
                     </div>
 
                     <div class="masonryCell masonryFrame" style="width: 95%; margin-left: 5%; transform: rotate(4deg);" data-full="imgs/cats/cat02.jpg">
                         <img class="masonryImg" src="imgs/cats/cat02.jpg" alt="" loading="lazy" />
-                        <span class="masonryCaption">soneca das 15h</span>
+                        <span class="masonryCaption"></span>
                     </div>
 
                     <br>
@@ -244,7 +230,6 @@
             var overlayImg = overlay.querySelector('img');
             var container = document.getElementById('masonryContainer');
 
-            // inclinações aleatórias de 2 em 2 (só nas .masonryFrame SEM rotate no style)
             var rots = [-4, -2, 2, 4];
 
             function openLightbox(src, framed) {

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png">
+  <title>@minkurosu — portfolio</title>
+  <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
+  <link rel="stylesheet" href="emo.css">
+
+  <style data-standalone>
+    html:has(#embed:target),
+    html:has(#embed:target) body {
+      background: none;
+      min-width: 0;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    html:has(#embed:target) .crt {
+      display: none;
+    }
+
+    html:has(#embed:target) #containerprincipal {
+      display: flow-root;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    html:has(#embed:target) #container {
+      max-width: 100% !important;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+    }
+  </style>
+
+  <style>
+    #portfolioTabs {
+      --textOutline: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .sectionTitle {
+      color: #a39b91;
+      text-align: center;
+      text-shadow: var(--textOutline);
+      margin-bottom: 30px;
+    }
+
+    .sectionLabel {
+      color: #a39b91;
+      text-align: center;
+      text-shadow: var(--textOutline);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .introText {
+      text-align: center;
+    }
+
+    .visuallyHidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .tabControl .tabList {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      min-inline-size: 0;
+    }
+
+    .tabControl .tabButtons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .tabControl .tabButtons .pushable {
+      display: inline-block;
+      width: auto;
+      cursor: pointer;
+    }
+
+    .tabControl .tabButtons .pushable .front {
+      min-width: 120px;
+    }
+
+    .tabControl .tabInput {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .tabControl .pushable:has(.tabInput:checked) .front {
+      filter: brightness(1.35);
+      transform: translateY(-2px);
+    }
+
+    .tabControl .pushable:has(.tabInput:focus-visible) {
+      outline: 2px solid var(--rose);
+      outline-offset: 4px;
+    }
+
+    .tabControl .tabPanel {
+      display: none;
+    }
+
+    #portfolioTabs:has([aria-controls="drawingsPanel"]:checked) #drawingsPanel,
+    #portfolioTabs:has([aria-controls="rigsPanel"]:checked) #rigsPanel {
+      display: block;
+    }
+
+    .rigIntro {
+      background: #0d0d0d;
+      border: 1px solid #2a0000;
+      border-radius: 2px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .rigIntroTitle {
+      font-family: "MinFont", monospace;
+      font-size: 1rem;
+      color: #b32020;
+      margin: 0 0 8px;
+      text-align: center;
+      text-shadow: var(--textOutline);
+    }
+
+    .rigIntro ul {
+      list-style: none;
+      margin: 0 0 8px;
+      padding: 0;
+    }
+
+    .rigIntro li {
+      font-family: "MinFont", monospace;
+      font-size: 0.9rem;
+      color: #a39b91;
+      padding: 2px 0;
+      text-shadow: var(--textOutline);
+    }
+
+    .rigIntro li::before {
+      content: "— ";
+      color: #b32020;
+    }
+
+    .rigIntro .note {
+      font-family: "MinFont", monospace;
+      font-size: 0.8rem;
+      color: #7d756c;
+      text-align: center;
+      margin: 0;
+      text-shadow: var(--textOutline);
+    }
+
+    .videoGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .videoCell {
+      display: flex;
+      flex-direction: column;
+      background: #0a0a0a;
+      border: 1px solid #1a1919;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .videoCell video,
+    .videoCell iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: none;
+      background: #000;
+    }
+
+    .videoCell .caption {
+      font-family: "MinFont", monospace;
+      font-size: 0.78rem;
+      color: #7d756c;
+      text-align: center;
+      padding: 4px 4px 5px;
+      text-shadow: var(--textOutline);
+    }
+
+    @media (max-width: 500px) {
+      .videoGrid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <span id="embed"></span>
+  <div class="crt"></div>
+
+  <main id="containerprincipal">
+    <div id="container">
+      <link rel="stylesheet" href="gallery.css">
+
+      <h1 class="sectionTitle">choose one!</h1>
+
+      <article id="portfolioTabs" class="tabControl">
+        <fieldset class="tabList" aria-describedby="portfolioTabsDescription">
+          <legend class="visuallyHidden">portfolio sections</legend>
+          <span id="portfolioTabsDescription" class="visuallyHidden" aria-hidden="true">radio buttons control what following content is shown.</span>
+
+          <div class="tabButtons">
+            <label class="pushable">
+              <input type="radio" name="portfolioPage" class="tabInput" aria-controls="rigsPanel" checked>
+              <span class="shadow"></span>
+              <span class="edge"></span>
+              <span id="rigsTabLabel" class="front">live2d rigs</span>
+            </label>
+            <label class="pushable">
+              <input type="radio" name="portfolioPage" class="tabInput" aria-controls="drawingsPanel">
+              <span class="shadow"></span>
+              <span class="edge"></span>
+              <span id="drawingsTabLabel" class="front">drawings</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <article id="rigsPanel" class="tabPanel" role="group" aria-labelledby="rigsTabLabel">
+          <div class="rigIntro" lang="pt-BR">
+            <p class="rigIntroTitle">por que me escolher como sua animadora/rigger?</p>
+            <ul>
+              <li>tenho trabalhado com live2d desde dezembro de 2020, após aprender a fazer meu próprio modelo</li>
+              <li>a maioria dos meus clientes me encontram por recomendação de clientes antigos</li>
+              <li>já fiz mais de 50 encomendas para vtubers (e ainda contando!)</li>
+            </ul>
+            <p class="note">*minha webcam não é uma das melhores, por favor releve problemas de tracking nos vídeos e foque nos ângulos e nas físicas :-)</p>
+          </div>
+
+          <div class="videoGrid">
+            <div class="videoCell"><iframe src="https://www.youtube.com/embed/A17-WoCIdEU" title="live2d rig showcase 1" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <div class="videoCell"><iframe src="https://www.youtube.com/embed/PVNAQT6cO4s" title="live2d rig showcase 2" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <div class="videoCell"><iframe src="https://www.youtube.com/embed/IaWCWhw90eI" title="live2d rig showcase 3" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/lollypopmp4.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-00-18.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-22-14.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/shirotakami.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/dentes.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-27-31.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-32-01.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-37-13.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-34-09.mp4"></video><span class="caption">lite rig ("pngtuber")</span></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-49-22.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/2024-07-16%2014-53-22.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/aaaaaaaaa.mp4"></video></div>
+            <div class="videoCell"><video controls preload="metadata" playsinline src="imgs/portfolio/padoruartandrig.mp4"></video></div>
+          </div>
+        </article>
+
+        <article id="drawingsPanel" class="tabPanel" role="group" aria-labelledby="drawingsTabLabel">
+          <p class="introText">this gallery has its most recent drawings from top to bottom,<br>and the earliest ones are from around 2016</p>
+          <h2 class="sectionLabel">digital</h2>
+          <div class="gallery">
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/pixelicon.jpeg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/GcgzfGTWkAArcsp.jpeg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/jupitercat.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/7.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/no%20min%20holding%20it%20in.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/wplace.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/padorupnggrey.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/5.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/madeline.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/jotaro2020.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/lispng.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/icon1.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/APOLLO.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/eueapollo.png" alt="" loading="lazy"></summary></details>
+          </div>
+
+          <h2 class="sectionLabel">traditional</h2>
+          <div class="gallery">
+            <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/art%20portfolio/2026-tradicional.jpg" alt="" loading="lazy"><img class="full" src="imgs/art%20portfolio/2026.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/2025.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/jinx-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/mymuse-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/ponysona-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/2023.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/mcr-traditional-2.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/2023(2).jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/erenyeager-2021.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/konan-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/carl-grimes-2020.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/loboguara.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/carl-and-rick-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/gma-house-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/madelinewoolfelting2021.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/haru_needlefelting.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/ninestones-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/killingstalking-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/attackontitan-traditional-2017.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/marcobodt-traditional-2017.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/2017-1-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/armin-2017-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/watercolor-2017-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/worms-traditional.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/melanie-2016.jpg" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/2013(2).jpg" alt="" loading="lazy"></summary></details>
+          </div>
+
+          <h2 class="sectionLabel">live2d model art</h2>
+          <div class="gallery">
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/minkurosu-vtuber.png" alt="" loading="lazy"></summary></details>
+          </div>
+
+          <h2 class="sectionLabel">twitch emotes</h2>
+          <div class="gallery">
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/AYAYAMinPNG.png" alt="" loading="lazy"></summary></details>
+            <details class="galleryItem" name="galeria"><summary><img src="imgs/art%20portfolio/ApolloLove.png" alt="" loading="lazy"></summary></details>
+          </div>
+        </article>
+      </article>
+    </div>
+  </main>
+  <script>
+    (function () {
+      if (window.parent === window || location.hash !== '#embed') return;
+      var alvo = document.getElementById('containerprincipal');
+      function enviar() {
+        parent.postMessage({ embedHeight: Math.ceil(alvo.getBoundingClientRect().height) }, '*');
+      }
+      new ResizeObserver(enviar).observe(alvo);
+      window.addEventListener('load', enviar);
+      enviar();
+    })();
+  </script>
+</body>
+
+</html>

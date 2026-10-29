@@ -13,7 +13,7 @@
     <title>@minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
 
-    <link rel="stylesheet" href="emo.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="emo.css" id="themeStylesheet">
         <script src="script.js"></script>
     <link rel="stylesheet" href="chattable.css" id="">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -45,25 +45,25 @@
     <script src="oneko.js"></script>
 
     <style>
-    #chat-container {
+    #chatContainer {
       width: 100%;
       max-width: 90%;
       margin: 0 auto;
     }
 
-    #chat-container #chattable,
-    #chat-container iframe {
+    #chatContainer #chattable,
+    #chatContainer iframe {
       display: block;
       width: 100%;
       height: 300px;
-      border: 1px solid var(--rose-deep);
+      border: 1px solid var(--roseDeep);
       border-radius: 2px;
       background-color: #0a0a0a;
       box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.5);
     }
 
-    #chat-container table td,
-    #chat-container table th {
+    #chatContainer table td,
+    #chatContainer table th {
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000 !important;
     }
 
@@ -200,7 +200,7 @@
       width: 100% !important;
     }
 
-    .about-me-container {
+    .aboutMeContainer {
       display: flex;
       flex-direction: row;
       border-radius: 15px;
@@ -212,13 +212,13 @@
       margin: auto;
     }
 
-    .slideshow-area {
+    .slideshowArea {
       flex: 2.5;
       position: relative;
       overflow: hidden;
     }
 
-    .slideshow-area img {
+    .slideshowArea img {
       position: absolute;
       top: 0;
       left: 0;
@@ -229,11 +229,11 @@
       transition: opacity 0.5s ease-in-out;
     }
 
-    .slideshow-area img.active {
+    .slideshowArea img.active {
       opacity: 1;
     }
 
-    .badges-area {
+    .badgesArea {
       flex: 1;
       padding: 1px;
       display: flex;
@@ -242,7 +242,7 @@
       align-items: center;
     }
 
-    .badge-img {
+    .badgeImg {
       max-width: 100%;
       height: 18px;
       border-radius: 2px;
@@ -252,19 +252,19 @@
       filter: saturate(0%) brightness(80%);
     }
 
-    .badge-img:hover {
+    .badgeImg:hover {
       filter: brightness(100%);
       transform: translateY(-4px);
     }
 
-    .content-area {
+    .contentArea {
       flex: 2;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
-    .content-area p {
+    .contentArea p {
       font-size: 1.2em;
       line-height: 1.6;
       margin: 0;
@@ -282,7 +282,7 @@
       column-gap: 15px;
     }
 
-    #gallery .image-container {
+    #gallery .imageContainer {
       display: inline-block;
       width: 100%;
       margin-bottom: 15px;
@@ -293,11 +293,11 @@
       transition: transform 0.2s ease;
     }
 
-    #gallery .image-container:hover {
+    #gallery .imageContainer:hover {
       transform: scale(1.05);
     }
 
-    #gallery .image-container img {
+    #gallery .imageContainer img {
       max-width: 100%;
       height: auto;
       display: block;
@@ -319,17 +319,17 @@
       border-style: hidden !important;
     }
 
-    .caixa-iframe-onlnbrd {
+    .caixaIframeOnlnbrd {
       padding: 10px;
       margin-bottom: 20px;
     }
 
-    .caixa-iframe-minkurosu {
+    .caixaIframeMinkurosu {
       padding: 15px;
       margin-bottom: 20px;
     }
 
-    .caixa-iframe-drawbox {
+    .caixaIframeDrawbox {
       padding: 5px;
     }
 
@@ -348,16 +348,16 @@
       object-position: center;
     }
 
-    .galeria-pin table,
+    .galeriaPin table,
 
-    .galeria-pin .results {
+    .galeriaPin .results {
       width: 100% !important;
       box-sizing: border-box !important;
       line-height: 1.4 !important;
       display: block !important;
     }
 
-    .galeria-pin {
+    .galeriaPin {
       column-count: 3 !important;
       column-gap: 4px !important;
       display: block !important;
@@ -366,7 +366,7 @@
       padding: 4px !important;
     }
 
-    .galeria-pin > * {
+    .galeriaPin > * {
       display: inline-block !important;
       width: 100% !important;
       vertical-align: top !important;
@@ -375,12 +375,12 @@
       line-height: 0 !important;
     }
 
-    .galeria-pin > table,
-    .galeria-pin > div {
+    .galeriaPin > table,
+    .galeriaPin > div {
       line-height: 1.4 !important;
     }
 
-    .galeria-pin a[data-fancybox="gallery"] {
+    .galeriaPin a[data-fancybox="gallery"] {
       width: 100% !important;
       height: auto !important;
       overflow: hidden !important;
@@ -388,8 +388,8 @@
       display: inline-block !important;
     }
 
-    .galeria-pin a[data-fancybox="gallery"] img,
-    .galeria-pin img {
+    .galeriaPin a[data-fancybox="gallery"] img,
+    .galeriaPin img {
       width: 100% !important;
       height: auto !important;
       object-fit: unset !important;
@@ -409,7 +409,7 @@
       margin: 0 auto !important;
     }
 
-    #crt-toggle,
+    #crtToggle,
     #motionToggle {
       display: block;
       margin: 6px auto 0;
@@ -425,17 +425,17 @@
       transition: opacity 0.2s, color 0.2s;
     }
 
-    #crt-toggle:hover,
+    #crtToggle:hover,
     #motionToggle:hover {
       opacity: 1;
       color: #b0b0b0;
     }
 
-    .crt-off .crt {
+    .crtOff .crt {
       display: none;
     }
 
-    .borda-img {
+    .bordaImg {
       position: absolute;
       width: 60px;
       height: auto;
@@ -444,7 +444,7 @@
       image-rendering: pixelated;
     }
 
-    .avatar-ring {
+    .avatarRing {
       width: 230px;
       height: 230px;
       border-radius: 50%;
@@ -454,7 +454,7 @@
       box-sizing: border-box;
     }
 
-    .avatar-ring img {
+    .avatarRing img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -462,19 +462,19 @@
       display: block;
     }
 
-    .avatar-ring.live {
+    .avatarRing.live {
       border-color: #3a2052;
       box-shadow: 0 0 8px #a855f7;
     }
 
-    .live-badge {
+    .liveBadge {
       display: none;
       color: #a070d0;
       font-weight: bold;
       margin-top: 4px;
     }
 
-    .image-grid-container {
+    .imageGridContainer {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
@@ -483,14 +483,14 @@
       margin: 10px 0;
     }
 
-    .grid-item {
+    .gridItem {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
     }
 
-    .grid-item img {
+    .gridItem img {
       width: 100%;
       aspect-ratio: 3 / 4;
       object-fit: cover;
@@ -499,11 +499,11 @@
       transition: transform 0.2s ease;
     }
 
-    .grid-item img:hover {
+    .gridItem img:hover {
       transform: scale(1.04);
     }
 
-    .grid-item h3 {
+    .gridItem h3 {
       font-size: 0.8rem;
       text-align: center;
       margin: 2px 0 0 0;
@@ -511,7 +511,7 @@
       line-height: 1.2;
     }
 
-    .picrew-grid-container {
+    .picrewGridContainer {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
@@ -520,12 +520,12 @@
       margin: 10px 0;
     }
 
-    .picrew-grid-item a {
+    .picrewGridItem a {
       display: block;
       line-height: 0;
     }
 
-    .picrew-grid-item img {
+    .picrewGridItem img {
       width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: cover;
@@ -534,17 +534,17 @@
       transition: transform 0.2s ease;
     }
 
-    .picrew-grid-item img:hover {
+    .picrewGridItem img:hover {
       transform: scale(1.04);
     }
 
-    #posts-container,
+    #postsContainer,
 
-    .blog-post {
+    .blogPost {
       text-align: left !important;
     }
 
-    .blog-post .post-info-header {
+    .blogPost .postInfoHeader {
       display: flex;
       align-items: center;
       gap: 6px;
@@ -553,32 +553,32 @@
       margin-bottom: 2px;
     }
 
-    .blog-post .post-title {
+    .blogPost .postTitle {
       font-size: 1.2rem !important;
       text-align: left !important;
       margin: 0 0 6px 0;
     }
 
-    .blog-post .post-text {
+    .blogPost .postText {
       text-align: left !important;
       font-size: 1rem;
       line-height: 1.6;
     }
 
-    .blog-post h2.post-title {
+    .blogPost h2.postTitle {
       font-size: 1.2rem !important;
     }
 
-    .status-table td:first-child,
-    .status-table th:first-child {
+    .statusTable td:first-child,
+    .statusTable th:first-child {
       width: 35% !important;
       text-align: center;
       justify-items: center;
       color: var(--text);
     }
 
-    .status-table td:last-child,
-    .status-table th:last-child {
+    .statusTable td:last-child,
+    .statusTable th:last-child {
       width: 65% !important;
       justify-items: center;
       text-align: center;
@@ -586,8 +586,8 @@
       color: var(--text);
     }
 
-    .sidebar-right .stamps,
-    .sidebar-right .carousel-container {
+    .sidebarRight .stamps,
+    .sidebarRight .carouselContainer {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -596,47 +596,47 @@
       overflow: hidden;
     }
 
-    .sidebar-right .carousel-container hr {
+    .sidebarRight .carouselContainer hr {
       margin: 4px 0 !important;
     }
 
-    .sidebar-right .track {
+    .sidebarRight .track {
       width: 100%;
       min-width: 0;
       padding: 4px 0;
       overflow: hidden;
     }
 
-    .sidebar-right .track-inner,
-    .sidebar-right .track-inner2 {
+    .sidebarRight .trackInner,
+    .sidebarRight .trackInner2 {
       display: flex;
       align-items: center;
       width: max-content;
-      animation: scroll-right var(--track-duration, 120s) linear infinite;
+      animation: scrollRight var(--track-duration, 120s) linear infinite;
     }
 
-    .sidebar-right .track:hover .track-inner,
-    .sidebar-right .track:hover .track-inner2 {
+    .sidebarRight .track:hover .trackInner,
+    .sidebarRight .track:hover .trackInner2 {
       animation-play-state: paused;
     }
 
-    .sidebar-right .track-inner img,
-    .sidebar-right .track-inner2 img {
+    .sidebarRight .trackInner img,
+    .sidebarRight .trackInner2 img {
       flex-shrink: 0;
       margin: 0 5px;
     }
 
-    .sidebar-right .track-inner img {
+    .sidebarRight .trackInner img {
       width: 99px;
       height: 56px;
     }
 
-    .sidebar-right .track-inner2 img {
+    .sidebarRight .trackInner2 img {
       width: 88px;
       height: 31px;
     }
 
-    .sidebar-right .scroll {
+    .sidebarRight .scroll {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -648,18 +648,18 @@
       scrollbar-width: none;
     }
 
-    .sidebar-right .scroll::-webkit-scrollbar {
+    .sidebarRight .scroll::-webkit-scrollbar {
       display: none;
     }
 
-    .sidebar-right .scroll .blinkie {
+    .sidebarRight .scroll .blinkie {
       display: block;
       flex-shrink: 0;
       width: 100%;
       height: auto;
     }
 
-    @keyframes scroll-right {
+    @keyframes scrollRight {
       0% { transform: translateX(-50%); }
       100% { transform: translateX(0%); }
     }
@@ -676,18 +676,18 @@
         <noscript><a href="http://livetrafficfeed.com"></a></noscript>
     </div>
 
-    <div class="layout-with-sidebars">
+    <div class="layoutWithSidebars">
         <aside id="sidebar-esquerda-container" class="sidebar" aria-label="about min and all pages">
 
             <div class="box">
 
-                <div class="sidepic-wrap">
+                <div class="sidepicWrap">
                     <img id="sidepic" class="desaturate50" src="imgs/feed/jun20262.jpg" alt="photo of min">
-                    <img class="desaturate50 sidepic-hover" src="imgs/feed/jun2026.jpg" alt="">
+                    <img class="desaturate50 sidepicHover" src="imgs/feed/jun2026.jpg" alt="">
                 </div>
 
                 <h2 id="nomeSide">min</h2>
-                <h3> 23yo • they/she • brasil</h3>
+                <h3> 24yo • they/she • brasil</h3>
                 <h3>digital art & live2d &</h3>
                 <h3>psychology graduate &</h3>
                 <h3>dental lab tech student</h3>
@@ -695,53 +695,53 @@
 
                 <hr>
 
-                <nav class="nav-side" aria-label="all pages">
-                    <div class="side-item"><a href="#" data-page="commission" class="nav-link">commissions</a></div>
-                    <div class="side-item"><a href="#" data-page="pics" class="nav-link">photos</a></div>
-                                        <div class="side-item"><a href="#" data-page="portfolio-art" class="nav-link">art</a></div>
+                <nav class="navSide" aria-label="all pages">
+                    <div class="sideItem"><a href="#" data-page="commission" class="navLink">commissions</a></div>
+                    <div class="sideItem"><a href="#" data-page="photos" class="navLink">photos</a></div>
+                                        <div class="sideItem"><a href="#" data-page="portfolio" class="navLink">art portfolio</a></div>
 
-                    <div class="side-item"><a href="#" data-page="mylinks" class="nav-link">links</a></div>
-                                        <div class="side-item"><a href="#" data-page="portfolio-photos" class="nav-link">photography</a></div>
+                    <div class="sideItem"><a href="#" data-page="mylinks" class="navLink">links</a></div>
+                                        <div class="sideItem"><a href="#" data-page="photography" class="navLink">photography</a></div>
 
-                    <div class="side-item"><a href="#" data-page="blog" class="nav-link">blog</a></div>
+                    <div class="sideItem"><a href="#" data-page="blog" class="navLink">blog</a></div>
                     
-                    <div class="side-item"><a href="#" data-page="posts" class="nav-link">posts</a></div>
-                    <div class="side-item"><a href="#" data-page="games" class="nav-link">gamelog</a></div>
-                    <div class="side-item"><a href="#" data-page="toybox" class="nav-link">toybox</a></div>
-                                        <div class="side-item"><a href="#" data-page="dream-journal" class="nav-link">dream journal</a></div>
+                    <div class="sideItem"><a href="#" data-page="posts" class="navLink">posts</a></div>
+                    <div class="sideItem"><a href="#" data-page="games" class="navLink">gamelog</a></div>
+                    <div class="sideItem"><a href="#" data-page="toybox" class="navLink">toybox</a></div>
+                                        <div class="sideItem"><a href="#" data-page="dream-journal" class="navLink">dream journal</a></div>
 
-                    <div class="side-item"><a href="#" data-page="lists" class="nav-link">lists</a></div>
-                    <div class="side-item"><a href="#" data-page="music" class="nav-link">playlists</a></div>
-                    <div class="side-item"><a href="#" data-page="thoughts" class="nav-link">thoughts</a></div>
-                    <div class="side-item"><a href="#" data-page="webweaving" class="nav-link">webweaving</a></div>
-                    <div class="side-item"><a href="#" data-page="minverso" class="nav-link">minverso</a></div>
-                                        <div class="side-item"><a href="#" data-page="cats" class="nav-link">cats</a></div>
+                    <div class="sideItem"><a href="#" data-page="lists" class="navLink">lists</a></div>
+                    <div class="sideItem"><a href="#" data-page="music" class="navLink">playlists</a></div>
+                    <div class="sideItem"><a href="#" data-page="thoughts" class="navLink">thoughts</a></div>
+                    <div class="sideItem"><a href="#" data-page="webweaving" class="navLink">webweaving</a></div>
+                    <div class="sideItem"><a href="#" data-page="minverso" class="navLink">minverso</a></div>
+                                        <div class="sideItem"><a href="#" data-page="cats" class="navLink">cats</a></div>
 
-                    <div class="side-item"><a href="#" data-page="quizzes" class="nav-link">quiz/tests</a></div>
-                    <div class="side-item"><a href="#" data-page="guestbook" class="nav-link">guestbook</a></div>
-                    <div class="side-item"><a href="#" data-page="mailbox" class="nav-link">mailbox</a></div>
-                    <div class="side-item"><a href="#" data-page="mystuff" class="nav-link">materialism</a></div>
-                    <div class="side-item"><a href="#" data-page="room" class="nav-link">room</a></div>
-                    <div class="side-item"><a href="#" data-page="yaoifridge" class="nav-link">yaoi fridge</a></div>
-                    <div class="side-item"><a href="#" data-page="bookmarks" class="nav-link">bookmarks</a></div>
-                    <div class="side-item"><a href="#" data-page="credits" class="nav-link">credits</a></div>
-                    <div class="side-item"><a href="#" data-page="visualizer" class="nav-link">trippy (flashing warning)</a></div>
+                    <div class="sideItem"><a href="#" data-page="quizzes" class="navLink">quiz/tests</a></div>
+                    <div class="sideItem"><a href="#" data-page="guestbook" class="navLink">guestbook</a></div>
+                    <div class="sideItem"><a href="#" data-page="mailbox" class="navLink">mailbox</a></div>
+                    <div class="sideItem"><a href="#" data-page="mystuff" class="navLink">materialism</a></div>
+                    <div class="sideItem"><a href="#" data-page="room" class="navLink">room</a></div>
+                    <div class="sideItem"><a href="#" data-page="yaoifridge" class="navLink">yaoi fridge</a></div>
+                    <div class="sideItem"><a href="#" data-page="bookmarks" class="navLink">bookmarks</a></div>
+                    <div class="sideItem"><a href="#" data-page="credits" class="navLink">credits</a></div>
+                    <div class="sideItem"><a href="#" data-page="visualizer" class="navLink">trippy (flashing warning)</a></div>
                 </nav>
 
                 <hr>
 
                 <h3    style="margin:10px"> translate if you're<br>interested enough!</h3>
                 <div id="google_translate_element"></div>
-               <button id="crt-toggle" type="button" title="toggle crt effect"> crt: on </button>
+               <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
                 <script>
                     (function () {
-                        var btn = document.getElementById('crt-toggle');
+                        var btn = document.getElementById('crtToggle');
                         var savedCrt = localStorage.getItem('crt');
                         var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                         var on = savedCrt ? savedCrt === 'on' : !prefersReduced;
 
                         function apply() {
-                            document.documentElement.classList.toggle('crt-off', !on);
+                            document.documentElement.classList.toggle('crtOff', !on);
                             btn.textContent = on ? ' crt: on ' : ' crt: off ';
                             localStorage.setItem('crt', on ? 'on' : 'off');
                         }
@@ -794,8 +794,8 @@
 
                 <hr style="margin: 1.5px;">
 
-<div class="table-container" style="margin: 0px;">
-    <table class="status-table" aria-label="my current status" style="border-collapse: collapse; width: 100%; background-color: transparent;">
+<div class="tableContainer" style="margin: 0px;">
+    <table class="statusTable" aria-label="my current status" style="border-collapse: collapse; width: 100%; background-color: transparent;">
         <tr>
             <td>feeling:</td>
             <td><img src="imgs/emotes/emote22.png" alt="my current mood emote" style="height: 2rem;"></td>
@@ -883,7 +883,7 @@
 
                 <hr>
 
-<div id="chat-container" class="desaturate">
+<div id="chatContainer" class="desaturate">
     <iframe src="https://iframe.chat/embed?chat=minkurosu" id="chattable" title="chat box, leave a message for min"></iframe>
 </div>
 
@@ -962,7 +962,7 @@
 
         <main id="containerprincipal">
 
-            <header id="header" class="fixed-top">
+            <header id="header" class="fixedTop">
                 <div id="divpatinha">
                     <img loading="lazy" src="imgs/site_imgs/patinha.png" class="desaturatepics" id="logopatinha"
                         alt="paw logo">
@@ -970,20 +970,20 @@
 
                 <nav class="navbar" aria-label="main menu">
                     <div class="divitems">
-                        <div class="nav-item">
-                            <a href="#" data-page="home" class="nav-link">home</a>
+                        <div class="navItem">
+                            <a href="#" data-page="home" class="navLink">home</a>
                         </div>
-                        <div class="nav-item">
-                            <a href="#" data-page="pics" class="nav-link">photos</a>
+                        <div class="navItem">
+                            <a href="#" data-page="photos" class="navLink">photos</a>
                         </div>
-                        <div class="nav-item">
-                            <a href="#" data-page="mylinks" class="nav-link">links</a>
+                        <div class="navItem">
+                            <a href="#" data-page="mylinks" class="navLink">links</a>
                         </div>
-                        <div class="nav-item">
-                            <a href="#" data-page="commissions" class="nav-link">commissions</a>
+                        <div class="navItem">
+                            <a href="#" data-page="commissions" class="navLink">commissions</a>
                         </div>
-                        <div class="nav-item">
-                            <a href="#" data-page="sitemap" class="nav-link">sitemap</a>
+                        <div class="navItem">
+                            <a href="#" data-page="sitemap" class="navLink">sitemap</a>
                         </div>
                     </div>
                 </nav>
@@ -1006,7 +1006,7 @@
             </footer>
 
         </main>
-        <aside id="sidebar-direita-container" class="sidebar sidebar-right" aria-label="decorations, updates and to do list"
+        <aside id="sidebar-direita-container" class="sidebar sidebarRight" aria-label="decorations, updates and to do list"
                style="overflow:visible !important; position:relative !important;">
 
             <div style="height:0; overflow:visible; position:sticky; top:80px; z-index:10;"></div>
@@ -1014,10 +1014,10 @@
             <div class="box">
 
                 <div class="stamps">
-                    <div class="carousel-container">
+                    <div class="carouselContainer">
 
-                        <div class="track track-1 desaturate" >
-                            <div class="track-inner">
+                        <div class="track track1 desaturate" >
+                            <div class="trackInner">
                                 <img src="imgs/webgraphics/stamps/40a781d46799a0f255e25180ad859ecb24862fde.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/75d0fd9d40b13483b9b910bb681af4210cda4ae6.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/3dsowner.jpg" alt="">
@@ -1081,8 +1081,8 @@
                         </div>
 <br>
 
-                        <div class="track track-2 desaturate">
-                            <div class="track-inner">
+                        <div class="track track2 desaturate">
+                            <div class="trackInner">
                                 <img src="imgs/webgraphics/stamps/maxwell.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/mcrred.png" alt="">
                                 <img src="imgs/webgraphics/stamps/mentallillness.png" alt="">
@@ -1223,8 +1223,8 @@
                         </div>
 
 <br>
-                        <div class="track track-1">
-                            <div class="track-inner2">
+                        <div class="track track1">
+                            <div class="trackInner2">
                                 <img alt="" src="imgs/webgraphics/buttons/antifa.gif" class="desaturate">
                                 <img alt="" src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
                                 <img alt="" src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
@@ -1267,7 +1267,7 @@
 
                     <div class="scrollMedium" style="padding:10px" tabindex="0" role="region" aria-label="link buttons from other sites">
                         <h3 class="desaturate">🇧🇷 vizinhos</h3>
-                        <div class="button-wall">
+                        <div class="buttonWall">
                             <a href="https://edhmr.neocities.org" target="_blank" rel="noopener noreferrer"><img alt="edhmr" loading="lazy" src="https://edhmr.neocities.org/PAGINA%20INICIAL/edhmr_botton.gif" class="desaturate"></a>
                             <a href="https://morangocorner.neocities.org/"><img alt="morangocorner" loading="lazy" src="https://morangocorner.neocities.org/img/morangolink.gif" class="desaturate"></a>
                             <a href="https://dudalog.neocities.org/links/" target="_blank" rel="noopener noreferrer"><img alt="dudalog" loading="lazy" src="https://dudalog.neocities.org/_astro/dudalog-button-main.CCn_KaWI.png" class="desaturate"></a>
@@ -1292,7 +1292,7 @@
                         </div>
 
                         <h3>other sites i like:</h3>
-                        <div class="button-wall">
+                        <div class="buttonWall">
                             <a href="https://crushcapitalism.neocities.org/"><img alt="crushcapitalism" loading="lazy" src="imgs/webgraphics/buttons/letscrushcapitalism.png" class="desaturate"></a>
                             <a href="https://lilithdev.neocities.org/"><img alt="lilithdev" loading="lazy" src="https://lilithdev.neocities.org/buttons/lilithdevbtn.gif" class="desaturate"></a>
                             <a href="https://kkul.neocities.org/"><img alt="kkul" src="https://file.garden/aS-t0Aj4K3mdDujK/kkulbutton.gif" class="desaturate"></a>
@@ -1328,7 +1328,7 @@
 
                 <hr>
 
-                <div class="caixamaisclaraColumn" style="border: 4px solid var(--rose-deep) !important; outline: none !important;">
+                <div class="caixamaisclaraColumn" style="border: 4px solid var(--roseDeep) !important; outline: none !important;">
                     <div class="scrollSmaller" tabindex="0" role="region" aria-label="site updates">
                         <h3>UPDATES</h3>
                         <hr>
@@ -1358,7 +1358,7 @@
 
                 <hr>
 
-                <div class="caixamaisclaraColumn" style="border: 4px solid var(--rose-deep) !important; outline: none !important;">
+                <div class="caixamaisclaraColumn" style="border: 4px solid var(--roseDeep) !important; outline: none !important;">
                     <div class="scrollSmaller" tabindex="0" role="region" aria-label="to do list">
                         <h3>TO DO LIST</h3>
                         <hr>
@@ -1387,15 +1387,15 @@
             if (!frame) return;
 
             document.querySelectorAll('.portfolio-frame').forEach(function (f) {
-                f.classList.remove('is-active');
+                f.classList.remove('isActive');
             });
             document.querySelectorAll('.portfolio-nav').forEach(function (b) {
-                b.classList.remove('is-active');
+                b.classList.remove('isActive');
             });
 
             if (!frame.src && frame.dataset.src) frame.src = frame.dataset.src;
-            frame.classList.add('is-active');
-            button.classList.add('is-active');
+            frame.classList.add('isActive');
+            button.classList.add('isActive');
 
             var msg = document.getElementById('portfolio-empty');
             if (msg) msg.classList.add('is-hidden');

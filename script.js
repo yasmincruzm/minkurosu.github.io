@@ -18,7 +18,7 @@ window.siteScriptLoaded = true;
 function lockTheme() {
     try { localStorage.removeItem('theme'); } catch (e) {}   
 
-    const link = document.getElementById('theme-stylesheet');
+    const link = document.getElementById('themeStylesheet');
     if (link && !/emo\.css/.test(link.getAttribute('href') || '')) {
         link.setAttribute('href', 'emo.css?v=4');
     }
@@ -33,7 +33,7 @@ function lockTheme() {
 function initCarrossel() {
     try {
 
-        document.querySelectorAll('.track-inner, .track-inner2').forEach(inner => {
+        document.querySelectorAll('.trackInner, .trackInner2').forEach(inner => {
             if (inner.dataset.duplicated) return;
 
 
@@ -57,7 +57,7 @@ function initCarrossel() {
 
 
             const speed = parseFloat(inner.dataset.speed) ||
-                (inner.classList.contains('track-inner2') ? 30 : 40);
+                (inner.classList.contains('trackInner2') ? 30 : 40);
 
             const updateDuration = () => {
                 const half = inner.scrollWidth / 2;
@@ -174,7 +174,7 @@ const slideshowImages = [
 ];
 
 function initializeSlideshow() {
-    const slideshowArea = document.querySelector('.slideshow-area');
+    const slideshowArea = document.querySelector('.slideshowArea');
     if (!slideshowArea) return;
 
     if (window.slideshowInterval) clearInterval(window.slideshowInterval);
@@ -318,14 +318,14 @@ document.addEventListener('click', function (event) {
 
         // desliga todas as abas e páginas, depois liga só a que foi clicada
         document.querySelectorAll('.portfolioPage').forEach(function (outraPagina) {
-            outraPagina.classList.remove('is-active');
+            outraPagina.classList.remove('isActive');
         });
         document.querySelectorAll('.portfolioNavigation').forEach(function (outroBotao) {
-            outroBotao.classList.remove('is-active');
+            outroBotao.classList.remove('isActive');
         });
 
-        pagina.classList.add('is-active');
-        botao.classList.add('is-active');
+        pagina.classList.add('isActive');
+        botao.classList.add('isActive');
     } catch (error) {
         console.error('[portfolioNavigation]', error);
     }
@@ -408,9 +408,36 @@ function initRouter() {
     let controller = null;
 
     const resolve = name => pageAliases[name] || name;
-    const urlFor = name => (name === homePage ? '/' : '/' + name);
 
-    function loadPage(name, pushState) {
+    const urlFor = (name, anchorId) => {
+        if (anchorId) return '/#' + name + '/' + anchorId;
+        return name === homePage ? '/' : '/' + name;
+    };
+
+    function getRouteFromHash(hashText) {
+        const routeMatch = decodeURIComponent(hashText.replace(/^#/, '')).match(/^([\w-]+)\/([\w-]+)$/);
+        if (!routeMatch) return null;
+
+        const pageName = routeMatch[1];
+        const hasNavLink = document.querySelector('[data-page="' + pageName + '"]');
+        if (!hasNavLink) return null;
+
+        return { page: pageName, anchor: routeMatch[2] };
+    }
+
+    function revealAnchor(anchorId) {
+        if (!anchorId) return;
+
+        const anchorTarget = document.getElementById(anchorId);
+        if (!anchorTarget) return;
+
+        const parentDetails = anchorTarget.closest('details');
+        if (parentDetails) parentDetails.open = true;
+
+        requestAnimationFrame(() => anchorTarget.scrollIntoView({ block: 'start' }));
+    }
+
+    function loadPage(name, pushState, anchorId) {
         name = resolve(name);
 
         if (controller) controller.abort();
@@ -474,7 +501,7 @@ function initRouter() {
             });
 
 
-            document.querySelectorAll('.nav-link').forEach(l => {
+            document.querySelectorAll('.navLink').forEach(l => {
                 const isActive = resolve(l.getAttribute('data-page')) === name;
                 l.classList.toggle('active', isActive);
                 if (isActive) l.setAttribute('aria-current', 'page');
@@ -489,7 +516,8 @@ function initRouter() {
             });
 
             if (typeof window.markVisit === 'function') window.markVisit(name);
-            if (pushState) history.pushState({ page: name }, '', urlFor(name));
+            if (pushState) history.pushState({ page: name }, '', urlFor(name, anchorId));
+            revealAnchor(anchorId);
             if (pushState) container.focus({ preventScroll: true });
         }).catch(err => {
             if (err.name === 'AbortError') return;
@@ -511,13 +539,33 @@ function initRouter() {
         if (page) loadPage(page, true);
     });
 
+    document.addEventListener('toggle', function (e) {
+        const openedDetails = e.target;
+        if (!(openedDetails instanceof HTMLDetailsElement)) return;
+        if (!openedDetails.open || !openedDetails.id) return;
+
+        const currentPage = history.state && history.state.page;
+        if (!currentPage || currentPage === homePage) return;
+
+        history.replaceState(history.state, '', urlFor(currentPage, openedDetails.id));
+    }, true);
+
     window.addEventListener('popstate', function (e) {
+        const hashRoute = getRouteFromHash(location.hash);
+        if (hashRoute) {
+            loadPage(hashRoute.page, false, hashRoute.anchor);
+            return;
+        }
         loadPage((e.state && e.state.page) || homePage, false);
     });
 
-    history.replaceState({ page: homePage }, '', urlFor(homePage));
+    const initialRoute = getRouteFromHash(location.hash);
+    const initialPage = initialRoute ? initialRoute.page : homePage;
+    const initialAnchor = initialRoute ? initialRoute.anchor : null;
+
+    history.replaceState({ page: resolve(initialPage) }, '', initialRoute ? urlFor(initialPage, initialAnchor) : urlFor(homePage));
     console.log('[router] iniciado');
-    loadPage(homePage, false);
+    loadPage(initialPage, false, initialAnchor);
 }
 
 

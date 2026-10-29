@@ -1,19 +1,18 @@
-
 (function () {
    
     if (window.galleryReady) return;
     window.galleryReady = true;
 
-    const fotoAberta = () => document.querySelector('.gallery-item input:checked');
+    const fotoAberta = () => document.querySelector('.galleryItem input:checked');
 
     document.addEventListener('click', function (e) {
 
-        if (e.target.matches('.gallery-item input')) return;
+        if (e.target.matches('.galleryItem input')) return;
 
         const aberta = fotoAberta();
         if (!aberta) return;
 
-        const clicada = e.target.closest('.gallery-item');
+        const clicada = e.target.closest('.galleryItem');
 
         if (!clicada || clicada.contains(aberta)) {
             aberta.checked = false;
