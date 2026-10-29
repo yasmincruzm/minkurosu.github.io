@@ -1,19 +1,19 @@
 :root {
-  --text:           #7f7f7f;
-  --rose:           #430000;
-  --roseLift:      #430000;
-  --roseMid:       #430000;
-  --roseDeep:      #310000;
+  --text:    #7f7f7f;
+  --rose:     #430000;
+  --roseLift: #430000;
+  --roseMid: #430000;
+  --roseDeep:#310000;
   --roseDeepLift: #430000;
 
   --tableOddRowColor:  #171717;
   --tableEvenRowColor: #1a1a1a;
   --tableHeaderColor:  #212121;
 
-  --scrollbarThumbColor:      rgba(140, 140, 140, 0.45);
-  --scrollbarThumbHoverColor: rgba(160, 160, 160, 0.75);
+  --scrollbarThumbColor:      rgba(119, 119, 119, 0.8);
+  --scrollbarThumbHoverColor: rgba(154, 154, 154, 0.9);
   --scrollbarTrackColor:      transparent;
-  --scrollbarSizeThin:        4px;
+  --scrollbarSizeThin:        5.4px;
 
   --pageDesignWidth: 1400px;
 }
@@ -167,35 +167,65 @@ textarea:disabled {
 }
 
 
-@supports not selector(::-webkit-scrollbar) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarTrackColor);
-  }
-}
-
 @supports selector(::-webkit-scrollbar) {
   *::-webkit-scrollbar {
-    width: var(--scrollbarSizeThin);
-    height: var(--scrollbarSizeThin);
+    width: var(--scrollbarSizeThin) !important;
+    height: var(--scrollbarSizeThin) !important;
+    background: transparent !important;
   }
 
   *::-webkit-scrollbar-track {
-    background: var(--scrollbarTrackColor);
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  *::-webkit-scrollbar-track-piece {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
   }
 
   *::-webkit-scrollbar-thumb {
-    background: var(--scrollbarThumbColor);
-    border-radius: 100px;
+    background: var(--scrollbarThumbColor) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbarThumbHoverColor);
+    background: var(--scrollbarThumbHoverColor) !important;
+  }
+
+  *::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   *::-webkit-scrollbar-corner {
-    background: transparent;
+    background: transparent !important;
   }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  *:not(.navbar) {
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarTrackColor) !important;
+  }
+}
+
+.iframeClip {
+  position: relative;
+  overflow: hidden;
+}
+
+.iframeClip iframe {
+  display: block;
+  width: calc(100% + 20px);
+  max-width: none;
+  border: 0;
 }
 
 
@@ -895,37 +925,29 @@ h5 {
   margin: 5px;
   height: 800px;
   overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .scrollSmaller {
   padding: 2px;
   height: 200px;
   overflow-y: scroll;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .scrollMedium {
+  box-sizing: border-box;
+  padding: 4px 2px !important;
   height: 400px;
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
-
-.scrollBox::-webkit-scrollbar {
-  display: none;
-}
-
 
 .buttonWall {
   display: grid;
-  grid-template-columns: repeat(3, 88px);
-  gap: 4px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
   padding: 2px;
+  width: 100%;
   box-sizing: border-box;
   justify-content: center;
 }
@@ -934,8 +956,10 @@ h5 {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 88px;
-  height: 31px;
+  width: 100%;
+  aspect-ratio: 88 / 31;
+  height: auto;
+  min-width: 0;
   overflow: hidden;
   line-height: 0;
   margin: 0;
@@ -943,8 +967,8 @@ h5 {
 }
 
 .buttonWall img {
-  max-width: 88px !important;
-  max-height: 31px !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
   width: auto !important;
   height: auto !important;
   display: block;
@@ -1740,6 +1764,25 @@ summary:focus-visible,
 [tabindex]:focus-visible {
   outline: 2px solid var(--rose);
   outline-offset: 2px;
+}
+
+.scroll,
+.scrollSmaller,
+.scrollMedium {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.scroll:focus,
+.scrollSmaller:focus,
+.scrollMedium:focus,
+.scroll:focus-visible,
+.scrollSmaller:focus-visible,
+.scrollMedium:focus-visible {
+  outline: none !important;
+  box-shadow: none;
 }
 
 #container:focus {
