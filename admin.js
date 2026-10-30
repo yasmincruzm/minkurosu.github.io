@@ -473,21 +473,31 @@ function loadLiveTrafficFeed() {
 
     container.innerHTML = '';
 
-    const loadWidget = () => {
-        const s2 = document.createElement('script');
-        s2.type = 'text/javascript';
-        s2.src  = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
-        container.appendChild(s2);
-    };
+    const widgetUrl = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
 
-    if (!document.querySelector('script[src*="livetrafficfeed.com/static/v5/livetrafficfeed.js"]')) {
-        const s1 = document.createElement('script');
-        s1.type = 'text/javascript';
-        s1.src  = 'https://livetrafficfeed.com/static/v5/livetrafficfeed.js';
-        s1.onload = loadWidget;
-        s1.onerror = loadWidget;
-        document.head.appendChild(s1);
-    } else {
-        loadWidget();
-    }
+    const frame = document.createElement('iframe');
+    frame.title = 'live traffic feed de minkurosu.site';
+    frame.style.cssText = 'display:block;width:100%;max-width:640px;height:420px;border:0;background:transparent;';
+    frame.srcdoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;}</style></head><body>'
+        + '<script type="text/javascript" src="https://livetrafficfeed.com/static/v5/livetrafficfeed.js"><\/script>'
+        + '<script type="text/javascript" src="' + widgetUrl + '"><\/script>'
+        + '</body></html>';
+
+    frame.addEventListener('load', () => {
+        let doc;
+        try { doc = frame.contentDocument; } catch { return; }
+        if (!doc || !doc.body) return;
+
+        const fit = () => {
+            const h = doc.body.scrollHeight;
+            if (h > 40) frame.style.height = h + 'px';
+        };
+
+        fit();
+        setTimeout(fit, 1200);
+        setTimeout(fit, 3500);
+        if (window.ResizeObserver) new ResizeObserver(fit).observe(doc.body);
+    });
+
+    container.appendChild(frame);
 }

@@ -237,7 +237,6 @@ window.initializeSlideshow = initializeSlideshow;
 
 
 
-// pausa os gifs: troca pelo primeiro quadro (canvas) e guarda o original pra voltar depois
 function freezeGif(img) {
     try {
         if (img.dataset.gifSrc || img.dataset.gifFail) return;
@@ -254,7 +253,6 @@ function freezeGif(img) {
         img.dataset.gifSrc = img.getAttribute('src');
         img.src = still;
     } catch (e) {
-        // imagem de outro site nao deixa copiar o quadro, fica animada mesmo
         img.dataset.gifFail = '1';
     }
 }
@@ -316,7 +314,6 @@ document.addEventListener('click', function (event) {
         const pagina = document.getElementById(idDaPagina);
         if (!pagina) return;
 
-        // desliga todas as abas e páginas, depois liga só a que foi clicada
         document.querySelectorAll('.portfolioPage').forEach(function (outraPagina) {
             outraPagina.classList.remove('isActive');
         });

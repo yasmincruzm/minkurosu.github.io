@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:image" content="https://i.ibb.co/RC2v9zg/sitethumbnail.png">
+  <title>@minkurosu — portfolio</title>
+  <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
   <link rel="stylesheet" href="emo.css">
 
   <style data-standalone>
@@ -35,7 +38,6 @@
 
   <style>
     #portfolioTabs {
-      --textOutline: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
       width: 100%;
       box-sizing: border-box;
     }
@@ -43,14 +45,12 @@
     .sectionTitle {
       color: #a39b91;
       text-align: center;
-      text-shadow: var(--textOutline);
       margin-bottom: 30px;
     }
 
     .sectionLabel {
       color: #a39b91;
       text-align: center;
-      text-shadow: var(--textOutline);
       margin: 1.5rem 0 0.75rem;
     }
 
@@ -81,18 +81,25 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 18px;
       margin: 20px 0;
     }
 
-    .tabControl .tabButtons .pushable {
+    .tabControl .tabLabel {
       display: inline-block;
-      width: auto;
+      padding: 2px 4px;
+      font-family: "MinFont", monospace;
+      font-size: 1rem;
+      color: #a39b91;
+      background: none;
+      border: 0;
+      box-shadow: none;
+      text-shadow: none;
       cursor: pointer;
     }
 
-    .tabControl .tabButtons .pushable .front {
-      min-width: 120px;
+    .tabControl .tabLabel:hover {
+      color: #d5d5d5;
     }
 
     .tabControl .tabInput {
@@ -104,14 +111,18 @@
       pointer-events: none;
     }
 
-    .tabControl .pushable:has(.tabInput:checked) .front {
-      filter: brightness(1.35);
-      transform: translateY(-2px);
+    .tabControl .tabLabel:has(.tabInput:checked) {
+      color: #d5d5d5;
+      text-decoration: underline;
+      text-decoration-color: #7a1414;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 5px;
     }
 
-    .tabControl .pushable:has(.tabInput:focus-visible) {
-      outline: 2px solid var(--rose);
-      outline-offset: 4px;
+    .tabControl .tabLabel:has(.tabInput:focus-visible) {
+      outline: none;
+      text-decoration: underline dotted;
+      text-underline-offset: 5px;
     }
 
     .tabControl .tabPanel {
@@ -125,8 +136,6 @@
 
     .rigIntro {
       background: #0d0d0d;
-      border: 1px solid #2a0000;
-      border-radius: 2px;
       padding: 10px 14px;
       margin-bottom: 12px;
       text-align: left;
@@ -135,10 +144,9 @@
     .rigIntroTitle {
       font-family: "MinFont", monospace;
       font-size: 1rem;
-      color: #b32020;
+      color: #7a1414;
       margin: 0 0 8px;
       text-align: center;
-      text-shadow: var(--textOutline);
     }
 
     .rigIntro ul {
@@ -152,12 +160,11 @@
       font-size: 0.9rem;
       color: #a39b91;
       padding: 2px 0;
-      text-shadow: var(--textOutline);
     }
 
     .rigIntro li::before {
       content: "— ";
-      color: #b32020;
+      color: #7a1414;
     }
 
     .rigIntro .note {
@@ -166,7 +173,6 @@
       color: #7d756c;
       text-align: center;
       margin: 0;
-      text-shadow: var(--textOutline);
     }
 
     .videoGrid {
@@ -181,8 +187,6 @@
       display: flex;
       flex-direction: column;
       background: #0a0a0a;
-      border: 1px solid #1a1919;
-      border-radius: 2px;
       overflow: hidden;
     }
 
@@ -202,7 +206,6 @@
       color: #7d756c;
       text-align: center;
       padding: 4px 4px 5px;
-      text-shadow: var(--textOutline);
     }
 
     @media (max-width: 500px) {
@@ -229,17 +232,13 @@
           <span id="portfolioTabsDescription" class="visuallyHidden" aria-hidden="true">radio buttons control what following content is shown.</span>
 
           <div class="tabButtons">
-            <label class="pushable">
+            <label class="tabLabel">
               <input type="radio" name="portfolioPage" class="tabInput" aria-controls="rigsPanel" checked>
-              <span class="shadow"></span>
-              <span class="edge"></span>
-              <span id="rigsTabLabel" class="front">live2d rigs</span>
+              <span id="rigsTabLabel">live2d rigs</span>
             </label>
-            <label class="pushable">
+            <label class="tabLabel">
               <input type="radio" name="portfolioPage" class="tabInput" aria-controls="drawingsPanel">
-              <span class="shadow"></span>
-              <span class="edge"></span>
-              <span id="drawingsTabLabel" class="front">drawings</span>
+              <span id="drawingsTabLabel">drawings</span>
             </label>
           </div>
         </fieldset>
@@ -342,13 +341,13 @@
   <script>
     (function () {
       if (window.parent === window || location.hash !== '#embed') return;
-      var alvo = document.getElementById('containerprincipal');
-      function enviar() {
-        parent.postMessage({ embedHeight: Math.ceil(alvo.getBoundingClientRect().height) }, '*');
+      var target = document.getElementById('containerprincipal');
+      function send() {
+        parent.postMessage({ embedHeight: Math.ceil(target.getBoundingClientRect().height) }, '*');
       }
-      new ResizeObserver(enviar).observe(alvo);
-      window.addEventListener('load', enviar);
-      enviar();
+      new ResizeObserver(send).observe(target);
+      window.addEventListener('load', send);
+      send();
     })();
   </script>
 </body>

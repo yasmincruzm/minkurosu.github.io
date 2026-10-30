@@ -26,7 +26,7 @@
 .galleryItem > summary::marker { content: ""; }
 
 .galleryItem > summary:focus-visible {
-    outline: 2px solid var(--rose);
+    outline: 2px solid var(--rose, #d5d5d5);
     outline-offset: 2px;
 }
 
@@ -63,6 +63,7 @@
     aspect-ratio: auto;
     overflow: visible;
     padding: .5rem 0 .75rem;
+    cursor: zoom-out;
 }
 
 .galleryItem[open] img,
@@ -121,6 +122,150 @@
 .gallery--list .galleryItem[open] img { max-height: none; }
 .gallery--list .galleryItem[open] img:not(.thumbnail) { aspect-ratio: auto; object-fit: contain; }
 
+.galleryItem .carouselTrack { display: none; }
+
+.galleryItem.carousel > summary { position: relative; }
+
+.galleryItem.carousel:not([open]) > summary::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    width: 9px;
+    height: 9px;
+    border: 1px solid #d5d5d5;
+    background: rgba(0, 0, 0, .45);
+    box-shadow: 3px -3px 0 0 rgba(213, 213, 213, .85);
+    pointer-events: none;
+}
+
+.galleryItem.carousel[open] > summary { display: none; }
+
+.galleryItem.carousel[open] .carouselTrack {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: zoom-out;
+}
+
+.galleryItem.carousel .carouselTrack::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.galleryItem.carousel .carouselTrack .slide {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+.galleryItem.carousel .carouselTrack .slide img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.galleryItem.carousel[open] > .caption {
+    display: block;
+    text-align: center;
+    font-size: .95rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    margin: .5rem 0 .75rem;
+}
+
+@supports (scroll-marker-group: after) {
+    .galleryItem.carousel .carouselTrack {
+        scroll-marker-group: after;
+    }
+
+    .galleryItem.carousel .carouselTrack::scroll-marker-group {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 0 4px;
+    }
+
+    .galleryItem.carousel .carouselTrack .slide::scroll-marker {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #555;
+        cursor: pointer;
+    }
+
+    .galleryItem.carousel .carouselTrack .slide::scroll-marker:target-current {
+        background: #d5d5d5;
+    }
+
+    .galleryItem .carouselArrow { margin-top: -23px; }
+}
+
+.galleryItem .carouselWrap { position: relative; }
+
+.galleryItem .carouselArrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(213, 213, 213, .8);
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+    opacity: .85;
+    transition: opacity .15s ease, background .15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.galleryItem .carouselArrow:hover,
+.galleryItem .carouselArrow:focus-visible {
+    opacity: 1;
+    background: rgba(235, 235, 235, .95);
+}
+
+.galleryItem .carouselArrow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-top: 1.5px solid #111;
+    border-right: 1.5px solid #111;
+}
+
+.galleryItem .carouselPrev { left: 8px; }
+.galleryItem .carouselPrev::before { transform: translate(-30%, -50%) rotate(-135deg); }
+
+.galleryItem .carouselNext { right: 8px; }
+.galleryItem .carouselNext::before { transform: translate(-70%, -50%) rotate(45deg); }
+
+.galleryItem .carouselWrap[data-start] .carouselPrev,
+.galleryItem .carouselWrap[data-end] .carouselNext {
+    opacity: 0;
+    pointer-events: none;
+}
+
 @keyframes galleryOpen {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: none; }
@@ -129,5 +274,7 @@
 @media (prefers-reduced-motion: reduce) {
     .galleryItem[open] { animation: none; }
     .galleryItem img,
-    .galleryItem video { transition: none; }
+    .galleryItem video,
+    .galleryItem .carouselArrow { transition: none; }
+    .galleryItem.carousel[open] .carouselTrack { scroll-behavior: auto; }
 }

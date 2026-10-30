@@ -1,9 +1,9 @@
 :root {
-  --text:    #7f7f7f;
-  --rose:     #430000;
-  --roseLift: #430000;
-  --roseMid: #430000;
-  --roseDeep:#310000;
+  --text:           #7f7f7f;
+  --rose:           #430000;
+  --roseLift:      #430000;
+  --roseMid:       #430000;
+  --roseDeep:      #310000;
   --roseDeepLift: #430000;
 
   --tableOddRowColor:  #171717;
@@ -210,7 +210,7 @@ textarea:disabled {
 }
 
 @supports not selector(::-webkit-scrollbar) {
-  *:not(.navbar) {
+  *:not(.navbar):not(.carouselTrack) {
     scrollbar-width: thin !important;
     scrollbar-color: var(--scrollbarThumbColor) var(--scrollbarTrackColor) !important;
   }
@@ -1000,7 +1000,7 @@ h5 {
 
 
 .desaturate {
-  filter: saturate(0.1);
+  filter: saturate(0.2);
   transition: filter 0.3s ease;
 }
 

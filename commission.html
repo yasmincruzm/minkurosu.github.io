@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@minkurosu</title>
+  <title>@minkurosu — encomendas</title>
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
   <link rel="stylesheet" href="emo.css">
 
@@ -167,7 +167,7 @@
 
       <img id="logobig" src="imgs/site_imgs/logo.png" alt="minkurosu logo">
 
-      <h2 class="pageTitle">commissions</h2>
+      <h2 class="pageTitle">encomendas</h2>
 
       <hr>
 
@@ -302,12 +302,12 @@
   <script>
     (function () {
       var frame = document.getElementById('portfolioFrame');
-      var raiz = document.querySelector('.caixamaisclara');
-      var embutida = window.parent !== window;
+      var root = document.querySelector('.caixamaisclara');
+      var embedded = window.parent !== window;
 
-      function enviar() {
-        if (!embutida) return;
-        parent.postMessage({ embedHeight: Math.ceil(raiz.getBoundingClientRect().height) + 4 }, '*');
+      function send() {
+        if (!embedded) return;
+        parent.postMessage({ embedHeight: Math.ceil(root.getBoundingClientRect().height) + 4 }, '*');
       }
 
       window.addEventListener('message', function (e) {
@@ -315,14 +315,14 @@
         var h = e.data && e.data.embedHeight;
         if (typeof h === 'number' && h > 0) {
           frame.style.height = h + 'px';
-          enviar();
+          send();
         }
       });
 
-      if (embutida) {
-        new ResizeObserver(enviar).observe(raiz);
-        window.addEventListener('load', enviar);
-        enviar();
+      if (embedded) {
+        new ResizeObserver(send).observe(root);
+        window.addEventListener('load', send);
+        send();
       }
     })();
   </script>
