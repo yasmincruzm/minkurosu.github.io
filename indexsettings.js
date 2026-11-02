@@ -13,7 +13,7 @@
     <script src="lastfm-widget.js"></script>
 
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>pho
 
     <script src="theme-switcher.js"></script>
     <script>NekoType = "black"</script>
