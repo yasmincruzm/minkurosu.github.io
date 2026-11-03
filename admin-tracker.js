@@ -1,6 +1,15 @@
 import { getFirestore, collection, query, orderBy, limit, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const CITY_STATS_COLLECTION = 'city_stats';
+pos
+const esc = v => String(v ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+function safeImg(u) {
+    const s = String(u || '');
+    return /^https?:\/\//i.test(s) || /^data:image\/(png|jpe?g|webp|gif);base64,/i.test(s) ? s : '';
+}
 
 let myIp = null;
 
@@ -78,7 +87,7 @@ function renderCard(d, exit, isMe) {
     const isNew    = d.isNewVisitor || d.visitCount === 1;
     const visitLabel = isNew
         ? `<span class="vc-badge vc-badge-new">novo visitante</span>`
-        : `<span class="vc-badge vc-badge-return">visita #${d.visitCount}</span>`;
+        : `<span class="vc-badge vc-badge-return">visita #${esc(d.visitCount)}</span>`;
 
     const firstVisitLine = d.firstVisit && !isNew
         ? `<div class="vc-row"><span class="vc-key">1ª visita</span><span class="vc-val">${new Date(d.firstVisit).toLocaleDateString('pt-BR')}</span></div>`
@@ -100,30 +109,30 @@ function renderCard(d, exit, isMe) {
     const pagesHtml = pagesVisited.length > 1
         ? `<div class="vc-row" style="align-items:flex-start;">
                <span class="vc-key">páginas (${pagesVisited.length})</span>
-               <span class="vc-val">${pagesVisited.map(p => `<span class="vc-page-tag">${p}</span>`).join('')}</span>
+               <span class="vc-val">${pagesVisited.map(p => `<span class="vc-page-tag">${esc(p)}</span>`).join('')}</span>
            </div>`
-        : `<div class="vc-row"><span class="vc-key">página</span><span class="vc-val">${d.page || '—'}</span></div>`;
+        : `<div class="vc-row"><span class="vc-key">página</span><span class="vc-val">${esc(d.page || '—')}</span></div>`;
 
     return `
-    <div class="vc-card${isMe ? ' vc-card-me' : ''}" data-ip="${d.ip}">
+    <div class="vc-card${isMe ? ' vc-card-me' : ''}" data-ip="${esc(d.ip)}">
         <div class="vc-header">
-            <div class="vc-avatar" style="background:${avatarBg}">${avatar}</div>
+            <div class="vc-avatar" style="background:${avatarBg}">${esc(avatar)}</div>
             <div class="vc-header-info">
-                <span class="vc-location">${flag} ${location}${meBadge}</span>
+                <span class="vc-location">${flag} ${esc(location)}${meBadge}</span>
                 <span class="vc-ago">${ago}</span>
             </div>
             ${visitLabel}
         </div>
         <div class="vc-body">
-            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(d.device)} ${d.device} · ${browserIcon(d.browser)} ${d.browser} · ${d.os}</span></div>
+            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(d.device)} ${esc(d.device)} · ${browserIcon(d.browser)} ${esc(d.browser)} · ${esc(d.os)}</span></div>
             ${pagesHtml}
-            <div class="vc-row"><span class="vc-key">origem</span><span class="vc-val">${referrerDisplay}</span></div>
-            <div class="vc-row"><span class="vc-key">idioma</span><span class="vc-val">${d.lang || '—'}</span></div>
+            <div class="vc-row"><span class="vc-key">origem</span><span class="vc-val">${esc(referrerDisplay)}</span></div>
+            <div class="vc-row"><span class="vc-key">idioma</span><span class="vc-val">${esc(d.lang || '—')}</span></div>
             ${firstVisitLine}
             <div class="vc-divider"></div>
-            <div class="vc-row"><span class="vc-key">scroll</span><span class="vc-val vc-mono">${scrollStr || '—'}</span></div>
-            ${activeTimeStr ? `<div class="vc-row"><span class="vc-key">tempo ativo</span><span class="vc-val">${activeTimeStr}</span></div>` : ''}
-            ${clickStr      ? `<div class="vc-row"><span class="vc-key">cliques</span><span class="vc-val">${clickStr}</span></div>` : ''}
+            <div class="vc-row"><span class="vc-key">scroll</span><span class="vc-val vc-mono">${esc(scrollStr || '—')}</span></div>
+            ${activeTimeStr ? `<div class="vc-row"><span class="vc-key">tempo ativo</span><span class="vc-val">${esc(activeTimeStr)}</span></div>` : ''}
+            ${clickStr      ? `<div class="vc-row"><span class="vc-key">cliques</span><span class="vc-val">${esc(clickStr)}</span></div>` : ''}
         </div>
     </div>`;
 }
@@ -158,7 +167,7 @@ function renderAnalytics(byIp) {
         if (!rows.length) return '';
         const max = rows[0][1];
         return `<div class="an-block"><span class="an-label">${title}</span>${
-            rows.map(([k, v]) => `<div class="an-row"><span class="an-key">${k}</span>${bar(v, max)}<span class="an-val">${v}</span></div>`).join('')
+            rows.map(([k, v]) => `<div class="an-row"><span class="an-key">${esc(k)}</span>${bar(v, max)}<span class="an-val">${v}</span></div>`).join('')
         }</div>`;
     };
 
@@ -196,8 +205,8 @@ function renderCityList(rows) {
         return `
         <div class="city-row">
             <span class="city-flag">${flag}</span>
-            <span class="city-name">${location}</span>
-            <span class="city-count">${d.count || 1}x</span>
+            <span class="city-name">${esc(location)}</span>
+            <span class="city-count">${esc(d.count || 1)}x</span>
             <span class="city-last">${last}</span>
         </div>`;
     }).join('');
@@ -228,15 +237,15 @@ function renderDrawingCard(meta, id) {
         .join(', ') || 'localização desconhecida';
 
     return `
-    <div class="dw-card" data-id="${id}">
-        <img class="dw-img" src="${meta.imageUrl}" alt="desenho" loading="lazy">
+    <div class="dw-card" data-id="${esc(id)}">
+        <img class="dw-img" src="${esc(safeImg(meta.imageUrl))}" alt="desenho" loading="lazy">
         <div class="dw-body">
-            <div class="vc-row"><span class="vc-key">local</span><span class="vc-val">${flag} ${location}</span></div>
-            <div class="vc-row"><span class="vc-key">ip</span><span class="vc-val vc-mono">${meta.ip || 'unknown'}</span></div>
-            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(meta.device)} ${meta.device || '—'} · ${browserIcon(meta.browser)} ${meta.browser || '—'} · ${meta.os || '—'}</span></div>
+            <div class="vc-row"><span class="vc-key">local</span><span class="vc-val">${flag} ${esc(location)}</span></div>
+            <div class="vc-row"><span class="vc-key">ip</span><span class="vc-val vc-mono">${esc(meta.ip || 'unknown')}</span></div>
+            <div class="vc-row"><span class="vc-key">dispositivo</span><span class="vc-val">${deviceIcon(meta.device)} ${esc(meta.device || '—')} · ${browserIcon(meta.browser)} ${esc(meta.browser || '—')} · ${esc(meta.os || '—')}</span></div>
             <div class="vc-row"><span class="vc-key">quando</span><span class="vc-val">${ago}</span></div>
         </div>
-        <button class="dw-delete" data-id="${id}">deletar</button>
+        <button class="dw-delete" data-id="${esc(id)}">deletar</button>
     </div>`;
 }
 

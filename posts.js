@@ -1,4 +1,4 @@
-import { initializeApp, getApps }      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+﻿import { initializeApp, getApps }      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getStorage,
@@ -20,7 +20,13 @@ import {
   increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import { mountReactions, setReactionsAdmin } from './reactions.js';
+
+import {
+  LIMITS, graphemeLength, buildText, validateLengths,
+  loadSettings, saveSettings, loadPrefs, savePrefs, isConfigured,
+  refreshMastodonLimit, crosspostAll, openXWindow, fillXWindow
+} from './crosspost.js';
+import { isEmbeddable, buildEmbedHtml, buildEmbeds, linkify } from './embed.js';
 
 
 const firebaseConfig = {
@@ -44,7 +50,7 @@ let isAdmin = false;
 
 onAuthStateChanged(auth, user => {
   isAdmin = !!(user && user.email === ADMIN_EMAIL);
-  setReactionsAdmin(isAdmin);
+  
   const composeBox = document.getElementById("compose-post");
   if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";
   rerenderAll();
@@ -417,9 +423,6 @@ style.textContent = `
     filter: brightness(1.2) saturate(0.3) !important;
   }
 
-  /* ============================================================
-     PICKER — forçado globalmente (não depende do reactions.css)
-     ============================================================ */
   .reaction-picker {
     position: fixed !important;
     z-index: 2147483647 !important;
@@ -584,6 +587,78 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+const style2 = document.createElement("style");
+style2.textContent = `
+  #thoughts-root #post-tabs li { cursor: pointer; }
+  #thoughts-root #post-tabs li:hover span { color: #E1E8ED; }
+  @media (max-width: 760px) {
+    #thoughts-root .bar .container { padding-left: 16px; }
+  }
+
+  #thoughts-root .repost-label {
+    font-size: 12px; color: #667580; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  #thoughts-root .repost-card {
+    display: block; margin-top: 8px; padding: 10px 12px;
+    border: 1px solid #3A3A3A; border-radius: 10px;
+    color: #3BB9E3; font-size: 13px; text-decoration: none; word-break: break-all;
+  }
+  #thoughts-root .repost-card:hover { background: #202020; }
+  #thoughts-root #tweets-container li .info p:empty { display: none; }
+  #thoughts-root .xp-badges { display: inline-flex; gap: 6px; }
+  #thoughts-root .xp-badges a { text-decoration: none; font-size: 12px; }
+
+  #thoughts-root #tweets-container li.post-highlight { animation: postHi 2.4s ease; }
+  @keyframes postHi { from { background: #26343b; } to { background: transparent; } }
+
+  #thoughts-root #compose-post .compose-kind { display: flex; gap: 14px; margin-bottom: 6px; }
+  #thoughts-root #compose-post .compose-kind label {
+    display: flex; align-items: center; gap: 5px; color: #B3B3B3; font-size: 13px; cursor: pointer;
+  }
+  #thoughts-root #compose-post #compose-repost-url { display: none; }
+  #thoughts-root #compose-post #compose-repost-url.show { display: block; margin-bottom: 6px; }
+
+  #thoughts-root #compose-post .xp-row {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px;
+    color: #B3B3B3; font-size: 13px;
+  }
+  #thoughts-root #compose-post .xp-row label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  #thoughts-root #compose-post .xp-counter { margin-top: 6px; font-size: 12px; color: #667580; }
+  #thoughts-root #compose-post .xp-counter .over { color: #E0245E; font-weight: bold; }
+
+  #thoughts-root #compose-post button.xp-link-btn {
+    background: transparent; color: #B3B3B3; border: 1px solid #3A3A3A;
+    padding: 4px 10px; font-size: 12px; font-weight: normal; border-radius: 12px;
+  }
+  #thoughts-root #compose-post button.xp-link-btn:hover { background: #252525; color: #E1E8ED; }
+
+  #thoughts-root #compose-post .xp-settings {
+    display: none; flex-direction: column; gap: 6px; margin-top: 10px; padding: 12px;
+    background: #202020; border: 1px solid #3A3A3A; border-radius: 10px;
+  }
+  #thoughts-root #compose-post .xp-settings.open { display: flex; }
+  #thoughts-root #compose-post .xp-settings h4 { margin: 6px 0 0; font-size: 13px; color: #E1E8ED; }
+  #thoughts-root #compose-post .xp-settings small { color: #667580; font-size: 11px; line-height: 1.4; }
+  #thoughts-root #compose-post .xp-settings input[type="text"],
+  #thoughts-root #compose-post .xp-settings input[type="password"],
+  #thoughts-root #compose-post .xp-settings select {
+    background: #252525; border: 1px solid #3A3A3A; border-radius: 8px;
+    padding: 8px 10px; color: #E1E8ED; font-size: 13px; outline: none;
+    width: 100%; box-sizing: border-box; margin-top: 0;
+  }
+  #thoughts-root #compose-post .xp-settings .xp-btns { display: flex; gap: 8px; margin-top: 6px; }
+
+  #thoughts-root #compose-post .xp-status { margin-top: 8px; font-size: 12px; line-height: 1.6; }
+  #thoughts-root #compose-post .xp-status.ok   { color: #6abf6a; }
+  #thoughts-root #compose-post .xp-status.err  { color: #bf6a6a; }
+  #thoughts-root #compose-post .xp-status.info { color: #7a9abf; }
+  #thoughts-root #compose-post .xp-status a { color: #3BB9E3; }
+  #thoughts-root #compose-post .xp-status button { margin-top: 6px; }
+`;
+document.head.appendChild(style2);
+
+
 
 function formatDate(ts) {
   if (!ts) return "";
@@ -599,24 +674,13 @@ function escHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
-function stripTrailingPunctuation(url) {
-  const trailChars = /[).,;:!?'"\]}]$/;
-  let core = url;
-  let trail = "";
-  while (trailChars.test(core)) {
-    const lastChar = core.slice(-1);
-    if (lastChar === ")") {
-      const opens = (core.match(/\(/g) || []).length;
-      const closes = (core.match(/\)/g) || []).length;
-      if (closes <= opens) break;
-    }
     trail = lastChar + trail;
     core = core.slice(0, -1);
   }
   return { core, trail };
 }
 
-function isEmbeddableUrl(url) {
+function isEmbeddable(url) {
   if (/\.(gif|png|jpe?g|webp)(\?\S*)?$/i.test(url)) return true;
   if (/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/.test(url)) return true;
   if (/open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/.test(url)) return true;
@@ -627,7 +691,7 @@ function linkify(text) {
   return escHtml(text)
     .replace(/(https?:\/\/[^\s<]+)/g, raw => {
       const { core, trail } = stripTrailingPunctuation(raw);
-      if (isEmbeddableUrl(core)) return trail;
+      if (isEmbeddable(core)) return trail;
       return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
     })
     .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
@@ -659,17 +723,106 @@ function buildEmbedHtml(url) {
   return "";
 }
 
-function buildEmbeds(text) {
-  const rawUrls = [...text.matchAll(/(https?:\/\/[^\s<]+)/g)].map(m => m[1]);
-  const seen = new Set();
-  let html = "";
-  for (const raw of rawUrls) {
-    const { core } = stripTrailingPunctuation(raw);
-    if (seen.has(core)) continue;
-    seen.add(core);
-    html += buildEmbedHtml(core);
+
+
+function safeUrl(u) {
+  try {
+    const x = new URL(u);
+    return (x.protocol === "http:" || x.protocol === "https:") ? x.href : "";
+  } catch { return ""; }
+}
+
+function shortLink(u) {
+  try {
+    const x = new URL(u);
+    const s = x.hostname.replace(/^www\./, "") + (x.pathname !== "/" ? x.pathname : "");
+    return s.length > 48 ? s.slice(0, 47) + "…" : s;
+  } catch { return u; }
+}
+
+function isRepost(d) {
+  return d.type === "repost" || /^RT @/i.test((d.content || "").trim());
+}
+
+const XP_NETS = ["bluesky", "mastodon", "x"];
+let lastRetry = null; // { ref, text, file, imageUrl, failed: [...] }
+
+function currentKind() {
+  return document.querySelector('#compose-post input[name="compose-kind"]:checked')?.value || "original";
+}
+
+function resetSubmitLabel() {
+  const b = document.getElementById("compose-submit");
+  if (b) b.textContent = currentKind() === "repost" ? "repost" : "post";
+}
+
+function setComposeStatus(lines, kind = "", withRetry = false) {
+  const el = document.getElementById("compose-status");
+  if (!el) return;
+  el.className = "xp-status " + kind;
+  el.innerHTML = lines.map(l => `<div>${l}</div>`).join("")
+    + (withRetry ? `<button type="button" class="xp-link-btn" id="xp-retry">tentar de novo (só as que falharam)</button>` : "");
+}
+
+function resultLines(results) {
+  return Object.entries(results).map(([n, r]) => {
+    if (r.ok) {
+      const link = r.url ? safeUrl(r.url) : "";
+      return link
+        ? `✓ ${n}: <a href="${escHtml(link)}" target="_blank" rel="noopener">ver post</a>`
+        : `✓ ${n}: ok`;
+    }
+    return `✗ ${n}: ${escHtml(r.error || "erro")}`;
+  });
+}
+
+function xResult(win, text, imageUrl) {
+  return fillXWindow(win, { text, imageUrl })
+    ? { ok: true }
+    : { ok: false, error: "popup bloqueado — permita popups para este site" };
+}
+
+function updateXpCounter() {
+  const el = document.getElementById("xp-counter");
+  if (!el) return;
+  const nets = XP_NETS.filter(n => document.getElementById(`xp-${n}`)?.checked);
+  if (!nets.length) { el.textContent = ""; return; }
+  const repostUrl = currentKind() === "repost"
+    ? safeUrl(document.getElementById("compose-repost-url")?.value.trim() || "") : "";
+  const text = buildText({ content: document.getElementById("compose-text")?.value || "", repostUrl });
+  const len = graphemeLength(text);
+  const s = loadSettings();
+  el.innerHTML = nets.map(n => {
+    const max = n === "mastodon" ? (s.mastoMax || LIMITS.mastodon) : LIMITS[n];
+    return `<span class="${len > max ? "over" : ""}">${n} ${len}/${max}</span>`;
+  }).join(" · ");
+}
+
+async function finishCrosspost(ref, results, payload) {
+  const upd = {};
+  const failed = [];
+  for (const [n, r] of Object.entries(results)) {
+    if (r.ok) { if (r.url) upd[`crossposted.${n}`] = { url: r.url }; }
+    else failed.push(n);
   }
-  return html;
+  if (Object.keys(upd).length) {
+    try { await updateDoc(ref, upd); }
+    catch (e) { console.warn("não salvou os links do crosspost:", e); }
+  }
+  lastRetry = failed.length ? { ref, ...payload, failed } : null;
+  setComposeStatus(resultLines(results), failed.length ? "err" : "ok", failed.length > 0);
+}
+
+async function retryFailed() {
+  if (!isAdmin || !lastRetry) return;
+  const { ref, text, file, imageUrl, failed } = lastRetry;
+  const xWin = failed.includes("x") ? openXWindow() : null; // dentro do clique
+  setComposeStatus(["tentando de novo..."], "info");
+  const results = {};
+  const apiNets = failed.filter(n => n !== "x");
+  if (apiNets.length) Object.assign(results, await crosspostAll({ networks: apiNets, text, file, imageUrl }));
+  if (failed.includes("x")) results.x = xResult(xWin, text, imageUrl);
+  await finishCrosspost(ref, results, { text, file, imageUrl });
 }
 
 async function createPost() {
@@ -678,14 +831,47 @@ async function createPost() {
   const textEl = document.getElementById("compose-text");
   const urlEl = document.getElementById("compose-image");
   const fileEl = document.getElementById("compose-image-file");
+  const repostEl = document.getElementById("compose-repost-url");
   const submitBtn = document.getElementById("compose-submit");
 
+  const kind = currentKind();
   const content = textEl.value.trim();
   const pastedUrl = urlEl.value.trim();
-  const file = fileEl.files[0];
-  if (!content && !pastedUrl && !file) return;
+  const file = fileEl.files[0] || null;
+  const repostUrl = kind === "repost" ? safeUrl(repostEl.value.trim()) : "";
+
+  if (kind === "repost") {
+    if (!repostUrl) {
+      setComposeStatus(["cole o link do post original (começando com https://)"], "err");
+      return;
+    }
+  } else if (!content && !pastedUrl && !file) {
+    return;
+  }
+
+  const networks = XP_NETS.filter(n => document.getElementById(`xp-${n}`)?.checked);
+  const text = buildText({ content, repostUrl });
+
+  const problems = validateLengths(text, networks);
+  if (problems.length) {
+    setComposeStatus([`texto grande demais — ${escHtml(problems.join(" · "))}. encurte ou desmarque a rede.`], "err");
+    return;
+  }
+  const missing = networks.filter(n => !isConfigured(n));
+  if (missing.length) {
+    setComposeStatus([`configure as contas de ${missing.join(", ")} em “⚙ contas”.`], "err");
+    document.getElementById("xp-settings")?.classList.add("open");
+    return;
+  }
+
+  savePrefs(Object.fromEntries(XP_NETS.map(n => [n, networks.includes(n)])));
+
+  const xWin = networks.includes("x") ? openXWindow() : null;
 
   submitBtn.disabled = true;
+  setComposeStatus([], "");
+  lastRetry = null;
+
   try {
     let imageUrl = pastedUrl || "";
     if (file) {
@@ -695,18 +881,37 @@ async function createPost() {
       await uploadBytes(fileRef, file);
       imageUrl = await getDownloadURL(fileRef);
     }
+
     submitBtn.textContent = "posting...";
-    await addDoc(collection(db, "posts"), {
-      content, imageUrl, timestamp: serverTimestamp()
-    });
+    const docData = { content, imageUrl, type: kind, timestamp: serverTimestamp() };
+    if (repostUrl) docData.repostUrl = repostUrl;
+    const ref = await addDoc(collection(db, "posts"), docData);
+
     textEl.value = "";
+    repostEl.value = "";
     if (box && box._clearImageSelection) box._clearImageSelection();
+    updateXpCounter();
+
+    if (!networks.length) {
+      setComposeStatus(["✓ publicado no site"], "ok");
+      return;
+    }
+
+    submitBtn.textContent = "crossposting...";
+    const results = {};
+    const apiNets = networks.filter(n => n !== "x");
+    if (apiNets.length) {
+      Object.assign(results, await crosspostAll({ networks: apiNets, text, file, imageUrl }));
+    }
+    if (networks.includes("x")) results.x = xResult(xWin, text, imageUrl);
+    await finishCrosspost(ref, results, { text, file, imageUrl });
   } catch (err) {
     console.error("error:", err);
-    alert("error");
+    if (xWin && !xWin.closed) xWin.close();
+    setComposeStatus([`erro: ${escHtml(err.message || String(err))}`], "err");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "post";
+    resetSubmitLabel();
   }
 }
 
@@ -721,17 +926,57 @@ function injectComposeBox() {
     <div class="compose-body">
       <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
       <div class="compose-fields">
+        <div class="compose-kind">
+          <label><input type="radio" name="compose-kind" value="original" checked> original</label>
+          <label><input type="radio" name="compose-kind" value="repost"> repost</label>
+        </div>
+        <input type="text" id="compose-repost-url" placeholder="link do post original (https://...)">
         <textarea id="compose-text" placeholder="what's on your mind?"></textarea>
         <div class="compose-image-row">
           <input type="text" id="compose-image" placeholder="image url (optional)">
           <label class="compose-upload-btn" for="compose-image-file">upload image</label>
           <input type="file" id="compose-image-file" accept="image/*" hidden>
         </div>
-        <div class="compose-upload-hint">upload</div>
         <div id="compose-image-preview" class="compose-image-preview">
           <img id="compose-image-preview-img" src="" alt="preview">
           <button type="button" class="compose-image-remove" id="compose-image-remove" title="remove image">×</button>
         </div>
+
+        <div class="xp-row">
+          <span>crosspost:</span>
+          <label><input type="checkbox" id="xp-bluesky"> bluesky</label>
+          <label><input type="checkbox" id="xp-mastodon"> mastodon</label>
+          <label><input type="checkbox" id="xp-x"> x</label>
+          <button type="button" class="xp-link-btn" id="xp-settings-toggle">⚙ contas</button>
+        </div>
+        <div class="xp-counter" id="xp-counter"></div>
+
+        <div class="xp-settings" id="xp-settings">
+          <h4>bluesky</h4>
+          <input type="text" id="xp-bsky-handle" value="minkurosu.bsky.social" readonly title="só @minkurosu">
+          <input type="password" id="xp-bsky-pass" placeholder="app password (xxxx-xxxx-xxxx-xxxx)" autocomplete="off">
+          <small>gere em bsky.app → settings → privacy and security → app passwords. não use a senha da conta.</small>
+
+          <h4>mastodon</h4>
+          <input type="text" id="xp-masto-instance" placeholder="sua instância (ex: mastodon.social)">
+          <input type="password" id="xp-masto-token" placeholder="access token" autocomplete="off">
+          <select id="xp-masto-vis">
+            <option value="public">público</option>
+            <option value="unlisted">não listado</option>
+          </select>
+          <small>no mastodon: preferências → desenvolvimento → nova aplicação, com as permissões write:statuses e write:media. e também read:accounts (serve pra conferir que a conta é @minkurosu). copie “seu token de acesso”. o crosspost só funciona se o token for do usuário @minkurosu.</small>
+
+          <h4>x</h4>
+          <small>o x não deixa postar direto do navegador (a API é paga). ao marcar “x”, abre uma janela do x com o texto pronto e você só clica em postar. o x posta na conta que estiver logada nele, então confira se é a @minkurosu antes de clicar. imagens vão como link.</small>
+
+          <small>as senhas ficam só neste navegador (localStorage). configure de novo em cada aparelho.</small>
+          <div class="xp-btns">
+            <button type="button" class="xp-link-btn" id="xp-save">salvar</button>
+            <button type="button" class="xp-link-btn" id="xp-clear">apagar credenciais</button>
+          </div>
+        </div>
+
+        <div class="xp-status" id="compose-status"></div>
       </div>
     </div>
     <div class="compose-actions">
@@ -781,8 +1026,207 @@ function injectComposeBox() {
   removeBtn.addEventListener("click", () => clearImageSelection());
   box._clearImageSelection = clearImageSelection;
 
+  const repostInput = box.querySelector("#compose-repost-url");
+  const textEl = box.querySelector("#compose-text");
+  box.querySelectorAll('input[name="compose-kind"]').forEach(r => {
+    r.addEventListener("change", () => {
+      const isRe = currentKind() === "repost";
+      repostInput.classList.toggle("show", isRe);
+      textEl.placeholder = isRe ? "comentário (opcional)" : "what's on your mind?";
+      resetSubmitLabel();
+      updateXpCounter();
+    });
+  });
+  textEl.addEventListener("input", updateXpCounter);
+  repostInput.addEventListener("input", updateXpCounter);
+
+  const prefs = loadPrefs();
+  XP_NETS.forEach(n => {
+    const cb = box.querySelector(`#xp-${n}`);
+    cb.checked = !!prefs[n];
+    cb.addEventListener("change", updateXpCounter);
+  });
+
+  const settingsEl = box.querySelector("#xp-settings");
+  const s = loadSettings();
+  box.querySelector("#xp-bsky-handle").value = s.bskyHandle || "minkurosu.bsky.social";
+  box.querySelector("#xp-bsky-pass").value = s.bskyPassword || "";
+  box.querySelector("#xp-masto-instance").value = s.mastoInstance || "";
+  box.querySelector("#xp-masto-token").value = s.mastoToken || "";
+  box.querySelector("#xp-masto-vis").value = s.mastoVisibility || "public";
+
+  box.querySelector("#xp-settings-toggle").addEventListener("click", () => {
+    settingsEl.classList.toggle("open");
+  });
+
+  box.querySelector("#xp-save").addEventListener("click", () => {
+    try { saveSettings({
+      ...loadSettings(),
+      bskyHandle: box.querySelector("#xp-bsky-handle").value.trim(),
+      bskyPassword: box.querySelector("#xp-bsky-pass").value.trim(),
+      mastoInstance: box.querySelector("#xp-masto-instance").value.trim(),
+      mastoToken: box.querySelector("#xp-masto-token").value.trim(),
+      mastoVisibility: box.querySelector("#xp-masto-vis").value,
+    }); } catch (e) { setComposeStatus([`✗ ${escHtml(e.message)}`], "err"); return; }
+    setComposeStatus(["✓ credenciais salvas neste navegador. a conta é conferida na hora de postar."], "ok");
+    refreshMastodonLimit().then(updateXpCounter);
+  });
+
+  box.querySelector("#xp-clear").addEventListener("click", () => {
+    if (!confirm("apagar as credenciais salvas neste navegador?")) return;
+    saveSettings({});
+    ["#xp-bsky-pass", "#xp-masto-instance", "#xp-masto-token"].forEach(sel => { box.querySelector(sel).value = ""; });
+    setComposeStatus(["credenciais apagadas"], "info");
+  });
+
+  box.addEventListener("click", e => {
+    if (e.target.id === "xp-retry") retryFailed();
+  });
+
   document.getElementById("compose-submit").addEventListener("click", createPost);
   box.style.display = isAdmin ? "block" : "none";
+  updateXpCounter();
+}
+
+
+async function syncReposts() {
+  if (!isAdmin) return;
+  const syncBtn = document.getElementById("xp-sync-reposts");
+  if (syncBtn) {
+    syncBtn.disabled = true;
+    syncBtn.textContent = "syncing...";
+  }
+
+  let importedCount = 0;
+  try {
+    const s = loadSettings();
+    const handle = s.bskyHandle || "minkurosu.bsky.social";
+    const bskyRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${encodeURIComponent(handle)}&limit=40`);
+    if (bskyRes.ok) {
+      const data = await bskyRes.json();
+      const existingUrls = new Set(cachedDocs.map(d => d.data.repostUrl).filter(Boolean));
+      
+      for (const item of (data.feed || [])) {
+        if (!item.reason || item.reason.$type !== 'app.bsky.feed.defs#reasonRepost') continue;
+        const post = item.post;
+        if (!post) continue;
+
+        const rkey = post.uri.split('/').pop();
+        const postUrl = `https://bsky.app/profile/${post.author.handle}/post/${rkey}`;
+        if (existingUrls.has(postUrl)) continue;
+
+        let imageUrl = '';
+        if (post.embed?.images && post.embed.images[0]) {
+          imageUrl = post.embed.images[0].fullsize || post.embed.images[0].thumb || '';
+        } else if (post.embed?.media?.images && post.embed.media.images[0]) {
+          imageUrl = post.embed.media.images[0].fullsize || post.embed.media.images[0].thumb || '';
+        }
+
+        await addDoc(collection(db, "posts"), {
+          content: post.record?.text || '',
+          imageUrl,
+          repostUrl: postUrl,
+          repostAuthor: post.author.handle,
+          type: "repost",
+          source: "bluesky",
+          timestamp: serverTimestamp()
+        });
+        existingUrls.add(postUrl);
+        importedCount++;
+      }
+    }
+
+    if (s.mastoInstance && s.mastoToken) {
+      try {
+        let base = s.mastoInstance.trim().replace(/\/+$/, '');
+        if (!/^https?:\/\//.test(base)) base = `https://${base}`;
+        const meRes = await fetch(`${base}/api/v1/accounts/verify_credentials`, {
+          headers: { Authorization: `Bearer ${s.mastoToken.trim()}` }
+        });
+        if (meRes.ok) {
+          const me = await meRes.json();
+          const statRes = await fetch(`${base}/api/v1/accounts/${me.id}/statuses?exclude_replies=true&limit=40`, {
+            headers: { Authorization: `Bearer ${s.mastoToken.trim()}` }
+          });
+          if (statRes.ok) {
+            const statuses = await statRes.json();
+            const existingUrls = new Set(cachedDocs.map(d => d.data.repostUrl).filter(Boolean));
+            for (const st of statuses) {
+              if (!st.reblog) continue;
+              const orig = st.reblog;
+              const postUrl = orig.url;
+              if (!postUrl || existingUrls.has(postUrl)) continue;
+
+              const cleanText = (orig.content || '').replace(/<[^>]+>/g, '').trim();
+              const imageUrl = orig.media_attachments?.[0]?.url || '';
+
+              await addDoc(collection(db, "posts"), {
+                content: cleanText,
+                imageUrl,
+                repostUrl: postUrl,
+                repostAuthor: orig.account?.acct || '',
+                type: "repost",
+                source: "mastodon",
+                timestamp: serverTimestamp()
+              });
+              existingUrls.add(postUrl);
+              importedCount++;
+            }
+          }
+        }
+      } catch (errMasto) {
+        console.warn("mastodon sync error:", errMasto);
+      }
+    }
+
+    if (importedCount > 0) {
+      alert(`✓ ${importedCount} new repost(s) synced!`);
+    } else {
+      alert("no new reposts found to sync.");
+    }
+  } catch (err) {
+    console.error("sync error:", err);
+    alert(`sync error: ${err.message || err}`);
+  } finally {
+    if (syncBtn) {
+      syncBtn.disabled = false;
+      syncBtn.textContent = "🔄 sync reposts";
+    }
+  }
+}
+
+function injectTabs() {
+  if (document.getElementById("post-tabs")) return;
+
+  let bar = document.querySelector("#thoughts-root .bar");
+  if (!bar) {
+    const timeline = document.querySelector("#thoughts-root .timeline");
+    if (!timeline) return;
+    bar = document.createElement("div");
+    bar.className = "bar";
+    timeline.insertBefore(bar, timeline.firstChild);
+  }
+
+  bar.innerHTML = `
+    <div class="container">
+      <ul id="post-tabs">
+        <li class="active" data-tab="original"><span>posts</span><strong id="count-original">0</strong></li>
+        <li data-tab="reposts"><span>reposts</span><strong id="count-reposts">0</strong></li>
+      </ul>
+    </div>
+  `;
+
+  bar.querySelectorAll("#post-tabs li").forEach(li => {
+    li.addEventListener("click", () => setActiveTab(li.dataset.tab));
+  });
+}
+
+function setActiveTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll("#post-tabs li").forEach(li => {
+    li.classList.toggle("active", li.dataset.tab === tab);
+  });
+  renderList();
 }
 
 async function deletePost(id, liEl) {
@@ -838,7 +1282,7 @@ function enterEditMode(id, liEl, currentContent) {
     await saveEdit(id, newContent);
     pEl.innerHTML = linkify(newContent);
     const embedsEl = infoDiv.querySelector(".post-embeds");
-    if (embedsEl) embedsEl.innerHTML = buildEmbeds(newContent);
+    if (embedsEl) embedsEl.innerHTML = buildEmbeds(newContent + (liEl.dataset.repostUrl ? "\n" + liEl.dataset.repostUrl : ""));
     form.remove();
     pEl.style.display = "";
   });
@@ -849,6 +1293,17 @@ function enterEditMode(id, liEl, currentContent) {
 
 function buildPostEl(id, data) {
   const li = document.createElement("li");
+  li.id = "post-" + id;
+
+  const repost = isRepost(data);
+  const repostLink = safeUrl(data.repostUrl || "");
+  if (repostLink) li.dataset.repostUrl = repostLink;
+  const xpBadges = ["bluesky", "mastodon"].map(n => {
+    const u = safeUrl(data.crossposted?.[n]?.url || "");
+    return u
+      ? `<a href="${escHtml(u)}" target="_blank" rel="noopener" title="also on ${n}">${n === "bluesky" ? "🦋" : "🐘"}</a>`
+      : "";
+  }).join("");
 
   const imgHtml = data.imageUrl
     ? `<img src="${escHtml(data.imageUrl)}" alt=""
@@ -863,10 +1318,12 @@ function buildPostEl(id, data) {
   li.innerHTML = `
     <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
     <div class="info">
-      <strong>min* <span>@minkurosu · ${formatDate(data.timestamp)}${importedBadge}</span></strong>
+      ${repost ? `<div class="repost-label">🔁 min* reposted</div>` : ""}
+      <strong>min* <span>@minkurosu · ${formatDate(data.timestamp)}${importedBadge}${xpBadges ? ` · <span class="xp-badges">${xpBadges}</span>` : ""}</span></strong>
       <p>${linkify(data.content || "")}</p>
+      ${repostLink ? `<a class="repost-card" href="${escHtml(repostLink)}" target="_blank" rel="noopener">🔗 ${escHtml(shortLink(repostLink))}</a>` : ""}
       ${imgHtml}
-      <div class="post-embeds">${buildEmbeds(data.content || "")}</div>
+      <div class="post-embeds">${buildEmbeds((data.content || "") + (repostLink ? "\n" + repostLink : ""))}</div>
     </div>
   `;
 
@@ -965,7 +1422,7 @@ function buildPostEl(id, data) {
 
   li.querySelector(".info").appendChild(actionsDiv);
 
-  mountReactions(reactionsBox, { targetId: "twt_" + id });
+  
 
   li.addEventListener("click", e => {
     if (e.target.closest(
@@ -979,17 +1436,60 @@ function buildPostEl(id, data) {
 
 
 injectComposeBox();
+injectTabs();
 
 const container = document.getElementById("tweets-container");
 let cachedDocs = [];
+let activeTab = "original";
+let hashHandled = false;
+
+function visibleDocs() {
+  return cachedDocs.filter(({ data }) => (activeTab === "reposts") === isRepost(data));
+}
+
+function updateTabCounts() {
+  const reposts = cachedDocs.filter(({ data }) => isRepost(data)).length;
+  const a = document.getElementById("count-original");
+  const b = document.getElementById("count-reposts");
+  if (a) a.textContent = cachedDocs.length - reposts;
+  if (b) b.textContent = reposts;
+}
+
+function renderList() {
+  if (!container) return;
+  container.innerHTML = "";
+  updateTabCounts();
+  const list = visibleDocs();
+  if (list.length === 0) {
+    container.innerHTML = `
+      <li style="justify-content:center;padding:20px;color:#667580;">
+        ${activeTab === "reposts" ? "no reposts yet." : "no posts yet."}
+      </li>`;
+    return;
+  }
+  list.forEach(({ id, data }) => container.appendChild(buildPostEl(id, data)));
+}
 
 function rerenderAll() {
   if (!container || cachedDocs.length === 0) return;
-  container.innerHTML = "";
-  cachedDocs.forEach(({ id, data }) => {
-    container.appendChild(buildPostEl(id, data));
-  });
+  renderList();
 }
+
+// link direto para um post: ...#post-<id>
+function goToHash() {
+  const m = location.hash.match(/^#post-([\w-]+)$/);
+  if (!m) return;
+  const found = cachedDocs.find(d => d.id === m[1]);
+  if (!found) return;
+  const wanted = isRepost(found.data) ? "reposts" : "original";
+  if (wanted !== activeTab) setActiveTab(wanted);
+  const el = document.getElementById("post-" + m[1]);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("post-highlight");
+  }
+}
+window.addEventListener("hashchange", goToHash);
 
 if (!container) {
   console.warn("posts.js: #tweets-container not found");
@@ -998,21 +1498,15 @@ if (!container) {
 
   onSnapshot(q, snapshot => {
     cachedDocs = [];
-    container.innerHTML = "";
-
-    if (snapshot.empty) {
-      container.innerHTML = `
-        <li style="justify-content:center;padding:20px;color:#667580;">
-          no posts yet.
-        </li>`;
-      return;
-    }
-
     snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      cachedDocs.push({ id: docSnap.id, data });
-      container.appendChild(buildPostEl(docSnap.id, data));
+      cachedDocs.push({ id: docSnap.id, data: docSnap.data() });
     });
+    renderList();
+
+    if (!hashHandled && cachedDocs.length) {
+      hashHandled = true;
+      goToHash();
+    }
   }, err => {
     console.error("posts.js snapshot error:", err);
     container.innerHTML = `

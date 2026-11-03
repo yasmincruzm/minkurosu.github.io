@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -623,7 +623,7 @@
         <div id="admin-panel-section" class="admin-form-box" style="display: none;">
 
 
-            <h2>🔑 credenciais bluesky</h2>
+            <h2>🔑 contas pro crosspost (só @minkurosu)</h2>
             <p style="font-size:0.85em;opacity:0.7;margin-top:-8px;">app password gerada em bsky.app → configurações → app passwords. salva só aqui no seu navegador.</p>
 
             <div class="field">
@@ -632,6 +632,23 @@
             </div>
             <button type="button" id="save-bsky-btn">salvar credencial</button>
             <div id="bsky-cred-message" class="message"></div>
+
+            <div class="field">
+                <label for="masto-instance">mastodon: instância (ex: mastodon.social)</label>
+                <input type="text" id="masto-instance" placeholder="mastodon.social">
+            </div>
+            <div class="field">
+                <label for="masto-token">mastodon: access token da conta @minkurosu</label>
+                <input type="password" id="masto-token" autocomplete="off">
+            </div>
+            <p style="font-size:0.85em;opacity:0.7;margin-top:-8px;">no mastodon: preferências → desenvolvimento → nova aplicação, com as permissões write:statuses, write:media e read:accounts. o crosspost só funciona se o token for do usuário @minkurosu.</p>
+            <button type="button" id="save-masto-btn">salvar mastodon</button>
+            <div id="masto-cred-message" class="message"></div>
+
+            <button type="button" id="sync-reposts-btn" style="margin-top: 14px; background: #1c2738; border: 1px solid #3b5070; color: #8ab4f8;">🔄 sincronizar reposts das redes (bluesky & mastodon)</button>
+            <div id="sync-reposts-message" class="message"></div>
+
+            <p style="font-size:0.85em;opacity:0.7;">x: ao marcar "crosspost X", abre a janela do X com o texto pronto e você clica em postar. o X posta na conta que estiver logada nele, então confira se é a @minkurosu.</p>
 
             <hr>
 
@@ -658,7 +675,10 @@
                     <input type="checkbox" id="post-crosspost-bsky"> crosspost bluesky
                 </label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="post-crosspost-x"> crosspost X
+                    <input type="checkbox" id="post-crosspost-mastodon"> crosspost mastodon
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                    <input type="checkbox" id="post-crosspost-x"> crosspost X (abre janela)
                 </label>
             </div>
 
@@ -690,7 +710,10 @@
                     <input type="checkbox" id="art-crosspost-bsky"> crosspost bluesky
                 </label>
                 <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="art-crosspost-x"> crosspost X
+                    <input type="checkbox" id="art-crosspost-mastodon"> crosspost mastodon
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                    <input type="checkbox" id="art-crosspost-x"> crosspost X (abre janela)
                 </label>
             </div>
 

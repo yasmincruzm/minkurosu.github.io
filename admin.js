@@ -1,38 +1,34 @@
-import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+﻿import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import {
   getAuth, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect,
   getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut,
   setPersistence, browserLocalPersistence
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import {
-  getFirestore, collection, addDoc, serverTimestamp, query, orderBy,
-  onSnapshot, deleteDoc, doc
+  getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit,
+  onSnapshot, deleteDoc, doc, updateDoc, getDocs, where
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { loadVisitorTracker, loadCityList, loadDrawings } from './admin-tracker.js';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
-    authDomain: "minkurosu.firebaseapp.com",
-    projectId: "minkurosu",
-    storageBucket: "minkurosu.firebasestorage.app",
-    messagingSenderId: "290821725607",
-    appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
-    measurementId: "G-M7PWC6DDRH"
+  apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+  authDomain: "minkurosu.firebaseapp.com",
+  projectId: "minkurosu",
+  storageBucket: "minkurosu.firebasestorage.app",
+  messagingSenderId: "290821725607",
+  appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
+  measurementId: "G-M7PWC6DDRH"
 };
 
-
 const ALLOWED_EMAILS = [
-    'mincruzm@gmail.com',
-    'yasmincruzm@hotmail.com'
+  'mincruzm@gmail.com',
+  'yasmincruzm@hotmail.com'
 ];
 
 function isAllowed(email) {
-    return !!email && ALLOWED_EMAILS.includes(email);
+  return !!email && ALLOWED_EMAILS.includes(email);
 }
 
-
-const IMGBB_API_KEY = 'SUA_API_KEY_AQUI';
-
+const IMGBB_API_KEY = '94a7816a5bcd01a3e4a2943ed77faecd';
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -40,464 +36,1324 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|Mobile/i.test(navigator.userAgent);
-
 if (!isMobile) {
-    provider.setCustomParameters({ prompt: 'select_account' });
+  provider.setCustomParameters({ prompt: 'select_account' });
 }
 
-console.log('[admin] isMobile =', isMobile);
-
 function msg(el, text, type) {
-    if (!el) return;
-    el.textContent = text;
-    el.className = `message ${type}`;
+  if (!el) return;
+  el.textContent = text;
+  el.className = `message ${type}`;
+}
+
+const esc = v => String(v ?? '')
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+function safeImg(u) {
+  const s = String(u || '');
+  return /^https?:\/\//i.test(s) || /^data:image\/(png|jpe?g|webp|gif);base64,/i.test(s) ? s : '';
+}
+
+const SETTINGS_KEY = 'crosspost_settings_v1';
+const PREFS_KEY    = 'crosspost_prefs_v1';
+const LIMITS       = { bluesky: 300, x: 280, mastodon: 500 };
+const ALLOWED_USER = 'minkurosu';
+
+const isAllowedBsky = handle =>
+  String(handle || '').replace(/^@/, '').toLowerCase().split('.')[0] === ALLOWED_USER;
+
+function loadSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveSettings(s) {
+  if (s.bskyHandle && !isAllowedBsky(s.bskyHandle)) {
+    throw new Error(`bluesky handle must be @${ALLOWED_USER}...`);
+  }
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
+}
+
+function loadPrefs() {
+  try {
+    return JSON.parse(localStorage.getItem(PREFS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function savePrefs(p) {
+  localStorage.setItem(PREFS_KEY, JSON.stringify(p));
+}
+
+function isConfigured(network) {
+  const s = loadSettings();
+  if (network === 'bluesky')  return !!(s.bskyHandle && s.bskyPassword);
+  if (network === 'mastodon') return !!(s.mastoInstance && s.mastoToken);
+  if (network === 'x')        return true;
+  return false;
+}
+
+function graphemeLength(text) {
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(text)].length;
+  }
+  return [...text].length;
+}
+
+function buildText({ content, repostUrl }) {
+  const parts = [];
+  if (content)   parts.push(content.trim());
+  if (repostUrl) parts.push(repostUrl.trim());
+  return parts.join('\n').trim();
+}
+
+function validateLengths(text, networks) {
+  const problems = [];
+  const len = graphemeLength(text);
+  for (const n of networks) {
+    const max = n === 'mastodon' ? (loadSettings().mastoMax || LIMITS.mastodon) : LIMITS[n];
+    if (len > max) problems.push(`${n}: ${len}/${max} chars`);
+  }
+  return problems;
+}
+
+async function readError(res) {
+  try {
+    const j = await res.json();
+    return j.message || j.error_description || j.error || `HTTP ${res.status}`;
+  } catch {
+    return `HTTP ${res.status}`;
+  }
+}
+
+async function resolveImageBlob({ file, imageUrl }) {
+  if (file) return file;
+  if (!imageUrl) return null;
+  try {
+    const res = await fetch(imageUrl);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return blob.type.startsWith('image/') ? blob : null;
+  } catch {
+    return null;
+  }
+}
+
+async function shrinkImage(blob, maxBytes = 950_000) {
+  if (blob.size <= maxBytes) return blob;
+
+  const bitmap = await createImageBitmap(blob);
+  let scale = Math.min(1, 2000 / Math.max(bitmap.width, bitmap.height));
+  let quality = 0.9;
+
+  for (let i = 0; i < 8; i++) {
+    const canvas = document.createElement('canvas');
+    canvas.width  = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    const out = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
+    if (out && out.size <= maxBytes) return out;
+    quality = Math.max(0.5, quality - 0.1);
+    scale *= 0.85;
+  }
+  throw new Error('image too large for bluesky');
+}
+
+const BSKY = 'https://bsky.social/xrpc';
+let bskySession = null;
+
+async function bskyLogin(force = false) {
+  const s = loadSettings();
+  if (!s.bskyHandle || !s.bskyPassword) throw new Error('bluesky credentials not configured');
+  if (bskySession && !force) return bskySession;
+
+  const res = await fetch(`${BSKY}/com.atproto.server.createSession`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      identifier: s.bskyHandle.replace(/^@/, '').trim(),
+      password: s.bskyPassword.trim(),
+    }),
+  });
+  if (!res.ok) throw new Error(`bluesky login: ${await readError(res)}`);
+  const sess = await res.json();
+  if (!isAllowedBsky(sess.handle)) {
+    throw new Error(`blocked: account is @${sess.handle}, only @${ALLOWED_USER} allowed`);
+  }
+  bskySession = sess;
+  return bskySession;
+}
+
+function buildFacets(text) {
+  const enc = new TextEncoder();
+  const facets = [];
+  const byteIndex = charIdx => enc.encode(text.slice(0, charIdx)).length;
+
+  for (const m of text.matchAll(/https?:\/\/[^\s<]+/g)) {
+    let url = m[0].replace(/[).,;:!?'"\\]}]+$/, '');
+    const start = m.index;
+    facets.push({
+      index: { byteStart: byteIndex(start), byteEnd: byteIndex(start + url.length) },
+      features: [{ $type: 'app.bsky.richtext.facet#link', uri: url }],
+    });
+  }
+
+  for (const m of text.matchAll(/(^|\s)#([\p{L}\p{N}_]+)/gu)) {
+    const tag = m[2];
+    if (/^\d+$/.test(tag)) continue;
+    const start = m.index + m[1].length;
+    const end = start + tag.length + 1;
+    facets.push({
+      index: { byteStart: byteIndex(start), byteEnd: byteIndex(end) },
+      features: [{ $type: 'app.bsky.richtext.facet#tag', tag }],
+    });
+  }
+  return facets;
+}
+
+async function bskyRequest(path, init, retry = true) {
+  const sess = await bskyLogin();
+  const res = await fetch(`${BSKY}/${path}`, {
+    ...init,
+    headers: { ...(init.headers || {}), Authorization: `Bearer ${sess.accessJwt}` },
+  });
+  if (res.status === 401 && retry) {
+    await bskyLogin(true);
+    return bskyRequest(path, init, false);
+  }
+  if (!res.ok) throw new Error(await readError(res));
+  return res.json();
+}
+
+async function postToBluesky({ text, file, imageUrl }) {
+  const sess = await bskyLogin();
+  let finalText = text;
+  let embed;
+
+  const raw = await resolveImageBlob({ file, imageUrl });
+  if (raw) {
+    try {
+      const blob = await shrinkImage(raw);
+      const up = await bskyRequest('com.atproto.repo.uploadBlob', {
+        method: 'POST',
+        headers: { 'Content-Type': blob.type || 'image/jpeg' },
+        body: blob,
+      });
+      embed = {
+        $type: 'app.bsky.embed.images',
+        images: [{ alt: '', image: up.blob }],
+      };
+    } catch (err) {
+      console.warn('[crosspost] image failed for bluesky:', err);
+      if (imageUrl && !finalText.includes(imageUrl)) finalText += `\n${imageUrl}`;
+    }
+  } else if (imageUrl && !finalText.includes(imageUrl)) {
+    finalText += `\n${imageUrl}`;
+  }
+
+  const record = {
+    $type: 'app.bsky.feed.post',
+    text: finalText,
+    createdAt: new Date().toISOString(),
+  };
+  const facets = buildFacets(finalText);
+  if (facets.length) record.facets = facets;
+  if (embed) record.embed = embed;
+
+  const out = await bskyRequest('com.atproto.repo.createRecord', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ repo: sess.did, collection: 'app.bsky.feed.post', record }),
+  });
+
+  const rkey = out.uri.split('/').pop();
+  return { uri: out.uri, url: `https://bsky.app/profile/${sess.handle}/post/${rkey}` };
+}
+
+function mastoBase() {
+  const s = loadSettings();
+  if (!s.mastoInstance || !s.mastoToken) throw new Error('mastodon credentials not configured');
+  let base = s.mastoInstance.trim().replace(/\/+$/, '');
+  if (!/^https?:\/\//.test(base)) base = `https://${base}`;
+  return { base, token: s.mastoToken.trim() };
+}
+
+async function refreshMastodonLimit() {
+  try {
+    const { base } = mastoBase();
+    const res = await fetch(`${base}/api/v2/instance`);
+    if (!res.ok) return;
+    const j = await res.json();
+    const max = j?.configuration?.statuses?.max_characters;
+    if (max) saveSettings({ ...loadSettings(), mastoMax: max });
+  } catch { /* keep default */ }
+}
+
+async function mastoUploadMedia(base, token, blob) {
+  const form = new FormData();
+  form.append('file', blob, blob.name || 'image');
+  const res = await fetch(`${base}/api/v2/media`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: form,
+  });
+  if (!res.ok) throw new Error(`media upload: ${await readError(res)}`);
+  const media = await res.json();
+
+  if (res.status === 202) {
+    for (let i = 0; i < 10; i++) {
+      await new Promise(r => setTimeout(r, 1000));
+      const check = await fetch(`${base}/api/v1/media/${media.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (check.status === 200) break;
+    }
+  }
+  return media.id;
+}
+
+const mastoVerified = new Set();
+
+async function assertMastodonIsMine(base, token) {
+  const key = `${base}|${token}`;
+  if (mastoVerified.has(key)) return;
+  const res = await fetch(`${base}/api/v1/accounts/verify_credentials`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('could not verify account: add read:accounts permission to the token');
+  }
+  if (!res.ok) throw new Error(`mastodon account check: ${await readError(res)}`);
+  const me = await res.json();
+  if (String(me.username || '').toLowerCase() !== ALLOWED_USER) {
+    throw new Error(`blocked: token belongs to @${me.username}, only @${ALLOWED_USER} allowed`);
+  }
+  mastoVerified.add(key);
+}
+
+async function postToMastodon({ text, file, imageUrl }) {
+  const { base, token } = mastoBase();
+  await assertMastodonIsMine(base, token);
+  let finalText = text;
+  const mediaIds = [];
+
+  const blob = await resolveImageBlob({ file, imageUrl });
+  if (blob) {
+    try {
+      mediaIds.push(await mastoUploadMedia(base, token, blob));
+    } catch (err) {
+      console.warn('[crosspost] image failed for mastodon:', err);
+      if (imageUrl && !finalText.includes(imageUrl)) finalText += `\n${imageUrl}`;
+    }
+  } else if (imageUrl && !finalText.includes(imageUrl)) {
+    finalText += `\n${imageUrl}`;
+  }
+
+  const body = { status: finalText, visibility: loadSettings().mastoVisibility || 'public' };
+  if (mediaIds.length) body.media_ids = mediaIds;
+
+  const res = await fetch(`${base}/api/v1/statuses`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Idempotency-Key': crypto.randomUUID(),
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(await readError(res));
+  const j = await res.json();
+  return { url: j.url, id: j.id };
+}
+
+function openXWindow() {
+  const w = window.open('about:blank', '_blank');
+  return w || null;
+}
+
+function fillXWindow(win, { text, imageUrl }) {
+  let t = text;
+  if (imageUrl && !t.includes(imageUrl)) t += `\n${imageUrl}`;
+  const url = `https://x.com/intent/post?text=${encodeURIComponent(t)}`;
+  if (win && !win.closed) {
+    win.location.href = url;
+    return true;
+  }
+  return false;
+}
+
+async function crosspostAll({ networks, text, file, imageUrl }) {
+  const tasks = [];
+  if (networks.includes('bluesky'))  tasks.push(['bluesky',  postToBluesky({ text, file, imageUrl })]);
+  if (networks.includes('mastodon')) tasks.push(['mastodon', postToMastodon({ text, file, imageUrl })]);
+
+  const settled = await Promise.allSettled(tasks.map(t => t[1]));
+  const results = {};
+  settled.forEach((r, i) => {
+    const name = tasks[i][0];
+    results[name] = r.status === 'fulfilled'
+      ? { ok: true, ...r.value }
+      : { ok: false, error: r.reason?.message || String(r.reason) };
+  });
+  return results;
+}
+
+const RE_EMBED = {
+  image:   /\.(gif|png|jpe?g|webp|avif|svg)(\?\S*)?$/i,
+  video:   /\.(mp4|webm|ogg|mov)(\?\S*)?$/i,
+  youtube: /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/,
+  spotify: /open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/,
+};
+
+function stripTrailingPunctuation(url) {
+  const trailChars = /[).,;:!?'"\\]}]$/;
+  let core = url, trail = '';
+  while (trailChars.test(core)) {
+    const last = core.slice(-1);
+    if (last === ')') {
+      const opens  = (core.match(/\(/g) || []).length;
+      const closes = (core.match(/\)/g) || []).length;
+      if (closes <= opens) break;
+    }
+    trail = last + trail;
+    core  = core.slice(0, -1);
+  }
+  return { core, trail };
+}
+
+function isEmbeddable(url) {
+  return RE_EMBED.image.test(url)
+    || RE_EMBED.video.test(url)
+    || RE_EMBED.youtube.test(url)
+    || RE_EMBED.spotify.test(url);
+}
+
+function buildEmbedHtml(url) {
+  const u = esc(url);
+  if (RE_EMBED.image.test(url)) {
+    return `<img src="${u}" alt="" loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;">`;
+  }
+  if (RE_EMBED.video.test(url)) {
+    return `<video src="${u}" controls loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;"></video>`;
+  }
+  let m = url.match(RE_EMBED.youtube);
+  if (m) {
+    return `<div style="margin-top:10px;border-radius:10px;overflow:hidden;position:relative;padding-top:56.25%;">
+      <iframe src="https://www.youtube.com/embed/${m[1]}" title="youtube video"
+        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen loading="lazy"></iframe>
+    </div>`;
+  }
+  m = url.match(RE_EMBED.spotify);
+  if (m) {
+    const height = (m[1] === 'track' || m[1] === 'episode') ? 152 : 352;
+    return `<div style="margin-top:10px;border-radius:12px;overflow:hidden;">
+      <iframe src="https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0"
+        width="100%" height="${height}" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>`;
+  }
+  return '';
+}
+
+function buildEmbeds(text) {
+  const seen = new Set();
+  let html = '';
+  for (const m of text.matchAll(/(https?:\/\/[^\s<]+)/g)) {
+    const { core } = stripTrailingPunctuation(m[1]);
+    if (seen.has(core)) continue;
+    seen.add(core);
+    html += buildEmbedHtml(core);
+  }
+  return html;
+}
+
+function linkify(text) {
+  return esc(text)
+    .replace(/(https?:\/\/[^\s<]+)/g, raw => {
+      const { core, trail } = stripTrailingPunctuation(raw);
+      if (isEmbeddable(core)) return trail;
+      return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
+    })
+    .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
+}
+
+function renderContent(text) {
+  if (!text) return '';
+  return `<p style="white-space:pre-wrap;word-wrap:break-word;">${linkify(text)}</p>${buildEmbeds(text)}`;
+}
+
+let myIp = null;
+
+async function getMyIp() {
+  try {
+    const res  = await fetch('https://ip-api.com/json/?fields=query');
+    const data = await res.json();
+    myIp = data.query || null;
+  } catch { myIp = null; }
+}
+
+function countryFlag(cc) {
+  if (!cc || cc.length !== 2) return '🌐';
+  return [...cc.toUpperCase()]
+    .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
+    .join('');
+}
+
+function fmtTime(seconds) {
+  if (seconds == null || seconds < 0) return null;
+  if (seconds < 60) return `${seconds}s`;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return s > 0 ? `${m}m ${s}s` : `${m}m`;
+}
+
+function timeAgo(date) {
+  if (!date) return '—';
+  const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 60)    return `${diff}s ago`;
+  if (diff < 3600)  return `${Math.floor(diff / 60)}min ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return date.toLocaleDateString('pt-BR');
+}
+
+function scrollBar(pct) {
+  if (pct == null) return '—';
+  const filled = Math.round(pct / 10);
+  return '█'.repeat(filled) + '░'.repeat(10 - filled) + ` ${pct}%`;
+}
+
+function deviceIcon(d) {
+  if (d === 'Mobile') return '📱';
+  if (d === 'Tablet') return '💻';
+  return '🖥️';
+}
+
+function browserIcon(b) {
+  return ({ Chrome: '🟡', Firefox: '🟠', Safari: '🔵', Edge: '🟢', Opera: '🔴' })[b] || '🌐';
+}
+
+function ipAvatar(ip) {
+  if (!ip || ip === 'unknown') return '??';
+  const parts = ip.split('.');
+  if (parts.length >= 2) return parts[0].slice(-1) + parts[1].slice(-1);
+  return ip.slice(0, 2);
+}
+
+function ipColor(ip) {
+  if (!ip) return '#534F4A';
+  let hash = 0;
+  for (const c of ip) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 30%, 35%)`;
+}
+
+function renderCard(d, exit, isMe) {
+  const flag     = countryFlag(d.cc || '');
+  const ts       = d.timestamp?.toDate();
+  const ago      = timeAgo(ts);
+  const location = [d.city, d.region, d.country]
+    .filter(v => v && v !== 'unknown' && v !== '')
+    .join(', ') || 'unknown location';
+
+  const isNew    = d.isNewVisitor || d.visitCount === 1;
+  const visitLabel = isNew
+    ? `<span class="vc-badge vc-badge-new">new visitor</span>`
+    : `<span class="vc-badge vc-badge-return">visit #${esc(d.visitCount)}</span>`;
+
+  const firstVisitLine = d.firstVisit && !isNew
+    ? `<div class="vc-row"><span class="vc-key">first visit</span><span class="vc-val">${new Date(d.firstVisit).toLocaleDateString('pt-BR')}</span></div>`
+    : '';
+
+  const referrerDisplay = !d.referrer || d.referrer === 'direct'
+    ? 'direct'
+    : d.referrer.length > 35 ? d.referrer.slice(0, 35) + '…' : d.referrer;
+
+  const activeTimeStr = exit?.activeTime != null ? fmtTime(exit.activeTime) : null;
+  const clickStr      = exit?.clickCount  != null ? `${exit.clickCount} clicks` : null;
+  const scrollStr     = (exit?.maxScroll ?? d.maxScroll) != null ? scrollBar(exit?.maxScroll ?? d.maxScroll) : null;
+
+  const avatar    = ipAvatar(d.ip);
+  const avatarBg  = isMe ? '#3a3330' : ipColor(d.ip);
+  const meBadge   = isMe ? `<span class="vc-me">👑 me</span>` : '';
+
+  const pagesVisited = (d.pagesVisited && d.pagesVisited.length ? d.pagesVisited : [d.page]).filter(Boolean);
+  const pagesHtml = pagesVisited.length > 1
+    ? `<div class="vc-row" style="align-items:flex-start;">
+           <span class="vc-key">pages (${pagesVisited.length})</span>
+           <span class="vc-val">${pagesVisited.map(p => `<span class="vc-page-tag">${esc(p)}</span>`).join('')}</span>
+       </div>`
+    : `<div class="vc-row"><span class="vc-key">page</span><span class="vc-val">${esc(d.page || '—')}</span></div>`;
+
+  return `
+  <div class="vc-card${isMe ? ' vc-card-me' : ''}" data-ip="${esc(d.ip)}">
+      <div class="vc-header">
+          <div class="vc-avatar" style="background:${avatarBg}">${esc(avatar)}</div>
+          <div class="vc-header-info">
+              <span class="vc-location">${flag} ${esc(location)}${meBadge}</span>
+              <span class="vc-ago">${ago}</span>
+          </div>
+          ${visitLabel}
+      </div>
+      <div class="vc-body">
+          <div class="vc-row"><span class="vc-key">device</span><span class="vc-val">${deviceIcon(d.device)} ${esc(d.device)} · ${browserIcon(d.browser)} ${esc(d.browser)} · ${esc(d.os)}</span></div>
+          ${pagesHtml}
+          <div class="vc-row"><span class="vc-key">referrer</span><span class="vc-val">${esc(referrerDisplay)}</span></div>
+          <div class="vc-row"><span class="vc-key">language</span><span class="vc-val">${esc(d.lang || '—')}</span></div>
+          ${firstVisitLine}
+          <div class="vc-divider"></div>
+          <div class="vc-row"><span class="vc-key">scroll</span><span class="vc-val vc-mono">${esc(scrollStr || '—')}</span></div>
+          ${activeTimeStr ? `<div class="vc-row"><span class="vc-key">active time</span><span class="vc-val">${esc(activeTimeStr)}</span></div>` : ''}
+          ${clickStr      ? `<div class="vc-row"><span class="vc-key">clicks</span><span class="vc-val">${esc(clickStr)}</span></div>` : ''}
+      </div>
+  </div>`;
+}
+
+function renderAnalytics(byIp) {
+  const section = document.getElementById('analytics-section');
+  if (!section) return;
+
+  const all = Object.values(byIp);
+  const total   = all.length;
+  const newV    = all.filter(d => d.isNewVisitor || d.visitCount === 1).length;
+  const returnV = total - newV;
+
+  const pages = {}, countries = {}, devices = {}, browsers = {}, refs = {};
+  all.forEach(d => {
+    const pgs = (d.pagesVisited && d.pagesVisited.length ? d.pagesVisited : [d.page]).filter(Boolean);
+    pgs.forEach(p => { pages[p] = (pages[p] || 0) + 1; });
+
+    if (d.country && d.country !== 'unknown') countries[d.country] = (countries[d.country] || 0) + 1;
+    if (d.device)  devices[d.device]   = (devices[d.device]   || 0) + 1;
+    if (d.browser) browsers[d.browser] = (browsers[d.browser] || 0) + 1;
+    const r = (!d.referrer || d.referrer === 'direct') ? 'direct' : d.referrer;
+    refs[r] = (refs[r] || 0) + 1;
+  });
+
+  const top = (obj, n = 5) => Object.entries(obj).sort((a, b) => b[1] - a[1]).slice(0, n);
+  const bar = (v, max) => {
+    const pct = max ? Math.round((v / max) * 100) : 0;
+    return `<span class="an-bar" style="--pct:${pct}%"></span>`;
+  };
+  const tbl = (title, rows) => {
+    if (!rows.length) return '';
+    const max = rows[0][1];
+    return `<div class="an-block"><span class="an-label">${title}</span>${
+      rows.map(([k, v]) => `<div class="an-row"><span class="an-key">${esc(k)}</span>${bar(v, max)}<span class="an-val">${v}</span></div>`).join('')
+    }</div>`;
+  };
+
+  section.innerHTML = `
+  <div class="an-stats">
+      <div class="an-stat"><span class="an-n">${total}</span><span class="an-l">unique visitors</span></div>
+      <div class="an-stat"><span class="an-n">${newV}</span><span class="an-l">new</span></div>
+      <div class="an-stat"><span class="an-n">${returnV}</span><span class="an-l">returning</span></div>
+  </div>
+  <div class="an-grid">
+      ${tbl('pages', top(pages))}
+      ${tbl('countries', top(countries))}
+      ${tbl('devices', top(devices))}
+      ${tbl('browsers', top(browsers))}
+      ${tbl('referrers', top(refs))}
+  </div>`;
+}
+
+function renderCityList(rows) {
+  const container = document.getElementById('city-list');
+  if (!container) return;
+
+  if (!rows.length) {
+    container.innerHTML = `<p class="tracker-empty">no cities recorded yet.</p>`;
+    return;
+  }
+
+  container.innerHTML = rows.map(d => {
+    const flag = countryFlag(d.cc || '');
+    const location = [d.city, d.region, d.country]
+      .filter(v => v && v !== 'unknown' && v !== '')
+      .join(', ') || 'unknown location';
+    const last = d.lastVisit?.toDate ? d.lastVisit.toDate().toLocaleDateString('pt-BR') : '—';
+
+    return `
+    <div class="city-row">
+        <span class="city-flag">${flag}</span>
+        <span class="city-name">${esc(location)}</span>
+        <span class="city-count">${esc(d.count || 1)}x</span>
+        <span class="city-last">${last}</span>
+    </div>`;
+  }).join('');
+}
+
+async function loadCityList(appInstance) {
+  const firestoreDb = getFirestore(appInstance);
+  const container   = document.getElementById('city-list');
+  if (!container) return;
+
+  const q = query(collection(firestoreDb, 'city_stats'), orderBy('count', 'desc'), limit(1000));
+
+  onSnapshot(q, snapshot => {
+    const rows = snapshot.docs.map(docSnap => docSnap.data());
+    renderCityList(rows);
+  }, err => {
+    console.warn('loadCityList:', err);
+    container.innerHTML = `<p class="tracker-empty">error loading cities.</p>`;
+  });
+}
+
+function renderDrawingCard(meta, id) {
+  const flag = countryFlag(meta.cc || '');
+  const ts   = meta.timestamp?.toDate ? meta.timestamp.toDate() : null;
+  const ago  = timeAgo(ts);
+  const location = [meta.city, meta.region, meta.country]
+    .filter(v => v && v !== 'unknown' && v !== '')
+    .join(', ') || 'unknown location';
+
+  return `
+  <div class="dw-card" data-id="${esc(id)}">
+      <img class="dw-img" src="${esc(safeImg(meta.imageUrl))}" alt="drawing" loading="lazy">
+      <div class="dw-body">
+          <div class="vc-row"><span class="vc-key">location</span><span class="vc-val">${flag} ${esc(location)}</span></div>
+          <div class="vc-row"><span class="vc-key">ip</span><span class="vc-val vc-mono">${esc(meta.ip || 'unknown')}</span></div>
+          <div class="vc-row"><span class="vc-key">device</span><span class="vc-val">${deviceIcon(meta.device)} ${esc(meta.device || '—')} · ${browserIcon(meta.browser)} ${esc(meta.browser || '—')} · ${esc(meta.os || '—')}</span></div>
+          <div class="vc-row"><span class="vc-key">when</span><span class="vc-val">${ago}</span></div>
+      </div>
+      <button class="dw-delete" data-id="${esc(id)}">delete</button>
+  </div>`;
+}
+
+async function loadDrawings(appInstance) {
+  const firestoreDb = getFirestore(appInstance);
+  const container   = document.getElementById('drawings-list');
+  if (!container) return;
+
+  const q = query(collection(firestoreDb, 'drawings_meta'), orderBy('timestamp', 'desc'), limit(300));
+
+  onSnapshot(q, snapshot => {
+    if (snapshot.empty) {
+      container.innerHTML = `<p class="tracker-empty">no drawings yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = snapshot.docs.map(d => renderDrawingCard(d.data(), d.id)).join('');
+
+    container.querySelectorAll('.dw-delete').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('delete this drawing?')) return;
+        try {
+          await deleteDoc(doc(firestoreDb, 'drawings_meta', btn.dataset.id));
+          await deleteDoc(doc(firestoreDb, 'drawings', btn.dataset.id));
+        } catch (err) {
+          alert('delete error: ' + err.message);
+        }
+      });
+    });
+  }, err => {
+    console.warn('loadDrawings:', err);
+    container.innerHTML = `<p class="tracker-empty">error loading drawings.</p>`;
+  });
+}
+
+async function loadVisitorTracker(appInstance) {
+  await getMyIp();
+
+  const firestoreDb = getFirestore(appInstance);
+  const container   = document.getElementById('visitor-tracker');
+  if (!container) return;
+
+  const q     = query(collection(firestoreDb, 'visitors'),      orderBy('timestamp', 'desc'), limit(500));
+  const qExit = query(collection(firestoreDb, 'visitors_exit'), orderBy('timestamp', 'desc'), limit(400));
+
+  const exitMap = {};
+  onSnapshot(qExit, snap => {
+    snap.docs.forEach(docSnap => {
+      const d = docSnap.data();
+      const key = (d.sessionId || '') + (d.page || '');
+      if (key && !exitMap[key]) exitMap[key] = d;
+    });
+  }, err => {
+    console.warn('[tracker] visitors_exit error:', err.code, err.message);
+  });
+
+  onSnapshot(q, snapshot => {
+    if (snapshot.empty) {
+      container.innerHTML = `<p class="tracker-empty">no visitors yet.</p>`;
+      return;
+    }
+
+    const byIp = {};
+    snapshot.docs.forEach(docSnap => {
+      const d = docSnap.data();
+      const hasIp = d.ip && d.ip !== 'unknown';
+      const key = d.sessionId ? `sid:${d.sessionId}` : (hasIp ? d.ip : `doc:${docSnap.id}`);
+
+      if (!byIp[key]) {
+        byIp[key] = { ...d, pagesVisited: d.page ? [d.page] : [] };
+      } else if (d.page && !byIp[key].pagesVisited.includes(d.page)) {
+        byIp[key].pagesVisited.push(d.page);
+      }
+    });
+
+    renderAnalytics(byIp);
+
+    const sorted = Object.values(byIp).sort((a, b) => {
+      const ta = a.timestamp?.toDate?.()?.getTime() || (a.timestamp?.seconds ? a.timestamp.seconds * 1000 : Date.now());
+      const tb = b.timestamp?.toDate?.()?.getTime() || (b.timestamp?.seconds ? b.timestamp.seconds * 1000 : Date.now());
+      return tb - ta;
+    });
+
+    container.innerHTML = sorted.map(d => {
+      const exit = exitMap[(d.sessionId || '') + (d.page || '')] || {};
+      const isMe = (myIp && d.ip === myIp) || d.isAdmin === true;
+      return renderCard(d, exit, isMe);
+    }).join('');
+  }, err => {
+    console.error('[tracker] visitors error:', err.code, err.message);
+    container.innerHTML = `<p class="tracker-empty" style="color:#bf6a6a;">error loading visits: ${err.code || err.message}<br><small>check firestore rules in firebase console</small></p>`;
+  });
 }
 
 setPersistence(auth, browserLocalPersistence).catch(err => {
-    console.warn('[admin] setPersistence falhou:', err);
+  console.warn('[admin] setPersistence failed:', err);
 });
-
-
 
 getRedirectResult(auth)
-    .then(cred => {
-        console.log('[admin] getRedirectResult:', cred);
-        if (!cred) return;
-
-        if (!isAllowed(cred.user.email)) {
-            signOut(auth);
-            const lm = document.getElementById('login-message');
-            msg(lm, 'acesso negado.', 'error');
-            return;
-        }
-        localStorage.setItem('min_admin', '1');
-        localStorage.setItem('mku_admin', '1');
-        const lm = document.getElementById('login-message');
-        msg(lm, 'logged in!', 'success');
-    })
-    .catch(err => {
-        console.error('[admin] redirect login error:', err);
-        const lm = document.getElementById('login-message');
-        msg(lm, `erro no login: ${err.code || err.message}`, 'error');
-    });
-
+  .then(cred => {
+    if (!cred) return;
+    if (!isAllowed(cred.user.email)) {
+      signOut(auth);
+      msg(document.getElementById('login-message'), 'access denied.', 'error');
+      return;
+    }
+    localStorage.setItem('min_admin', '1');
+    localStorage.setItem('mku_admin', '1');
+    msg(document.getElementById('login-message'), 'logged in!', 'success');
+  })
+  .catch(err => {
+    console.error('[admin] redirect login error:', err);
+    msg(document.getElementById('login-message'), `login error: ${err.code || err.message}`, 'error');
+  });
 
 async function uploadImageToImgBB(file) {
-    if (!IMGBB_API_KEY || IMGBB_API_KEY === 'SUA_API_KEY_AQUI') {
-        throw new Error('ImgBB API key não configurada no admin.js');
-    }
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result);
+      const comma = result.indexOf(',');
+      resolve(comma >= 0 ? result.slice(comma + 1) : result);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 
-    const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const result = String(reader.result);
-            const comma = result.indexOf(',');
-            resolve(comma >= 0 ? result.slice(comma + 1) : result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
+  const form = new FormData();
+  form.append('key', IMGBB_API_KEY);
+  form.append('image', base64);
 
-    const form = new FormData();
-    form.append('key', IMGBB_API_KEY);
-    form.append('image', base64);
+  const res = await fetch('https://api.imgbb.com/1/upload', {
+    method: 'POST',
+    body: form
+  });
 
-    const res = await fetch('https://api.imgbb.com/1/upload', {
-        method: 'POST',
-        body: form
-    });
+  if (!res.ok) throw new Error(`imgbb responded ${res.status}`);
 
-    if (!res.ok) {
-        throw new Error(`ImgBB respondeu ${res.status}`);
-    }
+  const json = await res.json();
+  if (!json.success || !json.data?.url) {
+    throw new Error(json.error?.message || 'imgbb upload failed');
+  }
 
-    const json = await res.json();
-    if (!json.success || !json.data?.url) {
-        throw new Error(json.error?.message || 'Falha no upload do ImgBB');
-    }
-
-    return json.data.url;
+  return json.data.url;
 }
 
+const XP_NETS = ['bluesky', 'mastodon', 'x'];
+
+function selectedNetworks(prefix) {
+  const ids = {
+    bluesky:  `${prefix}-crosspost-bsky`,
+    mastodon: `${prefix}-crosspost-mastodon`,
+    x:        `${prefix}-crosspost-x`
+  };
+  return XP_NETS.filter(n => document.getElementById(ids[n])?.checked);
+}
+
+function checkCrosspost(networks, text) {
+  const problems = validateLengths(text, networks);
+  if (problems.length) return `text too long — ${problems.join(' · ')}. shorten or uncheck network.`;
+  const missing = networks.filter(n => !isConfigured(n));
+  if (missing.length) return `configure account (crosspost section): ${missing.join(', ')}`;
+  return '';
+}
+
+async function runCrosspost({ networks, text, file, imageUrl, xWin, refs }) {
+  const results = {};
+  const apiNets = networks.filter(n => n !== 'x');
+  if (apiNets.length) {
+    Object.assign(results, await crosspostAll({ networks: apiNets, text, file, imageUrl }));
+  }
+  if (networks.includes('x')) {
+    results.x = fillXWindow(xWin, { text, imageUrl })
+      ? { ok: true }
+      : { ok: false, error: 'popup blocked — allow popups for this site' };
+  }
+
+  const upd = {};
+  for (const [n, r] of Object.entries(results)) {
+    if (r.ok && r.url) upd[`crossposted.${n}`] = { url: r.url };
+  }
+  if (Object.keys(upd).length) {
+    for (const ref of refs) {
+      try { await updateDoc(ref, upd); }
+      catch (e) { console.warn('[admin] could not save crosspost links:', e); }
+    }
+  }
+  return results;
+}
+
+function showCrosspostResult(el, base, results) {
+  const parts = Object.entries(results).map(([n, r]) => r.ok ? `✓ ${n}` : `✗ ${n}: ${r.error}`);
+  const failed = Object.values(results).some(r => !r.ok);
+  msg(el, parts.length ? `${base} ${parts.join(' · ')}` : base, failed ? 'error' : 'success');
+}
+
+function rememberNetworks(networks) {
+  savePrefs(Object.fromEntries(XP_NETS.map(n => [n, networks.includes(n)])));
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+  const loginForm      = document.getElementById('login-form');
+  const loginEmailForm = document.getElementById('login-email-form');
+  const loginEmail     = document.getElementById('login-email');
+  const loginPassword  = document.getElementById('login-password');
+  const loginMessage   = document.getElementById('login-message');
+  const adminPanel     = document.getElementById('admin-panel-section');
+  const logoutBtn      = document.getElementById('logout-btn');
+  const googleLoginBtn = document.getElementById('google-login-btn');
 
-    const loginForm      = document.getElementById('login-form');
-    const loginEmailForm = document.getElementById('login-email-form');
-    const loginEmail     = document.getElementById('login-email');
-    const loginPassword  = document.getElementById('login-password');
-    const loginMessage   = document.getElementById('login-message');
-    const adminPanel     = document.getElementById('admin-panel-section');
-    const logoutBtn      = document.getElementById('logout-btn');
-    const googleLoginBtn = document.getElementById('google-login-btn');
+  let ltfLoaded = false;
 
-    let ltfLoaded = false;
+  onAuthStateChanged(auth, user => {
+    if (!adminPanel || !loginForm) return;
 
-    onAuthStateChanged(auth, user => {
-        if (!adminPanel || !loginForm) return;
+    if (user) {
+      if (!isAllowed(user.email)) {
+        signOut(auth);
+        msg(loginMessage, 'access denied.', 'error');
+        return;
+      }
 
-        if (user) {
-            console.log('[admin] logado como:', user.email);
+      adminPanel.style.display = 'block';
+      loginForm.style.display  = 'none';
 
-            if (!isAllowed(user.email)) {
-                signOut(auth);
-                msg(loginMessage, 'acesso negado.', 'error');
-                return;
-            }
+      if (!ltfLoaded) {
+        ltfLoaded = true;
+        loadLiveTrafficFeed();
+      }
 
-            adminPanel.style.display = 'block';
-            loginForm.style.display  = 'none';
+      loadVisitorTracker(app);
+      loadCityList(app);
+      loadDrawings(app);
+      loadMailbox(db);
+    } else {
+      ltfLoaded = false;
+      adminPanel.style.display = 'none';
+      loginForm.style.display  = 'block';
+    }
+  });
 
-            // Carrega LiveTrafficFeed só uma vez, após o painel estar visível
-            if (!ltfLoaded) {
-                ltfLoaded = true;
-                loadLiveTrafficFeed();
-            }
+  loginEmailForm?.addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
+      if (!isAllowed(cred.user.email)) {
+        await signOut(auth);
+        msg(loginMessage, 'access denied.', 'error');
+        return;
+      }
+      localStorage.setItem('min_admin', '1');
+      localStorage.setItem('mku_admin', '1');
+      msg(loginMessage, 'logged in!', 'success');
+    } catch (err) {
+      msg(loginMessage, `error: ${err.message}`, 'error');
+    }
+  });
 
-            loadVisitorTracker(app);
-            loadCityList(app);
-            loadDrawings(app);
-            loadMailbox(db);
-        } else {
-            console.log('[admin] deslogado');
-            ltfLoaded = false;
-            adminPanel.style.display = 'none';
-            loginForm.style.display  = 'block';
-        }
-    });
+  googleLoginBtn?.addEventListener('click', async () => {
+    msg(loginMessage, 'opening google login...', 'info');
 
-    loginEmailForm?.addEventListener('submit', async e => {
-        e.preventDefault();
+    if (isMobile) {
+      try {
+        await signInWithRedirect(auth, provider);
+      } catch (err) {
+        console.error('[admin] redirect login error:', err);
+        msg(loginMessage, `error: ${err.code || err.message}`, 'error');
+      }
+      return;
+    }
+
+    try {
+      const cred = await signInWithPopup(auth, provider);
+      if (!isAllowed(cred.user.email)) {
+        await signOut(auth);
+        msg(loginMessage, 'access denied. use an authorized account.', 'error');
+        return;
+      }
+      localStorage.setItem('min_admin', '1');
+      localStorage.setItem('mku_admin', '1');
+      msg(loginMessage, 'logged in!', 'success');
+    } catch (err) {
+      console.error('[admin] popup login error:', err.code, err.message);
+
+      const popupIssues = [
+        'auth/popup-blocked',
+        'auth/popup-closed-by-user',
+        'auth/cancelled-popup-request',
+        'auth/operation-not-supported-in-this-environment'
+      ];
+
+      if (popupIssues.includes(err.code)) {
+        msg(loginMessage, 'popup blocked, redirecting...', 'info');
         try {
-            const cred = await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value);
-
-            if (!isAllowed(cred.user.email)) {
-                await signOut(auth);
-                msg(loginMessage, 'acesso negado.', 'error');
-                return;
-            }
-            localStorage.setItem('min_admin', '1');
-            localStorage.setItem('mku_admin', '1');
-            msg(loginMessage, 'logged in!', 'success');
-        } catch (err) {
-            msg(loginMessage, `erro: ${err.message}`, 'error');
+          await signInWithRedirect(auth, provider);
+        } catch (err2) {
+          msg(loginMessage, `error: ${err2.code || err2.message}`, 'error');
         }
-    });
+        return;
+      }
 
-    googleLoginBtn?.addEventListener('click', async () => {
-        msg(loginMessage, 'abrindo login do google...', 'info');
+      if (err.code === 'auth/unauthorized-domain') {
+        msg(loginMessage, 'domain not authorized in firebase (authentication > settings > authorized domains).', 'error');
+        return;
+      }
 
-        if (isMobile) {
-            console.log('[admin] mobile → signInWithRedirect');
-            try {
-                await signInWithRedirect(auth, provider);
-            } catch (err) {
-                console.error('[admin] redirect login error:', err);
-                msg(loginMessage, `erro: ${err.code || err.message}`, 'error');
-            }
-            return;
-        }
+      msg(loginMessage, `error: ${err.code || err.message}`, 'error');
+    }
+  });
 
-        try {
-            const cred = await signInWithPopup(auth, provider);
+  logoutBtn?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      localStorage.removeItem('min_admin');
+      localStorage.removeItem('mku_admin');
+      msg(loginMessage, 'logged out.', 'info');
+    } catch (err) {
+      msg(loginMessage, `logout error: ${err.message}`, 'error');
+    }
+  });
 
-            if (!isAllowed(cred.user.email)) {
-                await signOut(auth);
-                msg(loginMessage, 'acesso negado. use uma conta autorizada.', 'error');
-                return;
-            }
-            localStorage.setItem('min_admin', '1');
-            localStorage.setItem('mku_admin', '1');
-            msg(loginMessage, 'logged in!', 'success');
-        } catch (err) {
-            console.error('[admin] popup login error:', err.code, err.message);
+  const bskyPass      = document.getElementById('bsky-app-password');
+  const bskyCredMsg   = document.getElementById('bsky-cred-message');
+  const mastoInstance = document.getElementById('masto-instance');
+  const mastoToken    = document.getElementById('masto-token');
+  const mastoCredMsg  = document.getElementById('masto-cred-message');
 
-            const popupIssues = [
-                'auth/popup-blocked',
-                'auth/popup-closed-by-user',
-                'auth/cancelled-popup-request',
-                'auth/operation-not-supported-in-this-environment'
-            ];
+  const xpSaved = loadSettings();
+  if (bskyPass)      bskyPass.value      = xpSaved.bskyPassword  || '';
+  if (mastoInstance) mastoInstance.value = xpSaved.mastoInstance || '';
+  if (mastoToken)    mastoToken.value    = xpSaved.mastoToken    || '';
 
-            if (popupIssues.includes(err.code)) {
-                msg(loginMessage, 'popup bloqueado, redirecionando...', 'info');
-                try {
-                    await signInWithRedirect(auth, provider);
-                } catch (err2) {
-                    msg(loginMessage, `erro: ${err2.code || err2.message}`, 'error');
-                }
-                return;
-            }
+  const xpPrefs = loadPrefs();
+  ['post', 'art'].forEach(prefix => {
+    const ids = { bluesky: `${prefix}-crosspost-bsky`, mastodon: `${prefix}-crosspost-mastodon`, x: `${prefix}-crosspost-x` };
+    XP_NETS.forEach(n => { const cb = document.getElementById(ids[n]); if (cb) cb.checked = !!xpPrefs[n]; });
+  });
 
-            if (err.code === 'auth/unauthorized-domain') {
-                msg(loginMessage, 'este domínio não está autorizado no firebase (authentication > settings > authorized domains).', 'error');
-                return;
-            }
+  document.getElementById('save-bsky-btn')?.addEventListener('click', () => {
+    try {
+      saveSettings({ ...loadSettings(), bskyHandle: 'minkurosu.bsky.social', bskyPassword: (bskyPass?.value || '').trim() });
+      msg(bskyCredMsg, '✓ saved in this browser. account verified at post time (only @minkurosu).', 'success');
+    } catch (err) {
+      msg(bskyCredMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-            msg(loginMessage, `erro: ${err.code || err.message}`, 'error');
-        }
-    });
+  document.getElementById('save-masto-btn')?.addEventListener('click', () => {
+    try {
+      saveSettings({
+        ...loadSettings(),
+        mastoInstance: (mastoInstance?.value || '').trim(),
+        mastoToken: (mastoToken?.value || '').trim()
+      });
+      msg(mastoCredMsg, '✓ saved in this browser. token must belong to @minkurosu (verified at post time).', 'success');
+      refreshMastodonLimit();
+    } catch (err) {
+      msg(mastoCredMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-    logoutBtn?.addEventListener('click', async () => {
-        try {
-            await signOut(auth);
-            localStorage.removeItem('min_admin');
-            localStorage.removeItem('mku_admin');
-            msg(loginMessage, 'logged out.', 'info');
-        } catch (err) {
-            msg(loginMessage, `logout error: ${err.message}`, 'error');
-        }
-    });
+  const postContent   = document.getElementById('post-content');
+  const postImageUrl  = document.getElementById('post-image-url');
+  const postImageFile = document.getElementById('post-image-file');
+  const publishBtn    = document.getElementById('publish-post-btn');
+  const postMsg       = document.getElementById('post-message');
 
+  publishBtn?.addEventListener('click', async () => {
+    let content = (postContent?.value || '').trim();
+    const enteredUrl = (postImageUrl?.value || '').trim();
+    const file = postImageFile?.files[0];
 
-    // Novo post (pessoal)
-    const postContent   = document.getElementById('post-content');
-    const postImageUrl  = document.getElementById('post-image-url');
-    const postImageFile = document.getElementById('post-image-file');
-    const publishBtn    = document.getElementById('publish-post-btn');
-    const postMsg       = document.getElementById('post-message');
+    if (!content && !enteredUrl && !file) {
+      msg(postMsg, 'write something first.', 'error');
+      return;
+    }
 
-    publishBtn?.addEventListener('click', async () => {
-        let content = (postContent?.value || '').trim();
-        const enteredUrl = (postImageUrl?.value || '').trim();
-        const file = postImageFile?.files[0];
+    const networks = selectedNetworks('post');
+    const xpError = checkCrosspost(networks, content);
+    if (xpError) { msg(postMsg, xpError, 'error'); return; }
+    rememberNetworks(networks);
+    const xWin = networks.includes('x') ? openXWindow() : null;
 
-        if (!content && !enteredUrl && !file) {
-            msg(postMsg, 'escreva algo primeiro.', 'error');
-            return;
-        }
+    try {
+      msg(postMsg, 'publishing...', 'info');
 
-        try {
-            msg(postMsg, 'publicando...', 'info');
+      let fileUrl = '';
+      if (file) {
+        msg(postMsg, 'uploading image...', 'info');
+        fileUrl = await uploadImageToImgBB(file);
+      }
 
-            let fileUrl = '';
-            if (file) {
-                msg(postMsg, 'enviando imagem...', 'info');
-                fileUrl = await uploadImageToImgBB(file);
-            }
+      const parts = [];
+      if (content)    parts.push(content);
+      if (enteredUrl) parts.push(enteredUrl);
+      if (fileUrl)    parts.push(fileUrl);
+      const finalContent = parts.join('\n');
 
-            const parts = [];
-            if (content)    parts.push(content);
-            if (enteredUrl) parts.push(enteredUrl);
-            if (fileUrl)    parts.push(fileUrl);
-            const finalContent = parts.join('\n');
+      const postRef = await addDoc(collection(db, 'posts'), {
+        content: finalContent,
+        imageUrl: fileUrl || enteredUrl || '',
+        type: 'personal',
+        profile: 'personal',
+        timestamp: serverTimestamp()
+      });
 
-            await addDoc(collection(db, 'posts'), {
-                content: finalContent,
-                imageUrl: fileUrl || enteredUrl || '',
-                type: 'personal',
-                profile: 'personal',
-                timestamp: serverTimestamp()
-            });
+      if (postContent)   postContent.value  = '';
+      if (postImageUrl)  postImageUrl.value  = '';
+      if (postImageFile) postImageFile.value = '';
 
-            msg(postMsg, 'post pessoal publicado!', 'success');
-            if (postContent)   postContent.value  = '';
-            if (postImageUrl)  postImageUrl.value  = '';
-            if (postImageFile) postImageFile.value = '';
-        } catch (err) {
-            console.error(err);
-            msg(postMsg, `erro: ${err.message}`, 'error');
-        }
-    });
+      if (networks.length) {
+        msg(postMsg, 'published on site! sending to other networks...', 'info');
+        const results = await runCrosspost({
+          networks, text: content, file, imageUrl: fileUrl || enteredUrl, xWin, refs: [postRef]
+        });
+        showCrosspostResult(postMsg, 'personal post published!', results);
+      } else {
+        msg(postMsg, 'personal post published!', 'success');
+      }
+    } catch (err) {
+      console.error(err);
+      if (xWin && !xWin.closed) xWin.close();
+      msg(postMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-    // Novo post (arte digital / profissional)
-    const artPostContent   = document.getElementById('art-post-content');
-    const artPostImageUrl  = document.getElementById('art-post-image-url');
-    const artPostImageFile = document.getElementById('art-post-image-file');
-    const publishArtBtn    = document.getElementById('publish-art-post-btn');
-    const artPostMsg       = document.getElementById('art-post-message');
+  const artPostContent   = document.getElementById('art-post-content');
+  const artPostImageUrl  = document.getElementById('art-post-image-url');
+  const artPostImageFile = document.getElementById('art-post-image-file');
+  const publishArtBtn    = document.getElementById('publish-art-post-btn');
+  const artPostMsg       = document.getElementById('art-post-message');
 
-    publishArtBtn?.addEventListener('click', async () => {
-        let content = (artPostContent?.value || '').trim();
-        const enteredUrl = (artPostImageUrl?.value || '').trim();
-        const file = artPostImageFile?.files[0];
+  publishArtBtn?.addEventListener('click', async () => {
+    let content = (artPostContent?.value || '').trim();
+    const enteredUrl = (artPostImageUrl?.value || '').trim();
+    const file = artPostImageFile?.files[0];
 
-        if (!content && !enteredUrl && !file) {
-            msg(artPostMsg, 'adicione uma imagem ou descrição da arte.', 'error');
-            return;
-        }
+    if (!content && !enteredUrl && !file) {
+      msg(artPostMsg, 'add an image or description.', 'error');
+      return;
+    }
 
-        try {
-            msg(artPostMsg, 'publicando arte...', 'info');
+    const networks = selectedNetworks('art');
+    const xpError = checkCrosspost(networks, content);
+    if (xpError) { msg(artPostMsg, xpError, 'error'); return; }
+    rememberNetworks(networks);
+    const xWin = networks.includes('x') ? openXWindow() : null;
 
-            let fileUrl = '';
-            if (file) {
-                msg(artPostMsg, 'enviando arte...', 'info');
-                fileUrl = await uploadImageToImgBB(file);
-            }
+    try {
+      msg(artPostMsg, 'publishing art...', 'info');
 
-            const parts = [];
-            if (content)    parts.push(content);
-            if (enteredUrl) parts.push(enteredUrl);
-            if (fileUrl)    parts.push(fileUrl);
-            const finalContent = parts.join('\n');
+      let fileUrl = '';
+      if (file) {
+        msg(artPostMsg, 'uploading art...', 'info');
+        fileUrl = await uploadImageToImgBB(file);
+      }
 
-            const artDoc = {
-                content: finalContent,
-                imageUrl: fileUrl || enteredUrl || '',
-                type: 'art',
-                profile: 'professional_art',
-                category: 'digital_art',
-                timestamp: serverTimestamp()
-            };
+      const parts = [];
+      if (content)    parts.push(content);
+      if (enteredUrl) parts.push(enteredUrl);
+      if (fileUrl)    parts.push(fileUrl);
+      const finalContent = parts.join('\n');
 
-            await addDoc(collection(db, 'posts'), artDoc);
-            await addDoc(collection(db, 'art_posts'), artDoc);
+      const artDoc = {
+        content: finalContent,
+        imageUrl: fileUrl || enteredUrl || '',
+        type: 'art',
+        profile: 'professional_art',
+        category: 'digital_art',
+        timestamp: serverTimestamp()
+      };
 
-            msg(artPostMsg, 'arte profissional publicada!', 'success');
-            if (artPostContent)   artPostContent.value  = '';
-            if (artPostImageUrl)  artPostImageUrl.value  = '';
-            if (artPostImageFile) artPostImageFile.value = '';
-        } catch (err) {
-            console.error(err);
-            msg(artPostMsg, `erro: ${err.message}`, 'error');
-        }
-    });
+      const artRef  = await addDoc(collection(db, 'posts'), artDoc);
+      const artRef2 = await addDoc(collection(db, 'art_posts'), artDoc);
 
+      if (artPostContent)   artPostContent.value  = '';
+      if (artPostImageUrl)  artPostImageUrl.value  = '';
+      if (artPostImageFile) artPostImageFile.value = '';
 
-    const privateContent = document.getElementById('private-entry-content');
-    const publishPrivate = document.getElementById('publish-private-entry-btn');
-    const privateMsg     = document.getElementById('private-entry-message');
+      if (networks.length) {
+        msg(artPostMsg, 'published on site! sending to other networks...', 'info');
+        const results = await runCrosspost({
+          networks, text: content, file, imageUrl: fileUrl || enteredUrl, xWin, refs: [artRef, artRef2]
+        });
+        showCrosspostResult(artPostMsg, 'art post published!', results);
+      } else {
+        msg(artPostMsg, 'art post published!', 'success');
+      }
+    } catch (err) {
+      console.error(err);
+      if (xWin && !xWin.closed) xWin.close();
+      msg(artPostMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-    publishPrivate?.addEventListener('click', async () => {
-        const content = (privateContent?.value || '').trim();
-        if (!content) { msg(privateMsg, 'write something first.', 'error'); return; }
-        try {
-            msg(privateMsg, 'publishing...', 'info');
-            await addDoc(collection(db, 'private_entries'), { content, timestamp: serverTimestamp() });
-            msg(privateMsg, 'published!', 'success');
-            if (privateContent) privateContent.value = '';
-        } catch (err) {
-            msg(privateMsg, `error: ${err.message}`, 'error');
-        }
-    });
+  const privateContent = document.getElementById('private-entry-content');
+  const publishPrivate = document.getElementById('publish-private-entry-btn');
+  const privateMsg     = document.getElementById('private-entry-message');
 
-    const dreamContent = document.getElementById('dream-content');
-    const publishDream = document.getElementById('publish-dream-btn');
-    const dreamMsg     = document.getElementById('dream-message');
+  publishPrivate?.addEventListener('click', async () => {
+    const content = (privateContent?.value || '').trim();
+    if (!content) { msg(privateMsg, 'write something first.', 'error'); return; }
+    try {
+      msg(privateMsg, 'publishing...', 'info');
+      await addDoc(collection(db, 'private_entries'), { content, timestamp: serverTimestamp() });
+      msg(privateMsg, 'published!', 'success');
+      if (privateContent) privateContent.value = '';
+    } catch (err) {
+      msg(privateMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-    publishDream?.addEventListener('click', async () => {
-        const content = (dreamContent?.value || '').trim();
-        if (!content) { msg(dreamMsg, 'write something first.', 'error'); return; }
-        try {
-            msg(dreamMsg, 'saving...', 'info');
-            await addDoc(collection(db, 'dreams'), { content, timestamp: serverTimestamp() });
-            msg(dreamMsg, 'dream saved!', 'success');
-            if (dreamContent) dreamContent.value = '';
-        } catch (err) {
-            msg(dreamMsg, `error: ${err.message}`, 'error');
-        }
-    });
+  const dreamContent = document.getElementById('dream-content');
+  const publishDream = document.getElementById('publish-dream-btn');
+  const dreamMsg     = document.getElementById('dream-message');
 
+  publishDream?.addEventListener('click', async () => {
+    const content = (dreamContent?.value || '').trim();
+    if (!content) { msg(dreamMsg, 'write something first.', 'error'); return; }
+    try {
+      msg(dreamMsg, 'saving...', 'info');
+      await addDoc(collection(db, 'dreams'), { content, timestamp: serverTimestamp() });
+      msg(dreamMsg, 'dream saved!', 'success');
+      if (dreamContent) dreamContent.value = '';
+    } catch (err) {
+      msg(dreamMsg, `error: ${err.message}`, 'error');
+    }
+  });
 
-    const blogTitle   = document.getElementById('blog-title');
-    const blogContent = document.getElementById('blog-content');
-    const blogImgUrl  = document.getElementById('blog-image-url');
-    const publishBlog = document.getElementById('publish-blog-btn');
-    const blogMsg     = document.getElementById('blog-message');
+  const blogTitle   = document.getElementById('blog-title');
+  const blogContent = document.getElementById('blog-content');
+  const blogImgUrl  = document.getElementById('blog-image-url');
+  const publishBlog = document.getElementById('publish-blog-btn');
+  const blogMsg     = document.getElementById('blog-message');
 
-    publishBlog?.addEventListener('click', async () => {
-        const title    = (blogTitle?.value || '').trim();
-        const content  = (blogContent?.value || '').trim();
-        const imageUrl = (blogImgUrl?.value || '').trim();
-        if (!title || !content) { msg(blogMsg, 'fill in title and content.', 'error'); return; }
-        try {
-            await addDoc(collection(db, 'blog_posts'), { title, content, imageUrl, timestamp: serverTimestamp() });
-            msg(blogMsg, 'published!', 'success');
-            if (blogTitle)   blogTitle.value   = '';
-            if (blogContent) blogContent.value = '';
-            if (blogImgUrl)  blogImgUrl.value  = '';
-        } catch (err) {
-            msg(blogMsg, `error: ${err.message}`, 'error');
-        }
-    });
+  publishBlog?.addEventListener('click', async () => {
+    const title    = (blogTitle?.value || '').trim();
+    const content  = (blogContent?.value || '').trim();
+    const imageUrl = (blogImgUrl?.value || '').trim();
+    if (!title || !content) { msg(blogMsg, 'fill in title and content.', 'error'); return; }
+    try {
+      await addDoc(collection(db, 'blog_posts'), { title, content, imageUrl, timestamp: serverTimestamp() });
+      msg(blogMsg, 'published!', 'success');
+      if (blogTitle)   blogTitle.value   = '';
+      if (blogContent) blogContent.value = '';
+      if (blogImgUrl)  blogImgUrl.value  = '';
+    } catch (err) {
+      msg(blogMsg, `error: ${err.message}`, 'error');
+    }
+  });
 });
 
+function loadMailbox(firestoreDb) {
+  const container = document.getElementById('mailbox-list');
+  if (!container) return;
 
-function loadMailbox(db) {
-    const container = document.getElementById('mailbox-list');
-    if (!container) return;
+  const q = query(collection(firestoreDb, 'mailbox'), orderBy('timestamp', 'desc'));
 
-    const q = query(collection(db, 'mailbox'), orderBy('timestamp', 'desc'));
+  onSnapshot(q, snapshot => {
+    if (snapshot.empty) {
+      container.innerHTML = `<p class="tracker-empty">no messages yet.</p>`;
+      return;
+    }
 
-    onSnapshot(q, snapshot => {
-        if (snapshot.empty) {
-            container.innerHTML = `<p class="tracker-empty">nenhuma mensagem ainda.</p>`;
-            return;
+    container.innerHTML = snapshot.docs.map(docSnap => {
+      const d  = docSnap.data();
+      const id = docSnap.id;
+      const ts = d.timestamp?.toDate();
+      const ago = ts
+        ? ts.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        : '—';
+
+      return `
+      <div class="mb-card" data-id="${esc(id)}">
+          <div class="mb-msg">${esc(d.message || '')}</div>
+          <div class="mb-meta">
+              <span class="mb-ip">🌐 ${esc(d.ip || 'unknown')}</span>
+              <span>${ago}</span>
+          </div>
+          <button class="mb-delete" data-id="${esc(id)}">delete</button>
+      </div>`;
+    }).join('');
+
+    container.querySelectorAll('.mb-delete').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('delete this message?')) return;
+        try {
+          await deleteDoc(doc(firestoreDb, 'mailbox', btn.dataset.id));
+        } catch (err) {
+          alert('delete error: ' + err.message);
         }
-
-        container.innerHTML = snapshot.docs.map(docSnap => {
-            const d  = docSnap.data();
-            const id = docSnap.id;
-            const ts = d.timestamp?.toDate();
-            const ago = ts
-                ? ts.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-                : '—';
-
-            return `
-            <div class="mb-card" data-id="${id}">
-                <div class="mb-msg">${escapeHtml(d.message || '')}</div>
-                <div class="mb-meta">
-                    <span class="mb-ip">🌐 ${d.ip || 'unknown'}</span>
-                    <span>${ago}</span>
-                </div>
-                <button class="mb-delete" data-id="${id}">deletar</button>
-            </div>`;
-        }).join('');
-
-        container.querySelectorAll('.mb-delete').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                if (!confirm('deletar essa mensagem?')) return;
-                try {
-                    await deleteDoc(doc(db, 'mailbox', btn.dataset.id));
-                } catch (err) {
-                    alert('erro ao deletar: ' + err.message);
-                }
-            });
-        });
-    }, err => {
-        console.warn('loadMailbox:', err);
-        container.innerHTML = `<p class="tracker-empty">erro ao carregar mensagens.</p>`;
+      });
     });
-}
-
-function escapeHtml(str) {
-    return String(str)
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }, err => {
+    console.warn('loadMailbox:', err);
+    container.innerHTML = `<p class="tracker-empty">error loading messages.</p>`;
+  });
 }
 
 function loadLiveTrafficFeed() {
-    const container = document.getElementById('ltf-widget-container');
-    if (!container) return;
+  const container = document.getElementById('ltf-widget-container');
+  if (!container) return;
 
-    container.innerHTML = '';
+  container.innerHTML = '';
 
-    const widgetUrl = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
+  const widgetUrl = 'https://cdn.livetrafficfeed.com/static/v5/live.js?bc=2d2d2d&tc=d5d5d5&brd1=813d3d&lnk=813d3d&hc=d5d5d5&hfc=2d2d2d&nc=813d3d&vv=409&tft=10&ro=0&tz=America%2FSao_Paulo&res=1&l=https%3A%2F%2Fminkurosu.site%2F';
 
-    const frame = document.createElement('iframe');
-    frame.title = 'live traffic feed de minkurosu.site';
-    frame.style.cssText = 'display:block;width:100%;max-width:640px;height:420px;border:0;background:transparent;';
-    frame.srcdoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;}</style></head><body>'
-        + '<script type="text/javascript" src="https://livetrafficfeed.com/static/v5/livetrafficfeed.js"><\/script>'
-        + '<script type="text/javascript" src="' + widgetUrl + '"><\/script>'
-        + '</body></html>';
+  const frame = document.createElement('iframe');
+  frame.title = 'live traffic feed - minkurosu.site';
+  frame.style.cssText = 'display:block;width:100%;max-width:640px;height:420px;border:0;background:transparent;';
+  frame.srcdoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>html,body{margin:0;padding:0;background:transparent;}</style></head><body>'
+    + '<script type="text/javascript" src="https://livetrafficfeed.com/static/v5/livetrafficfeed.js"><\/script>'
+    + '<script type="text/javascript" src="' + widgetUrl + '"><\/script>'
+    + '</body></html>';
 
-    frame.addEventListener('load', () => {
-        let doc;
-        try { doc = frame.contentDocument; } catch { return; }
-        if (!doc || !doc.body) return;
+  frame.addEventListener('load', () => {
+    let frameDoc;
+    try { frameDoc = frame.contentDocument; } catch { return; }
+    if (!frameDoc || !frameDoc.body) return;
 
-        const fit = () => {
-            const h = doc.body.scrollHeight;
-            if (h > 40) frame.style.height = h + 'px';
-        };
+    const fit = () => {
+      const h = frameDoc.body.scrollHeight;
+      if (h > 40) frame.style.height = h + 'px';
+    };
 
-        fit();
-        setTimeout(fit, 1200);
-        setTimeout(fit, 3500);
-        if (window.ResizeObserver) new ResizeObserver(fit).observe(doc.body);
-    });
+    fit();
+    setTimeout(fit, 1200);
+    setTimeout(fit, 3500);
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(frameDoc.body);
+  });
 
-    container.appendChild(frame);
+  container.appendChild(frame);
 }

@@ -1,6 +1,3 @@
-
-import { mountReactions } from "./reactions.js";
-
 function slugFromSrc(src) {
   return (src || "")
     .split("/")
@@ -32,8 +29,6 @@ function expandCell(el, thumbSrc, fullSrc) {
   if (img && src) img.src = src;
 
   el.classList.add("expanded");
-
-
 }
 
 window.expandCell = expandCell;

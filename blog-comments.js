@@ -1,10 +1,10 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+﻿import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore, collection, addDoc, query, where, onSnapshot,
   serverTimestamp, updateDoc, doc, increment, getDocs, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { mountReactions } from './reactions.js';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
@@ -527,7 +527,7 @@ function setupLazyComments() {
       reactBox.className = 'blog-reactions-box min-reactions';
       reactBox.dataset.blogId = postId;
       body.appendChild(reactBox);
-      try { mountReactions(reactBox, { targetId: postId }); } catch (e) { console.warn(e); }
+      
 
       const cmtBox = document.createElement('div');
       cmtBox.className = 'min-cmt-mount';
