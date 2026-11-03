@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>minkurosu</title>
+    <link>https://minkurosu.site</link>
+    <description>min's personal site and posts</description>
+    <language>pt-br</language>
+    <atom:link href="https://minkurosu.site/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 03 Nov 2026 00:00:00 -0300</lastBuildDate>
+    <item>
+      <title>latest posts</title>
+      <link>https://minkurosu.site/posts.html</link>
+      <guid>https://minkurosu.site/posts.html</guid>
+      <description>check out the latest posts on minkurosu.site</description>
+      <pubDate>Tue, 03 Nov 2026 00:00:00 -0300</pubDate>
+    </item>
+  </channel>
+</rss>
