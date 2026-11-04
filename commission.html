@@ -9,7 +9,6 @@
   <title>@minkurosu — commissions</title>
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
   <script>
-    /* dentro de um iframe (index.html) = "embedded"; aberto direto = "standalone" */
     (function () {
       var embedded = window.parent !== window;
       document.documentElement.classList.add(embedded ? 'embedded' : 'standalone');
@@ -24,7 +23,6 @@
       padding: 0;
     }
 
-    /* ---------- dentro do index.html: só o container, sem fundo ---------- */
     html.embedded {
       background: none !important;
     }
@@ -34,7 +32,6 @@
       min-width: 0;
     }
 
-    /* ---------- aberto sozinho: fundo + container com largura definida ---------- */
     html.standalone {
       background-color: #0a0a0a !important;
       background-image: none !important;
@@ -42,7 +39,7 @@
 
     html.standalone,
     html.standalone body {
-      min-width: 0; /* anula o min-width: 1400px do emo.css */
+      min-width: 0;
     }
 
     html.standalone body {
@@ -50,8 +47,6 @@
       min-height: 100dvh;
     }
 
-    /* fundo em pseudo-elemento fixo: funciona em celular/iOS,
-       onde background-attachment: fixed é ignorado */
     html.standalone body::before {
       content: "";
       position: fixed;
@@ -64,7 +59,7 @@
     html.standalone .caixamaisclara {
       box-sizing: border-box;
       width: calc(100% - 24px);
-      max-width: 800px; /* mesma largura do #container do index */
+      max-width: 800px; 
       margin: 24px auto;
       padding: 20px;
     }
