@@ -657,6 +657,37 @@
     }
 
 
+    
+    /* ascii da sidebar: sempre inteiro, escalado pra largura disponivel */
+    .asciiWrap {
+      width: 100%;
+      min-width: 0;
+      align-self: stretch;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .asciiArt {
+      display: block;
+      width: max-content;
+      margin: 0;
+      padding: 0;
+      white-space: pre;
+      color: #b11313;
+      font-weight: bold;
+      font-size: 4px; /* fallback sem JS */
+      line-height: 1.2;
+      letter-spacing: 0;
+      font-family: "DejaVu Sans Mono", "Segoe UI Symbol", "Apple Braille", "Noto Sans Symbols 2", monospace;
+      transform-origin: 0 0;
+      pointer-events: none;
+      text-shadow: none;
+    }
+
+    .asciiOn .asciiArt {
+      font-size: 16px; /* tamanho fixo; o JS escala com transform (evita tamanho minimo de fonte do navegador) */
+    }
+
     </style>
 </head>
 <body>
@@ -816,16 +847,8 @@
 </div>
                 <hr>
 
-               <div aria-hidden="true" style="
-  color: #b11313;
-  font-weight: bold;
-  line-height: 1.4;
-  margin: 0px;
-  font-size: 4px;
-  overflow: hidden;
-  max-width: 100%;
-">
-    ⠀⠀⠀⠀⠀⠀⠀⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⢶⣶⣧⠀
+               <div id="asciiWrap" class="asciiWrap notranslate" translate="no" aria-hidden="true">
+<pre id="asciiArt" class="asciiArt">⠀⠀⠀⠀⠀⠀⠀⠤⠤⠤⠤⠤⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⢶⣶⣧⠀
 ⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⡆
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣧
 ⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⣤⣴⣦⣤⣴⣶⣦⡀⠀⠀⠒⢿⡓⠀⣺⣿⡿⠗⠀⠀⢀⣠⣄⠀⠀⣷⡤⣤⠀⠀⠀⠀⢀⣀⣀⣀⠀⠀⣀⣤⣄⠐⡆⠀⠀⣠⣤⣄⡀⠀⢠⣷⠀⠀⠈⠽⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿
@@ -870,8 +893,46 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠠⡀⠀⠀⠀⠀⢀⣀⢠⣄⠄⠀⠀⠀⠀⠀⠃⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠞⠉⠀⠀⠀⢰⡿⠀⠀⠀⠰⠀⠀⠀⠀⣴⢠⡄⢠⡄⢀⡄⣤⠀⣤⠀⣤⠀⢶⠲⣶
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⣁⣾⣥⣾⣶⡶⢀⠦⣤⣾⢳⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡤⠞⠉⠀⠀⠀⠀⠀⢀⣿⠃⠀⣸⣄⠀⠈⢆⠀⠀⡏⢸⡇⠐⣧⢸⡇⣿⠌⣿⠀⣿⠀⢻⡆⣿
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡘⣷⣒⡾⣾⠿⣽⣿⡁⣂⠒⢹⣿⣷⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠖⠋⠀⠀⠀⠀⠀⠀⠀⠀⣼⡟⠀⢠⣿⣿⣷⡄⠀⠠⠀⠓⢂⠁⢘⠛⠈⡁⠉⢀⢉⠀⢙⠘⠚⢓⠛
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣩⣳⣚⣧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠅⠀⠈⠀⠉⠉⠉⠀⠀⠀⠀⠀⠐⠘⠀⠃⠃⠀⠀⠀⠈⠘⠀⠘⠈⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⣩⣳⣚⣧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠅⠀⠈⠀⠉⠉⠉⠀⠀⠀⠀⠀⠐⠘⠀⠃⠃⠀⠀⠀⠈⠘⠀⠘⠈⠀</pre>
 </div>
+<script>
+(function () {
+    var wrap = document.getElementById('asciiWrap');
+    var art = document.getElementById('asciiArt');
+    if (!wrap || !art) return;
+
+    /* tamanho da grade braille: cada caractere = 2 colunas x 4 linhas de pontos */
+    var lines = art.textContent.replace(/\s+$/, '').split('\n');
+    var rows = lines.length;
+    var cols = 0;
+    lines.forEach(function (l) { cols = Math.max(cols, Array.from(l).length); });
+
+    wrap.classList.add('asciiOn');
+
+    function fit() {
+        var avail = wrap.clientWidth;
+        if (!avail) return;
+
+        art.style.transform = 'none';
+        var r = art.getBoundingClientRect();
+        if (!r.width || !r.height) return;
+
+        /* largura = largura disponivel; altura segue a proporcao real dos pontos (2:4),
+           independente da fonte que o dispositivo usar pro braille */
+        var targetH = avail * (rows * 4) / (cols * 2);
+        art.style.transform = 'scale(' + (avail / r.width) + ',' + (targetH / r.height) + ')';
+
+        var h = Math.ceil(targetH) + 'px';
+        if (wrap.style.height !== h) wrap.style.height = h;
+    }
+
+    fit();
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(wrap);
+})();
+</script>
 
                 <hr>
 

@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@minkurosu — commissions</title>
   <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico">
+  <script>
+    (function () {
+      var embedded = window.parent !== window;
+      document.documentElement.classList.add(embedded ? 'embedded' : 'standalone');
+    })();
+  </script>
   <link rel="stylesheet" href="emo.css">
 
   <style>
@@ -13,6 +19,47 @@
     body {
       margin: 0;
       padding: 0;
+    }
+
+    html.embedded {
+      background: none !important;
+    }
+
+    html.embedded,
+    html.embedded body {
+      min-width: 0;
+    }
+
+    html.standalone {
+      background-color: #0a0a0a !important;
+      background-image: none !important;
+    }
+
+    html.standalone,
+    html.standalone body {
+      min-width: 0; /* anula o min-width: 1400px do emo.css */
+    }
+
+    html.standalone body {
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    html.standalone body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: #0a0a0a url('imgs/site_imgs/petcemetery.gif') center center / cover no-repeat;
+    }
+
+    html.standalone .caixamaisclara {
+      box-sizing: border-box;
+      width: calc(100% - 24px);
+      max-width: 800px; 
+      margin: 24px auto;
+      padding: 20px;
     }
 
     .caixaprices {
