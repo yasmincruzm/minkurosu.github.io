@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="color-scheme" content="only light">
+    <meta name="darkreader-lock">
     <meta name="viewport" content="width=1400, maximum-scale=5, user-scalable=yes">
 
     <meta name='LTF_verify' content='4414502b3e1c201f0023688de06f390b' />
@@ -15,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="minkurosu" href="rss.xml">
    <link rel="stylesheet" href="gallery.css">
    <script src="gallery.js" defer></script>
-    <link rel="stylesheet" href="emo.css?v=7" id="themeStylesheet">
+    <link rel="stylesheet" href="emo.css?v=8" id="themeStylesheet">
         <script src="script.js"></script>
     <link rel="stylesheet" href="chattable.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -80,57 +82,55 @@
     }
 
 
-    #google_translate_element .goog-te-gadget-simple {
-      background-color: #1a1a1a !important;
-      border: 1px solid #444 !important;
-      border-radius: 8px !important;
-      padding: 2px 6px !important;
-      font-family: "MinFont", sans-serif !important;
+    /* tradutor: seletor proprio; o motor do google fica escondido (#google_translate_element.srOnly) */
+    #langSelect {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 220px;
+      margin: 6px auto 0;
+      padding: 3px 6px;
+      background-color: #141414;
+      color: var(--text);
+      border: 1px solid #555;
+      border-radius: 2px;
+      font-family: "MinFont", sans-serif;
+      font-size: 0.9rem;
+      text-shadow: none;
     }
 
-    .goog-te-gadget-simple .goog-te-gadget-icon {
-      display: none !important;
+    #langSelect:disabled {
+      opacity: 0.5;
     }
 
+    #langSelect option {
+      background-color: #141414;
+      color: #9a9a9a;
+    }
+
+    /* google translate: sem banner, sem balao "texto original", sem destaque ao passar o mouse */
     .goog-te-banner-frame,
-    #goog-gt-tt,
     .goog-te-balloon-frame,
-    div#goog-gt- {
-      display: none !important;
-    }
-
-    #google_translate_element .goog-te-gadget-simple span,
-    #google_translate_element .goog-te-gadget-simple a,
-    #google_translate_element .goog-te-gadget-simple a span,
-    .goog-te-gadget-simple .goog-te-menu-value span {
-      color: var(--text) !important;
-      font-family: "MinFont", sans-serif !important;
-      font-size: 0.8rem !important;
-      text-shadow: none !important;
-      text-decoration: none !important;
-    }
-
-    #google_translate_element .goog-te-gadget-simple .goog-te-menu-value span:last-child {
-      color: var(--text) !important;
-    }
-
-    #google_translate_element a {
-      text-shadow: none !important;
-      text-decoration: none !important;
-    }
-
-    .goog-te-menu-frame {
-      border-radius: 8px !important;
-      overflow: hidden !important;
-    }
-
-    /* google translate: impede a barra de empurrar o body (antes era um MutationObserver) */
-    body {
-      top: 0 !important;
-    }
-
+    .goog-te-menu-frame,
+    #goog-gt-tt,
+    div#goog-gt-,
+    .VIpgJd-ZVi9od-ORHb-OEVmcd,
+    .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+    .VIpgJd-ZVi9od-aZ2wEe-OiiCO,
+    .VIpgJd-yAWNEb-L7lbkb,
     body > .skiptranslate {
       display: none !important;
+    }
+
+    .VIpgJd-yAWNEb-VIpgJd-fmcmS-sn54Q,
+    font {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* google translate: impede a barra de empurrar o body */
+    body {
+      top: 0 !important;
     }
 
     .sidebarRight .trackInner,
@@ -754,7 +754,10 @@
                 <hr>
 
                 <h3    style="margin:10px"> translate if you're<br>interested enough!</h3>
-                <div id="google_translate_element"></div>
+                <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
+                    <option value="">original</option>
+                </select>
+                <div id="google_translate_element" class="srOnly" aria-hidden="true"></div>
                <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
                 <script>
                     (function () {
@@ -829,7 +832,7 @@
         </tr>
        <tr>
           <td>listening:</td>
-          <td id="lastfm-song-cell">loading...</td>
+          <td id="lastfm-song-cell" class="notranslate" translate="no">loading...</td>
         </tr>
         <tr>
             <td>reading:</td>
@@ -1456,17 +1459,138 @@
 
 </script>
 
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
+    <script>
+    (function () {
+        var LANGS = [
+            ['en', 'English'], ['es', 'Español'], ['fr', 'Français'], ['ja', '日本語'], ['de', 'Deutsch'],
+            ['ko', '한국어'], ['it', 'Italiano'], ['zh-CN', '简体中文'], ['pt', 'Português'], ['hi', 'हिन्दी'],
+            ['ru', 'Русский'], ['ar', 'العربية'], ['tr', 'Türkçe'], ['nl', 'Nederlands'], ['sv', 'Svenska'],
+            ['pl', 'Polski'], ['th', 'ไทย'], ['vi', 'Tiếng Việt'], ['he', 'עברית'], ['el', 'Ελληνικά'],
+            ['da', 'Dansk'], ['no', 'Norsk'], ['fi', 'Suomi'], ['cs', 'Čeština'], ['ro', 'Română'],
+            ['az', 'Azərbaycanca'], ['uz', 'Oʻzbekcha'], ['ku', 'Kurdî'], ['ps', 'پښتو'], ['sd', 'سنڌي'],
+            ['yo', 'Yorùbá'], ['ig', 'Igbo'], ['am', 'አማርኛ']
+        ];
+
+        var sel = document.getElementById('langSelect');
+        if (!sel) return;
+
+        var combo = null;      /* <select> escondido que o google cria */
+        var current = '';      /* idioma escolhido ('' = original) */
+        var timers = [];
+
+        LANGS.forEach(function (l) {
+            var o = document.createElement('option');
+            o.value = l[0];
+            o.textContent = l[1];
+            sel.appendChild(o);
+        });
+
+        function clearTimers() {
+            timers.forEach(clearTimeout);
+            timers = [];
+        }
+
+        function isTranslated() {
+            var c = document.documentElement.classList;
+            return c.contains('translated-ltr') || c.contains('translated-rtl');
+        }
+
+        function cookieLang() {
+            var m = document.cookie.match(/(?:^|;\s*)googtrans=\/[^\/;]*\/([^;]+)/);
+            return m ? decodeURIComponent(m[1]) : '';
+        }
+
+        function clearCookie() {
+            var past = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+            document.cookie = past;
+            document.cookie = past + '; domain=' + location.hostname;
+            document.cookie = past + '; domain=.' + location.hostname;
+        }
+
+        function hasOption(code) {
+            return Array.prototype.some.call(sel.options, function (o) { return o.value === code; });
+        }
+
+        function apply(code) {
+            if (!combo) return;
+            combo.value = code;
+            combo.dispatchEvent(new Event('change'));
+        }
+
+        /* o conteudo da pagina carregada ja foi traduzido? (o google embrulha o texto em <font>) */
+        function containerTranslated() {
+            var c = document.getElementById('container');
+            return !c || !c.textContent.trim() || !!c.querySelector('font');
+        }
+
+        function onReady() {
+            sel.disabled = false;
+            sel.title = '';
+
+            var saved = '';
+            try { saved = localStorage.getItem('lang') || ''; } catch (e) {}
+            var want = saved || cookieLang();
+            if (!want || !hasOption(want)) return;
+
+            sel.value = want;
+            current = want;
+            setTimeout(function () { if (!isTranslated()) apply(want); }, 700);
+        }
+
+        sel.addEventListener('change', function () {
+            current = sel.value;
+            try { localStorage.setItem('lang', current); } catch (e) {}
+            clearTimers();
+
+            if (current) {
+                apply(current);
+            } else {
+                apply('');
+                clearCookie();
+                setTimeout(clearCookie, 500);
+            }
+        });
+
+        /* paginas carregadas dentro do #container: garante que tambem sejam traduzidas */
+        document.addEventListener('pageloaded', function () {
+            if (!current || !combo) return;
+            clearTimers();
+
+            timers.push(setTimeout(function () {
+                if (containerTranslated()) return;
+                apply(current);
+
+                timers.push(setTimeout(function () {
+                    if (containerTranslated()) return;
+                    apply('');
+                    timers.push(setTimeout(function () { apply(current); }, 400));
+                }, 2000));
+            }, 1500));
+        });
+
+        window.googleTranslateElementInit = function () {
             new google.translate.TranslateElement({
-                pageLanguage: 'pt',
-                includedLanguages: 'en,es,fr,ja,de,ko,it,zh-CN,pt-br,pt,hi,ru,ar,tr,nl,sv,pl,th,vi,he,el,da,no,fi,cs,ro,az,uz,ku,ps,sd,yo,ig,am',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                pageLanguage: 'auto',
+                includedLanguages: LANGS.map(function (l) { return l[0]; }).join(','),
                 autoDisplay: false
             }, 'google_translate_element');
-        }
+
+            var tries = 0;
+            (function wait() {
+                combo = document.querySelector('#google_translate_element select.goog-te-combo');
+                if (combo) { onReady(); return; }
+                if (++tries < 80) setTimeout(wait, 150);
+            })();
+        };
+
+        setTimeout(function () {
+            if (combo) return;
+            sel.options[0].textContent = 'unavailable';
+            sel.title = 'translator unavailable';
+        }, 12000);
+    })();
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>
