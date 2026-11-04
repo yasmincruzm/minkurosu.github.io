@@ -36,41 +36,48 @@ body {
   padding: 0;
   width: 100%;
   min-width: var(--pageDesignWidth);
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 html {
-  background-image: url('imgs/site_imgs/petcemetery.gif');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-color: #000;
+  background-color: transparent !important;
+  background-image: url('imgs/site_imgs/petcemetery.gif') !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
 }
 
 body {
-  background-image: url('imgs/site_imgs/petcemetery.gif');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
-  width: 100%;
-  min-height: 100vh;
+  background: transparent !important;
   text-align: center;
 }
 
 
-.crt::before {
-  content: " ";
-  display: block;
+.crt {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  width: 100%;
+  height: 100vh;
   z-index: 2;
-  background-size: 100% 2px, 4px 100%;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+
+@supports (height: 100lvh) {
+  .crt {
+    height: 100lvh;
+  }
+}
+
+.crt::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% var(--crtLine, 2px), var(--crtLine, 2px) 100%;
   pointer-events: none;
 }
 
@@ -101,14 +108,10 @@ body {
 .crt::after {
   content: " ";
   display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  position: absolute;
+  inset: 0;
   background: rgba(18, 16, 16, 0.1);
   opacity: 0;
-  z-index: 2;
   pointer-events: none;
   animation: flicker 0.15s infinite;
 }
@@ -118,14 +121,10 @@ body {
   color: #0a0a0a;
   font-size: 100%;
   font-family: "MinFont";
-  background-attachment: fixed;
 }
 
 html {
   cursor: url('imgs/cursor/ROCKcursornormal.cur'), auto !important;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -262,11 +261,6 @@ body > .layoutWithSidebars {
 
 body > .layoutWithSidebars > * {
   min-width: 0;
-}
-
-html,
-body {
-  max-width: 100%;
 }
 
 header {
@@ -925,21 +919,29 @@ h5 {
   margin: 5px;
   height: 800px;
   overflow-y: scroll;
+  padding-bottom: 12px;
+  box-sizing: border-box;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
 }
 
 .scrollSmaller {
-  padding: 2px;
+  padding: 2px 2px 12px;
   height: 200px;
   overflow-y: scroll;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
 }
 
 .scrollMedium {
   box-sizing: border-box;
-  padding: 4px 2px !important;
+  padding: 4px 2px 12px !important;
   height: 400px;
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
+  overflow-anchor: none;
+  overscroll-behavior: contain;
 }
 
 .buttonWall {

@@ -184,16 +184,38 @@
         .profileSectionTitle { color: white; text-align: left; }
         .profileStats { color: rgb(94, 131, 187); text-align: left; }
 
+        /* transformice: imagens em tamanho natural, sem corte e sem efeito de galeria */
+        .tfImages,
         .stickerRow {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
             align-items: center;
-            gap: 10px;
             width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
         }
 
-        .stickerRow img { max-width: 100%; height: auto; }
+        .tfImages {
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .stickerRow {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tfImages img,
+        .stickerRow img {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            min-width: 0;
+            object-fit: contain;
+            aspect-ratio: auto;
+            border-radius: 2px;
+        }
 
         .charImg { height: 200px; width: auto; max-width: 100%; }
 
@@ -265,17 +287,17 @@
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/2025serverselfie.jpeg" alt="" loading="lazy">
                     <span class="caption">"our 2025 realm selfie"</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/village.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">""</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/gabmincorner.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">" "</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/mycorner.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">" "</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/sala.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">" "</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/bedroom.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">""</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img src="imgs/games/minecraft/picnic.jpeg" alt="" loading="lazy">
-                    <span class="caption">"our village"</span></summary></details>
+                    <span class="caption">""</span></summary></details>
                 <details class="galleryItem" name="galeria"><summary><img class="thumbnail" src="imgs/games/minecraft/lardocelar.png" alt="" loading="lazy">
                     <img class="full" src="imgs/games/minecraft/lardocelar.jpeg" alt="" loading="lazy">
                     <span class="caption">"lar doce lar"</span></summary></details>
@@ -320,7 +342,7 @@
                 <div class="profileFit">
                     <div class="transformiceProfile">
                         <div class="profileLevel">75</div>
-                        <div class="profileAvatar"><img src="imgs/site_imgs/fridge/frerard2.jpg" alt="avatar"></div>
+                        <div class="profileAvatar"><img src="imgs/site_imgs/games/frerard2.jpg" alt="avatar"></div>
                         <div class="profileDetails">
                             <p class="profileSectionTitle">Shaman</p>
                             <p class="profileStats">
@@ -333,29 +355,36 @@
                     </div>
                 </div>
 
-                <div class="gallery gallery--list">
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/caras.gif" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/QCOISALINDA.gif" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/faca.gif" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/castle.png" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/telhadao.gif" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/brasil.png" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/citanao.png" alt="" loading="lazy"></summary></details>
-                <details class="galleryItem" name="galeria"><summary><img src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy"></summary></details>
+                <div class="tfImages">
+                    <img src="imgs/games/transformice/caras.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/OQROLOU.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/first70.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/firstportal.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/eventopesca.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/335240_489.jpg" alt="" loading="lazy">
+
+                    <img src="imgs/games/transformice/faca.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/castle.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/guerra_de_vareta.gif" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/fps.png" alt="" loading="lazy">
+
+                    <img src="imgs/games/transformice/citanao.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/cuscuz.png" alt="" loading="lazy">
                 </div>
 
                 <div class="stickerRow">
-                <img src="imgs/games/transformice/minlynn.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/euu.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/nois.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/lgbtgaleraanimada.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/nois.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/osmaismais.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/fofin.png" alt="" loading="lazy">
-                <img src="imgs/games/transformice/smoking.png" alt="" loading="lazy">
-            </div>
+                    <img src="imgs/games/transformice/fantasma.png" alt="" loading="lazy">
+
+                    <img src="imgs/games/transformice/selfie-current.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/selfie-punk.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/lgbtgaleraanimada.png" alt="" loading="lazy">
+
+                    <img src="imgs/games/transformice/nois.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/minlynn.png" alt="" loading="lazy">
+
+                    <img src="imgs/games/transformice/fofin.png" alt="" loading="lazy">
+                    <img src="imgs/games/transformice/smoking.png" alt="" loading="lazy">
+                </div>
             </section>
 
             <section class="gamePanel" id="p-tomodachi">
@@ -363,8 +392,6 @@
             <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-13 200842.png" alt="">
             <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-15 182132.png" alt="">
             <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234137.png" alt="">
-            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 234806.png" alt="">
-            <img class="screenshots" src="imgs/games/tomodachi/Captura de tela 2026-04-21 235521.png" alt="">
             </section>
 
             <section class="gamePanel" id="p-growtopia">

@@ -10,55 +10,401 @@
         gtag('config', 'G-4K5KDKEJ2E');
     </script>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        try { if (window.self !== window.top) document.documentElement.classList.add('embedded'); } catch (e) { document.documentElement.classList.add('embedded'); }
+    </script>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <link rel="stylesheet" href="emo.css" />
     <style>
-
-        .galeria-pin {
-            column-count: 3;
-            column-gap: 4px;
-            padding: 4px;
-            width: 100%;
-            box-sizing: border-box;
-            margin: -1.25rem -1.25rem 0;
+        html.embedded, html.embedded body {
+            background: #000 !important;
+            background-image: none !important;
         }
+        html.embedded .crt { display: none !important; }
+        html.embedded .layout-with-sidebars,
+        html.embedded #containerprincipal { background: #000 !important; }
+    </style>
+    <style id="galleryCss">
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: start;
+    grid-auto-flow: dense;
+}
 
-        .galeria-pin > a,
-        .galeria-pin > table,
-        .galeria-pin > div {
-            display: block !important;
-            break-inside: avoid !important;
-            page-break-inside: avoid !important;
-            -webkit-column-break-inside: avoid !important;
-            margin-bottom: 4px !important;
-            overflow: hidden !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
+.galleryItem {
+    display: block;
+    border-radius: 2px;
+}
 
-        .galeria-pin > a {
-            line-height: 0 !important;
-        }
+.galleryItem > summary {
+    display: block;
+    list-style: none;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 2px;
+}
 
-        .galeria-pin > table,
-        .galeria-pin > div {
-            line-height: 1.4 !important;
-        }
+.galleryItem > summary::-webkit-details-marker { display: none; }
+.galleryItem > summary::marker { content: ""; }
 
-        .galeria-pin a img {
-            width: 100% !important;
-            height: auto !important;
-            display: block !important;
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
+.galleryItem > summary:focus-visible {
+    outline: 2px solid var(--rose, #d5d5d5);
+    outline-offset: 2px;
+}
 
-        .galeria-pin a img:hover {
-            transform: scale(1.03);
-            filter: brightness(1.1);
-        }
+.galleryItem img,
+.galleryItem video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .15s ease, filter .15s ease;
+}
 
-        
+.galleryItem:not([open]) > summary:hover img,
+.galleryItem:not([open]) > summary:hover video {
+    transform: scale(1.02);
+    filter: saturate(.3);
+}
+
+.galleryItem .full,
+.galleryItem .caption {
+    display: none;
+}
+
+.galleryItem[open] {
+    grid-column: 1 / -1;
+    animation: galleryOpen .2s ease;
+}
+
+.galleryItem[open] > summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    aspect-ratio: auto;
+    overflow: visible;
+    padding: .5rem 0 .75rem;
+    cursor: zoom-out;
+}
+
+.galleryItem[open] img,
+.galleryItem[open] video {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.galleryItem[open] .thumbnail:has(~ .full) { display: none; }
+.galleryItem[open] .full { display: block; }
+
+.galleryItem[open] .caption {
+    display: block;
+    width: 100%;
+    font-size: .95rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    text-align: center;
+}
+
+.gallery--list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 636px;
+    margin: 0 auto;
+}
+
+.gallery--list .galleryItem { width: 100%; }
+
+.gallery--list .galleryItem > summary {
+    aspect-ratio: auto;
+    overflow: visible;
+}
+
+.gallery--list .galleryItem img {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.gallery--list .galleryItem .caption {
+    display: block;
+    margin-top: 8px;
+    font-size: .8em;
+    text-align: center;
+}
+
+.gallery--list .galleryItem[open] > summary { padding: 0; }
+.gallery--list .galleryItem[open] .caption { font-size: .8em; }
+.gallery--list .galleryItem[open] img { max-height: none; }
+.gallery--list .galleryItem[open] img:not(.thumbnail) { aspect-ratio: auto; object-fit: contain; }
+
+.galleryItem .carouselTrack { display: none; }
+
+.galleryItem.carousel > summary { position: relative; }
+
+.galleryItem.carousel:not([open]) > summary::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: 11px;
+    width: 9px;
+    height: 9px;
+    border: 1px solid #d5d5d5;
+    background: rgba(0, 0, 0, .45);
+    box-shadow: 3px -3px 0 0 rgba(213, 213, 213, .85);
+    pointer-events: none;
+}
+
+.galleryItem.carousel[open] > summary { display: none; }
+
+.galleryItem.carousel[open] .carouselTrack {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+}
+
+.galleryItem.carousel .carouselTrack[data-drag] { touch-action: pan-y; }
+
+.galleryItem.carousel .carouselTrack.dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    cursor: grabbing;
+    user-select: none;
+}
+
+.galleryItem.carousel .carouselTrack::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.galleryItem.carousel .carouselTrack .slide {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+.galleryItem.carousel .carouselTrack .slide img {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.galleryItem.carousel[open] > .caption {
+    display: block;
+    text-align: center;
+    font-size: .95rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    margin: .5rem 0 .75rem;
+}
+
+@supports (scroll-marker-group: after) {
+    .galleryItem.carousel .carouselTrack {
+        scroll-marker-group: after;
+    }
+
+    .galleryItem.carousel .carouselTrack::scroll-marker-group {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 0 4px;
+    }
+
+    .galleryItem.carousel .carouselTrack .slide::scroll-marker {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #555;
+        cursor: pointer;
+    }
+
+    .galleryItem.carousel .carouselTrack .slide::scroll-marker:target-current {
+        background: #d5d5d5;
+    }
+
+    .galleryItem .carouselArrow { margin-top: -23px; }
+}
+
+.galleryItem .carouselWrap { position: relative; }
+
+.galleryItem .carouselArrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 26px;
+    height: 26px;
+    margin: -13px 0 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(213, 213, 213, .8);
+    box-shadow: none;
+    outline: none;
+    cursor: pointer;
+    opacity: .85;
+    transition: opacity .15s ease, background .15s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.galleryItem .carouselArrow:hover,
+.galleryItem .carouselArrow:focus-visible {
+    opacity: 1;
+    background: rgba(235, 235, 235, .95);
+}
+
+.galleryItem .carouselArrow::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-top: 1.5px solid #111;
+    border-right: 1.5px solid #111;
+}
+
+.galleryItem .carouselPrev { left: 8px; }
+.galleryItem .carouselPrev::before { transform: translate(-30%, -50%) rotate(-135deg); }
+
+.galleryItem .carouselNext { right: 8px; }
+.galleryItem .carouselNext::before { transform: translate(-70%, -50%) rotate(45deg); }
+
+.galleryItem .carouselWrap[data-start] .carouselPrev,
+.galleryItem .carouselWrap[data-end] .carouselNext {
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes galleryOpen {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .galleryItem[open] { animation: none; }
+    .galleryItem img,
+    .galleryItem video,
+    .galleryItem .carouselArrow { transition: none; }
+    .galleryItem.carousel[open] .carouselTrack { scroll-behavior: auto; }
+}
+
+.galeria-pin {
+    --gap: 6px;                     
+    display: block;
+    column-count: 3;
+    column-gap: var(--gap);
+    padding: 0 var(--gap);
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    line-height: 0;
+}
+@media (max-width: 600px) { .galeria-pin { column-count: 2; } }
+
+.galeria-pin > * {
+    display: block;
+    width: 100%;
+    margin: 0 0 var(--gap) 0 !important;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+}
+.galeria-pin > table,
+.galeria-pin > div { 
+    line-height: 1.4;
+ }
+
+.galeria-pin .galleryItem { 
+    border-radius: 2px;
+ }
+.galeria-pin .galleryItem:not([open]) {
+     border: 1px solid #310000;
+      background: #0a0a0a; 
+    }
+.galeria-pin .galleryItem > summary {
+     aspect-ratio: auto;
+      border-radius: 2px; 
+      line-height: 0;
+     }
+
+
+.galeria-pin .galleryItem:not([open]) img {
+     width: 100%;
+      height: auto;
+       object-fit: fill; 
+    }
+
+
+.galeria-pin .galleryItem[open] {
+     column-span: all; 
+     overflow: visible;
+      line-height: 1.5; 
+    }
+
+.galeria-pin .galleryItem[open] > summary {
+     overflow: visible; 
+     padding: .75rem .5rem 1rem;
+     }
+
+
+.galeria-pin .galleryItem .caption { 
+    padding: 0 .5rem; 
+}
+
+
+.galeria-pin .qz-title { 
+    display: block;
+     margin-bottom: 4px;
+     }
+
+
+.galeria-pin .qz-link { 
+    color: #ff8a8a; 
+    text-decoration: underline;
+     word-break: break-all;
+    }
+
+.galeria-pin .qz-link:hover { 
+    color: #fff;
+ }
+
+
+
     </style>
 </head>
 
@@ -66,8 +412,7 @@
     <div class="layout-with-sidebars">
         <main id="containerprincipal">
             <div class="galeria-pin">
-                <a data-fancybox="gallery" href="imgs/quizzes/arcano.png" data-caption=""><img src="imgs/quizzes/arcano.png"></a>
-
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/arcano.png" alt=""></summary></details>
                 <table width="100%" border="0" align="center" cellpadding="2" cellspacing="5" bgcolor="#000000">
                     <tr>
                         <td align="center" style="color:#FFFFFF;font-family:Verdana,Arial,sans-serif;font-weight:bold">
@@ -96,61 +441,47 @@
                         </td>
                     </tr>
                 </table>
-
-                <a href="https://quiz.pikminbloom.com/#/result"><img src="imgs/quizzes/result_kosumosu_en.webp"></a>
-                <a data-fancybox="gallery" href="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg" data-caption=""><img src="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg"></a>
-              <a href='https://clownfred.zone/clownquiz'><img src='https://clownfred.zone/!Media/CQ/PierrotCard1.png' alt='I 	am a Pierrot Mime! Click here to take the clown quiz!'></a>
-
-                <a data-fancybox="gallery" href="http://cupped-expressions.net/cheese/quiz/" data-caption=""><img src="https://cupped-expressions.net/cheese/quiz/cheddar03.gif"></a>
-                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/4097_Dandere.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/4097_Dandere.jpg"></a>
-                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/3278_New_generation.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/3278_New_generation.jpg"></a>
-                <a data-fancybox="gallery" href="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg" data-caption=""><img src="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg"></a>
-                <a data-fancybox="gallery" href="imgs/quizzes/kindoftouch.png" data-caption=""><img src="imgs/quizzes/kindoftouch.png"></a>
-                <a data-fancybox="gallery" href="https://uquiz.com/Result/static/lite/MPB0zf/1238441/personality/1196948" data-caption=""><img src="imgs/quizzes/howlovingyoufeelslike.png"></a>
-                <a href="http://thousandroads.net/misc/pmdquiz/"><img src="http://thousandroads.net/misc/pmdquiz/static/results/Cubone.png"></a>
-                <a href="https://uquiz.com/quiz/MntFFK/to-whom-does-your-heart-belong"><img src="imgs/quizzes/uquiz.png"></a>
-                <a href="https://uquiz.com/quiz/tjZ8p6/what-form-of-love-do-you-embody"><img src="imgs/quizzes/love.png"></a>
-                <a href="https://www.theotaku.com/quizzes/view/1349/what_is_your_anime_eye_color%3F"><img src="http://www.theotaku.com/guru_results/1349_pink.jpg" alt="What Is Your Anime Eye Color?"></a>
-                <a href="https://www.theotaku.com/quizzes/view/2910/what_type_of_movie_are_you%3F"><img src="http://www.theotaku.com/guru_results/2910_Animation.jpg" alt="What Type Of Movie Are You?"></a>
-                <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/whatfairy_firefairy.gif"></a>
-                <img src="https://web.archive.org/web/20040812013343im_/http://www.drudabear.com/cheerbearaward.jpg">
-                <a href="https://www.theotaku.com/quizzes/view/1592/what_is_your_anime_hair_color%3F"><img src="http://www.theotaku.com/guru_results/1592_Brunette.jpg" alt="What Is Your Anime Hair Color?"></a>
-                <a data-fancybox="gallery" href="https://www.idrlabs.com/4-axes/test.php" data-caption=""><img src="imgs/quizzes/4-axes.png"></a>
-                <a data-fancybox="gallery" href="https://www.idrlabs.com/autism-spectrum/test.php" data-caption=""><img src="imgs/quizzes/autism-spectrum.png"></a>
-                <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/leader.pl" data-caption=""><img src="imgs/quizzes/leader.jpg"></a>
-                <a data-fancybox="gallery" href="https://similarminds.com/cgi-bin/16sm.pl" data-caption=""><img src="imgs/quizzes/16sm.png"></a>
-                <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/primeape.gif"></a>
-                <a data-fancybox="gallery" href="https://www.gotoquiz.com/results/what_is_your_gender_expression" data-caption=""><img src="imgs/quizzes/gender.png"></a>
-                <a href="http://www.nerdtests.com/ft_loser.php?im"><img src="http://www.nerdtests.com/images/ft/lsr.php?val=1704" alt="I am 71% loser."></a>
-                <a href="https://www.nerdtests.com/mq/uttake.php?id=293366"><img src="https://www.nerdtests.com/mq/badge/85ff49a7267274a3.jpg" alt="How EMO are u?!"></a>
-                <a href="http://www.springhole.net" target="SH.net"><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/ElementQuizResults/element-water.jpg"></a>
-                <a href="http://www.nerdtests.com/ft_weird.php?im"><img src="http://www.nerdtests.com/thetester/images/php/wq.php?val=5339" alt="What is your weird quotient?"></a>
-                <a href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you"><img src="http://www.dragonflycave.com/wpay/mewtwo.gif" alt="I am a Mewtwo!"></a>
-                <a href="https://www.theotaku.com/quizzes/view/2412/what_eevee_evolution_are_you%3F"><img src="http://www.theotaku.com/guru_results/2412_Leafeon.jpg" alt="What Eevee Evolution Are You?"></a>
-                <a href="https://andou.gay/quiz/donutquiz"><img src="https://andou.gay/quiz/mmdonut.png"></a>
-                <a href="https://cadnomori.neocities.org/quizzes/conjurer.png"><img src="https://cadnomori.neocities.org/quizzes/conjurer.png"></a>
-                <a href="https://thel3tterm.neocities.org/bonus/quiz.html"><img src="https://thel3tterm.neocities.org/resources/seraph_result.gif" alt="Seraph"></a>
-
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/result_kosumosu_en.webp" alt=""><span class="caption"><a class="qz-link" href="https://quiz.pikminbloom.com/#/result" target="_blank" rel="noopener">quiz.pikminbloom.com</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://web.archive.org/web/20030228025847im_/http://www.zenhex.com/tests/tarot/0.jpg" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://clownfred.zone/!Media/CQ/PierrotCard1.png" alt="I am a Pierrot Mime! Click here to take the clown quiz!"><span class="caption"><a class="qz-link" href="https://clownfred.zone/clownquiz" target="_blank" rel="noopener">clownfred.zone/clownquiz</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://cupped-expressions.net/cheese/quiz/cheddar03.gif" alt=""><span class="caption"><a class="qz-link" href="http://cupped-expressions.net/cheese/quiz/" target="_blank" rel="noopener">cupped-expressions.net/cheese/quiz/</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/4097_Dandere.jpg" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/3278_New_generation.jpg" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/2665_Wise_Old_Man.jpg" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/kindoftouch.png" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/howlovingyoufeelslike.png" alt=""><span class="caption"><a class="qz-link" href="https://uquiz.com/Result/static/lite/MPB0zf/1238441/personality/1196948" target="_blank" rel="noopener">uquiz.com/Result/static/lite/MPB0zf/1238441/personality/119…</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://thousandroads.net/misc/pmdquiz/static/results/Cubone.png" alt=""><span class="caption"><a class="qz-link" href="http://thousandroads.net/misc/pmdquiz/" target="_blank" rel="noopener">thousandroads.net/misc/pmdquiz/</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/uquiz.png" alt=""><span class="caption"><a class="qz-link" href="https://uquiz.com/quiz/MntFFK/to-whom-does-your-heart-belong" target="_blank" rel="noopener">uquiz.com/quiz/MntFFK/to-whom-does-your-heart-belong</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/love.png" alt=""><span class="caption"><a class="qz-link" href="https://uquiz.com/quiz/tjZ8p6/what-form-of-love-do-you-embody" target="_blank" rel="noopener">uquiz.com/quiz/tjZ8p6/what-form-of-love-do-you-embody</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/1349_pink.jpg" alt="What Is Your Anime Eye Color?"><span class="caption"><a class="qz-link" href="https://www.theotaku.com/quizzes/view/1349/what_is_your_anime_eye_color%3F" target="_blank" rel="noopener">theotaku.com/quizzes/view/1349/what_is_your_anime_eye_color…</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/2910_Animation.jpg" alt="What Type Of Movie Are You?"><span class="caption"><a class="qz-link" href="https://www.theotaku.com/quizzes/view/2910/what_type_of_movie_are_you%3F" target="_blank" rel="noopener">theotaku.com/quizzes/view/2910/what_type_of_movie_are_you%3F</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/whatfairy_firefairy.gif" alt=""><span class="caption"><a class="qz-link" href="http://www.springhole.net" target="_blank" rel="noopener">springhole.net</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://web.archive.org/web/20040812013343im_/http://www.drudabear.com/cheerbearaward.jpg" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/1592_Brunette.jpg" alt="What Is Your Anime Hair Color?"><span class="caption"><a class="qz-link" href="https://www.theotaku.com/quizzes/view/1592/what_is_your_anime_hair_color%3F" target="_blank" rel="noopener">theotaku.com/quizzes/view/1592/what_is_your_anime_hair_colo…</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/4-axes.png" alt=""><span class="caption"><a class="qz-link" href="https://www.idrlabs.com/4-axes/test.php" target="_blank" rel="noopener">idrlabs.com/4-axes/test.php</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/autism-spectrum.png" alt=""><span class="caption"><a class="qz-link" href="https://www.idrlabs.com/autism-spectrum/test.php" target="_blank" rel="noopener">idrlabs.com/autism-spectrum/test.php</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/leader.jpg" alt=""><span class="caption"><a class="qz-link" href="https://similarminds.com/cgi-bin/leader.pl" target="_blank" rel="noopener">similarminds.com/cgi-bin/leader.pl</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/16sm.png" alt=""><span class="caption"><a class="qz-link" href="https://similarminds.com/cgi-bin/16sm.pl" target="_blank" rel="noopener">similarminds.com/cgi-bin/16sm.pl</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.dragonflycave.com/wpay/primeape.gif" alt=""><span class="caption"><a class="qz-link" href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you" target="_blank" rel="noopener">dragonflycave.com/quizzes/what-pokemon-are-you</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="imgs/quizzes/gender.png" alt=""><span class="caption"><a class="qz-link" href="https://www.gotoquiz.com/results/what_is_your_gender_expression" target="_blank" rel="noopener">gotoquiz.com/results/what_is_your_gender_expression</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.nerdtests.com/images/ft/lsr.php?val=1704" alt="I am 71% loser."><span class="caption"><a class="qz-link" href="http://www.nerdtests.com/ft_loser.php?im" target="_blank" rel="noopener">nerdtests.com/ft_loser.php</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://www.nerdtests.com/mq/badge/85ff49a7267274a3.jpg" alt="How EMO are u?!"><span class="caption"><a class="qz-link" href="https://www.nerdtests.com/mq/uttake.php?id=293366" target="_blank" rel="noopener">nerdtests.com/mq/uttake.php</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://i213.photobucket.com/albums/cc224/SyeraMiktayee/QuizPics/ElementQuizResults/element-water.jpg" alt=""><span class="caption"><a class="qz-link" href="http://www.springhole.net" target="_blank" rel="noopener">springhole.net</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.nerdtests.com/thetester/images/php/wq.php?val=5339" alt="What is your weird quotient?"><span class="caption"><a class="qz-link" href="http://www.nerdtests.com/ft_weird.php?im" target="_blank" rel="noopener">nerdtests.com/ft_weird.php</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.dragonflycave.com/wpay/mewtwo.gif" alt="I am a Mewtwo!"><span class="caption"><a class="qz-link" href="http://www.dragonflycave.com/quizzes/what-pokemon-are-you" target="_blank" rel="noopener">dragonflycave.com/quizzes/what-pokemon-are-you</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/2412_Leafeon.jpg" alt="What Eevee Evolution Are You?"><span class="caption"><a class="qz-link" href="https://www.theotaku.com/quizzes/view/2412/what_eevee_evolution_are_you%3F" target="_blank" rel="noopener">theotaku.com/quizzes/view/2412/what_eevee_evolution_are_you…</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://andou.gay/quiz/mmdonut.png" alt=""><span class="caption"><a class="qz-link" href="https://andou.gay/quiz/donutquiz" target="_blank" rel="noopener">andou.gay/quiz/donutquiz</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://cadnomori.neocities.org/quizzes/conjurer.png" alt=""></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://thel3tterm.neocities.org/resources/seraph_result.gif" alt="Seraph"><span class="caption"><a class="qz-link" href="https://thel3tterm.neocities.org/bonus/quiz.html" target="_blank" rel="noopener">thel3tterm.neocities.org/bonus/quiz.html</a></span></summary></details>
                 <div class="results" style="width:100%;background-color:#fff;color:#000;padding:10px;border:1px solid #000;box-sizing:border-box;font-size:12px;line-height:1.4">
-                    <p style="margin:0">Esta página é protegida por um</p>
+                    <p style="margin:0">esta página é protegida por um</p>
                     <h1 style="margin:0;font-size:1.2em;line-height:1.2">DOLPHIN</h1>
                     <img style="max-width:100%;border:1px solid;display:block" alt="DOLPHIN" src="https://i.ibb.co/zr1qMd7/dolphin.png">
                     <p style="margin:4px 0">Atualmente existem 42 espécies de golfinhos</p>
                     <small><a href="https://hekate.neocities.org">Quer o seu? Visite hekate.neocities.org!</a></small>
                 </div>
-
-<A href="https://www.theotaku.com/quizzes/view/3589/what_homestuck_kid_are_you%3F"><img border="0" src="http://www.theotaku.com/guru_results/3589_Rose_Lalonde.jpg" alt="What Homestuck Kid Are You?" /><br /></a><A href="https://www.theotaku.com/quizzes/view/3589/what_homestuck_kid_are_you%3F">What Homestuck Kid Are You?</A><br />Hosted By theOtaku.com: <a href="http://www.theotaku.com" title="Anime">Anime</a>
-<a href="https://swiftyshq.neocities.org/fun/quiz/rock"><img src="https://swiftyshq.neocities.org/img/quiz/rock/r5.png" alt="stacked rocks" title="you appear collected and calm but youre actually barely holding it together. i dont know if stacking rocks helps, but uh, you can do that, i guess."></a>
-
-<a href='https://clownfred.zone/clownquiz'><img src='https://clownfred.zone/!Media/CQ/PierrotCard1.png' alt='I 	am a Pierrot Mime! Click here to take the clown quiz!'></a>
-	
-
-
-
-
-
-
-
+                <details class="galleryItem" name="galeria"><summary><img src="http://www.theotaku.com/guru_results/3589_Rose_Lalonde.jpg" alt="What Homestuck Kid Are You?"><span class="caption"><a class="qz-link" href="https://www.theotaku.com/quizzes/view/3589/what_homestuck_kid_are_you%3F" target="_blank" rel="noopener">theotaku.com/quizzes/view/3589/what_homestuck_kid_are_you%3F</a></span></summary></details>
+                <details class="galleryItem" name="galeria"><summary><img src="https://swiftyshq.neocities.org/img/quiz/rock/r5.png" alt="you appear collected and calm but youre actually barely holding it together. i dont know if stacking rocks helps, but uh, you can do that, i guess."><span class="caption"><a class="qz-link" href="https://swiftyshq.neocities.org/fun/quiz/rock" target="_blank" rel="noopener">swiftyshq.neocities.org/fun/quiz/rock</a></span></summary></details>
             </div>
         </main>
     </div>
@@ -158,8 +489,182 @@
     <script src="script.js"></script>
     <script src="lastfm-widget.js"></script>
     <script src="theme-switcher.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <script>Fancybox.bind('[data-fancybox="gallery"]', {});</script>
+    <script id="galleryJs">
+(function () {
+    'use strict';
+    var ITEM = '.galleryItem.carousel';
+
+    function closeAll() {
+        document.querySelectorAll('.galleryItem[open]').forEach(function (i) { i.open = false; });
+    }
+
+    function updateWrap(wrap) {
+        var track = wrap && wrap.querySelector('.carouselTrack');
+        if (!track) return;
+        wrap.toggleAttribute('data-start', track.scrollLeft <= 2);
+        wrap.toggleAttribute('data-end', track.scrollLeft + track.clientWidth >= track.scrollWidth - 2);
+    }
+
+    function buildCarousel(item) {
+        var track = item.querySelector('.carouselTrack');
+        if (!track || track.parentNode.classList.contains('carouselWrap')) return;
+
+        var wrap = document.createElement('div');
+        wrap.className = 'carouselWrap';
+        track.parentNode.insertBefore(wrap, track);
+        wrap.appendChild(track);
+        track.setAttribute('data-drag', ''); 
+
+        var prev = document.createElement('button');
+        prev.type = 'button';
+        prev.className = 'carouselArrow carouselPrev';
+        prev.setAttribute('aria-label', 'previous photo');
+
+        var next = document.createElement('button');
+        next.type = 'button';
+        next.className = 'carouselArrow carouselNext';
+        next.setAttribute('aria-label', 'next photo');
+
+        wrap.insertBefore(prev, track);
+        wrap.appendChild(next);
+
+        prev.addEventListener('click', function () { track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }); });
+        next.addEventListener('click', function () { track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }); });
+        updateWrap(wrap);
+    }
+
+    function scan() { document.querySelectorAll(ITEM).forEach(buildCarousel); }
+
+    if (!window.galleryReady) {
+        window.galleryReady = true;
+
+        var lastDragEnd = 0;
+        var drag = null;
+
+        document.addEventListener('click', function (e) {
+            if (Date.now() - lastDragEnd < 350) { e.preventDefault(); e.stopPropagation(); return; }
+            if (e.target.closest('a, button, .carouselArrow')) return;
+
+            var summary = e.target.closest('.galleryItem > summary');
+            var clicked = summary && summary.parentNode;
+            if (clicked && !clicked.open) return;
+
+            if (!document.querySelector('.galleryItem[open]')) return;
+            e.preventDefault();
+            closeAll();
+        }, true);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeAll();
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                var t = document.querySelector('.galleryItem.carousel[open] .carouselTrack');
+                if (t) t.scrollBy({ left: (e.key === 'ArrowLeft' ? -1 : 1) * t.clientWidth, behavior: 'smooth' });
+            }
+        });
+
+        document.addEventListener('scroll', function (e) {
+            var t = e.target;
+            if (t && t.classList && t.classList.contains('carouselTrack')) updateWrap(t.parentNode);
+        }, { capture: true, passive: true });
+        document.addEventListener('load', function (e) {
+            var w = e.target && e.target.closest && e.target.closest('.carouselWrap');
+            if (w) updateWrap(w);
+        }, true);
+        window.addEventListener('resize', function () {
+            document.querySelectorAll('.carouselWrap').forEach(updateWrap);
+        });
+
+        document.addEventListener('toggle', function (e) {
+            var item = e.target;
+            if (!item.matches || !item.matches(ITEM)) return;
+            if (item.open) {
+                buildCarousel(item);
+                updateWrap(item.querySelector('.carouselWrap'));
+            } else {
+                var t = item.querySelector('.carouselTrack');
+                if (t) t.scrollTo({ left: 0, behavior: 'instant' });
+            }
+        }, true);
+
+        document.addEventListener('dragstart', function (e) {
+            if (e.target.closest && e.target.closest('.carouselTrack')) e.preventDefault();
+        }, true);
+
+        document.addEventListener('pointerdown', function (e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            var track = e.target.closest && e.target.closest('.carouselTrack');
+            if (!track) return;
+            clearTimeout(track._dragT);
+            drag = { track: track, id: e.pointerId, x: e.clientX, y: e.clientY, left: track.scrollLeft,
+                     active: false, lastX: e.clientX, lastT: e.timeStamp, v: 0 };
+        });
+
+        document.addEventListener('pointermove', function (e) {
+            if (!drag || e.pointerId !== drag.id) return;
+            var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+            if (!drag.active) {
+                if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+                if (Math.abs(dy) > Math.abs(dx)) { drag = null; return; } 
+                drag.active = true;
+                drag.track.classList.add('dragging');
+                try { drag.track.setPointerCapture(drag.id); } catch (err) {}
+            }
+            drag.track.scrollLeft = drag.left - dx;
+            var dt = e.timeStamp - drag.lastT;
+            if (dt > 0) drag.v = 0.7 * drag.v + 0.3 * ((e.clientX - drag.lastX) / dt); // px/ms
+            drag.lastX = e.clientX;
+            drag.lastT = e.timeStamp;
+            if (e.cancelable) e.preventDefault();
+        });
+
+        function finish(e) {
+            if (!drag || e.pointerId !== drag.id) return;
+            var d = drag; drag = null;
+            if (!d.active) return;
+
+            lastDragEnd = Date.now();
+            var t = d.track;
+            try { t.releasePointerCapture(d.id); } catch (err) {}
+
+            var w = t.clientWidth || 1;
+            var n = t.querySelectorAll('.slide').length || 1;
+            var moved = t.scrollLeft - d.left;
+            var i = Math.round(d.left / w);
+            if (moved > w * 0.15 || d.v < -0.4) i += 1;
+            else if (moved < -w * 0.15 || d.v > 0.4) i -= 1;
+            i = Math.max(0, Math.min(n - 1, i));
+
+            t.scrollTo({ left: i * w, behavior: 'smooth' });
+            clearTimeout(t._dragT);
+            t._dragT = setTimeout(function () { t.classList.remove('dragging'); }, 450); 
+        }
+        document.addEventListener('pointerup', finish);
+        document.addEventListener('pointercancel', finish);
+
+        // galerias inseridas depois (router/fetch)
+        var timer;
+        new MutationObserver(function () { clearTimeout(timer); timer = setTimeout(scan, 100); })
+            .observe(document.documentElement, { childList: true, subtree: true });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan);
+    else scan();
+})();
+</script>
+    <script>
+        (function () {
+            var box = document.querySelector('.galeria-pin');
+            if (!box) return;
+            box.querySelectorAll('.galleryItem img').forEach(function (img) {
+                function hide() { console.warn('imagem nao carregou:', img.src); img.closest('.galleryItem').style.display = 'none'; }
+                if (img.complete && !img.naturalWidth) hide();
+                img.addEventListener('error', hide);
+            });
+            box.addEventListener('toggle', function (e) {
+                if (e.target.open) e.target.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }, true);
+        })();
+    </script>
 </body>
 
 </html>

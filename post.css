@@ -1,0 +1,925 @@
+/* ===== reset isolado: impede que o css global do index.html estrague o #postRoot ===== */
+#postRoot,
+#postRoot * {
+  text-shadow: none;
+}
+
+#postRoot [hidden] {
+  display: none !important;
+}
+
+:where(#postRoot) ul,
+:where(#postRoot) ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:where(#postRoot) p,
+:where(#postRoot) h1,
+:where(#postRoot) h4 {
+  margin: 0;
+}
+
+#postRoot button,
+#postRoot input,
+#postRoot textarea,
+#postRoot select {
+  font-family: inherit;
+  text-shadow: none;
+}
+
+#composeBox input[type="radio"],
+#composeBox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--postAccent);
+}
+
+#postRoot {
+  background: #1A1A1A;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 100px;
+  text-align: left;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+#postRoot *, #postRoot *::before, #postRoot *::after {
+  box-sizing: border-box;
+}
+#postRoot div.banner {
+  width: 100%;
+  height: 380px;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3BB9E3;
+  overflow: hidden;
+}
+#postRoot div.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#postRoot .bar {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  background-color: #1A1A1A;
+  box-shadow: 0 1px 1px #000000B0;
+}
+#postRoot .bar .postTabs {
+  padding-left: 285px;
+}
+
+#postRoot .wrapperContent {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#postRoot .wrapperContent .container {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 30px;
+  gap: 24px;
+  background-color: #1A1A1A;
+  box-sizing: border-box;
+}
+
+#postRoot .wrapperContent aside.profile {
+  flex: 0 0 260px;
+  width: 260px;
+}
+#postRoot .wrapperContent aside.profile img.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-top: -130px;
+  border: 5px solid #1A1A1A;
+}
+#postRoot .wrapperContent aside.profile h1 {
+  font-size: 21px;
+  margin-top: 10px;
+  color: #E1E8ED;
+}
+#postRoot .wrapperContent aside.profile span {
+  font-size: 14px;
+  color: #B3B3B3;
+}
+#postRoot .wrapperContent aside.profile p {
+  font-size: 14px;
+  color: #E1E8ED;
+  margin-top: 15px;
+}
+#postRoot .wrapperContent aside.profile ul {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+#postRoot .wrapperContent aside.profile ul.list li {
+  font-size: 14px;
+  color: #B3B3B3;
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+}
+#postRoot .wrapperContent aside.profile li:first-child {
+  margin: 0;
+}
+#postRoot .wrapperContent aside.profile ul.list img {
+  margin-right: 10px;
+  filter: invert(100%);
+}
+#postRoot .wrapperContent aside.profile .widget {
+  margin-top: 20px;
+}
+#postRoot .wrapperContent aside.profile .widget strong {
+  font-weight: normal;
+  color: #3BB9E3;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+#postRoot .wrapperContent aside.profile .widget strong img {
+  margin-right: 5px;
+  filter: invert(100%);
+}
+#postRoot .wrapperContent aside.profile .followers ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  list-style: none;
+  padding: 0;
+}
+#postRoot .wrapperContent aside.profile .followers ul li {
+  height: 45px;
+  width: 45px;
+  flex: 1 0 auto;
+  border-radius: 50%;
+  background: #252525;
+  margin: 0 5px 10px 0px;
+}
+
+#postRoot .wrapperContent aside.profile .images ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+#postRoot .wrapperContent aside.profile .images li {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: #252525;
+  overflow: hidden;
+}
+#postRoot .wrapperContent aside.profile .images li img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+#postRoot .wrapperContent .timeline {
+  flex: 1;
+  min-width: 0;
+  background: #1A1A1A;
+  margin-top: 10px;
+}
+#postRoot .wrapperContent .timeline .timelineDivider {
+  border-bottom: 1px solid #3A3A3A;
+}
+
+@media (max-width: 760px) {
+  #postRoot .bar .postTabs {
+    padding-left: 16px;
+  }
+  #postRoot .wrapperContent .container {
+    flex-direction: column;
+    padding: 0 16px;
+    gap: 12px;
+  }
+  #postRoot .wrapperContent aside.profile {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  #postRoot .wrapperContent aside.profile img.avatar {
+    margin-top: -90px;
+    width: 140px;
+    height: 140px;
+  }
+  #postRoot div.banner {
+    height: 220px;
+  }
+  #postRoot .wrapperContent .timeline {
+    margin-top: 0;
+  }
+}
+  
+
+/* ===== feed / posts ===== */
+:root {
+  --postBg: #1a1a1a;
+  --postBgHover: #202020;
+  --postBgField: #252525;
+  --postBorder: #3a3a3a;
+  --postText: #e1e8ed;
+  --postMuted: #b3b3b3;
+  --postFaint: #667580;
+  --postAccent: #3bb9e3;
+  --postAccentDark: #2da0c7;
+  --postDanger: #bf6a6a;
+  --postAvatarSize: 48px;
+}
+
+.postFeed *,
+.postTabs * {
+  box-sizing: border-box;
+}
+
+.postTabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 60px;
+}
+
+.postTabs ul {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.postTabs li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  margin: 0 15px;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.postTabs li.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--postAccent);
+}
+
+.postTabs li span {
+  color: var(--postMuted);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.postTabs li:hover span {
+  color: var(--postText);
+}
+
+.postTabs li strong {
+  margin-top: 2px;
+  color: var(--postText);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.postTabs li.active strong {
+  color: var(--postAccent);
+}
+
+.postAdminActions {
+  display: flex;
+}
+
+.postSyncBtn {
+  height: 34px;
+  margin-right: 20px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--postAccent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.postSyncBtn:hover {
+  background: var(--postAccentDark);
+}
+
+.postSyncBtn:disabled {
+  background: #2a4a56;
+  cursor: default;
+}
+
+.postFeed {
+  background: var(--postBg);
+  color: var(--postText);
+}
+
+.postList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.postEmpty,
+.postError {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  color: var(--postFaint);
+  font-weight: bold;
+}
+
+.postError {
+  color: var(--postDanger);
+}
+
+.postItem {
+  display: flex;
+  position: relative;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--postBorder);
+  transition: background-color 0.15s ease;
+}
+
+.postItem:hover {
+  background-color: var(--postBgHover);
+}
+
+.postItem > img {
+  flex-shrink: 0;
+  width: var(--postAvatarSize);
+  height: var(--postAvatarSize);
+  border-radius: 50%;
+}
+
+.postInfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  margin-left: 10px;
+}
+
+.postItem.plainRepost .postInfo {
+  margin-left: 0;
+}
+
+.postInfo strong {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25em;
+  color: var(--postText);
+  font-size: 14px;
+}
+
+.postInfo strong span {
+  color: var(--postMuted);
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.postInfo p {
+  margin-top: 5px;
+  color: var(--postText);
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.postLink,
+.postTag,
+.postImported {
+  color: var(--postAccent);
+}
+
+.postImage {
+  display: block;
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.postHighlight {
+  animation: postHi 2.4s ease;
+}
+
+@keyframes postHi {
+  from {
+    background: #26343b;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+.repostLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  color: var(--postFaint);
+  font-size: 12px;
+}
+
+.repostQuote {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--postBorder);
+  border-radius: 12px;
+}
+
+.repostQuoteAuthor {
+  color: var(--postMuted);
+  font-size: 13px;
+}
+
+.repostCard {
+  display: block;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--postBorder);
+  border-radius: 10px;
+  color: var(--postAccent);
+  font-size: 13px;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.repostCard:hover {
+  background: var(--postBgHover);
+}
+
+.repostQuote .repostCard {
+  margin-top: 0;
+  padding: 6px 0 0;
+  border: 0;
+}
+
+.repostQuote .repostCard:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.xpBadges {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.xpBadges a {
+  color: var(--postAccent);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.embedMedia {
+  display: block;
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.embedYoutube {
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  padding-top: 56.25%;
+  border-radius: 10px;
+}
+
+.embedYoutube iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.embedSpotify {
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 12px;
+}
+
+#composeBox {
+  padding: 15px;
+  border-bottom: 1px solid var(--postBorder);
+  background: var(--postBg);
+}
+
+#composeBox .composeBody {
+  display: flex;
+  gap: 10px;
+}
+
+#composeBox .composeBody > img {
+  flex-shrink: 0;
+  width: var(--postAvatarSize);
+  height: var(--postAvatarSize);
+  border-radius: 50%;
+}
+
+#composeBox .composeFields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#composeBox .composeKind {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+#composeBox .composeKind label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--postMuted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#composeBox #composeRepostUrl {
+  display: none;
+}
+
+#composeBox #composeRepostUrl.show {
+  display: block;
+  margin-bottom: 6px;
+}
+
+#composeBox textarea {
+  width: 100%;
+  min-height: 60px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--postText);
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+#composeBox input[type="text"],
+#composeBox input[type="password"],
+#composeBox select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--postBorder);
+  border-radius: 8px;
+  outline: none;
+  background: var(--postBgField);
+  color: var(--postText);
+  font-size: 13px;
+}
+
+#composeBox .composeImageRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#composeBox .composeImageRow input[type="text"] {
+  flex: 1;
+  margin-top: 0;
+}
+
+#composeBox .composeUploadBtn {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--postBorder);
+  border-radius: 8px;
+  background: var(--postBgField);
+  color: var(--postMuted);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+#composeBox .composeUploadBtn:hover {
+  background: #2a2a2a;
+  color: var(--postText);
+}
+
+#composeBox .composeImagePreview {
+  display: none;
+  position: relative;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+#composeBox .composeImagePreview.active {
+  display: block;
+}
+
+#composeBox .composeImagePreview img {
+  display: block;
+  max-width: 160px;
+  max-height: 160px;
+  border-radius: 8px;
+}
+
+#composeBox .composeImageRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--postBorder);
+  border-radius: 50%;
+  background: var(--postBg);
+  color: var(--postText);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#composeBox .composeImageRemove:hover {
+  background: var(--postDanger);
+}
+
+#composeBox .composeActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+#composeBox button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 16px;
+  background: var(--postAccent);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#composeBox button:hover {
+  background: var(--postAccentDark);
+}
+
+#composeBox button:disabled {
+  background: #2a4a56;
+  cursor: default;
+}
+
+#composeBox .xpRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  color: var(--postMuted);
+  font-size: 13px;
+}
+
+#composeBox .xpRow label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+#composeBox .xpCounter {
+  margin-top: 6px;
+  color: var(--postFaint);
+  font-size: 12px;
+}
+
+#composeBox .xpCounter .over {
+  color: #e0245e;
+  font-weight: bold;
+}
+
+#composeBox button.xpLinkBtn {
+  padding: 4px 10px;
+  border: 1px solid var(--postBorder);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--postMuted);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+#composeBox button.xpLinkBtn:hover {
+  background: var(--postBgField);
+  color: var(--postText);
+}
+
+#composeBox .xpSettings {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--postBorder);
+  border-radius: 10px;
+  background: var(--postBgHover);
+}
+
+#composeBox .xpSettings.open {
+  display: flex;
+}
+
+#composeBox .xpSettings h4 {
+  margin: 6px 0 0;
+  color: var(--postText);
+  font-size: 13px;
+}
+
+#composeBox .xpSettings small {
+  color: var(--postFaint);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+#composeBox .xpSettings input,
+#composeBox .xpSettings select {
+  margin-top: 0;
+}
+
+#composeBox .xpBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+#composeBox .xpStatus {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#composeBox .xpStatus.ok {
+  color: #6abf6a;
+}
+
+#composeBox .xpStatus.err {
+  color: var(--postDanger);
+}
+
+#composeBox .xpStatus.info {
+  color: #7a9abf;
+}
+
+#composeBox .xpStatus a {
+  color: var(--postAccent);
+}
+
+.editForm {
+  margin-top: 5px;
+}
+
+.editForm textarea {
+  width: 100%;
+  min-height: 60px;
+  margin-bottom: 8px;
+  padding: 10px;
+  border: 1px solid var(--postBorder);
+  border-radius: 8px;
+  background: var(--postBgField);
+  color: var(--postText);
+  font-size: 14px;
+  resize: vertical;
+}
+
+.editForm .editActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.editForm .editSave {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 16px;
+  background: var(--postAccent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.editForm .editCancel {
+  padding: 6px 14px;
+  border: 1px solid var(--postBorder);
+  border-radius: 16px;
+  background: transparent;
+  color: var(--postMuted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.postMenuBtn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 10;
+  padding: 2px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #555;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.postMenuBtn:hover {
+  background: #2a2a2a;
+  color: var(--postText);
+}
+
+.postDropdown {
+  display: none;
+  position: absolute;
+  top: 34px;
+  right: 12px;
+  z-index: 20;
+  min-width: 140px;
+  overflow: hidden;
+  border: 1px solid var(--postBorder);
+  border-radius: 8px;
+  background: var(--postBgField);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  animation: ddIn 0.15s ease;
+}
+
+.postDropdown.open {
+  display: block;
+}
+
+@keyframes ddIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.postDropdownBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  color: var(--postDanger);
+  font-size: 13px;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.postDropdownBtn:hover {
+  background: #2a2020;
+}
+
+.postDropdownBtn svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.postDropdownBtn.neutral {
+  color: var(--postMuted);
+}

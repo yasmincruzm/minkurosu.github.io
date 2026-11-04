@@ -10,14 +10,14 @@
     <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
     <meta property="og:type" content="website">
 
-    <title>@minkurosu</title>
+    <title>minkurosu</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="minkurosu" href="rss.xml">
    <link rel="stylesheet" href="gallery.css">
    <script src="gallery.js" defer></script>
-    <link rel="stylesheet" href="emo.css" id="themeStylesheet">
+    <link rel="stylesheet" href="emo.css?v=7" id="themeStylesheet">
         <script src="script.js"></script>
-    <link rel="stylesheet" href="chattable.css" id="">
+    <link rel="stylesheet" href="chattable.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <link rel="stylesheet" href="https://unpkg.com/balloon-css/balloon.min.css">
 <script src="https://iframe.chat/scripts/main.min.js"></script>
@@ -47,6 +47,7 @@
     <script src="oneko.js"></script>
 
     <style>
+
     #chatContainer {
       width: 100%;
       max-width: 90%;
@@ -76,34 +77,6 @@
     @keyframes rotation {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100vh;
-    }
-
-    html {
-      background-image: url('imgs/site_imgs/petcemetery.gif');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      background-attachment: fixed;
-      background-color: #000;
-    }
-
-    body {
-      background-image: url('imgs/site_imgs/petcemetery.gif');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      background-attachment: fixed;
-      width: 100%;
-      min-height: 100vh;
-      text-align: center;
     }
 
 
@@ -149,6 +122,20 @@
     .goog-te-menu-frame {
       border-radius: 8px !important;
       overflow: hidden !important;
+    }
+
+    /* google translate: impede a barra de empurrar o body (antes era um MutationObserver) */
+    body {
+      top: 0 !important;
+    }
+
+    body > .skiptranslate {
+      display: none !important;
+    }
+
+    .sidebarRight .trackInner,
+    .sidebarRight .trackInner2 {
+      will-change: transform;
     }
 
     a,
@@ -646,7 +633,10 @@
       margin: 5px;
       padding: 0 6px;
       box-sizing: border-box;
+      padding-bottom: 12px;
       overflow-y: scroll;
+      overflow-anchor: none;
+      overscroll-behavior: contain;
       scrollbar-width: none;
     }
 
@@ -707,7 +697,7 @@
 
                     <div class="sideItem"><a href="#" data-page="blog" class="navLink">blog</a></div>
                     
-                    <div class="sideItem"><a href="#" data-page="posts" class="navLink">posts</a></div>
+                    <div class="sideItem"><a href="#" data-page="post" class="navLink">posts</a></div>
                     <div class="sideItem"><a href="#" data-page="games" class="navLink">gamelog</a></div>
                     <div class="sideItem"><a href="#" data-page="toybox" class="navLink">toybox</a></div>
                                         <div class="sideItem"><a href="#" data-page="dream-journal" class="navLink">dream journal</a></div>
@@ -1019,7 +1009,7 @@
                     <div class="carouselContainer">
 
                         <div class="track track1 desaturate" >
-                            <div class="trackInner">
+                            <div class="trackInner" style="--track-duration:161s">
                                 <img src="imgs/webgraphics/stamps/40a781d46799a0f255e25180ad859ecb24862fde.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/75d0fd9d40b13483b9b910bb681af4210cda4ae6.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/3dsowner.jpg" alt="">
@@ -1084,7 +1074,7 @@
 <br>
 
                         <div class="track track2 desaturate">
-                            <div class="trackInner">
+                            <div class="trackInner" style="--track-duration:158s">
                                 <img src="imgs/webgraphics/stamps/maxwell.gif" alt="">
                                 <img src="imgs/webgraphics/stamps/mcrred.png" alt="">
                                 <img src="imgs/webgraphics/stamps/mentallillness.png" alt="">
@@ -1150,83 +1140,83 @@
 <br>
 
                         <div class="scroll">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catlover.png" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/artistblinkie.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/nightperson.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/psychology.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catBlinkie.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/minecraftvegetarian.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sensitive.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/piercingobsessed.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/brasil.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/grumpy.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/nonbinary.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/naturelover.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catsovereverything.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cats.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/peace.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iwanttobelieve.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cringebutfree.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sillycat.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/231.gif" class="desaturate blinkie">
-                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/animator.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/tumblr_ed8172750baf0046999be976d64c1172_8fe26d5c_250.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/0f3887ff.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/catlover.png" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/artistblinkie.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/nightperson.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/psychology.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/catBlinkie.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/minecraftvegetarian.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/sensitive.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/piercingobsessed.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/brasil.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/grumpy.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/nonbinary.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/naturelover.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/catsovereverything.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/cats.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/peace.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/iwanttobelieve.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/cringebutfree.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/sillycat.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/231.gif" class="desaturate blinkie">
+                                                        <img alt="" src="imgs/webgraphics/blinkies/cinto.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/animator.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/tumblr_ed8172750baf0046999be976d64c1172_8fe26d5c_250.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/0f3887ff.gif" class="desaturate blinkie">
 
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/hopelessromantic.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iloveblack.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/118.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/demolitionlovers.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/vampires.gif" class="desaturate blinkie" style="height: 30px;">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/darkmode.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovemybf.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/gothicandloneliness.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovemycomputer.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/chocoholic.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/typeonegative2.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/youmaynotrestnow.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ocd.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/dontlikeit.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/neurodivergent.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/mybackhurts.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/libra.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/greeneyedcat.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/catnip.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/atmyfuckinglimit.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/icant.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/yaoi.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/oldcatlady.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iloverevenge.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/277.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ego.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/iwannagohome.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/normal-ppl-worry-me.gif" class="desaturate blinkie">
-                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ignoranceisbliss.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/hopelessromantic.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/iloveblack.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/118.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/demolitionlovers.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/vampires.gif" class="desaturate blinkie" style="height: 30px;">
+                            <img alt="" src="imgs/webgraphics/blinkies/darkmode.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/ilovemybf.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/gothicandloneliness.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/ilovemycomputer.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/chocoholic.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/typeonegative2.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/youmaynotrestnow.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/ocd.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/dontlikeit.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/neurodivergent.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/mybackhurts.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/libra.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/greeneyedcat.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/catnip.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/atmyfuckinglimit.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/icant.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/yaoi.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/oldcatlady.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/iloverevenge.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/277.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/ego.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/iwannagohome.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/normal-ppl-worry-me.gif" class="desaturate blinkie">
+                                                        <img alt="" src="imgs/webgraphics/blinkies/ignoranceisbliss.gif" class="desaturate blinkie">
 
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/horrormovies.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/y10.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/bigsis.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/ilovethesea.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/bekindtoanimals.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/sebastian.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/stevenuniverse.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/scully.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/opinionated.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/copycat.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/revenge.gif" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/stalking.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/arrrg.webp" class="desaturate blinkie">
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/washyourhands.gif" class="desaturate blinkie">
-                                                        <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/fluttershymarijuana.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/horrormovies.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/y10.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/bigsis.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/ilovethesea.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/bekindtoanimals.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/sebastian.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/stevenuniverse.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/scully.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/opinionated.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/copycat.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/revenge.gif" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/stalking.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/arrrg.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/washyourhands.gif" class="desaturate blinkie">
+                                                        <img alt="" src="imgs/webgraphics/blinkies/fluttershymarijuana.webp" class="desaturate blinkie">
 
-                            <img alt="" loading="lazy" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" class="desaturate blinkie">
+                            <img alt="" src="imgs/webgraphics/blinkies/mmmyummisubstances.webp" class="desaturate blinkie">
                         </div>
 
 <br>
                         <div class="track track1">
-                            <div class="trackInner2">
+                            <div class="trackInner2" style="--track-duration:59s">
                                 <img alt="" src="imgs/webgraphics/buttons/antifa.gif" class="desaturate">
                                 <img alt="" src="imgs/webgraphics/buttons/keffiyehbutton.png" class="desaturate" style="height: 31px; width: 88px;">
                                 <img alt="" src="imgs/webgraphics/buttons/Area51_Dimension_6665_legalize.gif" class="desaturate" style="height: 31px; width: 88px;">
@@ -1416,7 +1406,6 @@
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="gallery.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,6 @@
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getStorage,
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-import {
   getFirestore,
   collection,
   query,
@@ -14,52 +8,81 @@ import {
   onSnapshot,
   doc,
   addDoc,
+  setDoc,
   deleteDoc,
   updateDoc,
-  serverTimestamp,
-  increment
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
-  authDomain: "minkurosu.firebaseapp.com",
-  projectId: "minkurosu",
-  storageBucket: "minkurosu.firebasestorage.app",
-  messagingSenderId: "290821725607",
-  appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
-  measurementId: "G-M7PWC6DDRH"
-};
+(function ensureStyles() {
+  const already = [...document.querySelectorAll('link[rel="stylesheet"]')]
+    .some(l => /(^|\/)post\.css(\?|$)/.test(l.getAttribute("href") || ""));
+  if (already) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = new URL("post.css", import.meta.url).href;
+  document.head.appendChild(link);
+})();
 
-const allowedEmails = [
+window.__postCleanup?.();
+const pageAbort = new AbortController();
+const pageUnsubs = [];
+window.__postCleanup = () => { pageAbort.abort(); pageUnsubs.forEach(fn => { try { fn(); } catch {} }); };
+
+const config = {
+  firebase: {
+    apiKey: "AIzaSyA8-Ab2dE48sVOhmT-HfxIL5_rzDMRdcCc",
+    authDomain: "minkurosu.firebaseapp.com",
+    projectId: "minkurosu",
+    storageBucket: "minkurosu.firebasestorage.app",
+    messagingSenderId: "290821725607",
+    appId: "1:290821725607:web:5e39e561da53ac7c8a2a82",
+    measurementId: "G-M7PWC6DDRH"
+  },
+  adminEmails: [
   "mincruzm@gmail.com",
   "yasmincruzm@hotmail.com"
-];
+],
+  collectionName: "post",
+  imageHostUrl: "https://api.imgbb.com/1/upload",
+  displayName: "min*",
+  handle: "minkurosu",
+  avatarUrl: "imgs/site_imgs/twitteravatar.jpg"
+};
 
-const isAllowed = email => !!email && allowedEmails.includes(email);
+const isAllowed = email => !!email && config.adminEmails.includes(email);
+const defaultBskyHandle = `${config.handle}.bsky.social`;
 
-const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(firebaseConfig);
+const app = getApps().find(a => a.name === "[DEFAULT]") || initializeApp(config.firebase);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+const feed = document.getElementById("postFeed");
+if (feed) feed.classList.add("postFeed");
+else console.error("#postFeed nao encontrado: o post.js precisa do <div id=\"postFeed\"> na pagina.");
 
 let isAdmin = false;
 
-onAuthStateChanged(auth, user => {
+pageUnsubs.push(onAuthStateChanged(auth, user => {
   isAdmin = !!(user && isAllowed(user.email));
-  const composeBox = document.getElementById("compose-post");
-  if (composeBox) composeBox.style.display = isAdmin ? "block" : "none";
-  const actionsBar = document.getElementById("admin-actions-bar");
-  if (actionsBar) actionsBar.style.display = isAdmin ? "flex" : "none";
+  updateAdminUi();
   rerenderAll();
-});
+}));
+
+function updateAdminUi() {
+  if (isAdmin) {
+    injectComposeBox();
+    injectAdminActions();
+    return;
+  }
+  document.getElementById("composeBox")?.remove();
+  document.getElementById("adminActions")?.replaceChildren();
+}
 
 const settingsKey = "crosspost_settings_v1";
 const prefsKey = "crosspost_prefs_v1";
 const limits = { bluesky: 300, x: 280, mastodon: 500 };
-const allowedUser = "minkurosu";
-
 const isAllowedBsky = handle =>
-  String(handle || "").replace(/^@/, "").toLowerCase().split(".")[0] === allowedUser;
+  String(handle || "").replace(/^@/, "").toLowerCase().split(".")[0] === config.handle;
 
 function loadSettings() {
   try { return JSON.parse(localStorage.getItem(settingsKey)) || {}; }
@@ -68,7 +91,7 @@ function loadSettings() {
 
 function saveSettings(s) {
   if (s.bskyHandle && !isAllowedBsky(s.bskyHandle)) {
-    throw new Error(`bluesky handle must be @${allowedUser}...`);
+    throw new Error(`bluesky handle must be @${config.handle}...`);
   }
   localStorage.setItem(settingsKey, JSON.stringify(s));
 }
@@ -117,10 +140,27 @@ function validateLengths(text, networks) {
 async function readError(res) {
   try {
     const j = await res.json();
-    return j.message || j.error_description || j.error || `HTTP ${res.status}`;
+    const err = typeof j.error === "string" ? j.error : j.error?.message;
+    return j.message || j.error_description || err || `HTTP ${res.status}`;
   } catch {
     return `HTTP ${res.status}`;
   }
+}
+
+async function uploadImage(file) {
+  const key = loadSettings().imgbbKey;
+  if (!key) throw new Error("imgbb key not configured");
+  const fd = new FormData();
+  fd.append("image", file);
+  const res = await fetch(`${config.imageHostUrl}?key=${encodeURIComponent(key)}`, {
+    method: "POST",
+    body: fd
+  });
+  if (!res.ok) throw new Error(`imgbb: ${await readError(res)}`);
+  const json = await res.json();
+  const url = json?.data?.image?.url || json?.data?.url;
+  if (!url) throw new Error("imgbb: no image url returned");
+  return url;
 }
 
 async function resolveImageBlob({ file, imageUrl }) {
@@ -173,7 +213,7 @@ async function bskyLogin(force = false) {
   if (!res.ok) throw new Error(`bluesky login: ${await readError(res)}`);
   const sess = await res.json();
   if (!isAllowedBsky(sess.handle)) {
-    throw new Error(`blocked: account is @${sess.handle}, only @${allowedUser} allowed`);
+    throw new Error(`blocked: account is @${sess.handle}, only @${config.handle} allowed`);
   }
   bskySession = sess;
   return bskySession;
@@ -411,16 +451,15 @@ function isEmbeddable(url) {
 function buildEmbedHtml(url) {
   const u = escHtml(url);
   if (embedPatterns.image.test(url)) {
-    return `<img src="${u}" alt="" loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;">`;
+    return `<img class="embedMedia" src="${u}" alt="" loading="lazy">`;
   }
   if (embedPatterns.video.test(url)) {
-    return `<video src="${u}" controls loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;"></video>`;
+    return `<video class="embedMedia" src="${u}" controls loading="lazy"></video>`;
   }
   let m = url.match(embedPatterns.youtube);
   if (m) {
-    return `<div style="margin-top:10px;border-radius:10px;overflow:hidden;position:relative;padding-top:56.25%;">
+    return `<div class="embedYoutube">
       <iframe src="https://www.youtube.com/embed/${m[1]}" title="youtube video"
-        style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen loading="lazy"></iframe>
     </div>`;
@@ -428,7 +467,7 @@ function buildEmbedHtml(url) {
   m = url.match(embedPatterns.spotify);
   if (m) {
     const height = (m[1] === "track" || m[1] === "episode") ? 152 : 352;
-    return `<div style="margin-top:10px;border-radius:12px;overflow:hidden;">
+    return `<div class="embedSpotify">
       <iframe src="https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0"
         width="100%" height="${height}" frameborder="0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -454,9 +493,9 @@ function linkify(text) {
     .replace(/(https?:\/\/[^\s<]+)/g, raw => {
       const { core, trail } = stripTrailingPunctuation(raw);
       if (isEmbeddable(core)) return trail;
-      return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
+      return `<a class="postLink" href="${core}" target="_blank" rel="noopener">${core}</a>${trail}`;
     })
-    .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
+    .replace(/#(\w+)/g, '<span class="postTag">#$1</span>');
 }
 
 function formatDate(ts) {
@@ -490,24 +529,49 @@ function isRepost(d) {
   return d.type === "repost" || /^RT @/i.test((d.content || "").trim());
 }
 
+function isSyncedRepost(d) {
+  return d.source === "bluesky" || d.source === "mastodon";
+}
+
+function repostParts(d) {
+  const content = d.content || "";
+  if (!isRepost(d)) return { comment: content, quoted: "", field: "content" };
+  if (isSyncedRepost(d) || /^RT @/i.test(content.trim())) {
+    return { comment: d.comment || "", quoted: content, field: "comment" };
+  }
+  return { comment: content, quoted: d.repostText || "", field: "content" };
+}
+
+function authorFromUrl(u) {
+  try {
+    const x = new URL(u);
+    let m = x.pathname.match(/^\/profile\/([^/]+)\/post\//);
+    if (m) return m[1];
+    m = x.pathname.match(/^\/@([^/]+)\//);
+    if (m) return `${m[1]}@${x.hostname}`;
+  } catch {}
+  return "";
+}
+
 const xpNetworks = ["bluesky", "mastodon", "x"];
+const xpId = n => "xp" + n.charAt(0).toUpperCase() + n.slice(1);
 let lastRetry = null;
 
 function currentKind() {
-  return document.querySelector('#compose-post input[name="compose-kind"]:checked')?.value || "original";
+  return document.querySelector('#composeBox input[name="composeKind"]:checked')?.value || "original";
 }
 
 function resetSubmitLabel() {
-  const b = document.getElementById("compose-submit");
+  const b = document.getElementById("composeSubmit");
   if (b) b.textContent = currentKind() === "repost" ? "repost" : "post";
 }
 
 function setComposeStatus(lines, kind = "", withRetry = false) {
-  const el = document.getElementById("compose-status");
+  const el = document.getElementById("composeStatus");
   if (!el) return;
-  el.className = "xp-status " + kind;
+  el.className = "xpStatus " + kind;
   el.innerHTML = lines.map(l => `<div>${l}</div>`).join("")
-    + (withRetry ? `<button type="button" class="xp-link-btn" id="xp-retry">retry failed</button>` : "");
+    + (withRetry ? `<button type="button" class="xpLinkBtn" id="xpRetry">retry failed</button>` : "");
 }
 
 function resultLines(results) {
@@ -529,13 +593,13 @@ function xResult(win, text, imageUrl) {
 }
 
 function updateXpCounter() {
-  const el = document.getElementById("xp-counter");
+  const el = document.getElementById("xpCounter");
   if (!el) return;
-  const nets = xpNetworks.filter(n => document.getElementById(`xp-${n}`)?.checked);
+  const nets = xpNetworks.filter(n => document.getElementById(xpId(n))?.checked);
   if (!nets.length) { el.textContent = ""; return; }
   const repostUrl = currentKind() === "repost"
-    ? safeUrl(document.getElementById("compose-repost-url")?.value.trim() || "") : "";
-  const text = buildText({ content: document.getElementById("compose-text")?.value || "", repostUrl });
+    ? safeUrl(document.getElementById("composeRepostUrl")?.value.trim() || "") : "";
+  const text = buildText({ content: document.getElementById("composeText")?.value || "", repostUrl });
   const len = graphemeLength(text);
   const s = loadSettings();
   el.innerHTML = nets.map(n => {
@@ -573,12 +637,12 @@ async function retryFailed() {
 
 async function createPost() {
   if (!isAdmin) return;
-  const box = document.getElementById("compose-post");
-  const textEl = document.getElementById("compose-text");
-  const urlEl = document.getElementById("compose-image");
-  const fileEl = document.getElementById("compose-image-file");
-  const repostEl = document.getElementById("compose-repost-url");
-  const submitBtn = document.getElementById("compose-submit");
+  const box = document.getElementById("composeBox");
+  const textEl = document.getElementById("composeText");
+  const urlEl = document.getElementById("composeImage");
+  const fileEl = document.getElementById("composeImageFile");
+  const repostEl = document.getElementById("composeRepostUrl");
+  const submitBtn = document.getElementById("composeSubmit");
 
   const kind = currentKind();
   const content = textEl.value.trim();
@@ -595,7 +659,13 @@ async function createPost() {
     return;
   }
 
-  const networks = xpNetworks.filter(n => document.getElementById(`xp-${n}`)?.checked);
+  if (file && !loadSettings().imgbbKey) {
+    setComposeStatus([`configure the imgbb key in "⚙\uFE0E accounts".`], "err");
+    document.getElementById("xpSettings")?.classList.add("open");
+    return;
+  }
+
+  const networks = xpNetworks.filter(n => document.getElementById(xpId(n))?.checked);
   const text = buildText({ content, repostUrl });
 
   const problems = validateLengths(text, networks);
@@ -605,8 +675,8 @@ async function createPost() {
   }
   const missing = networks.filter(n => !isConfigured(n));
   if (missing.length) {
-    setComposeStatus([`configure accounts for ${missing.join(", ")} in "⚙ accounts".`], "err");
-    document.getElementById("xp-settings")?.classList.add("open");
+    setComposeStatus([`configure accounts for ${missing.join(", ")} in "⚙\uFE0E accounts".`], "err");
+    document.getElementById("xpSettings")?.classList.add("open");
     return;
   }
 
@@ -622,16 +692,13 @@ async function createPost() {
     let imageUrl = pastedUrl || "";
     if (file) {
       submitBtn.textContent = "uploading image...";
-      const path = `posts/${Date.now()}_${file.name}`;
-      const fileRef = storageRef(storage, path);
-      await uploadBytes(fileRef, file);
-      imageUrl = await getDownloadURL(fileRef);
+      imageUrl = await uploadImage(file);
     }
 
     submitBtn.textContent = "posting...";
     const docData = { content, imageUrl, type: kind, timestamp: serverTimestamp() };
     if (repostUrl) docData.repostUrl = repostUrl;
-    const ref = await addDoc(collection(db, "posts"), docData);
+    const ref = await addDoc(collection(db, config.collectionName), docData);
 
     textEl.value = "";
     repostEl.value = "";
@@ -662,77 +729,81 @@ async function createPost() {
 }
 
 function injectComposeBox() {
-  if (document.getElementById("compose-post")) return;
-  const targetContainer = document.getElementById("posts-container");
+  if (document.getElementById("composeBox")) return;
+  const targetContainer = document.getElementById("postList");
   if (!targetContainer || !targetContainer.parentNode) return;
 
   const box = document.createElement("div");
-  box.id = "compose-post";
+  box.id = "composeBox";
   box.innerHTML = `
-    <div class="compose-body">
-      <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
-      <div class="compose-fields">
-        <div class="compose-kind">
-          <label><input type="radio" name="compose-kind" value="original" checked> original</label>
-          <label><input type="radio" name="compose-kind" value="repost"> repost</label>
+    <div class="composeBody">
+      <img src="${escHtml(config.avatarUrl)}" alt="avatar">
+      <div class="composeFields">
+        <div class="composeKind">
+          <label><input type="radio" name="composeKind" value="original" checked> original</label>
+          <label><input type="radio" name="composeKind" value="repost"> repost</label>
         </div>
-        <input type="text" id="compose-repost-url" placeholder="link to original post (https://...)">
-        <textarea id="compose-text" placeholder="what's on your mind?"></textarea>
-        <div class="compose-image-row">
-          <input type="text" id="compose-image" placeholder="image url (optional)">
-          <label class="compose-upload-btn" for="compose-image-file">upload image</label>
-          <input type="file" id="compose-image-file" accept="image/*" hidden>
+        <input type="text" id="composeRepostUrl" placeholder="link to original post (https://...)">
+        <textarea id="composeText" placeholder="what's on your mind?"></textarea>
+        <div class="composeImageRow">
+          <input type="text" id="composeImage" placeholder="image url (optional)">
+          <label class="composeUploadBtn" for="composeImageFile">upload image</label>
+          <input type="file" id="composeImageFile" accept="image/*" hidden>
         </div>
-        <div id="compose-image-preview" class="compose-image-preview">
-          <img id="compose-image-preview-img" src="" alt="preview">
-          <button type="button" class="compose-image-remove" id="compose-image-remove" title="remove image">×</button>
+        <div id="composeImagePreview" class="composeImagePreview">
+          <img id="composeImagePreviewImg" src="" alt="preview">
+          <button type="button" class="composeImageRemove" id="composeImageRemove" title="remove image">×</button>
         </div>
 
-        <div class="xp-row">
+        <div class="xpRow">
           <span>crosspost:</span>
-          <label><input type="checkbox" id="xp-bluesky"> bluesky</label>
-          <label><input type="checkbox" id="xp-mastodon"> mastodon</label>
-          <label><input type="checkbox" id="xp-x"> x</label>
-          <button type="button" class="xp-link-btn" id="xp-settings-toggle">⚙ accounts</button>
+          <label><input type="checkbox" id="xpBluesky"> bluesky</label>
+          <label><input type="checkbox" id="xpMastodon"> mastodon</label>
+          <label><input type="checkbox" id="xpX"> x</label>
+          <button type="button" class="xpLinkBtn" id="xpSettingsToggle">⚙\uFE0E accounts</button>
         </div>
-        <div class="xp-counter" id="xp-counter"></div>
+        <div class="xpCounter" id="xpCounter"></div>
 
-        <div class="xp-settings" id="xp-settings">
+        <div class="xpSettings" id="xpSettings">
           <h4>bluesky</h4>
-          <input type="text" id="xp-bsky-handle" value="minkurosu.bsky.social" readonly title="only @minkurosu">
-          <input type="password" id="xp-bsky-pass" placeholder="app password (xxxx-xxxx-xxxx-xxxx)" autocomplete="off">
+          <input type="text" id="xpBskyHandle" value="${defaultBskyHandle}" readonly title="only @${config.handle}">
+          <input type="password" id="xpBskyPass" placeholder="app password (xxxx-xxxx-xxxx-xxxx)" autocomplete="off">
           <small>app password generated at bsky.app → settings → app passwords.</small>
 
           <h4>mastodon</h4>
-          <input type="text" id="xp-masto-instance" placeholder="instance (e.g. mastodon.social)">
-          <input type="password" id="xp-masto-token" placeholder="access token" autocomplete="off">
-          <select id="xp-masto-vis">
+          <input type="text" id="xpMastoInstance" placeholder="instance (e.g. mastodon.social)">
+          <input type="password" id="xpMastoToken" placeholder="access token" autocomplete="off">
+          <select id="xpMastoVis">
             <option value="public">public</option>
             <option value="unlisted">unlisted</option>
           </select>
           <small>token needs write:statuses, write:media and read:accounts scopes.</small>
 
+          <h4>imgbb</h4>
+          <input type="password" id="xpImgbbKey" placeholder="api key" autocomplete="off">
+          <small>hosts the images you upload (api.imgbb.com).</small>
+
           <h4>x</h4>
           <small>opens an intent popup pre-filled with text and link.</small>
 
           <small>credentials saved only in this browser (localStorage).</small>
-          <div class="xp-btns">
-            <button type="button" class="xp-link-btn" id="xp-save">save</button>
-            <button type="button" class="xp-link-btn" id="xp-clear">clear</button>
+          <div class="xpBtns">
+            <button type="button" class="xpLinkBtn" id="xpSave">save</button>
+            <button type="button" class="xpLinkBtn" id="xpClear">clear</button>
           </div>
         </div>
 
-        <div class="xp-status" id="compose-status"></div>
+        <div class="xpStatus" id="composeStatus"></div>
       </div>
     </div>
-    <div class="compose-actions">
-      <button id="compose-submit">post</button>
+    <div class="composeActions">
+      <button id="composeSubmit">post</button>
     </div>
   `;
   targetContainer.parentNode.insertBefore(box, targetContainer);
 
-  const kindRadios = box.querySelectorAll('input[name="compose-kind"]');
-  const repostUrlInput = box.querySelector("#compose-repost-url");
+  const kindRadios = box.querySelectorAll('input[name="composeKind"]');
+  const repostUrlInput = box.querySelector("#composeRepostUrl");
   kindRadios.forEach(r => {
     r.addEventListener("change", () => {
       const isRep = currentKind() === "repost";
@@ -742,11 +813,11 @@ function injectComposeBox() {
     });
   });
 
-  const urlInput = box.querySelector("#compose-image");
-  const fileInput = box.querySelector("#compose-image-file");
-  const preview = box.querySelector("#compose-image-preview");
-  const previewImg = box.querySelector("#compose-image-preview-img");
-  const removeBtn = box.querySelector("#compose-image-remove");
+  const urlInput = box.querySelector("#composeImage");
+  const fileInput = box.querySelector("#composeImageFile");
+  const preview = box.querySelector("#composeImagePreview");
+  const previewImg = box.querySelector("#composeImagePreviewImg");
+  const removeBtn = box.querySelector("#composeImageRemove");
 
   function showPreview(src) {
     previewImg.src = src;
@@ -784,39 +855,41 @@ function injectComposeBox() {
   removeBtn.addEventListener("click", () => clearImageSelection());
   box._clearImageSelection = clearImageSelection;
 
-  box.querySelector("#compose-text").addEventListener("input", updateXpCounter);
+  box.querySelector("#composeText").addEventListener("input", updateXpCounter);
   repostUrlInput.addEventListener("input", updateXpCounter);
 
   const savedPrefs = loadPrefs();
   xpNetworks.forEach(n => {
-    const cb = box.querySelector(`#xp-${n}`);
+    const cb = box.querySelector(`#${xpId(n)}`);
     if (cb) {
       cb.checked = !!savedPrefs[n];
       cb.addEventListener("change", updateXpCounter);
     }
   });
 
-  const settingsEl = box.querySelector("#xp-settings");
+  const settingsEl = box.querySelector("#xpSettings");
   const s = loadSettings();
-  box.querySelector("#xp-bsky-handle").value = s.bskyHandle || "minkurosu.bsky.social";
-  box.querySelector("#xp-bsky-pass").value = s.bskyPassword || "";
-  box.querySelector("#xp-masto-instance").value = s.mastoInstance || "";
-  box.querySelector("#xp-masto-token").value = s.mastoToken || "";
-  box.querySelector("#xp-masto-vis").value = s.mastoVisibility || "public";
+  box.querySelector("#xpBskyHandle").value = s.bskyHandle || defaultBskyHandle;
+  box.querySelector("#xpBskyPass").value = s.bskyPassword || "";
+  box.querySelector("#xpMastoInstance").value = s.mastoInstance || "";
+  box.querySelector("#xpMastoToken").value = s.mastoToken || "";
+  box.querySelector("#xpMastoVis").value = s.mastoVisibility || "public";
+  box.querySelector("#xpImgbbKey").value = s.imgbbKey || "";
 
-  box.querySelector("#xp-settings-toggle").addEventListener("click", () => {
+  box.querySelector("#xpSettingsToggle").addEventListener("click", () => {
     settingsEl.classList.toggle("open");
   });
 
-  box.querySelector("#xp-save").addEventListener("click", () => {
+  box.querySelector("#xpSave").addEventListener("click", () => {
     try {
       saveSettings({
         ...loadSettings(),
-        bskyHandle: box.querySelector("#xp-bsky-handle").value.trim(),
-        bskyPassword: box.querySelector("#xp-bsky-pass").value.trim(),
-        mastoInstance: box.querySelector("#xp-masto-instance").value.trim(),
-        mastoToken: box.querySelector("#xp-masto-token").value.trim(),
-        mastoVisibility: box.querySelector("#xp-masto-vis").value
+        bskyHandle: box.querySelector("#xpBskyHandle").value.trim(),
+        bskyPassword: box.querySelector("#xpBskyPass").value.trim(),
+        mastoInstance: box.querySelector("#xpMastoInstance").value.trim(),
+        mastoToken: box.querySelector("#xpMastoToken").value.trim(),
+        mastoVisibility: box.querySelector("#xpMastoVis").value,
+        imgbbKey: box.querySelector("#xpImgbbKey").value.trim()
       });
       setComposeStatus(["✓ saved in browser"], "ok");
       refreshMastodonLimit().then(updateXpCounter);
@@ -825,25 +898,31 @@ function injectComposeBox() {
     }
   });
 
-  box.querySelector("#xp-clear").addEventListener("click", () => {
+  box.querySelector("#xpClear").addEventListener("click", () => {
     if (!confirm("clear credentials in this browser?")) return;
     saveSettings({});
-    ["#xp-bsky-pass", "#xp-masto-instance", "#xp-masto-token"].forEach(sel => { box.querySelector(sel).value = ""; });
+    ["#xpBskyPass", "#xpMastoInstance", "#xpMastoToken", "#xpImgbbKey"].forEach(sel => { box.querySelector(sel).value = ""; });
     setComposeStatus(["credentials cleared"], "info");
   });
 
   box.addEventListener("click", e => {
-    if (e.target.id === "xp-retry") retryFailed();
+    if (e.target.id === "xpRetry") retryFailed();
   });
 
-  document.getElementById("compose-submit").addEventListener("click", createPost);
-  box.style.display = isAdmin ? "block" : "none";
+  document.getElementById("composeSubmit").addEventListener("click", createPost);
   updateXpCounter();
 }
 
-async function syncReposts() {
-  if (!isAdmin) return;
-  const syncBtn = document.getElementById("xp-sync-reposts");
+const syncDocId = (source, key) => `sync_${source}_${String(key).replace(/[^A-Za-z0-9_-]/g, "_")}`.slice(0, 200);
+
+function syncTimestamp(iso) {
+  const d = iso ? new Date(iso) : null;
+  return d && !isNaN(d) ? d : serverTimestamp();
+}
+
+async function syncRepost() {
+  if (!isAdmin || !isAllowed(auth.currentUser?.email)) return;
+  const syncBtn = document.getElementById("xpSyncRepost");
   if (syncBtn) {
     syncBtn.disabled = true;
     syncBtn.textContent = "syncing...";
@@ -852,7 +931,7 @@ async function syncReposts() {
   let importedCount = 0;
   try {
     const s = loadSettings();
-    const handle = s.bskyHandle || "minkurosu.bsky.social";
+    const handle = s.bskyHandle || defaultBskyHandle;
     const bskyRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${encodeURIComponent(handle)}&limit=40`);
     if (bskyRes.ok) {
       const data = await bskyRes.json();
@@ -874,14 +953,16 @@ async function syncReposts() {
           imageUrl = p.embed.media.images[0].fullsize || p.embed.media.images[0].thumb || "";
         }
 
-        await addDoc(collection(db, "posts"), {
+        const id = syncDocId("bsky", p.uri.replace(/^at:\/\//, ""));
+        if (cachedDocs.some(d => d.id === id)) { existingUrls.add(postUrl); continue; }
+        await setDoc(doc(db, config.collectionName, id), {
           content: p.record?.text || "",
           imageUrl,
           repostUrl: postUrl,
           repostAuthor: p.author.handle,
           type: "repost",
           source: "bluesky",
-          timestamp: serverTimestamp()
+          timestamp: syncTimestamp(item.reason.indexedAt)
         });
         existingUrls.add(postUrl);
         importedCount++;
@@ -912,14 +993,16 @@ async function syncReposts() {
               const cleanText = (orig.content || "").replace(/<[^>]+>/g, "").trim();
               const imageUrl = orig.media_attachments?.[0]?.url || "";
 
-              await addDoc(collection(db, "posts"), {
+              const id = syncDocId("masto", postUrl);
+              if (cachedDocs.some(d => d.id === id)) { existingUrls.add(postUrl); continue; }
+              await setDoc(doc(db, config.collectionName, id), {
                 content: cleanText,
                 imageUrl,
                 repostUrl: postUrl,
                 repostAuthor: orig.account?.acct || "",
                 type: "repost",
                 source: "mastodon",
-                timestamp: serverTimestamp()
+                timestamp: syncTimestamp(st.created_at)
               });
               existingUrls.add(postUrl);
               importedCount++;
@@ -934,7 +1017,7 @@ async function syncReposts() {
     if (importedCount > 0) {
       alert(`✓ ${importedCount} new repost(s) synced!`);
     } else {
-      alert("no new reposts found to sync.");
+      alert("no new repost found to sync.");
     }
   } catch (err) {
     console.error("sync error:", err);
@@ -942,45 +1025,46 @@ async function syncReposts() {
   } finally {
     if (syncBtn) {
       syncBtn.disabled = false;
-      syncBtn.textContent = "🔄 sync reposts";
+      syncBtn.textContent = "↻ sync repost";
     }
   }
 }
 
 function injectTabs() {
-  if (document.getElementById("post-tabs")) return;
+  if (!feed || document.getElementById("postTabList")) return;
 
-  let bar = document.querySelector("#posts-root .bar");
-  if (!bar) {
-    const timeline = document.querySelector("#posts-root .timeline");
-    if (!timeline) return;
-    bar = document.createElement("div");
-    bar.className = "bar";
-    timeline.insertBefore(bar, timeline.firstChild);
+  let host = document.getElementById("postTabs");
+  if (!host) {
+    host = document.createElement("div");
+    host.id = "postTabs";
+    feed.parentNode.insertBefore(host, feed);
   }
 
-  bar.innerHTML = `
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-      <ul id="post-tabs">
-        <li class="active" data-tab="original"><span>posts</span><strong id="count-original">0</strong></li>
-        <li data-tab="reposts"><span>reposts</span><strong id="count-reposts">0</strong></li>
+  host.innerHTML = `
+    <div class="postTabs">
+      <ul id="postTabList">
+        <li class="active" data-tab="original"><span>post</span><strong id="countOriginal">0</strong></li>
+        <li data-tab="repost"><span>repost</span><strong id="countRepost">0</strong></li>
       </ul>
-      <div class="actions" id="admin-actions-bar" style="display: ${isAdmin ? 'flex' : 'none'};">
-        <button type="button" id="xp-sync-reposts" title="sync reposts from bluesky & mastodon" style="width:auto; padding:0 14px; font-size:12px; cursor:pointer;">🔄 sync reposts</button>
-      </div>
+      <div class="postAdminActions" id="adminActions"></div>
     </div>
   `;
 
-  bar.querySelectorAll("#post-tabs li").forEach(li => {
+  host.querySelectorAll("#postTabList li").forEach(li => {
     li.addEventListener("click", () => setActiveTab(li.dataset.tab));
   });
+}
 
-  bar.querySelector("#xp-sync-reposts")?.addEventListener("click", syncReposts);
+function injectAdminActions() {
+  const bar = document.getElementById("adminActions");
+  if (!bar || document.getElementById("xpSyncRepost")) return;
+  bar.innerHTML = `<button type="button" class="postSyncBtn" id="xpSyncRepost" title="sync repost from bluesky & mastodon">↻ sync repost</button>`;
+  bar.querySelector("#xpSyncRepost").addEventListener("click", syncRepost);
 }
 
 function setActiveTab(tab) {
   activeTab = tab;
-  document.querySelectorAll("#post-tabs li").forEach(li => {
+  document.querySelectorAll("#postTabList li").forEach(li => {
     li.classList.toggle("active", li.dataset.tab === tab);
   });
   renderList();
@@ -989,7 +1073,7 @@ function setActiveTab(tab) {
 async function deletePost(id, liEl) {
   if (!confirm("delete this post?")) return;
   try {
-    await deleteDoc(doc(db, "posts", id));
+    await deleteDoc(doc(db, config.collectionName, id));
     liEl.style.transition = "opacity 0.3s";
     liEl.style.opacity = "0";
     setTimeout(() => liEl.remove(), 310);
@@ -999,60 +1083,62 @@ async function deletePost(id, liEl) {
   }
 }
 
-async function saveEdit(id, newContent) {
+async function saveEdit(id, field, newContent) {
   try {
-    await updateDoc(doc(db, "posts", id), { content: newContent });
+    await updateDoc(doc(db, config.collectionName, id), { [field]: newContent });
   } catch (err) {
     console.error("error:", err);
     alert("error");
   }
 }
 
-function enterEditMode(id, liEl, currentContent) {
-  const infoDiv = liEl.querySelector(".info");
-  const pEl = infoDiv.querySelector("p");
+function enterEditMode(id, liEl, currentValue, field = "content", allowEmpty = false) {
+  const infoDiv = liEl.querySelector(".postInfo");
+  const pEl = infoDiv.querySelector(".postText");
   if (!pEl) return;
 
   pEl.style.display = "none";
 
   const form = document.createElement("div");
-  form.className = "edit-form";
+  form.className = "editForm";
   form.innerHTML = `
-    <textarea class="edit-textarea"></textarea>
-    <div class="edit-actions">
-      <button class="edit-cancel">cancel</button>
-      <button class="edit-save">save</button>
+    <textarea class="editTextarea"></textarea>
+    <div class="editActions">
+      <button class="editCancel">cancel</button>
+      <button class="editSave">save</button>
     </div>
   `;
 
-  const textarea = form.querySelector(".edit-textarea");
-  textarea.value = currentContent;
+  const textarea = form.querySelector(".editTextarea");
+  textarea.value = currentValue;
 
-  form.querySelector(".edit-cancel").addEventListener("click", e => {
+  form.querySelector(".editCancel").addEventListener("click", e => {
     e.stopPropagation();
     form.remove();
     pEl.style.display = "";
   });
 
-  form.querySelector(".edit-save").addEventListener("click", async e => {
+  form.querySelector(".editSave").addEventListener("click", async e => {
     e.stopPropagation();
     const newContent = textarea.value.trim();
-    if (!newContent) return;
+    if (!newContent && !allowEmpty) return;
 
-    await saveEdit(id, newContent);
+    await saveEdit(id, field, newContent);
     pEl.innerHTML = linkify(newContent);
-    const embedsEl = infoDiv.querySelector(".post-embeds");
+    pEl.hidden = !newContent;
+    const embedsEl = infoDiv.querySelector(".postEmbeds");
     if (embedsEl) embedsEl.innerHTML = buildEmbeds(newContent);
     form.remove();
     pEl.style.display = "";
   });
 
-  infoDiv.appendChild(form);
+  pEl.after(form);
 }
 
 function buildPostEl(id, data) {
   const li = document.createElement("li");
   li.id = "post-" + id;
+  li.className = "postItem";
 
   const repost = isRepost(data);
   const repostLink = safeUrl(data.repostUrl || "");
@@ -1060,62 +1146,79 @@ function buildPostEl(id, data) {
   const xpBadges = ["bluesky", "mastodon"].map(n => {
     const u = safeUrl(data.crossposted?.[n]?.url || "");
     return u
-      ? `<a href="${escHtml(u)}" target="_blank" rel="noopener" title="also on ${n}">${n === "bluesky" ? "🦋" : "🐘"}</a>`
+      ? `<a href="${escHtml(u)}" target="_blank" rel="noopener" title="also on ${n}">${n === "bluesky" ? "bsky" : "masto"}</a>`
       : "";
   }).join("");
 
+  const parts = repostParts(data);
+  const quotedImage = repost && isSyncedRepost(data);
+
   const imgHtml = data.imageUrl
-    ? `<img src="${escHtml(data.imageUrl)}" alt="" style="max-width:100%;border-radius:10px;margin-top:10px;">`
+    ? `<img class="postImage" src="${escHtml(data.imageUrl)}" alt="">`
     : "";
 
   const isImported = data.source === "twitter";
   const importedBadge = isImported
-    ? ` · <span title="imported from x" style="color:#3BB9E3;">𝕏</span>`
+    ? ` · <span class="postImported" title="imported from x">𝕏</span>`
     : "";
 
+  const author = data.repostAuthor || authorFromUrl(repostLink);
+  const hasQuote = repost && (author || parts.quoted || repostLink || (quotedImage && data.imageUrl));
+  const quoteHtml = hasQuote ? `
+      <div class="repostQuote">
+        ${author ? `<div class="repostQuoteAuthor">${escHtml(author.startsWith("@") ? author : "@" + author)}</div>` : ""}
+        ${parts.quoted ? `<p class="repostQuoteText">${linkify(parts.quoted)}</p>` : ""}
+        ${quotedImage ? imgHtml : ""}
+        ${repostLink ? `<a class="repostCard" href="${escHtml(repostLink)}" target="_blank" rel="noopener">↗\uFE0E ${escHtml(shortLink(repostLink))}</a>` : ""}
+        <div class="repostQuoteEmbeds">${buildEmbeds(parts.quoted + (repostLink ? "\n" + repostLink : ""))}</div>
+      </div>` : "";
+
+  const plainRepost = repost && !parts.comment;
+  if (plainRepost) li.classList.add("plainRepost");
+
   li.innerHTML = `
-    <img src="imgs/site_imgs/twitteravatar.jpg" alt="avatar">
-    <div class="info">
-      ${repost ? `<div class="repost-label">🔁 min* reposted</div>` : ""}
-      <strong>min* <span>@minkurosu · ${formatDate(data.timestamp)}${importedBadge}${xpBadges ? ` · <span class="xp-badges">${xpBadges}</span>` : ""}</span></strong>
-      <p>${linkify(data.content || "")}</p>
-      ${repostLink ? `<a class="repost-card" href="${escHtml(repostLink)}" target="_blank" rel="noopener">🔗 ${escHtml(shortLink(repostLink))}</a>` : ""}
-      ${imgHtml}
-      <div class="post-embeds">${buildEmbeds((data.content || "") + (repostLink ? "\n" + repostLink : ""))}</div>
+    ${plainRepost ? "" : `<img src="${escHtml(config.avatarUrl)}" alt="avatar">`}
+    <div class="postInfo">
+      ${repost ? `<div class="repostLabel">↻ ${escHtml(config.displayName)} reposted${parts.comment ? " with comment" : ""}${plainRepost ? ` · ${formatDate(data.timestamp)}` : ""}</div>` : ""}
+      ${plainRepost ? "" : `<strong>${escHtml(config.displayName)} <span>@${escHtml(config.handle)} · ${formatDate(data.timestamp)}${importedBadge}${xpBadges ? ` · <span class="xpBadges">${xpBadges}</span>` : ""}</span></strong>`}
+      <p class="postText"${parts.comment ? "" : " hidden"}>${linkify(parts.comment)}</p>
+      ${quotedImage ? "" : imgHtml}
+      <div class="postEmbeds">${buildEmbeds(parts.comment)}</div>
+      ${quoteHtml}
     </div>
   `;
 
   if (isAdmin) {
     const menuBtn = document.createElement("button");
-    menuBtn.className = "post-menu-btn";
+    menuBtn.className = "postMenuBtn";
     menuBtn.title = "options";
     menuBtn.setAttribute("aria-label", "post options");
     menuBtn.textContent = "⋯";
 
     const dropdown = document.createElement("div");
-    dropdown.className = "post-dropdown";
+    dropdown.className = "postDropdown";
 
     if (!isImported) {
       const editBtn = document.createElement("button");
-      editBtn.className = "post-dropdown-btn";
+      editBtn.className = "postDropdownBtn";
       editBtn.innerHTML = `
         <svg viewBox="0 0 24 24">
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
         </svg>
-        edit post
+        ${repost && !parts.comment ? "add comment" : "edit post"}
       `;
-      editBtn.style.color = "#B3B3B3";
+      editBtn.classList.add("neutral");
       editBtn.addEventListener("click", e => {
         e.stopPropagation();
         dropdown.classList.remove("open");
-        enterEditMode(id, li, data.content || "");
+        enterEditMode(id, li, parts.comment, parts.field, repost);
       });
       dropdown.appendChild(editBtn);
     }
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.className = "post-dropdown-btn";
+    deleteBtn.className = "postDropdownBtn";
     deleteBtn.innerHTML = `
       <svg viewBox="0 0 24 24">
         <polyline points="3 6 5 6 21 6"/>
@@ -1136,71 +1239,36 @@ function buildPostEl(id, data) {
 
     menuBtn.addEventListener("click", e => {
       e.stopPropagation();
-      document.querySelectorAll(".post-dropdown.open").forEach(d => {
+      document.querySelectorAll(".postDropdown.open").forEach(d => {
         if (d !== dropdown) d.classList.remove("open");
       });
       dropdown.classList.toggle("open");
     });
 
-    document.addEventListener("click", () => dropdown.classList.remove("open"));
     li.appendChild(menuBtn);
   }
-
-  const actionsDiv = document.createElement("div");
-  actionsDiv.className = "post-actions";
-
-  const likeBtn = document.createElement("span");
-  likeBtn.className = "action-button";
-  likeBtn.innerHTML = `
-    <svg viewBox="0 0 24 24">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06
-               a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84
-               a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  `;
-
-  const storageKey = `liked_${id}`;
-  if (localStorage.getItem(storageKey)) likeBtn.classList.add("liked");
-
-  likeBtn.addEventListener("click", async () => {
-    const alreadyLiked = likeBtn.classList.contains("liked");
-    likeBtn.classList.toggle("liked");
-    const delta = alreadyLiked ? -1 : 1;
-    alreadyLiked
-      ? localStorage.removeItem(storageKey)
-      : localStorage.setItem(storageKey, "1");
-
-    try {
-      await updateDoc(doc(db, "posts", id), { likes: increment(delta) });
-    } catch {
-      likeBtn.classList.toggle("liked");
-    }
-  });
-
-  actionsDiv.appendChild(likeBtn);
-  li.querySelector(".info").appendChild(actionsDiv);
 
   return li;
 }
 
-injectComposeBox();
+if (feed) feed.innerHTML = `<ul class="postList" id="postList"><li class="postEmpty">loading...</li></ul>`;
 injectTabs();
 
-const postContainer = document.getElementById("posts-container") || document.getElementById("tweets-container");
+const postContainer = document.getElementById("postList");
 let cachedDocs = [];
 let activeTab = "original";
 let hashHandled = false;
 
 function visibleDocs() {
-  return cachedDocs.filter(({ data }) => (activeTab === "reposts") === isRepost(data));
+  return cachedDocs.filter(({ data }) => (activeTab === "repost") === isRepost(data));
 }
 
 function updateTabCounts() {
-  const reposts = cachedDocs.filter(({ data }) => isRepost(data)).length;
-  const a = document.getElementById("count-original");
-  const b = document.getElementById("count-reposts");
-  if (a) a.textContent = cachedDocs.length - reposts;
-  if (b) b.textContent = reposts;
+  const repost = cachedDocs.filter(({ data }) => isRepost(data)).length;
+  const a = document.getElementById("countOriginal");
+  const b = document.getElementById("countRepost");
+  if (a) a.textContent = cachedDocs.length - repost;
+  if (b) b.textContent = repost;
 }
 
 function renderList() {
@@ -1210,8 +1278,8 @@ function renderList() {
   const list = visibleDocs();
   if (list.length === 0) {
     postContainer.innerHTML = `
-      <li style="justify-content:center;padding:20px;color:#667580;">
-        ${activeTab === "reposts" ? "no reposts yet." : "no posts yet."}
+      <li class="postEmpty">
+        ${activeTab === "repost" ? "no repost yet." : "no post yet."}
       </li>`;
     return;
   }
@@ -1228,20 +1296,23 @@ function goToHash() {
   if (!m) return;
   const found = cachedDocs.find(d => d.id === m[1]);
   if (!found) return;
-  const wanted = isRepost(found.data) ? "reposts" : "original";
+  const wanted = isRepost(found.data) ? "repost" : "original";
   if (wanted !== activeTab) setActiveTab(wanted);
   const el = document.getElementById("post-" + m[1]);
   if (el) {
     el.scrollIntoView({ behavior: "smooth", block: "center" });
-    el.classList.add("post-highlight");
+    el.classList.add("postHighlight");
   }
 }
-window.addEventListener("hashchange", goToHash);
+window.addEventListener("hashchange", goToHash, { signal: pageAbort.signal });
+document.addEventListener("click", () => {
+  document.querySelectorAll(".postDropdown.open").forEach(d => d.classList.remove("open"));
+}, { signal: pageAbort.signal });
 
 if (postContainer) {
-  const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+  const q = query(collection(db, config.collectionName), orderBy("timestamp", "desc"));
 
-  onSnapshot(q, snapshot => {
+  pageUnsubs.push(onSnapshot(q, snapshot => {
     cachedDocs = [];
     snapshot.forEach(docSnap => {
       cachedDocs.push({ id: docSnap.id, data: docSnap.data() });
@@ -1253,10 +1324,13 @@ if (postContainer) {
       goToHash();
     }
   }, err => {
-    console.error("error loading posts snapshot:", err);
+    console.error("error loading post snapshot:", err.code, err);
+    const hint = err.code === "permission-denied"
+      ? "firestore recusou a leitura (confira as regras do banco)."
+      : (err.code || err.message || "erro desconhecido");
     postContainer.innerHTML = `
-      <li style="justify-content:center;padding:20px;color:#bf6a6a;">
-        error loading posts.
+      <li class="postError">
+        error loading posts — ${escHtml(hint)}
       </li>`;
-  });
+  }));
 }

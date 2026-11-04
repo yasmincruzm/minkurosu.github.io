@@ -149,7 +149,15 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    cursor: zoom-out;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+}
+
+.galleryItem.carousel .carouselTrack.dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    cursor: grabbing;
+    user-select: none;
 }
 
 .galleryItem.carousel .carouselTrack::-webkit-scrollbar {
@@ -169,6 +177,9 @@
 }
 
 .galleryItem.carousel .carouselTrack .slide img {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
     display: block;
     width: auto;
     height: auto;
