@@ -6,6 +6,7 @@ import {
   query,
   orderBy,
   onSnapshot,
+  getDocs,
   doc,
   addDoc,
   setDoc,
@@ -44,6 +45,7 @@ const config = {
   "yasmincruzm@hotmail.com"
 ],
   collectionName: "post",
+  deletedCollection: "deletedSync",
   imageHostUrl: "https://api.imgbb.com/1/upload",
   displayName: "min*",
   handle: "minkurosu",
@@ -931,6 +933,13 @@ async function syncRepost() {
   let importedCount = 0;
   try {
     const s = loadSettings();
+    const deletedUrls = new Set();
+    try {
+      const delSnap = await getDocs(collection(db, config.deletedCollection));
+      delSnap.forEach(d => { const u = d.data().repostUrl; if (u) deletedUrls.add(u); });
+    } catch (errDel) {
+      console.warn("could not read deleted list:", errDel);
+    }
     const handle = s.bskyHandle || defaultBskyHandle;
     const bskyRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${encodeURIComponent(handle)}&limit=40`);
     if (bskyRes.ok) {
@@ -944,7 +953,7 @@ async function syncRepost() {
 
         const rkey = p.uri.split("/").pop();
         const postUrl = `https://bsky.app/profile/${p.author.handle}/post/${rkey}`;
-        if (existingUrls.has(postUrl)) continue;
+        if (existingUrls.has(postUrl) || deletedUrls.has(postUrl)) continue;
 
         let imageUrl = "";
         if (p.embed?.images && p.embed.images[0]) {
@@ -988,7 +997,7 @@ async function syncRepost() {
               if (!st.reblog) continue;
               const orig = st.reblog;
               const postUrl = orig.url;
-              if (!postUrl || existingUrls.has(postUrl)) continue;
+              if (!postUrl || existingUrls.has(postUrl) || deletedUrls.has(postUrl)) continue;
 
               const cleanText = (orig.content || "").replace(/<[^>]+>/g, "").trim();
               const imageUrl = orig.media_attachments?.[0]?.url || "";
@@ -1073,6 +1082,14 @@ function setActiveTab(tab) {
 async function deletePost(id, liEl) {
   if (!confirm("delete this post?")) return;
   try {
+    const found = cachedDocs.find(d => d.id === id);
+    if (found && found.data.repostUrl && isSyncedRepost(found.data)) {
+      await setDoc(doc(db, config.deletedCollection, syncDocId("del", found.data.repostUrl)), {
+        repostUrl: found.data.repostUrl,
+        source: found.data.source || "",
+        deletedAt: serverTimestamp()
+      });
+    }
     await deleteDoc(doc(db, config.collectionName, id));
     liEl.style.transition = "opacity 0.3s";
     liEl.style.opacity = "0";
@@ -1310,13 +1327,24 @@ document.addEventListener("click", () => {
 }, { signal: pageAbort.signal });
 
 if (postContainer) {
-  const q = query(collection(db, config.collectionName), orderBy("timestamp", "desc"));
+  // sem orderBy no servidor: o Firestore esconde docs sem o campo "timestamp".
+  // buscamos tudo e ordenamos aqui, entao nenhum post some.
+  const q = collection(db, config.collectionName);
+  const tsMillis = t => {
+    if (!t) return 0;
+    if (typeof t.toMillis === "function") return t.toMillis();
+    if (typeof t.seconds === "number") return t.seconds * 1000;
+    const n = new Date(t).getTime();
+    return isNaN(n) ? 0 : n;
+  };
 
   pageUnsubs.push(onSnapshot(q, snapshot => {
     cachedDocs = [];
     snapshot.forEach(docSnap => {
       cachedDocs.push({ id: docSnap.id, data: docSnap.data() });
     });
+    cachedDocs.sort((a, b) => tsMillis(b.data.timestamp) - tsMillis(a.data.timestamp));
+    console.log(`[posts] ${cachedDocs.length} docs na colecao "${config.collectionName}"`);
     renderList();
 
     if (!hashHandled && cachedDocs.length) {
