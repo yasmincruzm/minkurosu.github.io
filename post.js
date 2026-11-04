@@ -1327,7 +1327,8 @@ document.addEventListener("click", () => {
 }, { signal: pageAbort.signal });
 
 if (postContainer) {
- 
+  // sem orderBy no servidor: o Firestore esconde docs sem o campo "timestamp".
+  // buscamos tudo e ordenamos aqui, entao nenhum post some.
   const q = collection(db, config.collectionName);
   const tsMillis = t => {
     if (!t) return 0;
