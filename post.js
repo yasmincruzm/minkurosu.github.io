@@ -44,7 +44,10 @@ const config = {
   "mincruzm@gmail.com",
   "yasmincruzm@hotmail.com"
 ],
-  collectionName: "post",
+  // colecao onde novos posts/reposts sao gravados
+  collectionName: "posts",
+  // colecoes antigas que tambem sao lidas (posts ja existentes ficam visiveis)
+  legacyCollections: ["post"],
   deletedCollection: "deletedSync",
   imageHostUrl: "https://api.imgbb.com/1/upload",
   displayName: "min*",
@@ -1090,7 +1093,7 @@ async function deletePost(id, liEl) {
         deletedAt: serverTimestamp()
       });
     }
-    await deleteDoc(doc(db, config.collectionName, id));
+    await deleteDoc(doc(db, found?.col || config.collectionName, id));
     liEl.style.transition = "opacity 0.3s";
     liEl.style.opacity = "0";
     setTimeout(() => liEl.remove(), 310);
@@ -1102,7 +1105,8 @@ async function deletePost(id, liEl) {
 
 async function saveEdit(id, field, newContent) {
   try {
-    await updateDoc(doc(db, config.collectionName, id), { [field]: newContent });
+    const col = cachedDocs.find(d => d.id === id)?.col || config.collectionName;
+    await updateDoc(doc(db, col, id), { [field]: newContent });
   } catch (err) {
     console.error("error:", err);
     alert("error");
@@ -1327,9 +1331,13 @@ document.addEventListener("click", () => {
 }, { signal: pageAbort.signal });
 
 if (postContainer) {
+  // le a colecao principal e as antigas ao mesmo tempo e junta tudo.
   // sem orderBy no servidor: o Firestore esconde docs sem o campo "timestamp".
-  // buscamos tudo e ordenamos aqui, entao nenhum post some.
-  const q = collection(db, config.collectionName);
+  const allCols = [config.collectionName, ...(config.legacyCollections || [])];
+  const buckets = {};
+  const failed = new Set();
+  const loaded = new Set();
+
   const tsMillis = t => {
     if (!t) return 0;
     if (typeof t.toMillis === "function") return t.toMillis();
@@ -1338,27 +1346,51 @@ if (postContainer) {
     return isNaN(n) ? 0 : n;
   };
 
-  pageUnsubs.push(onSnapshot(q, snapshot => {
+  function mergeAndRender() {
+    const seen = new Set();
     cachedDocs = [];
-    snapshot.forEach(docSnap => {
-      cachedDocs.push({ id: docSnap.id, data: docSnap.data() });
-    });
+    for (const col of allCols) {
+      for (const d of (buckets[col] || [])) {
+        if (seen.has(d.id)) continue;
+        seen.add(d.id);
+        cachedDocs.push(d);
+      }
+    }
     cachedDocs.sort((a, b) => tsMillis(b.data.timestamp) - tsMillis(a.data.timestamp));
-    console.log(`[posts] ${cachedDocs.length} docs na colecao "${config.collectionName}"`);
+    console.log("[posts]", cachedDocs.length, "docs",
+      Object.fromEntries(allCols.map(c => [c, (buckets[c] || []).length])));
     renderList();
 
     if (!hashHandled && cachedDocs.length) {
       hashHandled = true;
       goToHash();
     }
-  }, err => {
-    console.error("error loading post snapshot:", err.code, err);
-    const hint = err.code === "permission-denied"
-      ? "firestore recusou a leitura (confira as regras do banco)."
-      : (err.code || err.message || "erro desconhecido");
-    postContainer.innerHTML = `
-      <li class="postError">
-        error loading posts — ${escHtml(hint)}
-      </li>`;
-  }));
+  }
+
+  allCols.forEach(col => {
+    pageUnsubs.push(onSnapshot(collection(db, col), snapshot => {
+      failed.delete(col);
+      loaded.add(col);
+      buckets[col] = [];
+      snapshot.forEach(docSnap => {
+        buckets[col].push({ id: docSnap.id, data: docSnap.data(), col });
+      });
+      mergeAndRender();
+    }, err => {
+      console.error(`error loading "${col}":`, err.code, err);
+      failed.add(col);
+      buckets[col] = [];
+      if (failed.size === allCols.length) {
+        const hint = err.code === "permission-denied"
+          ? "firestore recusou a leitura (confira as regras do banco)."
+          : (err.code || err.message || "erro desconhecido");
+        postContainer.innerHTML = `
+          <li class="postError">
+            error loading posts — ${escHtml(hint)}
+          </li>`;
+      } else {
+        mergeAndRender();
+      }
+    }));
+  });
 }
