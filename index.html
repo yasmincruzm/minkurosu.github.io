@@ -12,7 +12,7 @@
     <meta property="og:image" content="https://minkurosu.site/thumbnail.png">
     <meta property="og:type" content="website">
 
-    <title>minkurosu</title>
+    <title>min</title>
     <link rel="icon" type="image/ico" href="imgs/site_imgs/favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="minkurosu" href="rss.xml">
    <link rel="stylesheet" href="gallery.css">
@@ -81,8 +81,6 @@
       to { transform: rotate(360deg); }
     }
 
-
-    /* tradutor: seletor proprio; o motor do google fica escondido (#google_translate_element.srOnly) */
     #langSelect {
       display: block;
       box-sizing: border-box;
@@ -108,7 +106,6 @@
       color: #9a9a9a;
     }
 
-    /* google translate: sem banner, sem balao "texto original", sem destaque ao passar o mouse */
     .goog-te-banner-frame,
     .goog-te-balloon-frame,
     .goog-te-menu-frame,
@@ -128,7 +125,6 @@
       box-shadow: none !important;
     }
 
-    /* google translate: impede a barra de empurrar o body */
     body {
       top: 0 !important;
     }
@@ -652,13 +648,15 @@
     }
 
     @keyframes scrollRight {
-      0% { transform: translateX(-50%); }
-      100% { transform: translateX(0%); }
+      0% { transform: translateX(-50%); 
+      }
+      100% { 
+        transform: translateX(0%);
+       }
     }
 
 
     
-    /* ascii da sidebar: sempre inteiro, escalado pra largura disponivel */
     .asciiWrap {
       width: 100%;
       min-width: 0;
@@ -675,7 +673,7 @@
       white-space: pre;
       color: #b11313;
       font-weight: bold;
-      font-size: 4px; /* fallback sem JS */
+      font-size: 4px; 
       line-height: 1.2;
       letter-spacing: 0;
       font-family: "DejaVu Sans Mono", "Segoe UI Symbol", "Apple Braille", "Noto Sans Symbols 2", monospace;
@@ -685,7 +683,7 @@
     }
 
     .asciiOn .asciiArt {
-      font-size: 16px; /* tamanho fixo; o JS escala com transform (evita tamanho minimo de fonte do navegador) */
+      font-size: 16px; 
     }
 
     </style>
@@ -754,10 +752,7 @@
                 <hr>
 
                 <h3    style="margin:10px"> translate if you're<br>interested enough!</h3>
-                <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
-                    <option value="">original</option>
-                </select>
-                <div id="google_translate_element" class="srOnly" aria-hidden="true"></div>
+              
                <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
                 <script>
                     (function () {
@@ -807,6 +802,11 @@
                         });
                     })();
                 </script>
+  <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
+                    <option value="">original</option>
+                </select>
+                <div id="google_translate_element" class="srOnly" aria-hidden="true"></div>
+
 
                 <div class="caixamaisclaraColumn" style="margin:10px">
 
@@ -828,7 +828,7 @@
         </tr>
         <tr>
             <td>playing:</td>
-            <td id="discord-game">probably sleeping or working/studying</td>
+            <td id="discord-game">probably sleeping or studying/working</td>
         </tr>
        <tr>
           <td>listening:</td>
@@ -904,7 +904,6 @@
     var art = document.getElementById('asciiArt');
     if (!wrap || !art) return;
 
-    /* tamanho da grade braille: cada caractere = 2 colunas x 4 linhas de pontos */
     var lines = art.textContent.replace(/\s+$/, '').split('\n');
     var rows = lines.length;
     var cols = 0;
@@ -920,8 +919,6 @@
         var r = art.getBoundingClientRect();
         if (!r.width || !r.height) return;
 
-        /* largura = largura disponivel; altura segue a proporcao real dos pontos (2:4),
-           independente da fonte que o dispositivo usar pro braille */
         var targetH = avail * (rows * 4) / (cols * 2);
         art.style.transform = 'scale(' + (avail / r.width) + ',' + (targetH / r.height) + ')';
 
@@ -1057,7 +1054,7 @@
 
             <div id="container" tabindex="-1"></div>
 
-            <footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:var(--rose); text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
+            <footer style="text-align:center; padding: 10px; font-family:'MinFont', sans-serif; font-size:0.85rem; color:var(--red); text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000; margin-top:8px; width:100%;">
                 minkurosu © 2024 - forever
             </footer>
 
@@ -1474,8 +1471,8 @@
         var sel = document.getElementById('langSelect');
         if (!sel) return;
 
-        var combo = null;      /* <select> escondido que o google cria */
-        var current = '';      /* idioma escolhido ('' = original) */
+        var combo = null;      
+        var current = '';    
         var timers = [];
 
         LANGS.forEach(function (l) {
@@ -1517,7 +1514,6 @@
             combo.dispatchEvent(new Event('change'));
         }
 
-        /* o conteudo da pagina carregada ja foi traduzido? (o google embrulha o texto em <font>) */
         function containerTranslated() {
             var c = document.getElementById('container');
             return !c || !c.textContent.trim() || !!c.querySelector('font');
@@ -1551,7 +1547,6 @@
             }
         });
 
-        /* paginas carregadas dentro do #container: garante que tambem sejam traduzidas */
         document.addEventListener('pageloaded', function () {
             if (!current || !combo) return;
             clearTimers();
