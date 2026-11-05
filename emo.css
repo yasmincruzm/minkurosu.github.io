@@ -397,7 +397,9 @@ header {
   flex: 1 1 auto;
 }
 
-.navSide .sideItem a {
+.navSide .sideItem a,
+.navSide .sideItem button,
+.navSide .sideItem select {
   display: block;
   text-align: center;
   white-space: nowrap;
@@ -408,7 +410,9 @@ header {
   width: 100%;
 }
 
-.sideItem a {
+.sideItem a,
+.sideItem button,
+.sideItem select {
   text-decoration: none;
   color: var(--text);
   background-color: #0a0a0a;
@@ -420,7 +424,9 @@ header {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.sideItem a:hover {
+.sideItem a:hover,
+.sideItem button:hover,
+.sideItem select:hover:not(:disabled) {
   color: var(--roseLift);
   border: 5px solid var(--roseDeepLift);
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
@@ -431,6 +437,35 @@ header {
   transform: scale(1.10);
   transition: all 0.2s ease-in-out;
   cursor: url('imgs/cursor/ROCKcursorselect.cur'), pointer !important;
+}
+
+.sideItem button,
+.sideItem select {
+  font-family: inherit;
+  line-height: 1.4;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+}
+
+.sideItem select {
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: center;
+  text-align-last: center;
+}
+
+.sideItem select:disabled {
+  opacity: 0.5;
+}
+
+.sideItem select option {
+  background-color: #0a0a0a;
+  color: var(--text);
+  text-shadow: none;
+}
+
+.navSide .sideItemFull {
+  flex: 1 1 100%;
 }
 
 .sidebar p,
@@ -1829,4 +1864,9 @@ summary:focus-visible,
 
 .motionOff .track {
   overflow-x: auto;
+}
+
+html.translated-ltr font,
+html.translated-rtl font {
+  text-transform: lowercase;
 }

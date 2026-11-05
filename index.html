@@ -17,7 +17,7 @@
     <link rel="alternate" type="application/rss+xml" title="minkurosu" href="rss.xml">
    <link rel="stylesheet" href="gallery.css">
    <script src="gallery.js" defer></script>
-    <link rel="stylesheet" href="emo.css?v=8" id="themeStylesheet">
+    <link rel="stylesheet" href="emo.css?v=10" id="themeStylesheet">
         <script src="script.js"></script>
     <link rel="stylesheet" href="chattable.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -79,31 +79,6 @@
     @keyframes rotation {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
-    }
-
-    #langSelect {
-      display: block;
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 220px;
-      margin: 6px auto 0;
-      padding: 3px 6px;
-      background-color: #141414;
-      color: var(--text);
-      border: 1px solid #555;
-      border-radius: 2px;
-      font-family: "MinFont", sans-serif;
-      font-size: 0.9rem;
-      text-shadow: none;
-    }
-
-    #langSelect:disabled {
-      opacity: 0.5;
-    }
-
-    #langSelect option {
-      background-color: #141414;
-      color: #9a9a9a;
     }
 
     .goog-te-banner-frame,
@@ -392,28 +367,6 @@
       padding: 1.5rem !important;
       max-width: 800px !important;
       margin: 0 auto !important;
-    }
-
-    #crtToggle,
-    #motionToggle {
-      display: block;
-      margin: 6px auto 0;
-      background: none;
-      border: 1px solid #555;
-      color: var(--text);
-      font-family: "MinFont", sans-serif;
-      font-size: 0.8rem;
-      padding: 2px 6px;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      opacity: 0.6;
-      transition: opacity 0.2s, color 0.2s;
-    }
-
-    #crtToggle:hover,
-    #motionToggle:hover {
-      opacity: 1;
-      color: #b0b0b0;
     }
 
     .crtOff .crt {
@@ -712,8 +665,10 @@
                 <h3>digital art & live2d &</h3>
                 <h3>psychology graduate &</h3>
                 <h3>dental lab tech student</h3>
-                <h3><a href="psi.html" target="_blank" rel="noopener noreferrer" aria-label="psychology page, opens in a new tab">Ψ</a> • ⚧</h3>
-
+<h3 translate="no">
+  <a href="psi.html" target="_blank" rel="noopener noreferrer"
+     aria-label="psychology page, opens in a new tab">Ψ</a> • ⚧
+</h3>
                 <hr>
 
                 <nav class="navSide" aria-label="all pages">
@@ -753,7 +708,9 @@
 
                 <h3    style="margin:10px"> translate if you're<br>interested enough!</h3>
               
-               <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
+                <div class="navSide" aria-label="site settings">
+                <div class="sideItem">
+                <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
                 <script>
                     (function () {
                         var btn = document.getElementById('crtToggle');
@@ -776,7 +733,9 @@
                         });
                     })();
                 </script>
+                </div>
 
+                <div class="sideItem">
                 <button id="motionToggle" type="button" title="pause animations and gifs"> motion: on </button>
                 <script>
                     (function () {
@@ -802,9 +761,14 @@
                         });
                     })();
                 </script>
-  <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
+                </div>
+
+                <div class="sideItem sideItemFull">
+                <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
                     <option value="">original</option>
                 </select>
+                </div>
+                </div>
                 <div id="google_translate_element" class="srOnly" aria-hidden="true"></div>
 
 
