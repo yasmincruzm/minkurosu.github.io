@@ -669,7 +669,18 @@
   <a href="psi.html" target="_blank" rel="noopener noreferrer"
      aria-label="psychology page, opens in a new tab">Ψ</a> • ⚧
 </h3>
-                <hr>
+
+                <div class="caixamaisclaraColumn" style="margin:10px">
+
+                    <script src="oneko.js"></script>
+
+                    <script language="javascript" type="text/javascript" src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script>
+                    <noscript>
+                        <img src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" alt="visitor counter" />
+                    </noscript>
+                </div>
+
+                <hr style="margin: 1.5px;">
 
                 <nav class="navSide" aria-label="all pages">
                     <div class="sideItem"><a href="#" data-page="commission" class="navLink">commissions</a></div>
@@ -702,15 +713,8 @@
                     <div class="sideItem"><a href="#" data-page="bookmarks" class="navLink">bookmarks</a></div>
                     <div class="sideItem"><a href="#" data-page="credits" class="navLink">credits</a></div>
                     <div class="sideItem"><a href="#" data-page="visualizer" class="navLink">trippy (flashing warning)</a></div>
-                </nav>
-
-                <hr>
-
-                <h3    style="margin:10px"> translate if you're<br>interested enough!</h3>
-              
-                <div class="navSide" aria-label="site settings">
                 <div class="sideItem">
-                <button id="crtToggle" type="button" title="toggle crt effect"> crt: on </button>
+                <button id="crtToggle" type="button"> crt: on </button>
                 <script>
                     (function () {
                         var btn = document.getElementById('crtToggle');
@@ -736,7 +740,7 @@
                 </div>
 
                 <div class="sideItem">
-                <button id="motionToggle" type="button" title="pause animations and gifs"> motion: on </button>
+                <button id="motionToggle" type="button"> motion: on </button>
                 <script>
                     (function () {
                         var btn = document.getElementById('motionToggle');
@@ -763,26 +767,15 @@
                 </script>
                 </div>
 
-                <div class="sideItem sideItemFull">
-                <select id="langSelect" class="notranslate" translate="no" aria-label="translate this site" title="loading translator..." disabled>
-                    <option value="">original</option>
+                <div class="sideItem">
+                <select id="langSelect" class="notranslate" translate="no" aria-label="translator" disabled>
+                    <option value="">click to translate!</option>
                 </select>
                 </div>
-                </div>
+                </nav>
                 <div id="google_translate_element" class="srOnly" aria-hidden="true"></div>
 
-
-                <div class="caixamaisclaraColumn" style="margin:10px">
-
-                    <script src="oneko.js"></script>
-
-                    <script language="javascript" type="text/javascript" src="//counter1.fc2.com/counter.php?id=40522267&main=1"></script>
-                    <noscript>
-                        <img src="//counter1.fc2.com/counter_img.php?id=40522267&main=1" alt="visitor counter" />
-                    </noscript>
-                </div>
-
-                <hr style="margin: 1.5px;">
+                <hr>
 
 <div class="tableContainer" style="margin: 0px;">
     <table class="statusTable" aria-label="my current status" style="border-collapse: collapse; width: 100%; background-color: transparent;">
@@ -1423,13 +1416,23 @@
     <script>
     (function () {
         var LANGS = [
-            ['en', 'English'], ['es', 'Español'], ['fr', 'Français'], ['ja', '日本語'], ['de', 'Deutsch'],
-            ['ko', '한국어'], ['it', 'Italiano'], ['zh-CN', '简体中文'], ['pt', 'Português'], ['hi', 'हिन्दी'],
-            ['ru', 'Русский'], ['ar', 'العربية'], ['tr', 'Türkçe'], ['nl', 'Nederlands'], ['sv', 'Svenska'],
-            ['pl', 'Polski'], ['th', 'ไทย'], ['vi', 'Tiếng Việt'], ['he', 'עברית'], ['el', 'Ελληνικά'],
-            ['da', 'Dansk'], ['no', 'Norsk'], ['fi', 'Suomi'], ['cs', 'Čeština'], ['ro', 'Română'],
-            ['az', 'Azərbaycanca'], ['uz', 'Oʻzbekcha'], ['ku', 'Kurdî'], ['ps', 'پښتو'], ['sd', 'سنڌي'],
-            ['yo', 'Yorùbá'], ['ig', 'Igbo'], ['am', 'አማርኛ']
+            ['en', 'English'], ['zh-CN', '简体中文'], ['hi', 'हिन्दी'], ['es', 'Español'], ['fr', 'Français'],
+            ['ar', 'العربية'], ['bn', 'বাংলা'], ['pt', 'Português'], ['ru', 'Русский'], ['ur', 'اردو'],
+            ['id', 'Bahasa Indonesia'], ['de', 'Deutsch'], ['ja', '日本語'], ['sw', 'Kiswahili'], ['mr', 'मराठी'],
+            ['te', 'తెలుగు'], ['tr', 'Türkçe'], ['ta', 'தமிழ்'], ['vi', 'Tiếng Việt'], ['ko', '한국어'],
+            ['it', 'Italiano'], ['th', 'ไทย'], ['zh-TW', '繁體中文'], ['fa', 'فارسی'], ['pl', 'Polski'],
+            ['uk', 'Українська'], ['gu', 'ગુજરાતી'], ['kn', 'ಕನ್ನಡ'], ['ml', 'മലയാളം'], ['pa', 'ਪੰਜਾਬੀ'],
+            ['my', 'မြန်မာ'], ['tl', 'Filipino'], ['ms', 'Bahasa Melayu'], ['nl', 'Nederlands'], ['ro', 'Română'],
+            ['ne', 'नेपाली'], ['hu', 'Magyar'], ['cs', 'Čeština'], ['el', 'Ελληνικά'], ['sv', 'Svenska'],
+            ['da', 'Dansk'], ['fi', 'Suomi'], ['no', 'Norsk'], ['bg', 'Български'],
+            ['sr', 'Српски'], ['hr', 'Hrvatski'], ['sk', 'Slovenčina'], ['ca', 'Català'], ['lt', 'Lietuvių'],
+            ['lv', 'Latviešu'], ['et', 'Eesti'], ['sl', 'Slovenščina'], ['af', 'Afrikaans'], ['az', 'Azərbaycanca'],
+            ['uz', 'Oʻzbekcha'], ['kk', 'Қазақша'], ['ka', 'ქართული'], ['hy', 'Հայերեն'], ['km', 'ភាសាខ្មែរ'],
+            ['si', 'සිංහල'], ['am', 'አማርኛ'], ['ha', 'Hausa'], ['yo', 'Yorùbá'], ['ig', 'Igbo'],
+            ['zu', 'isiZulu'], ['xh', 'isiXhosa'], ['so', 'Soomaali'], ['ku', 'Kurdî'], ['ps', 'پښتو'],
+            ['sd', 'سنڌي'], ['mn', 'Монгол'], ['sq', 'Shqip'], ['is', 'Íslenska'], ['ga', 'Gaeilge'],
+            ['cy', 'Cymraeg'], ['eu', 'Euskara'], ['gl', 'Galego'], ['la', 'Latina'], ['eo', 'Esperanto'],
+            ['jw', 'Basa Jawa'], ['ceb', 'Cebuano'], ['mi', 'Māori'], ['haw', 'ʻŌlelo Hawaiʻi']
         ];
 
         var sel = document.getElementById('langSelect');
@@ -1485,7 +1488,6 @@
 
         function onReady() {
             sel.disabled = false;
-            sel.title = '';
 
             var saved = '';
             try { saved = localStorage.getItem('lang') || ''; } catch (e) {}
@@ -1541,12 +1543,6 @@
                 if (++tries < 80) setTimeout(wait, 150);
             })();
         };
-
-        setTimeout(function () {
-            if (combo) return;
-            sel.options[0].textContent = 'unavailable';
-            sel.title = 'translator unavailable';
-        }, 12000);
     })();
     </script>
     <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

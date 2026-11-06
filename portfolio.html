@@ -80,28 +80,12 @@
     }
 
     .tabControl .tabButtons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 18px;
-      margin: 20px 0;
+      max-width: 22rem;
+      margin: 20px auto;
     }
 
-    .tabControl .tabLabel {
-      display: inline-block;
-      padding: 2px 4px;
-      font-family: "MinFont", monospace;
-      font-size: 1rem;
-      color: #a39b91;
-      background: none;
-      border: 0;
-      box-shadow: none;
-      text-shadow: none;
-      cursor: pointer;
-    }
-
-    .tabControl .tabLabel:hover {
-      color: #d5d5d5;
+    .tabControl .tabButtons .sideItem {
+      flex: 1 1 0;
     }
 
     .tabControl .tabInput {
@@ -113,18 +97,19 @@
       pointer-events: none;
     }
 
-    .tabControl .tabLabel:has(.tabInput:checked) {
-      color: #d5d5d5;
-      text-decoration: underline;
-      text-decoration-color: #7a1414;
-      text-decoration-thickness: 2px;
-      text-underline-offset: 5px;
+    .tabControl .tabLabel:has(.tabInput:focus-visible) {
+      outline: 2px dotted var(--roseLift);
+      outline-offset: 2px;
     }
 
-    .tabControl .tabLabel:has(.tabInput:focus-visible) {
-      outline: none;
-      text-decoration: underline dotted;
-      text-underline-offset: 5px;
+    html:has(#embed:target) .tabControl .tabItemRigs {
+      order: -1;
+    }
+
+    html:not(:has(#embed:target)) #portfolioTabs:not(:has(.tabInput:checked)) .tabItemDrawings .tabLabel,
+    html:has(#embed:target) #portfolioTabs:not(:has(.tabInput:checked)) .tabItemRigs .tabLabel {
+      color: var(--roseLift);
+      border-color: var(--roseDeepLift);
     }
 
     .tabControl .tabPanel {
@@ -132,7 +117,9 @@
     }
 
     #portfolioTabs:has([aria-controls="drawingsPanel"]:checked) #drawingsPanel,
-    #portfolioTabs:has([aria-controls="rigsPanel"]:checked) #rigsPanel {
+    #portfolioTabs:has([aria-controls="rigsPanel"]:checked) #rigsPanel,
+    html:not(:has(#embed:target)) #portfolioTabs:not(:has(.tabInput:checked)) #drawingsPanel,
+    html:has(#embed:target) #portfolioTabs:not(:has(.tabInput:checked)) #rigsPanel {
       display: block;
     }
 
@@ -233,15 +220,13 @@
           <legend class="visuallyHidden">portfolio sections</legend>
           <span id="portfolioTabsDescription" class="visuallyHidden" aria-hidden="true">radio buttons control what following content is shown.</span>
 
-          <div class="tabButtons">
-            <label class="tabLabel">
-              <input type="radio" name="portfolioPage" class="tabInput" aria-controls="rigsPanel" checked>
-              <span id="rigsTabLabel">live2d rigs</span>
-            </label>
-            <label class="tabLabel">
-              <input type="radio" name="portfolioPage" class="tabInput" aria-controls="drawingsPanel">
-              <span id="drawingsTabLabel">drawings</span>
-            </label>
+          <div class="tabButtons navSide">
+            <div class="sideItem tabItemDrawings">
+              <label id="drawingsTabLabel" class="tabLabel"><input type="radio" name="portfolioPage" class="tabInput" aria-controls="drawingsPanel">drawings</label>
+            </div>
+            <div class="sideItem tabItemRigs">
+              <label id="rigsTabLabel" class="tabLabel"><input type="radio" name="portfolioPage" class="tabInput" aria-controls="rigsPanel">live2d rigs</label>
+            </div>
           </div>
         </fieldset>
 
