@@ -56,7 +56,6 @@ function safeImg(u) {
 }
 
 const SETTINGS_KEY = 'crosspost_settings_v1';
-const PREFS_KEY    = 'crosspost_prefs_v1';
 const LIMITS       = { bluesky: 300, x: 280, mastodon: 500 };
 const ALLOWED_USER = 'minkurosu';
 
@@ -76,18 +75,6 @@ function saveSettings(s) {
     throw new Error(`bluesky handle must be @${ALLOWED_USER}...`);
   }
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
-}
-
-function loadPrefs() {
-  try {
-    return JSON.parse(localStorage.getItem(PREFS_KEY)) || {};
-  } catch {
-    return {};
-  }
-}
-
-function savePrefs(p) {
-  localStorage.setItem(PREFS_KEY, JSON.stringify(p));
 }
 
 function isConfigured(network) {
@@ -230,6 +217,61 @@ async function bskyRequest(path, init, retry = true) {
   return res.json();
 }
 
+async function fetchJson(url, ms = 5000) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal });
+    return res.ok ? await res.json() : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+function firstRichLink(text) {
+  for (const m of text.matchAll(/https?:\/\/[^\s<]+/g)) {
+    const { core } = stripTrailingPunctuation(m[0]);
+    if (isRichLink(core)) return core;
+  }
+  return null;
+}
+
+async function buildBskyCard(text) {
+  const link = firstRichLink(text);
+  if (!link) return null;
+
+  const q = encodeURIComponent(link);
+  const meta = (RE_EMBED.spotify.test(link) && await fetchJson(`https://open.spotify.com/oembed?url=${q}`))
+    || await fetchJson(`https://noembed.com/embed?url=${q}`);
+
+  const host = new URL(link).hostname.replace(/^www\./, '');
+  const card = {
+    uri: link,
+    title: String(meta?.title || host).slice(0, 300),
+    description: String(meta?.author_name || meta?.provider_name || '').slice(0, 300),
+  };
+
+  if (meta?.thumbnail_url) {
+    try {
+      const res = await fetch(meta.thumbnail_url);
+      if (res.ok) {
+        const blob = await shrinkImage(await res.blob());
+        const up = await bskyRequest('com.atproto.repo.uploadBlob', {
+          method: 'POST',
+          headers: { 'Content-Type': blob.type || 'image/jpeg' },
+          body: blob,
+        });
+        card.thumb = up.blob;
+      }
+    } catch (err) {
+      console.warn('[crosspost] card thumbnail failed:', err);
+    }
+  }
+  return { $type: 'app.bsky.embed.external', external: card };
+}
+
 async function postToBluesky({ text, file, imageUrl }) {
   const sess = await bskyLogin();
   let finalText = text;
@@ -256,6 +298,11 @@ async function postToBluesky({ text, file, imageUrl }) {
     finalText += `\n${imageUrl}`;
   }
 
+  if (!embed) {
+    try { embed = await buildBskyCard(finalText); }
+    catch (err) { console.warn('[crosspost] link card failed for bluesky:', err); }
+  }
+
   const record = {
     $type: 'app.bsky.feed.post',
     text: finalText,
@@ -275,12 +322,22 @@ async function postToBluesky({ text, file, imageUrl }) {
   return { uri: out.uri, url: `https://bsky.app/profile/${sess.handle}/post/${rkey}` };
 }
 
+function normalizeMastoInstance(raw) {
+  let v = String(raw || '').trim().replace(/^https?:\/\//i, '');
+  v = v.split(/[\/?#]/)[0];
+  if (v.includes('@')) v = v.split('@').pop();
+  return v.replace(/\.+$/, '').toLowerCase();
+}
+
 function mastoBase() {
   const s = loadSettings();
   if (!s.mastoInstance || !s.mastoToken) throw new Error('mastodon credentials not configured');
-  let base = s.mastoInstance.trim().replace(/\/+$/, '');
-  if (!/^https?:\/\//.test(base)) base = `https://${base}`;
-  return { base, token: s.mastoToken.trim() };
+  const host = normalizeMastoInstance(s.mastoInstance);
+  if (!/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?(:\d+)?$/.test(host)) {
+    throw new Error('invalid mastodon instance, use only the domain (e.g. mastodon.social)');
+  }
+  const scheme = /^http:\/\//i.test(s.mastoInstance.trim()) ? 'http' : 'https';
+  return { base: `${scheme}://${host}`, token: s.mastoToken.trim() };
 }
 
 async function refreshMastodonLimit() {
@@ -291,7 +348,7 @@ async function refreshMastodonLimit() {
     const j = await res.json();
     const max = j?.configuration?.statuses?.max_characters;
     if (max) saveSettings({ ...loadSettings(), mastoMax: max });
-  } catch { /* keep default */ }
+  } catch { }
 }
 
 async function mastoUploadMedia(base, token, blob) {
@@ -404,10 +461,14 @@ async function crosspostAll({ networks, text, file, imageUrl }) {
 }
 
 const RE_EMBED = {
-  image:   /\.(gif|png|jpe?g|webp|avif|svg)(\?\S*)?$/i,
-  video:   /\.(mp4|webm|ogg|mov)(\?\S*)?$/i,
-  youtube: /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{6,})/,
-  spotify: /open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/,
+  image:      /\.(gif|png|jpe?g|webp|avif|svg)(\?\S*)?$/i,
+  video:      /\.(mp4|webm|ogv|mov)(\?\S*)?$/i,
+  audio:      /\.(mp3|wav|m4a|aac|flac|oga|ogg|opus)(\?\S*)?$/i,
+  youtube:    /(?:youtube\.com\/watch\?(?:\S*&)?v=|youtu\.be\/|youtube\.com\/shorts\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{6,})/,
+  vimeo:      /vimeo\.com\/(?:video\/)?(\d{6,})/,
+  spotify:    /open\.spotify\.com\/(?:intl-\w+\/)?(track|album|playlist|artist|episode|show)\/([a-zA-Z0-9]+)/,
+  soundcloud: /soundcloud\.com\/[\w-]+\/(?:sets\/)?[\w-]+/,
+  apple:      /music\.apple\.com\/[a-z]{2}\/(album|playlist|song)\/[^\s?#]+/i,
 };
 
 function stripTrailingPunctuation(url) {
@@ -427,37 +488,56 @@ function stripTrailingPunctuation(url) {
 }
 
 function isEmbeddable(url) {
-  return RE_EMBED.image.test(url)
-    || RE_EMBED.video.test(url)
-    || RE_EMBED.youtube.test(url)
-    || RE_EMBED.spotify.test(url);
+  return Object.values(RE_EMBED).some(re => re.test(url));
+}
+
+function isRichLink(url) {
+  return ['youtube', 'vimeo', 'spotify', 'soundcloud', 'apple'].some(k => RE_EMBED[k].test(url));
 }
 
 function buildEmbedHtml(url) {
   const u = esc(url);
-  if (RE_EMBED.image.test(url)) {
-    return `<img src="${u}" alt="" loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;">`;
-  }
-  if (RE_EMBED.video.test(url)) {
-    return `<video src="${u}" controls loading="lazy" style="max-width:100%;border-radius:10px;margin-top:10px;display:block;"></video>`;
-  }
-  let m = url.match(RE_EMBED.youtube);
-  if (m) {
-    return `<div style="margin-top:10px;border-radius:10px;overflow:hidden;position:relative;padding-top:56.25%;">
-      <iframe src="https://www.youtube.com/embed/${m[1]}" title="youtube video"
+  const media = 'max-width:100%;border-radius:10px;margin-top:10px;display:block;';
+  const box   = 'margin-top:10px;border-radius:12px;overflow:hidden;';
+  const ratio = (src, title) => `<div style="margin-top:10px;border-radius:10px;overflow:hidden;position:relative;padding-top:56.25%;">
+      <iframe src="${src}" title="${title}"
         style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowfullscreen loading="lazy"></iframe>
     </div>`;
-  }
+  const player = (src, height, allow) => `<div style="${box}">
+      <iframe src="${src}" width="100%" height="${height}" frameborder="0"
+        allow="${allow}" loading="lazy"></iframe>
+    </div>`;
+
+  if (RE_EMBED.image.test(url)) return `<img src="${u}" alt="" loading="lazy" style="${media}">`;
+  if (RE_EMBED.video.test(url)) return `<video src="${u}" controls preload="metadata" style="${media}"></video>`;
+  if (RE_EMBED.audio.test(url)) return `<audio src="${u}" controls preload="none" style="width:100%;margin-top:10px;display:block;"></audio>`;
+
+  let m = url.match(RE_EMBED.youtube);
+  if (m) return ratio(`https://www.youtube.com/embed/${m[1]}`, 'youtube video');
+
+  m = url.match(RE_EMBED.vimeo);
+  if (m) return ratio(`https://player.vimeo.com/video/${m[1]}`, 'vimeo video');
+
   m = url.match(RE_EMBED.spotify);
   if (m) {
     const height = (m[1] === 'track' || m[1] === 'episode') ? 152 : 352;
-    return `<div style="margin-top:10px;border-radius:12px;overflow:hidden;">
-      <iframe src="https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0"
-        width="100%" height="${height}" frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>`;
+    return player(`https://open.spotify.com/embed/${m[1]}/${m[2]}?utm_source=generator&theme=0`, height,
+      'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+  }
+
+  if (RE_EMBED.soundcloud.test(url)) {
+    const height = /\/sets\//.test(url) ? 300 : 166;
+    const src = `https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23813d3d&auto_play=false&hide_related=true&show_comments=false`;
+    return player(esc(src), height, 'autoplay');
+  }
+
+  m = url.match(RE_EMBED.apple);
+  if (m) {
+    const height = m[1] === 'song' ? 175 : 450;
+    return player(esc(url.replace('://music.apple.com', '://embed.music.apple.com')), height,
+      'autoplay *; encrypted-media *; fullscreen *; clipboard-write');
   }
   return '';
 }
@@ -481,7 +561,7 @@ function linkify(text) {
       if (isEmbeddable(core)) return trail;
       return `<a href="${core}" target="_blank" rel="noopener" style="color:#3BB9E3;">${core}</a>${trail}`;
     })
-    .replace(/#(\w+)/g, '<span style="color:#3BB9E3;">#$1</span>');
+    .replace(/(^|\s)#([\p{L}\p{N}_]+)/gu, '$1<span style="color:#3BB9E3;">#$2</span>');
 }
 
 function renderContent(text) {
@@ -664,101 +744,6 @@ function renderAnalytics(byIp) {
   </div>`;
 }
 
-function renderCityList(rows) {
-  const container = document.getElementById('city-list');
-  if (!container) return;
-
-  if (!rows.length) {
-    container.innerHTML = `<p class="tracker-empty">no cities recorded yet.</p>`;
-    return;
-  }
-
-  container.innerHTML = rows.map(d => {
-    const flag = countryFlag(d.cc || '');
-    const location = [d.city, d.region, d.country]
-      .filter(v => v && v !== 'unknown' && v !== '')
-      .join(', ') || 'unknown location';
-    const last = d.lastVisit?.toDate ? d.lastVisit.toDate().toLocaleDateString('pt-BR') : '—';
-
-    return `
-    <div class="city-row">
-        <span class="city-flag">${flag}</span>
-        <span class="city-name">${esc(location)}</span>
-        <span class="city-count">${esc(d.count || 1)}x</span>
-        <span class="city-last">${last}</span>
-    </div>`;
-  }).join('');
-}
-
-async function loadCityList(appInstance) {
-  const firestoreDb = getFirestore(appInstance);
-  const container   = document.getElementById('city-list');
-  if (!container) return;
-
-  const q = query(collection(firestoreDb, 'city_stats'), orderBy('count', 'desc'), limit(1000));
-
-  onSnapshot(q, snapshot => {
-    const rows = snapshot.docs.map(docSnap => docSnap.data());
-    renderCityList(rows);
-  }, err => {
-    console.warn('loadCityList:', err);
-    container.innerHTML = `<p class="tracker-empty">error loading cities.</p>`;
-  });
-}
-
-function renderDrawingCard(meta, id) {
-  const flag = countryFlag(meta.cc || '');
-  const ts   = meta.timestamp?.toDate ? meta.timestamp.toDate() : null;
-  const ago  = timeAgo(ts);
-  const location = [meta.city, meta.region, meta.country]
-    .filter(v => v && v !== 'unknown' && v !== '')
-    .join(', ') || 'unknown location';
-
-  return `
-  <div class="dw-card" data-id="${esc(id)}">
-      <img class="dw-img" src="${esc(safeImg(meta.imageUrl))}" alt="drawing" loading="lazy">
-      <div class="dw-body">
-          <div class="vc-row"><span class="vc-key">location</span><span class="vc-val">${flag} ${esc(location)}</span></div>
-          <div class="vc-row"><span class="vc-key">ip</span><span class="vc-val vc-mono">${esc(meta.ip || 'unknown')}</span></div>
-          <div class="vc-row"><span class="vc-key">device</span><span class="vc-val">${deviceIcon(meta.device)} ${esc(meta.device || '—')} · ${browserIcon(meta.browser)} ${esc(meta.browser || '—')} · ${esc(meta.os || '—')}</span></div>
-          <div class="vc-row"><span class="vc-key">when</span><span class="vc-val">${ago}</span></div>
-      </div>
-      <button class="dw-delete" data-id="${esc(id)}">delete</button>
-  </div>`;
-}
-
-async function loadDrawings(appInstance) {
-  const firestoreDb = getFirestore(appInstance);
-  const container   = document.getElementById('drawings-list');
-  if (!container) return;
-
-  const q = query(collection(firestoreDb, 'drawings_meta'), orderBy('timestamp', 'desc'), limit(300));
-
-  onSnapshot(q, snapshot => {
-    if (snapshot.empty) {
-      container.innerHTML = `<p class="tracker-empty">no drawings yet.</p>`;
-      return;
-    }
-
-    container.innerHTML = snapshot.docs.map(d => renderDrawingCard(d.data(), d.id)).join('');
-
-    container.querySelectorAll('.dw-delete').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('delete this drawing?')) return;
-        try {
-          await deleteDoc(doc(firestoreDb, 'drawings_meta', btn.dataset.id));
-          await deleteDoc(doc(firestoreDb, 'drawings', btn.dataset.id));
-        } catch (err) {
-          alert('delete error: ' + err.message);
-        }
-      });
-    });
-  }, err => {
-    console.warn('loadDrawings:', err);
-    container.innerHTML = `<p class="tracker-empty">error loading drawings.</p>`;
-  });
-}
-
 async function loadVisitorTracker(appInstance) {
   await getMyIp();
 
@@ -885,7 +870,7 @@ function checkCrosspost(networks, text) {
   const problems = validateLengths(text, networks);
   if (problems.length) return `text too long — ${problems.join(' · ')}. shorten or uncheck network.`;
   const missing = networks.filter(n => !isConfigured(n));
-  if (missing.length) return `configure account (crosspost section): ${missing.join(', ')}`;
+  if (missing.length) return `configure as contas ("contas do crosspost") ou desligue: ${missing.join(', ')}`;
   return '';
 }
 
@@ -920,8 +905,41 @@ function showCrosspostResult(el, base, results) {
   msg(el, parts.length ? `${base} ${parts.join(' · ')}` : base, failed ? 'error' : 'success');
 }
 
-function rememberNetworks(networks) {
-  savePrefs(Object.fromEntries(XP_NETS.map(n => [n, networks.includes(n)])));
+let previewObjectUrl = null;
+
+function updatePreview() {
+  const box = document.getElementById('post-preview');
+  if (!box) return;
+  const content = (document.getElementById('post-content')?.value || '').trim();
+  const imgUrl  = (document.getElementById('post-image-url')?.value || '').trim();
+  const file    = document.getElementById('post-image-file')?.files?.[0];
+  const imgStyle = 'max-width:100%;border-radius:10px;margin-top:10px;display:block;';
+
+  if (previewObjectUrl) { URL.revokeObjectURL(previewObjectUrl); previewObjectUrl = null; }
+
+  let html = renderContent(content);
+  if (/^https?:\/\//i.test(imgUrl)) {
+    html += isEmbeddable(imgUrl)
+      ? buildEmbeds(imgUrl)
+      : `<img src="${esc(imgUrl)}" alt="" style="${imgStyle}" onerror="this.remove()">`;
+  }
+  if (file) {
+    previewObjectUrl = URL.createObjectURL(file);
+    html += `<img src="${previewObjectUrl}" alt="" style="${imgStyle}">`;
+  }
+  box.innerHTML = html || '<p class="tracker-empty">a prévia com os embeds aparece aqui</p>';
+}
+
+function resetCrosspostChecks() {
+  ['post-crosspost-mastodon', 'post-crosspost-bsky', 'post-crosspost-x', 'post-crosspost-rss']
+    .forEach(id => { const cb = document.getElementById(id); if (cb) cb.checked = true; });
+}
+
+function resetPostForm() {
+  ['post-content', 'post-image-url', 'post-image-file']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  resetCrosspostChecks();
+  updatePreview();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -955,8 +973,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       loadVisitorTracker(app);
-      loadCityList(app);
-      loadDrawings(app);
       loadMailbox(db);
     } else {
       ltfLoaded = false;
@@ -1053,14 +1069,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const xpSaved = loadSettings();
   if (bskyPass)      bskyPass.value      = xpSaved.bskyPassword  || '';
-  if (mastoInstance) mastoInstance.value = xpSaved.mastoInstance || '';
+  if (mastoInstance) mastoInstance.value = normalizeMastoInstance(xpSaved.mastoInstance);
   if (mastoToken)    mastoToken.value    = xpSaved.mastoToken    || '';
 
-  const xpPrefs = loadPrefs();
-  ['post', 'art'].forEach(prefix => {
-    const ids = { bluesky: `${prefix}-crosspost-bsky`, mastodon: `${prefix}-crosspost-mastodon`, x: `${prefix}-crosspost-x` };
-    XP_NETS.forEach(n => { const cb = document.getElementById(ids[n]); if (cb) cb.checked = !!xpPrefs[n]; });
-  });
+  localStorage.removeItem('crosspost_prefs_v1');
+  resetCrosspostChecks();
 
   document.getElementById('save-bsky-btn')?.addEventListener('click', () => {
     try {
@@ -1073,9 +1086,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('save-masto-btn')?.addEventListener('click', () => {
     try {
+      const host = normalizeMastoInstance(mastoInstance?.value);
+      if (mastoInstance) mastoInstance.value = host;
       saveSettings({
         ...loadSettings(),
-        mastoInstance: (mastoInstance?.value || '').trim(),
+        mastoInstance: host,
         mastoToken: (mastoToken?.value || '').trim()
       });
       msg(mastoCredMsg, '✓ saved in this browser. token must belong to @minkurosu (verified at post time).', 'success');
@@ -1091,6 +1106,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const publishBtn    = document.getElementById('publish-post-btn');
   const postMsg       = document.getElementById('post-message');
 
+  [postContent, postImageUrl, postImageFile].forEach(el => {
+    el?.addEventListener('input', updatePreview);
+    el?.addEventListener('change', updatePreview);
+  });
+
   publishBtn?.addEventListener('click', async () => {
     let content = (postContent?.value || '').trim();
     const enteredUrl = (postImageUrl?.value || '').trim();
@@ -1103,8 +1123,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const networks = selectedNetworks('post');
     const xpError = checkCrosspost(networks, content);
-    if (xpError) { msg(postMsg, xpError, 'error'); return; }
-    rememberNetworks(networks);
+    if (xpError) {
+      msg(postMsg, xpError, 'error');
+      if (networks.some(n => !isConfigured(n))) document.getElementById('xp-accounts')?.setAttribute('open', '');
+      return;
+    }
+    const inRss = !!document.getElementById('post-crosspost-rss')?.checked;
     const xWin = networks.includes('x') ? openXWindow() : null;
 
     try {
@@ -1127,12 +1151,11 @@ document.addEventListener('DOMContentLoaded', () => {
         imageUrl: fileUrl || enteredUrl || '',
         type: 'personal',
         profile: 'personal',
+        rss: inRss,
         timestamp: serverTimestamp()
       });
 
-      if (postContent)   postContent.value  = '';
-      if (postImageUrl)  postImageUrl.value  = '';
-      if (postImageFile) postImageFile.value = '';
+      resetPostForm();
 
       if (networks.length) {
         msg(postMsg, 'published on site! sending to other networks...', 'info');
@@ -1150,92 +1173,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  const artPostContent   = document.getElementById('art-post-content');
-  const artPostImageUrl  = document.getElementById('art-post-image-url');
-  const artPostImageFile = document.getElementById('art-post-image-file');
-  const publishArtBtn    = document.getElementById('publish-art-post-btn');
-  const artPostMsg       = document.getElementById('art-post-message');
-
-  publishArtBtn?.addEventListener('click', async () => {
-    let content = (artPostContent?.value || '').trim();
-    const enteredUrl = (artPostImageUrl?.value || '').trim();
-    const file = artPostImageFile?.files[0];
-
-    if (!content && !enteredUrl && !file) {
-      msg(artPostMsg, 'add an image or description.', 'error');
-      return;
-    }
-
-    const networks = selectedNetworks('art');
-    const xpError = checkCrosspost(networks, content);
-    if (xpError) { msg(artPostMsg, xpError, 'error'); return; }
-    rememberNetworks(networks);
-    const xWin = networks.includes('x') ? openXWindow() : null;
-
-    try {
-      msg(artPostMsg, 'publishing art...', 'info');
-
-      let fileUrl = '';
-      if (file) {
-        msg(artPostMsg, 'uploading art...', 'info');
-        fileUrl = await uploadImageToImgBB(file);
-      }
-
-      const parts = [];
-      if (content)    parts.push(content);
-      if (enteredUrl) parts.push(enteredUrl);
-      if (fileUrl)    parts.push(fileUrl);
-      const finalContent = parts.join('\n');
-
-      const artDoc = {
-        content: finalContent,
-        imageUrl: fileUrl || enteredUrl || '',
-        type: 'art',
-        profile: 'professional_art',
-        category: 'digital_art',
-        timestamp: serverTimestamp()
-      };
-
-      const artRef  = await addDoc(collection(db, 'posts'), artDoc);
-      const artRef2 = await addDoc(collection(db, 'art_posts'), artDoc);
-
-      if (artPostContent)   artPostContent.value  = '';
-      if (artPostImageUrl)  artPostImageUrl.value  = '';
-      if (artPostImageFile) artPostImageFile.value = '';
-
-      if (networks.length) {
-        msg(artPostMsg, 'published on site! sending to other networks...', 'info');
-        const results = await runCrosspost({
-          networks, text: content, file, imageUrl: fileUrl || enteredUrl, xWin, refs: [artRef, artRef2]
-        });
-        showCrosspostResult(artPostMsg, 'art post published!', results);
-      } else {
-        msg(artPostMsg, 'art post published!', 'success');
-      }
-    } catch (err) {
-      console.error(err);
-      if (xWin && !xWin.closed) xWin.close();
-      msg(artPostMsg, `error: ${err.message}`, 'error');
-    }
-  });
-
-  const privateContent = document.getElementById('private-entry-content');
-  const publishPrivate = document.getElementById('publish-private-entry-btn');
-  const privateMsg     = document.getElementById('private-entry-message');
-
-  publishPrivate?.addEventListener('click', async () => {
-    const content = (privateContent?.value || '').trim();
-    if (!content) { msg(privateMsg, 'write something first.', 'error'); return; }
-    try {
-      msg(privateMsg, 'publishing...', 'info');
-      await addDoc(collection(db, 'private_entries'), { content, timestamp: serverTimestamp() });
-      msg(privateMsg, 'published!', 'success');
-      if (privateContent) privateContent.value = '';
-    } catch (err) {
-      msg(privateMsg, `error: ${err.message}`, 'error');
-    }
-  });
-
   const dreamContent = document.getElementById('dream-content');
   const publishDream = document.getElementById('publish-dream-btn');
   const dreamMsg     = document.getElementById('dream-message');
@@ -1250,28 +1187,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (dreamContent) dreamContent.value = '';
     } catch (err) {
       msg(dreamMsg, `error: ${err.message}`, 'error');
-    }
-  });
-
-  const blogTitle   = document.getElementById('blog-title');
-  const blogContent = document.getElementById('blog-content');
-  const blogImgUrl  = document.getElementById('blog-image-url');
-  const publishBlog = document.getElementById('publish-blog-btn');
-  const blogMsg     = document.getElementById('blog-message');
-
-  publishBlog?.addEventListener('click', async () => {
-    const title    = (blogTitle?.value || '').trim();
-    const content  = (blogContent?.value || '').trim();
-    const imageUrl = (blogImgUrl?.value || '').trim();
-    if (!title || !content) { msg(blogMsg, 'fill in title and content.', 'error'); return; }
-    try {
-      await addDoc(collection(db, 'blog_posts'), { title, content, imageUrl, timestamp: serverTimestamp() });
-      msg(blogMsg, 'published!', 'success');
-      if (blogTitle)   blogTitle.value   = '';
-      if (blogContent) blogContent.value = '';
-      if (blogImgUrl)  blogImgUrl.value  = '';
-    } catch (err) {
-      msg(blogMsg, `error: ${err.message}`, 'error');
     }
   });
 });

@@ -579,6 +579,76 @@
         .mb-delete:hover {
             background-color: #3a2020;
         }
+    
+        /* ---- post / sonhos ---- */
+        body { color: #d5d5d5; }
+        input, textarea { color: #d5d5d5; }
+
+        .hint {
+            font-size: 0.82em;
+            color: #888;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .xp-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+        }
+
+        .xp-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-weight: normal;
+            color: #d5d5d5;
+        }
+
+        .xp-check input {
+            accent-color: #6C6661;
+        }
+
+        .post-preview {
+            width: 100%;
+            min-height: 60px;
+            background: #1a1815;
+            border: 1px dashed #3a3632;
+            border-radius: 6px;
+            padding: 12px 14px;
+            font-size: 0.95em;
+            overflow: hidden;
+        }
+
+        .post-preview p {
+            margin: 0;
+        }
+
+        .xp-accounts {
+            width: 100%;
+            background: #1a1815;
+            border: 1px solid #3a3632;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .xp-accounts summary {
+            cursor: pointer;
+            color: #888;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .xp-accounts[open] summary {
+            margin-bottom: 14px;
+        }
+
+        .xp-accounts-body {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
     </style>
 </head>
 
@@ -623,41 +693,12 @@
         <div id="admin-panel-section" class="admin-form-box" style="display: none;">
 
 
-            <h2>🔑 contas pro crosspost (só @minkurosu)</h2>
-            <p style="font-size:0.85em;opacity:0.7;margin-top:-8px;">app password gerada em bsky.app → configurações → app passwords. salva só aqui no seu navegador.</p>
-
-            <div class="field">
-                <label for="bsky-app-password">app password (@minkurosu.bsky.social):</label>
-                <input type="password" id="bsky-app-password" placeholder="xxxx-xxxx-xxxx-xxxx">
-            </div>
-            <button type="button" id="save-bsky-btn">salvar credencial</button>
-            <div id="bsky-cred-message" class="message"></div>
-
-            <div class="field">
-                <label for="masto-instance">mastodon: instância (ex: mastodon.social)</label>
-                <input type="text" id="masto-instance" placeholder="mastodon.social">
-            </div>
-            <div class="field">
-                <label for="masto-token">mastodon: access token da conta @minkurosu</label>
-                <input type="password" id="masto-token" autocomplete="off">
-            </div>
-            <p style="font-size:0.85em;opacity:0.7;margin-top:-8px;">no mastodon: preferências → desenvolvimento → nova aplicação, com as permissões write:statuses, write:media e read:accounts. o crosspost só funciona se o token for do usuário @minkurosu.</p>
-            <button type="button" id="save-masto-btn">salvar mastodon</button>
-            <div id="masto-cred-message" class="message"></div>
-
-            <button type="button" id="sync-reposts-btn" style="margin-top: 14px; background: #1c2738; border: 1px solid #3b5070; color: #8ab4f8;">🔄 sincronizar reposts das redes (bluesky & mastodon)</button>
-            <div id="sync-reposts-message" class="message"></div>
-
-            <p style="font-size:0.85em;opacity:0.7;">x: ao marcar "crosspost X", abre a janela do X com o texto pronto e você clica em postar. o X posta na conta que estiver logada nele, então confira se é a @minkurosu.</p>
-
-            <hr>
-
-
-            <h2>novo post (pessoal)</h2>
+            <h2>novo post</h2>
 
             <div class="field">
                 <label for="post-content">texto do post:</label>
                 <textarea id="post-content" placeholder="o que você está pensando?"></textarea>
+                <p class="hint">cole links e eles viram embed: imagens (.jpg .png .gif .webp), vídeos (youtube, vimeo, .mp4), músicas (spotify, soundcloud, apple music, .mp3).</p>
             </div>
 
             <div class="field">
@@ -670,104 +711,63 @@
                 <input type="file" id="post-image-file" accept="image/*">
             </div>
 
-            <div class="field" style="flex-direction:row;gap:16px;align-items:center;flex-wrap:wrap;">
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="post-crosspost-bsky"> crosspost bluesky
-                </label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="post-crosspost-mastodon"> crosspost mastodon
-                </label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="post-crosspost-x"> crosspost X (abre janela)
-                </label>
+            <div class="field">
+                <label>prévia:</label>
+                <div id="post-preview" class="post-preview"><p class="tracker-empty">a prévia com os embeds aparece aqui</p></div>
             </div>
 
-            <button type="button" id="publish-post-btn">publicar post pessoal</button>
+            <div class="field">
+                <label>enviar também para (tudo já vem ligado, desligue o que não quiser neste post):</label>
+                <div class="xp-row">
+                    <label class="xp-check"><input type="checkbox" id="post-crosspost-mastodon" autocomplete="off" checked> mastodon</label>
+                    <label class="xp-check"><input type="checkbox" id="post-crosspost-bsky" autocomplete="off" checked> bluesky</label>
+                    <label class="xp-check"><input type="checkbox" id="post-crosspost-x" autocomplete="off" checked> X (abre janela)</label>
+                    <label class="xp-check"><input type="checkbox" id="post-crosspost-rss" autocomplete="off" checked> RSS (rss.xml)</label>
+                </div>
+                <p class="hint">x: abre a janela do X com o texto pronto e você clica em postar. o X posta na conta logada nele, confira se é a @minkurosu.</p>
+            </div>
+
+            <button type="button" id="publish-post-btn">publicar post</button>
             <div id="post-message" class="message"></div>
 
-            <hr>
+            <details id="xp-accounts" class="xp-accounts">
+                <summary>🔑 contas do crosspost (só @minkurosu)</summary>
+                <div class="xp-accounts-body">
+                    <p class="hint">salvas só aqui no seu navegador.</p>
 
+                    <div class="field">
+                        <label for="bsky-app-password">bluesky: app password (@minkurosu.bsky.social)</label>
+                        <input type="password" id="bsky-app-password" placeholder="xxxx-xxxx-xxxx-xxxx">
+                        <p class="hint">gerada em bsky.app → configurações → app passwords.</p>
+                    </div>
+                    <button type="button" id="save-bsky-btn">salvar bluesky</button>
+                    <div id="bsky-cred-message" class="message"></div>
 
-            <h2>🎨 novo post (arte digital / profissional)</h2>
-
-            <div class="field">
-                <label for="art-post-content">descrição da arte / texto:</label>
-                <textarea id="art-post-content" placeholder="título, descrição da peça, softwares, tags..."></textarea>
-            </div>
-
-            <div class="field">
-                <label for="art-post-image-url">URL da arte (opcional):</label>
-                <input type="url" id="art-post-image-url" placeholder="Ex: https://seusite.com/arte.png">
-            </div>
-
-            <div class="field">
-                <label for="art-post-image-file">ou, upload de imagem da arte (opcional):</label>
-                <input type="file" id="art-post-image-file" accept="image/*">
-            </div>
-
-            <div class="field" style="flex-direction:row;gap:16px;align-items:center;flex-wrap:wrap;">
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="art-crosspost-bsky"> crosspost bluesky
-                </label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="art-crosspost-mastodon"> crosspost mastodon
-                </label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-                    <input type="checkbox" id="art-crosspost-x"> crosspost X (abre janela)
-                </label>
-            </div>
-
-            <button type="button" id="publish-art-post-btn">publicar arte profissional</button>
-            <div id="art-post-message" class="message"></div>
+                    <div class="field">
+                        <label for="masto-instance">mastodon: instância (só o domínio, ex: mastodon.social)</label>
+                        <input type="text" id="masto-instance" placeholder="mastodon.social">
+                    </div>
+                    <div class="field">
+                        <label for="masto-token">mastodon: access token da conta @minkurosu</label>
+                        <input type="password" id="masto-token" autocomplete="off">
+                        <p class="hint">no mastodon: preferências → desenvolvimento → nova aplicação, com as permissões write:statuses, write:media e read:accounts. o crosspost só funciona se o token for do usuário @minkurosu.</p>
+                    </div>
+                    <button type="button" id="save-masto-btn">salvar mastodon</button>
+                    <div id="masto-cred-message" class="message"></div>
+                </div>
+            </details>
 
             <hr>
 
-
-            <h2>amigos próximos</h2>
-
-            <div class="field">
-                <label for="private-entry-content">conteúdo da entrada:</label>
-                <textarea id="private-entry-content"></textarea>
-            </div>
-
-            <button type="button" id="publish-private-entry-btn">publicar entrada privada</button>
-            <div id="private-entry-message" class="message"></div>
-
-            <hr>
-
-
-            <h2>registrar novo sonho</h2>
+            <h2>🌙 sonhos</h2>
 
             <div class="field">
-                <label for="dream-content">conteúdo do sonho:</label>
-                <textarea id="dream-content"></textarea>
+                <label for="dream-content">novo sonho:</label>
+                <textarea id="dream-content" placeholder="o que você sonhou?"></textarea>
             </div>
 
-            <button type="button" id="publish-dream-btn">registrar sonho</button>
+            <button type="button" id="publish-dream-btn">enviar sonho</button>
             <div id="dream-message" class="message"></div>
-
-            <hr>
-
-
-            <h2>novo post do blog</h2>
-
-            <div class="field">
-                <label for="blog-title">título do post:</label>
-                <input type="text" id="blog-title">
-            </div>
-
-            <div class="field">
-                <label for="blog-content">conteúdo do post:</label>
-                <textarea id="blog-content"></textarea>
-            </div>
-
-            <div class="field">
-                <label for="blog-image-url">URL da imagem (opcional):</label>
-                <input type="url" id="blog-image-url" placeholder="https://exemplo.com/imagem.jpg">
-            </div>
-
-            <button type="button" id="publish-blog-btn">publicar no blog</button>
-            <div id="blog-message" class="message"></div>
 
             <hr>
 
